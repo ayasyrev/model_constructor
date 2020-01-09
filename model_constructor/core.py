@@ -3,6 +3,10 @@
 __all__ = ['Net']
 
 # Cell
+import torch.nn as nn
+from collections import OrderedDict
+
+# Cell
 class Net(nn.Sequential):
     '''Constructor for model'''
     def __init__(self,
