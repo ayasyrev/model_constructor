@@ -12,8 +12,19 @@
 
 > Create pytorch model.
 
+<div class="codecell" markdown="1">
+<div class="input_area" markdown="1">
 
-This file will become your README and also the index of your documentation.
+```python
+%reload_ext autoreload
+%autoreload 2
+```
+
+</div>
+
+</div>
+
+work in progress
 
 ## Install
 
@@ -28,6 +39,26 @@ model = Net()
 ```python
 model = Net()
 ```
+
+</div>
+
+</div>
+<div class="codecell" markdown="1">
+<div class="input_area" markdown="1">
+
+```python
+model
+```
+
+</div>
+<div class="output_area" markdown="1">
+
+
+
+
+    Net()
+
+
 
 </div>
 
