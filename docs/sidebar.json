@@ -1,6 +1,6 @@
 {
   "model_constructor": {
     "Overview": "/",
-    "model_constructor": "/core"
+    "model_constructor": "/constructor"
   }
 }

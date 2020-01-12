@@ -11,7 +11,7 @@ entries:
       url: /
     - output: web,pdf
       title: model_constructor
-      url: /core
+      url: /constructor
     output: web
     title: model_constructor
   output: web

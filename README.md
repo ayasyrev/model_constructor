@@ -10,21 +10,10 @@
 
 # model_constructor
 
-> Create pytorch model.
+> Constructor to create pytorch model.
 
-<div class="codecell" markdown="1">
-<div class="input_area" markdown="1">
 
-```python
-%reload_ext autoreload
-%autoreload 2
-```
-
-</div>
-
-</div>
-
-work in progress
+_
 
 ## Install
 
@@ -56,7 +45,1483 @@ model
 
 
 
-    Net()
+    Net(
+      (stem): Stem(
+        sizes: [3, 64]
+        (conv0): ConvLayer(
+          (conv): Conv2d(3, 64, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1))
+          (act_fn): ReLU(inplace=True)
+          (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+        (pool): MaxPool2d(kernel_size=3, stride=2, padding=1, dilation=1, ceil_mode=False)
+      )
+      (body): Body(
+        (layer_0): Sequential(
+          (block_0): BasicBlock(
+            (conv): Sequential(
+              (conv_0): ConvLayer(
+                (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+                (act_fn): ReLU(inplace=True)
+                (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+              (conv_1): ConvLayer(
+                (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+                (act_fn): ReLU(inplace=True)
+                (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+            )
+            (merge): Noop()
+            (act_conn): ReLU(inplace=True)
+          )
+          (block_1): BasicBlock(
+            (conv): Sequential(
+              (conv_0): ConvLayer(
+                (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+                (act_fn): ReLU(inplace=True)
+                (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+              (conv_1): ConvLayer(
+                (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+                (act_fn): ReLU(inplace=True)
+                (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+            )
+            (merge): Noop()
+            (act_conn): ReLU(inplace=True)
+          )
+        )
+        (layer_1): Sequential(
+          (block_0): BasicBlock(
+            (conv): Sequential(
+              (conv_0): ConvLayer(
+                (conv): Conv2d(64, 128, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1))
+                (act_fn): ReLU(inplace=True)
+                (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+              (conv_1): ConvLayer(
+                (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+                (act_fn): ReLU(inplace=True)
+                (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+            )
+            (downsample): ConvLayer(
+              (conv): Conv2d(64, 128, kernel_size=(1, 1), stride=(2, 2))
+              (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+            (merge): Noop()
+            (act_conn): ReLU(inplace=True)
+          )
+          (block_1): BasicBlock(
+            (conv): Sequential(
+              (conv_0): ConvLayer(
+                (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+                (act_fn): ReLU(inplace=True)
+                (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+              (conv_1): ConvLayer(
+                (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+                (act_fn): ReLU(inplace=True)
+                (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+            )
+            (merge): Noop()
+            (act_conn): ReLU(inplace=True)
+          )
+        )
+        (layer_2): Sequential(
+          (block_0): BasicBlock(
+            (conv): Sequential(
+              (conv_0): ConvLayer(
+                (conv): Conv2d(128, 256, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1))
+                (act_fn): ReLU(inplace=True)
+                (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+              (conv_1): ConvLayer(
+                (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+                (act_fn): ReLU(inplace=True)
+                (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+            )
+            (downsample): ConvLayer(
+              (conv): Conv2d(128, 256, kernel_size=(1, 1), stride=(2, 2))
+              (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+            (merge): Noop()
+            (act_conn): ReLU(inplace=True)
+          )
+          (block_1): BasicBlock(
+            (conv): Sequential(
+              (conv_0): ConvLayer(
+                (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+                (act_fn): ReLU(inplace=True)
+                (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+              (conv_1): ConvLayer(
+                (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+                (act_fn): ReLU(inplace=True)
+                (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+            )
+            (merge): Noop()
+            (act_conn): ReLU(inplace=True)
+          )
+        )
+        (layer_3): Sequential(
+          (block_0): BasicBlock(
+            (conv): Sequential(
+              (conv_0): ConvLayer(
+                (conv): Conv2d(256, 512, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1))
+                (act_fn): ReLU(inplace=True)
+                (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+              (conv_1): ConvLayer(
+                (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+                (act_fn): ReLU(inplace=True)
+                (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+            )
+            (downsample): ConvLayer(
+              (conv): Conv2d(256, 512, kernel_size=(1, 1), stride=(2, 2))
+              (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+            (merge): Noop()
+            (act_conn): ReLU(inplace=True)
+          )
+          (block_1): BasicBlock(
+            (conv): Sequential(
+              (conv_0): ConvLayer(
+                (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+                (act_fn): ReLU(inplace=True)
+                (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+              (conv_1): ConvLayer(
+                (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+                (act_fn): ReLU(inplace=True)
+                (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+            )
+            (merge): Noop()
+            (act_conn): ReLU(inplace=True)
+          )
+        )
+      )
+      (head): Head(
+        (pool): AdaptiveAvgPool2d(output_size=(1, 1))
+        (flat): Flatten()
+        (fc): Linear(in_features=512, out_features=1000, bias=True)
+      )
+    )
+
+
+
+</div>
+
+</div>
+
+# Resnet as example
+
+Predefined Resnet18 and Resnet34
+<div class="codecell" markdown="1">
+<div class="input_area" markdown="1">
+
+```python
+model = resnet34(num_classes=10)
+```
+
+</div>
+
+</div>
+<div class="codecell" markdown="1">
+<div class="input_area" markdown="1">
+
+```python
+model
+```
+
+</div>
+<div class="output_area" markdown="1">
+
+
+
+
+    Net(
+      (stem): Stem(
+        sizes: [3, 64]
+        (conv0): ConvLayer(
+          (conv): Conv2d(3, 64, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1))
+          (act_fn): ReLU(inplace=True)
+          (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+        (pool): MaxPool2d(kernel_size=3, stride=2, padding=1, dilation=1, ceil_mode=False)
+      )
+      (body): Body(
+        (layer_0): Sequential(
+          (block_0): BasicBlock(
+            (conv): Sequential(
+              (conv_0): ConvLayer(
+                (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+                (act_fn): ReLU(inplace=True)
+                (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+              (conv_1): ConvLayer(
+                (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+                (act_fn): ReLU(inplace=True)
+                (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+            )
+            (merge): Noop()
+            (act_conn): ReLU(inplace=True)
+          )
+          (block_1): BasicBlock(
+            (conv): Sequential(
+              (conv_0): ConvLayer(
+                (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+                (act_fn): ReLU(inplace=True)
+                (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+              (conv_1): ConvLayer(
+                (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+                (act_fn): ReLU(inplace=True)
+                (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+            )
+            (merge): Noop()
+            (act_conn): ReLU(inplace=True)
+          )
+          (block_2): BasicBlock(
+            (conv): Sequential(
+              (conv_0): ConvLayer(
+                (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+                (act_fn): ReLU(inplace=True)
+                (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+              (conv_1): ConvLayer(
+                (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+                (act_fn): ReLU(inplace=True)
+                (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+            )
+            (merge): Noop()
+            (act_conn): ReLU(inplace=True)
+          )
+        )
+        (layer_1): Sequential(
+          (block_0): BasicBlock(
+            (conv): Sequential(
+              (conv_0): ConvLayer(
+                (conv): Conv2d(64, 128, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1))
+                (act_fn): ReLU(inplace=True)
+                (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+              (conv_1): ConvLayer(
+                (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+                (act_fn): ReLU(inplace=True)
+                (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+            )
+            (downsample): ConvLayer(
+              (conv): Conv2d(64, 128, kernel_size=(1, 1), stride=(2, 2))
+              (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+            (merge): Noop()
+            (act_conn): ReLU(inplace=True)
+          )
+          (block_1): BasicBlock(
+            (conv): Sequential(
+              (conv_0): ConvLayer(
+                (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+                (act_fn): ReLU(inplace=True)
+                (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+              (conv_1): ConvLayer(
+                (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+                (act_fn): ReLU(inplace=True)
+                (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+            )
+            (merge): Noop()
+            (act_conn): ReLU(inplace=True)
+          )
+          (block_2): BasicBlock(
+            (conv): Sequential(
+              (conv_0): ConvLayer(
+                (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+                (act_fn): ReLU(inplace=True)
+                (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+              (conv_1): ConvLayer(
+                (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+                (act_fn): ReLU(inplace=True)
+                (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+            )
+            (merge): Noop()
+            (act_conn): ReLU(inplace=True)
+          )
+          (block_3): BasicBlock(
+            (conv): Sequential(
+              (conv_0): ConvLayer(
+                (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+                (act_fn): ReLU(inplace=True)
+                (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+              (conv_1): ConvLayer(
+                (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+                (act_fn): ReLU(inplace=True)
+                (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+            )
+            (merge): Noop()
+            (act_conn): ReLU(inplace=True)
+          )
+        )
+        (layer_2): Sequential(
+          (block_0): BasicBlock(
+            (conv): Sequential(
+              (conv_0): ConvLayer(
+                (conv): Conv2d(128, 256, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1))
+                (act_fn): ReLU(inplace=True)
+                (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+              (conv_1): ConvLayer(
+                (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+                (act_fn): ReLU(inplace=True)
+                (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+            )
+            (downsample): ConvLayer(
+              (conv): Conv2d(128, 256, kernel_size=(1, 1), stride=(2, 2))
+              (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+            (merge): Noop()
+            (act_conn): ReLU(inplace=True)
+          )
+          (block_1): BasicBlock(
+            (conv): Sequential(
+              (conv_0): ConvLayer(
+                (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+                (act_fn): ReLU(inplace=True)
+                (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+              (conv_1): ConvLayer(
+                (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+                (act_fn): ReLU(inplace=True)
+                (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+            )
+            (merge): Noop()
+            (act_conn): ReLU(inplace=True)
+          )
+          (block_2): BasicBlock(
+            (conv): Sequential(
+              (conv_0): ConvLayer(
+                (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+                (act_fn): ReLU(inplace=True)
+                (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+              (conv_1): ConvLayer(
+                (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+                (act_fn): ReLU(inplace=True)
+                (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+            )
+            (merge): Noop()
+            (act_conn): ReLU(inplace=True)
+          )
+          (block_3): BasicBlock(
+            (conv): Sequential(
+              (conv_0): ConvLayer(
+                (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+                (act_fn): ReLU(inplace=True)
+                (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+              (conv_1): ConvLayer(
+                (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+                (act_fn): ReLU(inplace=True)
+                (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+            )
+            (merge): Noop()
+            (act_conn): ReLU(inplace=True)
+          )
+          (block_4): BasicBlock(
+            (conv): Sequential(
+              (conv_0): ConvLayer(
+                (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+                (act_fn): ReLU(inplace=True)
+                (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+              (conv_1): ConvLayer(
+                (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+                (act_fn): ReLU(inplace=True)
+                (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+            )
+            (merge): Noop()
+            (act_conn): ReLU(inplace=True)
+          )
+          (block_5): BasicBlock(
+            (conv): Sequential(
+              (conv_0): ConvLayer(
+                (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+                (act_fn): ReLU(inplace=True)
+                (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+              (conv_1): ConvLayer(
+                (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+                (act_fn): ReLU(inplace=True)
+                (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+            )
+            (merge): Noop()
+            (act_conn): ReLU(inplace=True)
+          )
+        )
+        (layer_3): Sequential(
+          (block_0): BasicBlock(
+            (conv): Sequential(
+              (conv_0): ConvLayer(
+                (conv): Conv2d(256, 512, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1))
+                (act_fn): ReLU(inplace=True)
+                (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+              (conv_1): ConvLayer(
+                (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+                (act_fn): ReLU(inplace=True)
+                (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+            )
+            (downsample): ConvLayer(
+              (conv): Conv2d(256, 512, kernel_size=(1, 1), stride=(2, 2))
+              (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+            (merge): Noop()
+            (act_conn): ReLU(inplace=True)
+          )
+          (block_1): BasicBlock(
+            (conv): Sequential(
+              (conv_0): ConvLayer(
+                (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+                (act_fn): ReLU(inplace=True)
+                (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+              (conv_1): ConvLayer(
+                (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+                (act_fn): ReLU(inplace=True)
+                (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+            )
+            (merge): Noop()
+            (act_conn): ReLU(inplace=True)
+          )
+          (block_2): BasicBlock(
+            (conv): Sequential(
+              (conv_0): ConvLayer(
+                (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+                (act_fn): ReLU(inplace=True)
+                (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+              (conv_1): ConvLayer(
+                (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+                (act_fn): ReLU(inplace=True)
+                (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+            )
+            (merge): Noop()
+            (act_conn): ReLU(inplace=True)
+          )
+        )
+      )
+      (head): Head(
+        (pool): AdaptiveAvgPool2d(output_size=(1, 1))
+        (flat): Flatten()
+        (fc): Linear(in_features=512, out_features=10, bias=True)
+      )
+    )
+
+
+
+</div>
+
+</div>
+
+But it can be created as:
+
+If you need, you can customize it, for example
+<div class="codecell" markdown="1">
+<div class="input_area" markdown="1">
+
+```python
+my_resnet18 = Net(block=BasicBlock, blocks=[2, 2, 2, 2])
+```
+
+</div>
+
+</div>
+<div class="codecell" markdown="1">
+<div class="input_area" markdown="1">
+
+```python
+my_resnet18
+```
+
+</div>
+<div class="output_area" markdown="1">
+
+
+
+
+    Net(
+      (stem): Stem(
+        sizes: [3, 64]
+        (conv0): ConvLayer(
+          (conv): Conv2d(3, 64, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1))
+          (act_fn): ReLU(inplace=True)
+          (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+        (pool): MaxPool2d(kernel_size=3, stride=2, padding=1, dilation=1, ceil_mode=False)
+      )
+      (body): Body(
+        (layer_0): Sequential(
+          (block_0): BasicBlock(
+            (conv): Sequential(
+              (conv_0): ConvLayer(
+                (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+                (act_fn): ReLU(inplace=True)
+                (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+              (conv_1): ConvLayer(
+                (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+                (act_fn): ReLU(inplace=True)
+                (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+            )
+            (merge): Noop()
+            (act_conn): ReLU(inplace=True)
+          )
+          (block_1): BasicBlock(
+            (conv): Sequential(
+              (conv_0): ConvLayer(
+                (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+                (act_fn): ReLU(inplace=True)
+                (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+              (conv_1): ConvLayer(
+                (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+                (act_fn): ReLU(inplace=True)
+                (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+            )
+            (merge): Noop()
+            (act_conn): ReLU(inplace=True)
+          )
+        )
+        (layer_1): Sequential(
+          (block_0): BasicBlock(
+            (conv): Sequential(
+              (conv_0): ConvLayer(
+                (conv): Conv2d(64, 128, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1))
+                (act_fn): ReLU(inplace=True)
+                (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+              (conv_1): ConvLayer(
+                (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+                (act_fn): ReLU(inplace=True)
+                (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+            )
+            (downsample): ConvLayer(
+              (conv): Conv2d(64, 128, kernel_size=(1, 1), stride=(2, 2))
+              (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+            (merge): Noop()
+            (act_conn): ReLU(inplace=True)
+          )
+          (block_1): BasicBlock(
+            (conv): Sequential(
+              (conv_0): ConvLayer(
+                (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+                (act_fn): ReLU(inplace=True)
+                (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+              (conv_1): ConvLayer(
+                (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+                (act_fn): ReLU(inplace=True)
+                (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+            )
+            (merge): Noop()
+            (act_conn): ReLU(inplace=True)
+          )
+        )
+        (layer_2): Sequential(
+          (block_0): BasicBlock(
+            (conv): Sequential(
+              (conv_0): ConvLayer(
+                (conv): Conv2d(128, 256, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1))
+                (act_fn): ReLU(inplace=True)
+                (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+              (conv_1): ConvLayer(
+                (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+                (act_fn): ReLU(inplace=True)
+                (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+            )
+            (downsample): ConvLayer(
+              (conv): Conv2d(128, 256, kernel_size=(1, 1), stride=(2, 2))
+              (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+            (merge): Noop()
+            (act_conn): ReLU(inplace=True)
+          )
+          (block_1): BasicBlock(
+            (conv): Sequential(
+              (conv_0): ConvLayer(
+                (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+                (act_fn): ReLU(inplace=True)
+                (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+              (conv_1): ConvLayer(
+                (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+                (act_fn): ReLU(inplace=True)
+                (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+            )
+            (merge): Noop()
+            (act_conn): ReLU(inplace=True)
+          )
+        )
+        (layer_3): Sequential(
+          (block_0): BasicBlock(
+            (conv): Sequential(
+              (conv_0): ConvLayer(
+                (conv): Conv2d(256, 512, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1))
+                (act_fn): ReLU(inplace=True)
+                (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+              (conv_1): ConvLayer(
+                (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+                (act_fn): ReLU(inplace=True)
+                (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+            )
+            (downsample): ConvLayer(
+              (conv): Conv2d(256, 512, kernel_size=(1, 1), stride=(2, 2))
+              (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+            (merge): Noop()
+            (act_conn): ReLU(inplace=True)
+          )
+          (block_1): BasicBlock(
+            (conv): Sequential(
+              (conv_0): ConvLayer(
+                (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+                (act_fn): ReLU(inplace=True)
+                (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+              (conv_1): ConvLayer(
+                (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+                (act_fn): ReLU(inplace=True)
+                (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+            )
+            (merge): Noop()
+            (act_conn): ReLU(inplace=True)
+          )
+        )
+      )
+      (head): Head(
+        (pool): AdaptiveAvgPool2d(output_size=(1, 1))
+        (flat): Flatten()
+        (fc): Linear(in_features=512, out_features=1000, bias=True)
+      )
+    )
+
+
+
+</div>
+
+</div>
+<div class="codecell" markdown="1">
+<div class="input_area" markdown="1">
+
+```python
+my_resnet34 = Net(block=BasicBlock, blocks=[3, 4, 6, 3])
+```
+
+</div>
+
+</div>
+<div class="codecell" markdown="1">
+<div class="input_area" markdown="1">
+
+```python
+my_resnet34
+```
+
+</div>
+<div class="output_area" markdown="1">
+
+
+
+
+    Net(
+      (stem): Stem(
+        sizes: [3, 64]
+        (conv0): ConvLayer(
+          (conv): Conv2d(3, 64, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1))
+          (act_fn): ReLU(inplace=True)
+          (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+        (pool): MaxPool2d(kernel_size=3, stride=2, padding=1, dilation=1, ceil_mode=False)
+      )
+      (body): Body(
+        (layer_0): Sequential(
+          (block_0): BasicBlock(
+            (conv): Sequential(
+              (conv_0): ConvLayer(
+                (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+                (act_fn): ReLU(inplace=True)
+                (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+              (conv_1): ConvLayer(
+                (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+                (act_fn): ReLU(inplace=True)
+                (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+            )
+            (merge): Noop()
+            (act_conn): ReLU(inplace=True)
+          )
+          (block_1): BasicBlock(
+            (conv): Sequential(
+              (conv_0): ConvLayer(
+                (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+                (act_fn): ReLU(inplace=True)
+                (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+              (conv_1): ConvLayer(
+                (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+                (act_fn): ReLU(inplace=True)
+                (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+            )
+            (merge): Noop()
+            (act_conn): ReLU(inplace=True)
+          )
+          (block_2): BasicBlock(
+            (conv): Sequential(
+              (conv_0): ConvLayer(
+                (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+                (act_fn): ReLU(inplace=True)
+                (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+              (conv_1): ConvLayer(
+                (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+                (act_fn): ReLU(inplace=True)
+                (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+            )
+            (merge): Noop()
+            (act_conn): ReLU(inplace=True)
+          )
+        )
+        (layer_1): Sequential(
+          (block_0): BasicBlock(
+            (conv): Sequential(
+              (conv_0): ConvLayer(
+                (conv): Conv2d(64, 128, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1))
+                (act_fn): ReLU(inplace=True)
+                (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+              (conv_1): ConvLayer(
+                (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+                (act_fn): ReLU(inplace=True)
+                (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+            )
+            (downsample): ConvLayer(
+              (conv): Conv2d(64, 128, kernel_size=(1, 1), stride=(2, 2))
+              (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+            (merge): Noop()
+            (act_conn): ReLU(inplace=True)
+          )
+          (block_1): BasicBlock(
+            (conv): Sequential(
+              (conv_0): ConvLayer(
+                (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+                (act_fn): ReLU(inplace=True)
+                (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+              (conv_1): ConvLayer(
+                (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+                (act_fn): ReLU(inplace=True)
+                (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+            )
+            (merge): Noop()
+            (act_conn): ReLU(inplace=True)
+          )
+          (block_2): BasicBlock(
+            (conv): Sequential(
+              (conv_0): ConvLayer(
+                (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+                (act_fn): ReLU(inplace=True)
+                (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+              (conv_1): ConvLayer(
+                (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+                (act_fn): ReLU(inplace=True)
+                (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+            )
+            (merge): Noop()
+            (act_conn): ReLU(inplace=True)
+          )
+          (block_3): BasicBlock(
+            (conv): Sequential(
+              (conv_0): ConvLayer(
+                (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+                (act_fn): ReLU(inplace=True)
+                (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+              (conv_1): ConvLayer(
+                (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+                (act_fn): ReLU(inplace=True)
+                (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+            )
+            (merge): Noop()
+            (act_conn): ReLU(inplace=True)
+          )
+        )
+        (layer_2): Sequential(
+          (block_0): BasicBlock(
+            (conv): Sequential(
+              (conv_0): ConvLayer(
+                (conv): Conv2d(128, 256, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1))
+                (act_fn): ReLU(inplace=True)
+                (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+              (conv_1): ConvLayer(
+                (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+                (act_fn): ReLU(inplace=True)
+                (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+            )
+            (downsample): ConvLayer(
+              (conv): Conv2d(128, 256, kernel_size=(1, 1), stride=(2, 2))
+              (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+            (merge): Noop()
+            (act_conn): ReLU(inplace=True)
+          )
+          (block_1): BasicBlock(
+            (conv): Sequential(
+              (conv_0): ConvLayer(
+                (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+                (act_fn): ReLU(inplace=True)
+                (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+              (conv_1): ConvLayer(
+                (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+                (act_fn): ReLU(inplace=True)
+                (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+            )
+            (merge): Noop()
+            (act_conn): ReLU(inplace=True)
+          )
+          (block_2): BasicBlock(
+            (conv): Sequential(
+              (conv_0): ConvLayer(
+                (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+                (act_fn): ReLU(inplace=True)
+                (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+              (conv_1): ConvLayer(
+                (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+                (act_fn): ReLU(inplace=True)
+                (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+            )
+            (merge): Noop()
+            (act_conn): ReLU(inplace=True)
+          )
+          (block_3): BasicBlock(
+            (conv): Sequential(
+              (conv_0): ConvLayer(
+                (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+                (act_fn): ReLU(inplace=True)
+                (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+              (conv_1): ConvLayer(
+                (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+                (act_fn): ReLU(inplace=True)
+                (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+            )
+            (merge): Noop()
+            (act_conn): ReLU(inplace=True)
+          )
+          (block_4): BasicBlock(
+            (conv): Sequential(
+              (conv_0): ConvLayer(
+                (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+                (act_fn): ReLU(inplace=True)
+                (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+              (conv_1): ConvLayer(
+                (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+                (act_fn): ReLU(inplace=True)
+                (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+            )
+            (merge): Noop()
+            (act_conn): ReLU(inplace=True)
+          )
+          (block_5): BasicBlock(
+            (conv): Sequential(
+              (conv_0): ConvLayer(
+                (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+                (act_fn): ReLU(inplace=True)
+                (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+              (conv_1): ConvLayer(
+                (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+                (act_fn): ReLU(inplace=True)
+                (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+            )
+            (merge): Noop()
+            (act_conn): ReLU(inplace=True)
+          )
+        )
+        (layer_3): Sequential(
+          (block_0): BasicBlock(
+            (conv): Sequential(
+              (conv_0): ConvLayer(
+                (conv): Conv2d(256, 512, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1))
+                (act_fn): ReLU(inplace=True)
+                (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+              (conv_1): ConvLayer(
+                (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+                (act_fn): ReLU(inplace=True)
+                (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+            )
+            (downsample): ConvLayer(
+              (conv): Conv2d(256, 512, kernel_size=(1, 1), stride=(2, 2))
+              (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+            (merge): Noop()
+            (act_conn): ReLU(inplace=True)
+          )
+          (block_1): BasicBlock(
+            (conv): Sequential(
+              (conv_0): ConvLayer(
+                (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+                (act_fn): ReLU(inplace=True)
+                (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+              (conv_1): ConvLayer(
+                (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+                (act_fn): ReLU(inplace=True)
+                (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+            )
+            (merge): Noop()
+            (act_conn): ReLU(inplace=True)
+          )
+          (block_2): BasicBlock(
+            (conv): Sequential(
+              (conv_0): ConvLayer(
+                (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+                (act_fn): ReLU(inplace=True)
+                (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+              (conv_1): ConvLayer(
+                (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+                (act_fn): ReLU(inplace=True)
+                (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+            )
+            (merge): Noop()
+            (act_conn): ReLU(inplace=True)
+          )
+        )
+      )
+      (head): Head(
+        (pool): AdaptiveAvgPool2d(output_size=(1, 1))
+        (flat): Flatten()
+        (fc): Linear(in_features=512, out_features=1000, bias=True)
+      )
+    )
+
+
+
+</div>
+
+</div>
+
+# Some examples
+
+Wee can experiment with models by changing some parts of model. Here only base functiomnality, but it can be easily extanded.
+
+Here some examples:
+    
+
+## Custom stem
+<div class="codecell" markdown="1">
+<div class="input_area" markdown="1">
+
+```python
+model = Net(stem=partial(Stem, sizes=[32, 32]))
+```
+
+</div>
+
+</div>
+<div class="codecell" markdown="1">
+<div class="input_area" markdown="1">
+
+```python
+model.stem
+```
+
+</div>
+<div class="output_area" markdown="1">
+
+
+
+
+    Stem(
+      sizes: [3, 32, 32, 64]
+      (conv0): ConvLayer(
+        (conv): Conv2d(3, 32, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1))
+        (act_fn): ReLU(inplace=True)
+        (bn): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+      (conv1): ConvLayer(
+        (conv): Conv2d(32, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+        (act_fn): ReLU(inplace=True)
+        (bn): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+      (conv2): ConvLayer(
+        (conv): Conv2d(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+        (act_fn): ReLU(inplace=True)
+        (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+      (pool): MaxPool2d(kernel_size=3, stride=2, padding=1, dilation=1, ceil_mode=False)
+    )
+
+
+
+</div>
+
+</div>
+
+## Act fn before Normalization
+<div class="codecell" markdown="1">
+<div class="input_area" markdown="1">
+
+```python
+model = Net(bn_1st=False)
+```
+
+</div>
+
+</div>
+<div class="codecell" markdown="1">
+<div class="input_area" markdown="1">
+
+```python
+model
+```
+
+</div>
+<div class="output_area" markdown="1">
+
+
+
+
+    Net(
+      (stem): Stem(
+        sizes: [3, 64]
+        (conv0): ConvLayer(
+          (conv): Conv2d(3, 64, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1))
+          (act_fn): ReLU(inplace=True)
+          (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+        (pool): MaxPool2d(kernel_size=3, stride=2, padding=1, dilation=1, ceil_mode=False)
+      )
+      (body): Body(
+        (layer_0): Sequential(
+          (block_0): BasicBlock(
+            (conv): Sequential(
+              (conv_0): ConvLayer(
+                (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+                (act_fn): ReLU(inplace=True)
+                (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+              (conv_1): ConvLayer(
+                (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+                (act_fn): ReLU(inplace=True)
+                (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+            )
+            (merge): Noop()
+            (act_conn): ReLU(inplace=True)
+          )
+          (block_1): BasicBlock(
+            (conv): Sequential(
+              (conv_0): ConvLayer(
+                (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+                (act_fn): ReLU(inplace=True)
+                (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+              (conv_1): ConvLayer(
+                (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+                (act_fn): ReLU(inplace=True)
+                (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+            )
+            (merge): Noop()
+            (act_conn): ReLU(inplace=True)
+          )
+        )
+        (layer_1): Sequential(
+          (block_0): BasicBlock(
+            (conv): Sequential(
+              (conv_0): ConvLayer(
+                (conv): Conv2d(64, 128, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1))
+                (act_fn): ReLU(inplace=True)
+                (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+              (conv_1): ConvLayer(
+                (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+                (act_fn): ReLU(inplace=True)
+                (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+            )
+            (downsample): ConvLayer(
+              (conv): Conv2d(64, 128, kernel_size=(1, 1), stride=(2, 2))
+              (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+            (merge): Noop()
+            (act_conn): ReLU(inplace=True)
+          )
+          (block_1): BasicBlock(
+            (conv): Sequential(
+              (conv_0): ConvLayer(
+                (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+                (act_fn): ReLU(inplace=True)
+                (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+              (conv_1): ConvLayer(
+                (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+                (act_fn): ReLU(inplace=True)
+                (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+            )
+            (merge): Noop()
+            (act_conn): ReLU(inplace=True)
+          )
+        )
+        (layer_2): Sequential(
+          (block_0): BasicBlock(
+            (conv): Sequential(
+              (conv_0): ConvLayer(
+                (conv): Conv2d(128, 256, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1))
+                (act_fn): ReLU(inplace=True)
+                (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+              (conv_1): ConvLayer(
+                (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+                (act_fn): ReLU(inplace=True)
+                (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+            )
+            (downsample): ConvLayer(
+              (conv): Conv2d(128, 256, kernel_size=(1, 1), stride=(2, 2))
+              (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+            (merge): Noop()
+            (act_conn): ReLU(inplace=True)
+          )
+          (block_1): BasicBlock(
+            (conv): Sequential(
+              (conv_0): ConvLayer(
+                (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+                (act_fn): ReLU(inplace=True)
+                (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+              (conv_1): ConvLayer(
+                (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+                (act_fn): ReLU(inplace=True)
+                (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+            )
+            (merge): Noop()
+            (act_conn): ReLU(inplace=True)
+          )
+        )
+        (layer_3): Sequential(
+          (block_0): BasicBlock(
+            (conv): Sequential(
+              (conv_0): ConvLayer(
+                (conv): Conv2d(256, 512, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1))
+                (act_fn): ReLU(inplace=True)
+                (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+              (conv_1): ConvLayer(
+                (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+                (act_fn): ReLU(inplace=True)
+                (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+            )
+            (downsample): ConvLayer(
+              (conv): Conv2d(256, 512, kernel_size=(1, 1), stride=(2, 2))
+              (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+            (merge): Noop()
+            (act_conn): ReLU(inplace=True)
+          )
+          (block_1): BasicBlock(
+            (conv): Sequential(
+              (conv_0): ConvLayer(
+                (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+                (act_fn): ReLU(inplace=True)
+                (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+              (conv_1): ConvLayer(
+                (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+                (act_fn): ReLU(inplace=True)
+                (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+            )
+            (merge): Noop()
+            (act_conn): ReLU(inplace=True)
+          )
+        )
+      )
+      (head): Head(
+        (pool): AdaptiveAvgPool2d(output_size=(1, 1))
+        (flat): Flatten()
+        (fc): Linear(in_features=512, out_features=1000, bias=True)
+      )
+    )
+
+
+
+</div>
+
+</div>
+
+
+## Change activation function
+<div class="codecell" markdown="1">
+<div class="input_area" markdown="1">
+
+```python
+act_fn = nn.LeakyReLU(inplace=True)
+```
+
+</div>
+
+</div>
+<div class="codecell" markdown="1">
+<div class="input_area" markdown="1">
+
+```python
+model = Net(act_fn=act_fn)
+```
+
+</div>
+
+</div>
+<div class="codecell" markdown="1">
+<div class="input_area" markdown="1">
+
+```python
+model
+```
+
+</div>
+<div class="output_area" markdown="1">
+
+
+
+
+    Net(
+      (stem): Stem(
+        sizes: [3, 64]
+        (conv0): ConvLayer(
+          (conv): Conv2d(3, 64, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1))
+          (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
+          (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+        (pool): MaxPool2d(kernel_size=3, stride=2, padding=1, dilation=1, ceil_mode=False)
+      )
+      (body): Body(
+        (layer_0): Sequential(
+          (block_0): BasicBlock(
+            (conv): Sequential(
+              (conv_0): ConvLayer(
+                (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+                (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
+                (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+              (conv_1): ConvLayer(
+                (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+                (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
+                (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+            )
+            (merge): Noop()
+            (act_conn): ReLU(inplace=True)
+          )
+          (block_1): BasicBlock(
+            (conv): Sequential(
+              (conv_0): ConvLayer(
+                (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+                (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
+                (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+              (conv_1): ConvLayer(
+                (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+                (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
+                (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+            )
+            (merge): Noop()
+            (act_conn): ReLU(inplace=True)
+          )
+        )
+        (layer_1): Sequential(
+          (block_0): BasicBlock(
+            (conv): Sequential(
+              (conv_0): ConvLayer(
+                (conv): Conv2d(64, 128, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1))
+                (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
+                (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+              (conv_1): ConvLayer(
+                (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+                (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
+                (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+            )
+            (downsample): ConvLayer(
+              (conv): Conv2d(64, 128, kernel_size=(1, 1), stride=(2, 2))
+              (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+            (merge): Noop()
+            (act_conn): ReLU(inplace=True)
+          )
+          (block_1): BasicBlock(
+            (conv): Sequential(
+              (conv_0): ConvLayer(
+                (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+                (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
+                (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+              (conv_1): ConvLayer(
+                (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+                (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
+                (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+            )
+            (merge): Noop()
+            (act_conn): ReLU(inplace=True)
+          )
+        )
+        (layer_2): Sequential(
+          (block_0): BasicBlock(
+            (conv): Sequential(
+              (conv_0): ConvLayer(
+                (conv): Conv2d(128, 256, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1))
+                (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
+                (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+              (conv_1): ConvLayer(
+                (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+                (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
+                (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+            )
+            (downsample): ConvLayer(
+              (conv): Conv2d(128, 256, kernel_size=(1, 1), stride=(2, 2))
+              (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+            (merge): Noop()
+            (act_conn): ReLU(inplace=True)
+          )
+          (block_1): BasicBlock(
+            (conv): Sequential(
+              (conv_0): ConvLayer(
+                (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+                (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
+                (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+              (conv_1): ConvLayer(
+                (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+                (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
+                (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+            )
+            (merge): Noop()
+            (act_conn): ReLU(inplace=True)
+          )
+        )
+        (layer_3): Sequential(
+          (block_0): BasicBlock(
+            (conv): Sequential(
+              (conv_0): ConvLayer(
+                (conv): Conv2d(256, 512, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1))
+                (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
+                (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+              (conv_1): ConvLayer(
+                (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+                (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
+                (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+            )
+            (downsample): ConvLayer(
+              (conv): Conv2d(256, 512, kernel_size=(1, 1), stride=(2, 2))
+              (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+            (merge): Noop()
+            (act_conn): ReLU(inplace=True)
+          )
+          (block_1): BasicBlock(
+            (conv): Sequential(
+              (conv_0): ConvLayer(
+                (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+                (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
+                (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+              (conv_1): ConvLayer(
+                (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+                (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
+                (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+            )
+            (merge): Noop()
+            (act_conn): ReLU(inplace=True)
+          )
+        )
+      )
+      (head): Head(
+        (pool): AdaptiveAvgPool2d(output_size=(1, 1))
+        (flat): Flatten()
+        (fc): Linear(in_features=512, out_features=1000, bias=True)
+      )
+    )
 
 
 

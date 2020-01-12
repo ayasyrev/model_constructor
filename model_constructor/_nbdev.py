@@ -2,9 +2,19 @@
 
 __all__ = ["index", "modules", "custom_doc_links", "git_url"]
 
-index = {"Net": "00_core.ipynb"}
+index = {"ConvLayer": "00_constructor.ipynb",
+         "Flatten": "00_constructor.ipynb",
+         "Noop": "00_constructor.ipynb",
+         "Stem": "00_constructor.ipynb",
+         "BasicBlock": "00_constructor.ipynb",
+         "Body": "00_constructor.ipynb",
+         "Head": "00_constructor.ipynb",
+         "init_model": "00_constructor.ipynb",
+         "Net": "00_constructor.ipynb",
+         "resnet18": "00_constructor.ipynb",
+         "resnet34": "00_constructor.ipynb"}
 
-modules = ["core.py"]
+modules = ["constructor.py"]
 
 doc_url = "https://ayasyrev.github.io/model_constructor/"
 
