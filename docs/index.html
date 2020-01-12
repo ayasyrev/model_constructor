@@ -68,200 +68,6 @@ summary: "Constructor to create pytorch model."
 </div>
 
 </div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">model</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>Net(
-  (stem): Stem(
-    sizes: [3, 64]
-    (conv0): ConvLayer(
-      (conv): Conv2d(3, 64, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1))
-      (act_fn): ReLU(inplace=True)
-      (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-    )
-    (pool): MaxPool2d(kernel_size=3, stride=2, padding=1, dilation=1, ceil_mode=False)
-  )
-  (body): Body(
-    (layer_0): Sequential(
-      (block_0): BasicBlock(
-        (conv): Sequential(
-          (conv_0): ConvLayer(
-            (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
-            (act_fn): ReLU(inplace=True)
-            (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-          )
-          (conv_1): ConvLayer(
-            (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
-            (act_fn): ReLU(inplace=True)
-            (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-          )
-        )
-        (merge): Noop()
-        (act_conn): ReLU(inplace=True)
-      )
-      (block_1): BasicBlock(
-        (conv): Sequential(
-          (conv_0): ConvLayer(
-            (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
-            (act_fn): ReLU(inplace=True)
-            (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-          )
-          (conv_1): ConvLayer(
-            (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
-            (act_fn): ReLU(inplace=True)
-            (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-          )
-        )
-        (merge): Noop()
-        (act_conn): ReLU(inplace=True)
-      )
-    )
-    (layer_1): Sequential(
-      (block_0): BasicBlock(
-        (conv): Sequential(
-          (conv_0): ConvLayer(
-            (conv): Conv2d(64, 128, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1))
-            (act_fn): ReLU(inplace=True)
-            (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-          )
-          (conv_1): ConvLayer(
-            (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
-            (act_fn): ReLU(inplace=True)
-            (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-          )
-        )
-        (downsample): ConvLayer(
-          (conv): Conv2d(64, 128, kernel_size=(1, 1), stride=(2, 2))
-          (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-        )
-        (merge): Noop()
-        (act_conn): ReLU(inplace=True)
-      )
-      (block_1): BasicBlock(
-        (conv): Sequential(
-          (conv_0): ConvLayer(
-            (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
-            (act_fn): ReLU(inplace=True)
-            (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-          )
-          (conv_1): ConvLayer(
-            (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
-            (act_fn): ReLU(inplace=True)
-            (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-          )
-        )
-        (merge): Noop()
-        (act_conn): ReLU(inplace=True)
-      )
-    )
-    (layer_2): Sequential(
-      (block_0): BasicBlock(
-        (conv): Sequential(
-          (conv_0): ConvLayer(
-            (conv): Conv2d(128, 256, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1))
-            (act_fn): ReLU(inplace=True)
-            (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-          )
-          (conv_1): ConvLayer(
-            (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
-            (act_fn): ReLU(inplace=True)
-            (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-          )
-        )
-        (downsample): ConvLayer(
-          (conv): Conv2d(128, 256, kernel_size=(1, 1), stride=(2, 2))
-          (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-        )
-        (merge): Noop()
-        (act_conn): ReLU(inplace=True)
-      )
-      (block_1): BasicBlock(
-        (conv): Sequential(
-          (conv_0): ConvLayer(
-            (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
-            (act_fn): ReLU(inplace=True)
-            (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-          )
-          (conv_1): ConvLayer(
-            (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
-            (act_fn): ReLU(inplace=True)
-            (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-          )
-        )
-        (merge): Noop()
-        (act_conn): ReLU(inplace=True)
-      )
-    )
-    (layer_3): Sequential(
-      (block_0): BasicBlock(
-        (conv): Sequential(
-          (conv_0): ConvLayer(
-            (conv): Conv2d(256, 512, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1))
-            (act_fn): ReLU(inplace=True)
-            (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-          )
-          (conv_1): ConvLayer(
-            (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
-            (act_fn): ReLU(inplace=True)
-            (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-          )
-        )
-        (downsample): ConvLayer(
-          (conv): Conv2d(256, 512, kernel_size=(1, 1), stride=(2, 2))
-          (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-        )
-        (merge): Noop()
-        (act_conn): ReLU(inplace=True)
-      )
-      (block_1): BasicBlock(
-        (conv): Sequential(
-          (conv_0): ConvLayer(
-            (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
-            (act_fn): ReLU(inplace=True)
-            (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-          )
-          (conv_1): ConvLayer(
-            (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
-            (act_fn): ReLU(inplace=True)
-            (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-          )
-        )
-        (merge): Noop()
-        (act_conn): ReLU(inplace=True)
-      )
-    )
-  )
-  (head): Head(
-    (pool): AdaptiveAvgPool2d(output_size=(1, 1))
-    (flat): Flatten()
-    (fc): Linear(in_features=512, out_features=1000, bias=True)
-  )
-)</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="Resnet-as-example">Resnet as example<a class="anchor-link" href="#Resnet-as-example">&#182;</a></h1>
@@ -297,7 +103,7 @@ summary: "Constructor to create pytorch model."
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>If you need, you can customize it, for example</p>
+<p>If you need, you can customize it, for example lets create resnet18 and resnet43</p>
 
 </div>
 </div>
@@ -307,7 +113,7 @@ summary: "Constructor to create pytorch model."
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">my_resnet18</span> <span class="o">=</span> <span class="n">Net</span><span class="p">(</span><span class="n">block</span><span class="o">=</span><span class="n">BasicBlock</span><span class="p">,</span> <span class="n">blocks</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">resnet18</span> <span class="o">=</span> <span class="n">Net</span><span class="p">(</span><span class="n">block</span><span class="o">=</span><span class="n">BasicBlock</span><span class="p">,</span> <span class="n">blocks</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
 </pre></div>
 
     </div>
@@ -320,7 +126,7 @@ summary: "Constructor to create pytorch model."
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">my_resnet34</span> <span class="o">=</span> <span class="n">Net</span><span class="p">(</span><span class="n">block</span><span class="o">=</span><span class="n">BasicBlock</span><span class="p">,</span> <span class="n">blocks</span><span class="o">=</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">resnet34</span> <span class="o">=</span> <span class="n">Net</span><span class="p">(</span><span class="n">block</span><span class="o">=</span><span class="n">BasicBlock</span><span class="p">,</span> <span class="n">blocks</span><span class="o">=</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
 </pre></div>
 
     </div>
@@ -351,6 +157,13 @@ summary: "Constructor to create pytorch model."
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Custom-stem">Custom stem<a class="anchor-link" href="#Custom-stem">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Stem with 3 conv layers</p>
+
 </div>
 </div>
 </div>

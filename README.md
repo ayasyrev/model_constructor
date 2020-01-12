@@ -32,191 +32,6 @@ model = Net()
 </div>
 
 </div>
-<div class="codecell" markdown="1">
-<div class="input_area" markdown="1">
-
-```python
-model
-```
-
-</div>
-<div class="output_area" markdown="1">
-
-
-
-
-    Net(
-      (stem): Stem(
-        sizes: [3, 64]
-        (conv0): ConvLayer(
-          (conv): Conv2d(3, 64, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1))
-          (act_fn): ReLU(inplace=True)
-          (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-        )
-        (pool): MaxPool2d(kernel_size=3, stride=2, padding=1, dilation=1, ceil_mode=False)
-      )
-      (body): Body(
-        (layer_0): Sequential(
-          (block_0): BasicBlock(
-            (conv): Sequential(
-              (conv_0): ConvLayer(
-                (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
-                (act_fn): ReLU(inplace=True)
-                (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-              )
-              (conv_1): ConvLayer(
-                (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
-                (act_fn): ReLU(inplace=True)
-                (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-              )
-            )
-            (merge): Noop()
-            (act_conn): ReLU(inplace=True)
-          )
-          (block_1): BasicBlock(
-            (conv): Sequential(
-              (conv_0): ConvLayer(
-                (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
-                (act_fn): ReLU(inplace=True)
-                (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-              )
-              (conv_1): ConvLayer(
-                (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
-                (act_fn): ReLU(inplace=True)
-                (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-              )
-            )
-            (merge): Noop()
-            (act_conn): ReLU(inplace=True)
-          )
-        )
-        (layer_1): Sequential(
-          (block_0): BasicBlock(
-            (conv): Sequential(
-              (conv_0): ConvLayer(
-                (conv): Conv2d(64, 128, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1))
-                (act_fn): ReLU(inplace=True)
-                (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-              )
-              (conv_1): ConvLayer(
-                (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
-                (act_fn): ReLU(inplace=True)
-                (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-              )
-            )
-            (downsample): ConvLayer(
-              (conv): Conv2d(64, 128, kernel_size=(1, 1), stride=(2, 2))
-              (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-            )
-            (merge): Noop()
-            (act_conn): ReLU(inplace=True)
-          )
-          (block_1): BasicBlock(
-            (conv): Sequential(
-              (conv_0): ConvLayer(
-                (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
-                (act_fn): ReLU(inplace=True)
-                (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-              )
-              (conv_1): ConvLayer(
-                (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
-                (act_fn): ReLU(inplace=True)
-                (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-              )
-            )
-            (merge): Noop()
-            (act_conn): ReLU(inplace=True)
-          )
-        )
-        (layer_2): Sequential(
-          (block_0): BasicBlock(
-            (conv): Sequential(
-              (conv_0): ConvLayer(
-                (conv): Conv2d(128, 256, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1))
-                (act_fn): ReLU(inplace=True)
-                (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-              )
-              (conv_1): ConvLayer(
-                (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
-                (act_fn): ReLU(inplace=True)
-                (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-              )
-            )
-            (downsample): ConvLayer(
-              (conv): Conv2d(128, 256, kernel_size=(1, 1), stride=(2, 2))
-              (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-            )
-            (merge): Noop()
-            (act_conn): ReLU(inplace=True)
-          )
-          (block_1): BasicBlock(
-            (conv): Sequential(
-              (conv_0): ConvLayer(
-                (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
-                (act_fn): ReLU(inplace=True)
-                (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-              )
-              (conv_1): ConvLayer(
-                (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
-                (act_fn): ReLU(inplace=True)
-                (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-              )
-            )
-            (merge): Noop()
-            (act_conn): ReLU(inplace=True)
-          )
-        )
-        (layer_3): Sequential(
-          (block_0): BasicBlock(
-            (conv): Sequential(
-              (conv_0): ConvLayer(
-                (conv): Conv2d(256, 512, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1))
-                (act_fn): ReLU(inplace=True)
-                (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-              )
-              (conv_1): ConvLayer(
-                (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
-                (act_fn): ReLU(inplace=True)
-                (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-              )
-            )
-            (downsample): ConvLayer(
-              (conv): Conv2d(256, 512, kernel_size=(1, 1), stride=(2, 2))
-              (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-            )
-            (merge): Noop()
-            (act_conn): ReLU(inplace=True)
-          )
-          (block_1): BasicBlock(
-            (conv): Sequential(
-              (conv_0): ConvLayer(
-                (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
-                (act_fn): ReLU(inplace=True)
-                (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-              )
-              (conv_1): ConvLayer(
-                (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
-                (act_fn): ReLU(inplace=True)
-                (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-              )
-            )
-            (merge): Noop()
-            (act_conn): ReLU(inplace=True)
-          )
-        )
-      )
-      (head): Head(
-        (pool): AdaptiveAvgPool2d(output_size=(1, 1))
-        (flat): Flatten()
-        (fc): Linear(in_features=512, out_features=1000, bias=True)
-      )
-    )
-
-
-
-</div>
-
-</div>
 
 # Resnet as example
 
@@ -234,12 +49,12 @@ model = resnet34(num_classes=10)
 
 But it can be created as:
 
-If you need, you can customize it, for example
+If you need, you can customize it, for example lets create resnet18 and resnet43
 <div class="codecell" markdown="1">
 <div class="input_area" markdown="1">
 
 ```python
-my_resnet18 = Net(block=BasicBlock, blocks=[2, 2, 2, 2])
+resnet18 = Net(block=BasicBlock, blocks=[2, 2, 2, 2])
 ```
 
 </div>
@@ -249,7 +64,7 @@ my_resnet18 = Net(block=BasicBlock, blocks=[2, 2, 2, 2])
 <div class="input_area" markdown="1">
 
 ```python
-my_resnet34 = Net(block=BasicBlock, blocks=[3, 4, 6, 3])
+resnet34 = Net(block=BasicBlock, blocks=[3, 4, 6, 3])
 ```
 
 </div>
@@ -264,6 +79,8 @@ Here some examples:
     
 
 ## Custom stem
+
+Stem with 3 conv layers
 <div class="codecell" markdown="1">
 <div class="input_area" markdown="1">
 
