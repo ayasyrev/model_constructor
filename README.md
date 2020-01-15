@@ -35,9 +35,7 @@ model = Net()
 
 # Resnet as example
 
-But it can be created as:
-
-Lets create resnet18 and resnet34 (default Net() is resnet34()).
+Lets create resnet18 and resnet34 (default Net() is resnet18()).
 <div class="codecell" markdown="1">
 <div class="input_area" markdown="1">
 
@@ -168,7 +166,7 @@ model.stem
       sizes: [3, 64]
       (conv0): ConvLayer(
         (conv): Conv2d(3, 64, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1))
-        (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
+        (act_fn): ReLU(inplace=True)
         (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
       )
       (pool): MaxPool2d(kernel_size=3, stride=2, padding=1, dilation=1, ceil_mode=False)

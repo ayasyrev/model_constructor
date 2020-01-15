@@ -13,6 +13,9 @@ entries:
       title: model_constructor
       url: /constructor
     - output: web,pdf
+      title: Layers
+      url: /layers
+    - output: web,pdf
       title: resnet
       url: /resnet
     output: web

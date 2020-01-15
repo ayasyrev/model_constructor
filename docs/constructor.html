@@ -30,7 +30,26 @@ summary: "Create pytorch model."
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">test_eq</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># _act_fn = nn.ReLU(inplace=True)</span>
+
+<span class="c1"># class ConvLayer(nn.Sequential):</span>
+<span class="c1">#     &quot;&quot;&quot;Basic conv layers block&quot;&quot;&quot;</span>
+<span class="c1">#     def __init__(self, ni, nf, ks=3, stride=1, </span>
+<span class="c1">#             act=True,  act_fn=_act_fn, </span>
+<span class="c1">#             bn_layer=True, bn_1st=False, zero_bn=False, </span>
+<span class="c1">#             padding=None, bias=True, groups=1):</span>
+
+<span class="c1">#         self.act = act</span>
+<span class="c1">#         if padding==None: padding = ks//2  </span>
+<span class="c1">#         layers = [(&#39;conv&#39;, nn.Conv2d(ni, nf, ks, stride=stride, padding=padding, bias=bias, groups=groups))]</span>
+<span class="c1">#         act_bn = [(&#39;act_fn&#39;, act_fn)] if act else []</span>
+<span class="c1">#         if bn_layer:</span>
+<span class="c1">#             bn = nn.BatchNorm2d(nf)</span>
+<span class="c1">#             nn.init.constant_(bn.weight, 0. if zero_bn else 1.) </span>
+<span class="c1">#             act_bn += [(&#39;bn&#39;, bn)]</span>
+<span class="c1">#         if bn_1st: act_bn.reverse()</span>
+<span class="c1">#         layers += act_bn</span>
+<span class="c1">#         super().__init__(OrderedDict(layers))</span>
 </pre></div>
 
     </div>
@@ -43,40 +62,11 @@ summary: "Create pytorch model."
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># test_eq(1, 2)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># conv_layer = ConvLayer(32, 64)</span>
+<span class="c1"># conv_layer</span>
 </pre></div>
 
     </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Base-ConvLayer">Base ConvLayer<a class="anchor-link" href="#Base-ConvLayer">&#182;</a></h1>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-<div class="output_markdown rendered_html output_subarea ">
-<h2 id="ConvLayer" class="doc_header"><code>class</code> <code>ConvLayer</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/constructor.py#L13" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>ConvLayer</code>(<strong><code>ni</code></strong>, <strong><code>nf</code></strong>, <strong><code>ks</code></strong>=<em><code>3</code></em>, <strong><code>stride</code></strong>=<em><code>1</code></em>, <strong><code>act</code></strong>=<em><code>True</code></em>, <strong><code>act_fn</code></strong>=<em><code>ReLU(inplace=True)</code></em>, <strong><code>bn_layer</code></strong>=<em><code>True</code></em>, <strong><code>bn_1st</code></strong>=<em><code>False</code></em>, <strong><code>zero_bn</code></strong>=<em><code>False</code></em>, <strong><code>padding</code></strong>=<em><code>None</code></em>, <strong><code>bias</code></strong>=<em><code>True</code></em>, <strong><code>groups</code></strong>=<em><code>1</code></em>) :: <code>Sequential</code></p>
-</blockquote>
-<p>Basic conv layers block</p>
-
-</div>
-
-</div>
-
 </div>
 </div>
 
@@ -86,31 +76,11 @@ summary: "Create pytorch model."
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">conv_layer</span> <span class="o">=</span> <span class="n">ConvLayer</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="mi">64</span><span class="p">)</span>
-<span class="n">conv_layer</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># conv_layer = ConvLayer(32, 64, act=False)</span>
+<span class="c1"># conv_layer</span>
 </pre></div>
 
     </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>ConvLayer(
-  (conv): Conv2d(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
-  (act_fn): ReLU(inplace=True)
-  (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-)</pre>
-</div>
-
-</div>
-
 </div>
 </div>
 
@@ -120,30 +90,11 @@ summary: "Create pytorch model."
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">conv_layer</span> <span class="o">=</span> <span class="n">ConvLayer</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="n">act</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-<span class="n">conv_layer</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># conv_layer = ConvLayer(32, 64, bn_layer=False)</span>
+<span class="c1"># conv_layer</span>
 </pre></div>
 
     </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>ConvLayer(
-  (conv): Conv2d(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
-  (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-)</pre>
-</div>
-
-</div>
-
 </div>
 </div>
 
@@ -153,64 +104,11 @@ summary: "Create pytorch model."
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">conv_layer</span> <span class="o">=</span> <span class="n">ConvLayer</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="n">bn_layer</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-<span class="n">conv_layer</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># conv_layer = ConvLayer(32, 64, bn_1st=True)</span>
+<span class="c1"># conv_layer</span>
 </pre></div>
 
     </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>ConvLayer(
-  (conv): Conv2d(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
-  (act_fn): ReLU(inplace=True)
-)</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">conv_layer</span> <span class="o">=</span> <span class="n">ConvLayer</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="n">bn_1st</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">conv_layer</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>ConvLayer(
-  (conv): Conv2d(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
-  (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-  (act_fn): ReLU(inplace=True)
-)</pre>
-</div>
-
-</div>
-
 </div>
 </div>
 
@@ -222,49 +120,37 @@ summary: "Create pytorch model."
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
+<div class="input">
 
-</div>
-<div class="cell border-box-sizing code_cell rendered">
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># class Flatten(nn.Module):</span>
+<span class="c1">#     &#39;&#39;&#39;flat x to vector&#39;&#39;&#39;</span>
+<span class="c1">#     def __init__(self):</span>
+<span class="c1">#         super().__init__()</span>
+<span class="c1">#     def forward(self, x): return x.view(x.size(0), -1)</span>
+</pre></div>
 
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-<div class="output_markdown rendered_html output_subarea ">
-<h2 id="Flatten" class="doc_header"><code>class</code> <code>Flatten</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/constructor.py#L33" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>Flatten</code>() :: <code>Module</code></p>
-</blockquote>
-<p>flat x to vector</p>
-
-</div>
-
-</div>
-
+    </div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing code_cell rendered">
+<div class="input">
 
-</div>
-<div class="cell border-box-sizing code_cell rendered">
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># class Noop(nn.Module): # alternative name Merge</span>
+<span class="c1">#     &#39;&#39;&#39;Dummy module for vizualize skip conn&#39;&#39;&#39;</span>
+<span class="c1">#     def __init__(self):</span>
+<span class="c1">#         super().__init__()</span>
+        
+<span class="c1">#     def forward(self, x):</span>
+<span class="c1">#         return x</span>
+</pre></div>
 
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-<div class="output_markdown rendered_html output_subarea ">
-<h2 id="Noop" class="doc_header"><code>class</code> <code>Noop</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/constructor.py#L40" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>Noop</code>() :: <code>Module</code></p>
-</blockquote>
-<p>Dummy module for vizualize skip conn</p>
-
-</div>
-
-</div>
-
+    </div>
 </div>
 </div>
 
@@ -287,7 +173,7 @@ summary: "Create pytorch model."
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="Stem" class="doc_header"><code>class</code> <code>Stem</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/constructor.py#L49" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>Stem</code>(<strong><code>c_in</code></strong>=<em><code>3</code></em>, <strong><code>sizes</code></strong>=<em><code>[]</code></em>, <strong><code>stem_out</code></strong>=<em><code>64</code></em>, <strong><code>use_bn</code></strong>=<em><code>False</code></em>, <strong><code>pool</code></strong>=<em><code>True</code></em>, <strong><code>bn_1st</code></strong>=<em><code>False</code></em>, <strong><code>stride_on</code></strong>=<em><code>0</code></em>, <strong>**<code>kwargs</code></strong>) :: <code>Sequential</code></p>
+<h2 id="Stem" class="doc_header"><code>class</code> <code>Stem</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/constructor.py#L12" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>Stem</code>(<strong><code>c_in</code></strong>=<em><code>3</code></em>, <strong><code>sizes</code></strong>=<em><code>[]</code></em>, <strong><code>stem_out</code></strong>=<em><code>64</code></em>, <strong><code>use_bn</code></strong>=<em><code>False</code></em>, <strong><code>pool</code></strong>=<em><code>True</code></em>, <strong><code>bn_1st</code></strong>=<em><code>False</code></em>, <strong><code>stride_on</code></strong>=<em><code>0</code></em>, <strong>**<code>kwargs</code></strong>) :: <code>Sequential</code></p>
 </blockquote>
 <p>Base stem</p>
 
@@ -532,7 +418,7 @@ summary: "Create pytorch model."
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Block">Block<a class="anchor-link" href="#Block">&#182;</a></h2>
+<h2 id="BasicBlock">BasicBlock<a class="anchor-link" href="#BasicBlock">&#182;</a></h2>
 </div>
 </div>
 </div>
@@ -548,7 +434,7 @@ summary: "Create pytorch model."
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="BasicBlock" class="doc_header"><code>class</code> <code>BasicBlock</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/constructor.py#L67" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>BasicBlock</code>(<strong><code>ni</code></strong>, <strong><code>nf</code></strong>, <strong><code>stride</code></strong>=<em><code>1</code></em>, <strong><code>bn_1st</code></strong>=<em><code>False</code></em>, <strong><code>zero_bn</code></strong>=<em><code>False</code></em>, <strong>**<code>kwargs</code></strong>) :: <code>Module</code></p>
+<h2 id="BasicBlock" class="doc_header"><code>class</code> <code>BasicBlock</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/constructor.py#L30" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>BasicBlock</code>(<strong><code>ni</code></strong>, <strong><code>nf</code></strong>, <strong><code>stride</code></strong>=<em><code>1</code></em>, <strong><code>bn_1st</code></strong>=<em><code>False</code></em>, <strong><code>zero_bn</code></strong>=<em><code>False</code></em>, <strong>**<code>kwargs</code></strong>) :: <code>Module</code></p>
 </blockquote>
 <p>Basic block (simplified) as in pytorch resnet</p>
 
@@ -676,7 +562,7 @@ summary: "Create pytorch model."
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>torch.Size([64, 64, 32, 32])</pre>
+<pre>torch.Size([64, 64, 16, 16])</pre>
 </div>
 
 </div>
@@ -783,7 +669,7 @@ summary: "Create pytorch model."
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="Body" class="doc_header"><code>class</code> <code>Body</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/constructor.py#L91" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>Body</code>(<strong><code>block</code></strong>, <strong><code>body_in</code></strong>=<em><code>64</code></em>, <strong><code>body_out</code></strong>=<em><code>512</code></em>, <strong><code>layer_szs</code></strong>=<em><code>[64, 128, 256]</code></em>, <strong><code>blocks</code></strong>=<em><code>[2, 2, 2, 2]</code></em>, <strong><code>expansion</code></strong>=<em><code>1</code></em>, <strong>**<code>kwargs</code></strong>) :: <code>Sequential</code></p>
+<h2 id="Body" class="doc_header"><code>class</code> <code>Body</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/constructor.py#L54" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>Body</code>(<strong><code>block</code></strong>, <strong><code>body_in</code></strong>=<em><code>64</code></em>, <strong><code>body_out</code></strong>=<em><code>512</code></em>, <strong><code>layer_szs</code></strong>=<em><code>[64, 128, 256]</code></em>, <strong><code>blocks</code></strong>=<em><code>[2, 2, 2, 2]</code></em>, <strong><code>expansion</code></strong>=<em><code>1</code></em>, <strong>**<code>kwargs</code></strong>) :: <code>Sequential</code></p>
 </blockquote>
 <p>Constructor for body</p>
 
@@ -1036,7 +922,7 @@ summary: "Create pytorch model."
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="Head" class="doc_header"><code>class</code> <code>Head</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/constructor.py#L109" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>Head</code>(<strong><code>ni</code></strong>, <strong><code>nf</code></strong>, <strong>**<code>kwargs</code></strong>) :: <code>Sequential</code></p>
+<h2 id="Head" class="doc_header"><code>class</code> <code>Head</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/constructor.py#L72" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>Head</code>(<strong><code>ni</code></strong>, <strong><code>nf</code></strong>, <strong>**<code>kwargs</code></strong>) :: <code>Sequential</code></p>
 </blockquote>
 <p>base head</p>
 
@@ -1110,7 +996,7 @@ summary: "Create pytorch model."
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="init_model" class="doc_header"><code>init_model</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/constructor.py#L119" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>init_model</code>(<strong><code>model</code></strong>, <strong><code>zero_bn</code></strong>=<em><code>False</code></em>)</p>
+<h4 id="init_model" class="doc_header"><code>init_model</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/constructor.py#L82" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>init_model</code>(<strong><code>model</code></strong>, <strong><code>zero_bn</code></strong>=<em><code>False</code></em>)</p>
 </blockquote>
 <p>Init model</p>
 
@@ -1134,7 +1020,7 @@ summary: "Create pytorch model."
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="Net" class="doc_header"><code>class</code> <code>Net</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/constructor.py#L126" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>Net</code>(<strong><code>stem</code></strong>=<em><code>'Stem'</code></em>, <strong><code>body</code></strong>=<em><code>'Body'</code></em>, <strong><code>block</code></strong>=<em><code>'BasicBlock'</code></em>, <strong><code>layer_szs</code></strong>=<em><code>[64, 128, 256]</code></em>, <strong><code>blocks</code></strong>=<em><code>[2, 2, 2, 2]</code></em>, <strong><code>head</code></strong>=<em><code>'Head'</code></em>, <strong><code>c_in</code></strong>=<em><code>3</code></em>, <strong><code>num_classes</code></strong>=<em><code>1000</code></em>, <strong><code>body_in</code></strong>=<em><code>64</code></em>, <strong><code>body_out</code></strong>=<em><code>512</code></em>, <strong><code>expansion</code></strong>=<em><code>1</code></em>, <strong><code>bn_1st</code></strong>=<em><code>False</code></em>, <strong><code>init_type</code></strong>=<em><code>'normal'</code></em>, <strong>**<code>kwargs</code></strong>) :: <code>Sequential</code></p>
+<h2 id="Net" class="doc_header"><code>class</code> <code>Net</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/constructor.py#L89" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>Net</code>(<strong><code>stem</code></strong>=<em><code>'Stem'</code></em>, <strong><code>body</code></strong>=<em><code>'Body'</code></em>, <strong><code>block</code></strong>=<em><code>'BasicBlock'</code></em>, <strong><code>layer_szs</code></strong>=<em><code>[64, 128, 256]</code></em>, <strong><code>blocks</code></strong>=<em><code>[2, 2, 2, 2]</code></em>, <strong><code>head</code></strong>=<em><code>'Head'</code></em>, <strong><code>c_in</code></strong>=<em><code>3</code></em>, <strong><code>num_classes</code></strong>=<em><code>1000</code></em>, <strong><code>body_in</code></strong>=<em><code>64</code></em>, <strong><code>body_out</code></strong>=<em><code>512</code></em>, <strong><code>expansion</code></strong>=<em><code>1</code></em>, <strong><code>bn_1st</code></strong>=<em><code>False</code></em>, <strong><code>init_type</code></strong>=<em><code>'normal'</code></em>, <strong>**<code>kwargs</code></strong>) :: <code>Sequential</code></p>
 </blockquote>
 <p>Constructor for model</p>
 
@@ -2134,7 +2020,8 @@ summary: "Create pytorch model."
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="fin">fin<a class="anchor-link" href="#fin">&#182;</a></h1>
+<h1 id="model_constructor">model_constructor<a class="anchor-link" href="#model_constructor">&#182;</a></h1><p>by ayasyrev</p>
+
 </div>
 </div>
 </div>

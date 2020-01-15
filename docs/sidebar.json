@@ -2,6 +2,7 @@
   "model_constructor": {
     "Overview": "/",
     "model_constructor": "/constructor",
+    "Layers": "/layers",
     "resnet": "/resnet"
   }
 }
