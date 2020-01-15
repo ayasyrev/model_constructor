@@ -17,7 +17,7 @@ _
 
 ## Install
 
-`pip install model_constructor`
+`pip install model-constructor`
 
 ## How to use
 
@@ -35,21 +35,9 @@ model = Net()
 
 # Resnet as example
 
-Predefined Resnet18 and Resnet34
-<div class="codecell" markdown="1">
-<div class="input_area" markdown="1">
-
-```python
-model = resnet34(num_classes=10)
-```
-
-</div>
-
-</div>
-
 But it can be created as:
 
-If you need, you can customize it, for example lets create resnet18 and resnet43
+Lets create resnet18 and resnet34 (default Net() is resnet34()).
 <div class="codecell" markdown="1">
 <div class="input_area" markdown="1">
 
@@ -65,6 +53,28 @@ resnet18 = Net(block=BasicBlock, blocks=[2, 2, 2, 2])
 
 ```python
 resnet34 = Net(block=BasicBlock, blocks=[3, 4, 6, 3])
+```
+
+</div>
+
+</div>
+
+Predefined Resnet18 and Resnet34.
+<div class="codecell" markdown="1">
+<div class="input_area" markdown="1">
+
+```python
+from model_constructor.resnet import *
+```
+
+</div>
+
+</div>
+<div class="codecell" markdown="1">
+<div class="input_area" markdown="1">
+
+```python
+model = resnet34(num_classes=10)
 ```
 
 </div>

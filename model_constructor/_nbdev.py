@@ -11,10 +11,11 @@ index = {"ConvLayer": "00_constructor.ipynb",
          "Head": "00_constructor.ipynb",
          "init_model": "00_constructor.ipynb",
          "Net": "00_constructor.ipynb",
-         "resnet18": "00_constructor.ipynb",
-         "resnet34": "00_constructor.ipynb"}
+         "resnet18": "01_resnet.ipynb",
+         "resnet34": "01_resnet.ipynb"}
 
-modules = ["constructor.py"]
+modules = ["constructor.py",
+           "resnet.py"]
 
 doc_url = "https://ayasyrev.github.io/model_constructor/"
 

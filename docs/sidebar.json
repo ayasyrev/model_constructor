@@ -1,6 +1,7 @@
 {
   "model_constructor": {
     "Overview": "/",
-    "model_constructor": "/constructor"
+    "model_constructor": "/constructor",
+    "resnet": "/resnet"
   }
 }

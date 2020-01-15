@@ -12,6 +12,9 @@ entries:
     - output: web,pdf
       title: model_constructor
       url: /constructor
+    - output: web,pdf
+      title: resnet
+      url: /resnet
     output: web
     title: model_constructor
   output: web
