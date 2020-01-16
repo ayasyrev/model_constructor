@@ -18,6 +18,9 @@ entries:
     - output: web,pdf
       title: resnet
       url: /resnet
+    - output: web,pdf
+      title: xresnet
+      url: /xresnet
     output: web
     title: model_constructor
   output: web

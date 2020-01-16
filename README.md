@@ -57,7 +57,7 @@ resnet34 = Net(block=BasicBlock, blocks=[3, 4, 6, 3])
 
 </div>
 
-Predefined Resnet18 and Resnet34.
+# Predefined Resnet models - 18, 34, 50.
 <div class="codecell" markdown="1">
 <div class="input_area" markdown="1">
 
@@ -78,12 +78,46 @@ model = resnet34(num_classes=10)
 </div>
 
 </div>
+<div class="codecell" markdown="1">
+<div class="input_area" markdown="1">
+
+```python
+model = resnet50(num_classes=10)
+```
+
+</div>
+
+</div>
+
+# Predefined Xresnet from fastai 1.
+
+This ie simplified version from fastai v1. I did refactoring for better understand and experime with models. For example, change activation funtions, different stems, batchnorm and activation order etc. In v2 much powerfull realisation.
+<div class="codecell" markdown="1">
+<div class="input_area" markdown="1">
+
+```python
+from model_constructor.xresnet import *
+```
+
+</div>
+
+</div>
+<div class="codecell" markdown="1">
+<div class="input_area" markdown="1">
+
+```python
+model = xresnet50()
+```
+
+</div>
+
+</div>
 
 # Some examples
 
 We can experiment with models by changing some parts of model. Here only base functionality, but it can be easily extanded.
 
-Here some examples:
+Here is some examples:
     
 
 ## Custom stem
@@ -93,7 +127,7 @@ Stem with 3 conv layers
 <div class="input_area" markdown="1">
 
 ```python
-model = Net(stem=partial(Stem, sizes=[32, 32]))
+model = Net(stem=partial(Stem, stem_sizes=[32, 32]))
 ```
 
 </div>
@@ -115,19 +149,67 @@ model.stem
     Stem(
       sizes: [3, 32, 32, 64]
       (conv0): ConvLayer(
-        (conv): Conv2d(3, 32, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1))
-        (act_fn): ReLU(inplace=True)
+        (conv): Conv2d(3, 32, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
         (bn): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act_fn): ReLU(inplace=True)
       )
       (conv1): ConvLayer(
-        (conv): Conv2d(32, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
-        (act_fn): ReLU(inplace=True)
+        (conv): Conv2d(32, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
         (bn): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act_fn): ReLU(inplace=True)
       )
       (conv2): ConvLayer(
-        (conv): Conv2d(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
-        (act_fn): ReLU(inplace=True)
+        (conv): Conv2d(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
         (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act_fn): ReLU(inplace=True)
+      )
+      (pool): MaxPool2d(kernel_size=3, stride=2, padding=1, dilation=1, ceil_mode=False)
+    )
+
+
+
+</div>
+
+</div>
+<div class="codecell" markdown="1">
+<div class="input_area" markdown="1">
+
+```python
+model = Net(stem_sizes=[32, 64])
+```
+
+</div>
+
+</div>
+<div class="codecell" markdown="1">
+<div class="input_area" markdown="1">
+
+```python
+model.stem
+```
+
+</div>
+<div class="output_area" markdown="1">
+
+
+
+
+    Stem(
+      sizes: [3, 32, 64, 64]
+      (conv0): ConvLayer(
+        (conv): Conv2d(3, 32, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
+        (bn): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act_fn): ReLU(inplace=True)
+      )
+      (conv1): ConvLayer(
+        (conv): Conv2d(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act_fn): ReLU(inplace=True)
+      )
+      (conv2): ConvLayer(
+        (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act_fn): ReLU(inplace=True)
       )
       (pool): MaxPool2d(kernel_size=3, stride=2, padding=1, dilation=1, ceil_mode=False)
     )
@@ -165,9 +247,9 @@ model.stem
     Stem(
       sizes: [3, 64]
       (conv0): ConvLayer(
-        (conv): Conv2d(3, 64, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1))
-        (act_fn): ReLU(inplace=True)
+        (conv): Conv2d(3, 64, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
         (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act_fn): ReLU(inplace=True)
       )
       (pool): MaxPool2d(kernel_size=3, stride=2, padding=1, dilation=1, ceil_mode=False)
     )
@@ -216,9 +298,9 @@ model.stem
     Stem(
       sizes: [3, 64]
       (conv0): ConvLayer(
-        (conv): Conv2d(3, 64, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1))
-        (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
+        (conv): Conv2d(3, 64, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
         (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
       )
       (pool): MaxPool2d(kernel_size=3, stride=2, padding=1, dilation=1, ceil_mode=False)
     )
@@ -242,7 +324,7 @@ model.body.layer_0.block_0.conv.conv_0
 
 
     ConvLayer(
-      (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+      (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
       (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
       (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
     )

@@ -43,7 +43,7 @@ summary: "Basic layers for constructor."
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="ConvLayer" class="doc_header"><code>class</code> <code>ConvLayer</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/layers.py#L13" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>ConvLayer</code>(<strong><code>ni</code></strong>, <strong><code>nf</code></strong>, <strong><code>ks</code></strong>=<em><code>3</code></em>, <strong><code>stride</code></strong>=<em><code>1</code></em>, <strong><code>act</code></strong>=<em><code>True</code></em>, <strong><code>act_fn</code></strong>=<em><code>ReLU(inplace=True)</code></em>, <strong><code>bn_layer</code></strong>=<em><code>True</code></em>, <strong><code>bn_1st</code></strong>=<em><code>False</code></em>, <strong><code>zero_bn</code></strong>=<em><code>False</code></em>, <strong><code>padding</code></strong>=<em><code>None</code></em>, <strong><code>bias</code></strong>=<em><code>True</code></em>, <strong><code>groups</code></strong>=<em><code>1</code></em>) :: <code>Sequential</code></p>
+<h2 id="ConvLayer" class="doc_header"><code>class</code> <code>ConvLayer</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/layers.py#L13" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>ConvLayer</code>(<strong><code>ni</code></strong>, <strong><code>nf</code></strong>, <strong><code>ks</code></strong>=<em><code>3</code></em>, <strong><code>stride</code></strong>=<em><code>1</code></em>, <strong><code>act</code></strong>=<em><code>True</code></em>, <strong><code>act_fn</code></strong>=<em><code>ReLU(inplace=True)</code></em>, <strong><code>bn_layer</code></strong>=<em><code>True</code></em>, <strong><code>bn_1st</code></strong>=<em><code>True</code></em>, <strong><code>zero_bn</code></strong>=<em><code>False</code></em>, <strong><code>padding</code></strong>=<em><code>None</code></em>, <strong><code>bias</code></strong>=<em><code>False</code></em>, <strong><code>groups</code></strong>=<em><code>1</code></em>, <strong>**<code>kwargs</code></strong>) :: <code>Sequential</code></p>
 </blockquote>
 <p>Basic conv layers block</p>
 
@@ -77,9 +77,9 @@ summary: "Basic layers for constructor."
 
 <div class="output_text output_subarea output_execute_result">
 <pre>ConvLayer(
-  (conv): Conv2d(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
-  (act_fn): ReLU(inplace=True)
+  (conv): Conv2d(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
   (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+  (act_fn): ReLU(inplace=True)
 )</pre>
 </div>
 
@@ -111,7 +111,7 @@ summary: "Basic layers for constructor."
 
 <div class="output_text output_subarea output_execute_result">
 <pre>ConvLayer(
-  (conv): Conv2d(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+  (conv): Conv2d(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
   (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
 )</pre>
 </div>
@@ -144,7 +144,7 @@ summary: "Basic layers for constructor."
 
 <div class="output_text output_subarea output_execute_result">
 <pre>ConvLayer(
-  (conv): Conv2d(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+  (conv): Conv2d(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
   (act_fn): ReLU(inplace=True)
 )</pre>
 </div>
@@ -177,7 +177,7 @@ summary: "Basic layers for constructor."
 
 <div class="output_text output_subarea output_execute_result">
 <pre>ConvLayer(
-  (conv): Conv2d(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+  (conv): Conv2d(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
   (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
   (act_fn): ReLU(inplace=True)
 )</pre>

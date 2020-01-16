@@ -3,6 +3,7 @@
     "Overview": "/",
     "model_constructor": "/constructor",
     "Layers": "/layers",
-    "resnet": "/resnet"
+    "resnet": "/resnet",
+    "xresnet": "/xresnet"
   }
 }

@@ -4,6 +4,7 @@ __all__ = ["index", "modules", "custom_doc_links", "git_url"]
 
 index = {"Stem": "00_constructor.ipynb",
          "BasicBlock": "00_constructor.ipynb",
+         "BasicLayer": "00_constructor.ipynb",
          "Body": "00_constructor.ipynb",
          "Head": "00_constructor.ipynb",
          "init_model": "00_constructor.ipynb",
@@ -15,11 +16,16 @@ index = {"Stem": "00_constructor.ipynb",
          "Bottleneck": "02_resnet.ipynb",
          "resnet18": "02_resnet.ipynb",
          "resnet34": "02_resnet.ipynb",
-         "resnet50": "02_resnet.ipynb"}
+         "resnet50": "02_resnet.ipynb",
+         "ResBlock": "03_xresnet.ipynb",
+         "xresnet18": "03_xresnet.ipynb",
+         "xresnet34": "03_xresnet.ipynb",
+         "xresnet50": "03_xresnet.ipynb"}
 
 modules = ["constructor.py",
            "layers.py",
-           "resnet.py"]
+           "resnet.py",
+           "xresnet.py"]
 
 doc_url = "https://ayasyrev.github.io/model_constructor/"
 
