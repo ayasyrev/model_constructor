@@ -18,8 +18,9 @@ class Stem(nn.Sequential):
         num_layers = len(self.sizes)-1
         stem = [(f"conv{i}", conv_layer(self.sizes[i], self.sizes[i+1],
                 stride=2 if i==stride_on else 1, act=True,
-                bn_layer=not use_bn if i==num_layers-1 else True, **kwargs
-                )) for i in range(num_layers)]
+                bn_layer=not use_bn if i==num_layers-1 else True,
+                bn_1st=bn_1st, **kwargs))
+                    for i in range(num_layers)]
         if pool: stem += [('pool', nn.MaxPool2d(kernel_size=3, stride=2, padding=1))]
         if use_bn: stem.append(('bn', nn.BatchNorm2d(stem_out)))
         super().__init__(OrderedDict(stem))
@@ -109,8 +110,6 @@ class Net(nn.Sequential):
                  body_in=64, body_out=512, expansion=1,
                  bn_1st=False,
                 init_type='normal', **kwargs):
-        # c_in = 3
-        # block_szs  = [64,128,128,256,256,512]
         super().__init__(OrderedDict([
             ('stem', stem(c_in=c_in,stem_out=body_in, **kwargs)),
             ('body', body(block, body_in, body_out,
