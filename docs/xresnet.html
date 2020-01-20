@@ -33,41 +33,6 @@ summary: "Xresnet models. As in fastai v1, refactored."
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># class ResBlock(nn.Module):</span>
-<span class="c1">#     def __init__(self, ni, nh, expansion=1, stride=1, conv_layer=ConvLayer, </span>
-<span class="c1">#                  act_fn=act_fn, **kwargs):</span>
-<span class="c1">#         super().__init__()</span>
-<span class="c1"># #         print(f&quot;ni {ni}, nh {nh}, exp {expansion}, stride {stride}&quot;)</span>
-<span class="c1">#         nf,ni = nh*expansion,ni*expansion</span>
-<span class="c1"># #         print(f&quot;new ni {ni}, nf {nf}&quot;)</span>
-<span class="c1">#         layers  = [(&#39;conv_0&#39;, conv_layer(ni, nh, 3, stride=stride)),</span>
-<span class="c1">#                    (&#39;conv_1&#39;, conv_layer(nh, nf, 3, zero_bn=True, act=False))</span>
-<span class="c1">#         ] if expansion == 1 else [</span>
-<span class="c1">#                    (&#39;conv_0&#39;, conv_layer(ni, nh, 1)),</span>
-<span class="c1">#                    (&#39;conv_1&#39;, conv_layer(nh, nh, 3, stride=stride)),</span>
-<span class="c1">#                    (&#39;conv_2&#39;, conv_layer(nh, nf, 1, zero_bn=True, act=False))</span>
-<span class="c1">#         ]</span>
-<span class="c1">#         self.convs = nn.Sequential(OrderedDict(layers))</span>
-<span class="c1">#         # TODO: check whether act=True works better</span>
-<span class="c1">#         identity = [] if stride==1 else [(&#39;pool&#39;, nn.AvgPool2d(2, ceil_mode=True))]</span>
-<span class="c1">#         identity += [] if ni==nf else [(&#39;idconv&#39;, conv_layer(ni, nf, 1, act=False))]</span>
-<span class="c1">#         self.identity = Noop() if identity==[] else nn.Sequential(OrderedDict(identity))</span>
-<span class="c1">#         self.merge = Noop() # us it to visualize in repr residual connection</span>
-<span class="c1">#         self.act_fn = act_fn</span>
-
-<span class="c1">#     def forward(self, x): return self.act_fn(self.merge(self.convs(x) + self.identity(x)))</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">body</span> <span class="o">=</span> <span class="n">Body</span><span class="p">(</span><span class="n">ResBlock</span><span class="p">,</span> <span class="n">expansion</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
 <span class="n">body</span>
 </pre></div>
