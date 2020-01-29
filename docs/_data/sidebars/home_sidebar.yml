@@ -22,8 +22,8 @@ entries:
       title: xresnet
       url: /xresnet
     - output: web,pdf
-      title: Layers_tests
-      url: /test_layers
+      title: Title
+      url: /test_xresnet
     output: web
     title: model_constructor
   output: web

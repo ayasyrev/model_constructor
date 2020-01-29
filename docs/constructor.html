@@ -78,7 +78,7 @@ summary: "Create pytorch model."
 <div class="output_text output_subarea output_execute_result">
 <pre>Stem(
   sizes: [3, 64]
-  (conv0): ConvLayer(
+  (conv_0): ConvLayer(
     (conv): Conv2d(3, 64, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
     (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
     (act_fn): ReLU(inplace=True)
@@ -98,7 +98,7 @@ summary: "Create pytorch model."
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">xb</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="mi">128</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">xb</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="mi">128</span><span class="p">)</span>
 <span class="n">y</span> <span class="o">=</span> <span class="n">stem</span><span class="p">(</span><span class="n">xb</span><span class="p">)</span>
 <span class="n">y</span><span class="o">.</span><span class="n">shape</span>
 </pre></div>
@@ -115,7 +115,7 @@ summary: "Create pytorch model."
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>torch.Size([64, 64, 32, 32])</pre>
+<pre>torch.Size([8, 64, 32, 32])</pre>
 </div>
 
 </div>
@@ -147,7 +147,7 @@ summary: "Create pytorch model."
 <div class="output_text output_subarea output_execute_result">
 <pre>Stem(
   sizes: [3, 64]
-  (conv0): ConvLayer(
+  (conv_0): ConvLayer(
     (conv): Conv2d(3, 64, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
     (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
     (act_fn): ReLU(inplace=True)
@@ -167,7 +167,7 @@ summary: "Create pytorch model."
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">xb</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="mi">128</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">xb</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="mi">128</span><span class="p">)</span>
 <span class="n">y</span> <span class="o">=</span> <span class="n">stem</span><span class="p">(</span><span class="n">xb</span><span class="p">)</span>
 <span class="n">y</span><span class="o">.</span><span class="n">shape</span>
 </pre></div>
@@ -184,7 +184,7 @@ summary: "Create pytorch model."
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>torch.Size([64, 64, 32, 32])</pre>
+<pre>torch.Size([8, 64, 32, 32])</pre>
 </div>
 
 </div>
@@ -216,12 +216,12 @@ summary: "Create pytorch model."
 <div class="output_text output_subarea output_execute_result">
 <pre>Stem(
   sizes: [3, 32, 64]
-  (conv0): ConvLayer(
+  (conv_0): ConvLayer(
     (conv): Conv2d(3, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
     (bn): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
     (act_fn): ReLU(inplace=True)
   )
-  (conv1): ConvLayer(
+  (conv_1): ConvLayer(
     (conv): Conv2d(32, 64, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
     (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
     (act_fn): ReLU(inplace=True)
@@ -241,7 +241,7 @@ summary: "Create pytorch model."
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">xb</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="mi">128</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">xb</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="mi">128</span><span class="p">)</span>
 <span class="n">y</span> <span class="o">=</span> <span class="n">stem</span><span class="p">(</span><span class="n">xb</span><span class="p">)</span>
 <span class="n">y</span><span class="o">.</span><span class="n">shape</span>
 </pre></div>
@@ -258,7 +258,7 @@ summary: "Create pytorch model."
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>torch.Size([64, 64, 32, 32])</pre>
+<pre>torch.Size([8, 64, 32, 32])</pre>
 </div>
 
 </div>
@@ -303,12 +303,12 @@ summary: "Create pytorch model."
 <div class="output_text output_subarea output_execute_result">
 <pre>Stem(
   sizes: [3, 32, 64]
-  (conv0): ConvLayer(
+  (conv_0): ConvLayer(
     (conv): Conv2d(3, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
     (act_fn): ReLU(inplace=True)
     (bn): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
   )
-  (conv1): ConvLayer(
+  (conv_1): ConvLayer(
     (conv): Conv2d(32, 64, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
     (act_fn): ReLU(inplace=True)
     (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
@@ -331,12 +331,6 @@ summary: "Create pytorch model."
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="BasicBlock">BasicBlock<a class="anchor-link" href="#BasicBlock">&#182;</a></h2>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Body-constructor">Body constructor<a class="anchor-link" href="#Body-constructor">&#182;</a></h2>
 </div>
 </div>
@@ -353,7 +347,7 @@ summary: "Create pytorch model."
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="BasicLayer" class="doc_header"><code>class</code> <code>BasicLayer</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/constructor.py#L32" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>BasicLayer</code>(<strong><code>block</code></strong>, <strong><code>blocks</code></strong>, <strong><code>ni</code></strong>, <strong><code>nf</code></strong>, <strong><code>expansion</code></strong>, <strong><code>stride</code></strong>, <strong>**<code>kwargs</code></strong>) :: <code>Sequential</code></p>
+<h2 id="BasicLayer" class="doc_header"><code>class</code> <code>BasicLayer</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/constructor.py#L32" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>BasicLayer</code>(<strong><code>block</code></strong>, <strong><code>blocks</code></strong>, <strong><code>ni</code></strong>, <strong><code>nf</code></strong>, <strong><code>expansion</code></strong>, <strong><code>stride</code></strong>, <strong><code>sa</code></strong>=<em><code>False</code></em>, <strong>**<code>kwargs</code></strong>) :: <code>Sequential</code></p>
 </blockquote>
 <p>Layer from blocks</p>
 
@@ -374,7 +368,7 @@ summary: "Create pytorch model."
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="Body" class="doc_header"><code>class</code> <code>Body</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/constructor.py#L46" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>Body</code>(<strong><code>block</code></strong>, <strong><code>body_in</code></strong>=<em><code>64</code></em>, <strong><code>body_out</code></strong>=<em><code>512</code></em>, <strong><code>bodylayer</code></strong>=<em><code>'BasicLayer'</code></em>, <strong><code>expansion</code></strong>=<em><code>1</code></em>, <strong><code>layer_szs</code></strong>=<em><code>[64, 128, 256]</code></em>, <strong><code>blocks</code></strong>=<em><code>[2, 2, 2, 2]</code></em>, <strong>**<code>kwargs</code></strong>) :: <code>Sequential</code></p>
+<h2 id="Body" class="doc_header"><code>class</code> <code>Body</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/constructor.py#L48" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>Body</code>(<strong><code>block</code></strong>, <strong><code>body_in</code></strong>=<em><code>64</code></em>, <strong><code>body_out</code></strong>=<em><code>512</code></em>, <strong><code>bodylayer</code></strong>=<em><code>'BasicLayer'</code></em>, <strong><code>expansion</code></strong>=<em><code>1</code></em>, <strong><code>layer_szs</code></strong>=<em><code>[64, 128, 256]</code></em>, <strong><code>blocks</code></strong>=<em><code>[2, 2, 2, 2]</code></em>, <strong><code>sa</code></strong>=<em><code>False</code></em>, <strong>**<code>kwargs</code></strong>) :: <code>Sequential</code></p>
 </blockquote>
 <p>Constructor for body</p>
 
@@ -420,7 +414,6 @@ summary: "Create pytorch model."
         (conv_1): ConvLayer(
           (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
           (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-          (act_fn): ReLU(inplace=True)
         )
       )
       (merge): Noop()
@@ -436,7 +429,6 @@ summary: "Create pytorch model."
         (conv_1): ConvLayer(
           (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
           (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-          (act_fn): ReLU(inplace=True)
         )
       )
       (merge): Noop()
@@ -455,7 +447,6 @@ summary: "Create pytorch model."
         (conv_1): ConvLayer(
           (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
           (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-          (act_fn): ReLU(inplace=True)
         )
       )
       (downsample): ConvLayer(
@@ -475,7 +466,6 @@ summary: "Create pytorch model."
         (conv_1): ConvLayer(
           (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
           (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-          (act_fn): ReLU(inplace=True)
         )
       )
       (merge): Noop()
@@ -494,7 +484,6 @@ summary: "Create pytorch model."
         (conv_1): ConvLayer(
           (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
           (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-          (act_fn): ReLU(inplace=True)
         )
       )
       (downsample): ConvLayer(
@@ -514,7 +503,6 @@ summary: "Create pytorch model."
         (conv_1): ConvLayer(
           (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
           (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-          (act_fn): ReLU(inplace=True)
         )
       )
       (merge): Noop()
@@ -533,7 +521,6 @@ summary: "Create pytorch model."
         (conv_1): ConvLayer(
           (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
           (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-          (act_fn): ReLU(inplace=True)
         )
       )
       (downsample): ConvLayer(
@@ -553,7 +540,6 @@ summary: "Create pytorch model."
         (conv_1): ConvLayer(
           (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
           (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-          (act_fn): ReLU(inplace=True)
         )
       )
       (merge): Noop()
@@ -577,7 +563,8 @@ summary: "Create pytorch model."
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">bs</span> <span class="o">=</span> <span class="mi">8</span>
 <span class="n">xb</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">bs</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">32</span><span class="p">)</span>
 <span class="n">y</span> <span class="o">=</span> <span class="n">body</span><span class="p">(</span><span class="n">xb</span><span class="p">)</span>
-<span class="n">y</span><span class="o">.</span><span class="n">shape</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="k">assert</span> <span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="o">==</span><span class="n">torch</span><span class="o">.</span><span class="n">Size</span><span class="p">([</span><span class="n">bs</span><span class="p">,</span> <span class="mi">512</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>
 </pre></div>
 
     </div>
@@ -589,27 +576,12 @@ summary: "Create pytorch model."
 
 <div class="output_area">
 
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>torch.Size([8, 512, 4, 4])</pre>
-</div>
-
-</div>
-
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>torch.Size([8, 512, 4, 4])
+</pre>
 </div>
 </div>
 
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">assert</span> <span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="o">==</span><span class="n">torch</span><span class="o">.</span><span class="n">Size</span><span class="p">([</span><span class="n">bs</span><span class="p">,</span> <span class="mi">512</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>
-</pre></div>
-
-    </div>
 </div>
 </div>
 
@@ -632,7 +604,7 @@ summary: "Create pytorch model."
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="Head" class="doc_header"><code>class</code> <code>Head</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/constructor.py#L63" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>Head</code>(<strong><code>ni</code></strong>, <strong><code>nf</code></strong>, <strong>**<code>kwargs</code></strong>) :: <code>Sequential</code></p>
+<h2 id="Head" class="doc_header"><code>class</code> <code>Head</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/constructor.py#L67" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>Head</code>(<strong><code>ni</code></strong>, <strong><code>nf</code></strong>, <strong>**<code>kwargs</code></strong>) :: <code>Sequential</code></p>
 </blockquote>
 <p>base head</p>
 
@@ -707,7 +679,7 @@ summary: "Create pytorch model."
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="init_model" class="doc_header"><code>init_model</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/constructor.py#L73" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>init_model</code>(<strong><code>model</code></strong>, <strong><code>zero_bn</code></strong>=<em><code>False</code></em>)</p>
+<h4 id="init_model" class="doc_header"><code>init_model</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/constructor.py#L77" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>init_model</code>(<strong><code>model</code></strong>, <strong><code>nonlinearity</code></strong>=<em><code>'relu'</code></em>)</p>
 </blockquote>
 <p>Init model</p>
 
@@ -731,7 +703,7 @@ summary: "Create pytorch model."
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="Net" class="doc_header"><code>class</code> <code>Net</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/constructor.py#L80" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>Net</code>(<strong><code>stem</code></strong>=<em><code>'Stem'</code></em>, <strong><code>body</code></strong>=<em><code>'Body'</code></em>, <strong><code>block</code></strong>=<em><code>'BasicBlock'</code></em>, <strong><code>layer_szs</code></strong>=<em><code>[64, 128, 256]</code></em>, <strong><code>blocks</code></strong>=<em><code>[2, 2, 2, 2]</code></em>, <strong><code>head</code></strong>=<em><code>'Head'</code></em>, <strong><code>c_in</code></strong>=<em><code>3</code></em>, <strong><code>num_classes</code></strong>=<em><code>1000</code></em>, <strong><code>body_in</code></strong>=<em><code>64</code></em>, <strong><code>body_out</code></strong>=<em><code>512</code></em>, <strong><code>expansion</code></strong>=<em><code>1</code></em>, <strong><code>init_type</code></strong>=<em><code>'normal'</code></em>, <strong>**<code>kwargs</code></strong>) :: <code>Sequential</code></p>
+<h2 id="Net" class="doc_header"><code>class</code> <code>Net</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/constructor.py#L84" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>Net</code>(<strong><code>stem</code></strong>=<em><code>'Stem'</code></em>, <strong><code>body</code></strong>=<em><code>'Body'</code></em>, <strong><code>block</code></strong>=<em><code>'BasicBlock'</code></em>, <strong><code>sa</code></strong>=<em><code>False</code></em>, <strong><code>layer_szs</code></strong>=<em><code>[64, 128, 256]</code></em>, <strong><code>blocks</code></strong>=<em><code>[2, 2, 2, 2]</code></em>, <strong><code>head</code></strong>=<em><code>'Head'</code></em>, <strong><code>c_in</code></strong>=<em><code>3</code></em>, <strong><code>num_classes</code></strong>=<em><code>1000</code></em>, <strong><code>body_in</code></strong>=<em><code>64</code></em>, <strong><code>body_out</code></strong>=<em><code>512</code></em>, <strong><code>expansion</code></strong>=<em><code>1</code></em>, <strong><code>init_fn</code></strong>=<em><code>'init_model'</code></em>, <strong>**<code>kwargs</code></strong>) :: <code>Sequential</code></p>
 </blockquote>
 <p>Constructor for model</p>
 
@@ -799,7 +771,6 @@ summary: "Create pytorch model."
           (conv_1): ConvLayer(
             (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
             (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-            (act_fn): ReLU(inplace=True)
           )
         )
         (merge): Noop()
@@ -815,7 +786,6 @@ summary: "Create pytorch model."
           (conv_1): ConvLayer(
             (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
             (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-            (act_fn): ReLU(inplace=True)
           )
         )
         (merge): Noop()
@@ -834,7 +804,6 @@ summary: "Create pytorch model."
           (conv_1): ConvLayer(
             (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
             (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-            (act_fn): ReLU(inplace=True)
           )
         )
         (downsample): ConvLayer(
@@ -854,7 +823,6 @@ summary: "Create pytorch model."
           (conv_1): ConvLayer(
             (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
             (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-            (act_fn): ReLU(inplace=True)
           )
         )
         (merge): Noop()
@@ -873,7 +841,6 @@ summary: "Create pytorch model."
           (conv_1): ConvLayer(
             (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
             (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-            (act_fn): ReLU(inplace=True)
           )
         )
         (downsample): ConvLayer(
@@ -893,7 +860,6 @@ summary: "Create pytorch model."
           (conv_1): ConvLayer(
             (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
             (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-            (act_fn): ReLU(inplace=True)
           )
         )
         (merge): Noop()
@@ -912,7 +878,6 @@ summary: "Create pytorch model."
           (conv_1): ConvLayer(
             (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
             (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-            (act_fn): ReLU(inplace=True)
           )
         )
         (downsample): ConvLayer(
@@ -932,7 +897,6 @@ summary: "Create pytorch model."
           (conv_1): ConvLayer(
             (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
             (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-            (act_fn): ReLU(inplace=True)
           )
         )
         (merge): Noop()
@@ -982,51 +946,6 @@ summary: "Create pytorch model."
 
 </div>
 
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">bs_test</span> <span class="o">=</span> <span class="mi">8</span>
-<span class="n">xb</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">bs_test</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="mi">128</span><span class="p">)</span>
-<span class="n">y</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">xb</span><span class="p">)</span>
-<span class="n">y</span><span class="o">.</span><span class="n">shape</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>torch.Size([8, 1000])</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">assert</span> <span class="n">y</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="n">torch</span><span class="o">.</span><span class="n">Size</span><span class="p">([</span><span class="n">bs_test</span><span class="p">,</span> <span class="mi">1000</span><span class="p">]),</span> <span class="sa">f</span><span class="s2">&quot;size expected </span><span class="si">{bs_test}</span><span class="s2">, 1000&quot;</span>
-</pre></div>
-
-    </div>
 </div>
 </div>
 

@@ -5,6 +5,6 @@
     "Layers": "/layers",
     "resnet": "/resnet",
     "xresnet": "/xresnet",
-    "Layers_tests": "/test_layers"
+    "Title": "/test_xresnet"
   }
 }

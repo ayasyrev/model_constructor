@@ -17,7 +17,7 @@ class Stem(nn.Sequential):
             stem_use_pool=True, stem_pool=nn.MaxPool2d(kernel_size=3, stride=2, padding=1), **kwargs):
         self.sizes = [c_in] + stem_sizes + [stem_out]
         num_layers = len(self.sizes)-1
-        stem = [(f"conv{i}", conv_layer(self.sizes[i], self.sizes[i+1],
+        stem = [(f"conv_{i}", conv_layer(self.sizes[i], self.sizes[i+1],
                 stride=2 if i==stride_on else 1, act=True,
                 bn_layer=not stem_bn_last if i==num_layers-1 else True,
                 bn_1st=bn_1st, **kwargs))
@@ -31,14 +31,16 @@ class Stem(nn.Sequential):
 # Cell
 class BasicLayer(nn.Sequential):
     '''Layer from blocks'''
-    def __init__(self, block, blocks, ni, nf, expansion, stride, **kwargs):
+    def __init__(self, block, blocks, ni, nf, expansion, stride, sa=False,**kwargs):
         self.ni = ni
         self.nf = nf
         self.blocks = blocks
         self.expansion = expansion
         super().__init__(OrderedDict(
             [(f'block_{i}', block(ni if i==0 else nf, nf, expansion,
-                               stride if i==0 else 1, **kwargs))
+                            stride if i==0 else 1,
+                            sa=sa if i==blocks-1 else False,
+                                  **kwargs))
               for i in range(blocks)]))
     def extra_repr(self):
         return f'from {self.ni*self.expansion} to {self.nf}, {self.blocks} blocks, expansion {self.expansion}.'
@@ -49,12 +51,14 @@ class Body(nn.Sequential):
                  body_in=64, body_out=512,
                  bodylayer=BasicLayer, expansion=1,
                  layer_szs=[64,128,256,], blocks=[2,2,2,2],
-                 **kwargs):
+                 sa=False, **kwargs):
         layer_szs = [body_in//expansion] + layer_szs + [body_out]
         num_layers = len(layer_szs)-1
         layers = [(f"layer_{i}", bodylayer(block, blocks[i],
                             layer_szs[i], layer_szs[i+1], expansion,
-                            1 if i==0 else 2,  **kwargs))
+                            1 if i==0 else 2,
+                            sa=sa if i==0 else False,
+                                           **kwargs))
                     for i in range(num_layers)]
         super().__init__(OrderedDict(layers))
 
@@ -70,27 +74,28 @@ class Head(nn.Sequential):
              ]))
 
 # Cell
-def init_model(model, zero_bn=False):
+def init_model(model, nonlinearity='relu'):
     '''Init model'''
     for m in model.modules():
             if isinstance(m, nn.Conv2d):
-                nn.init.kaiming_normal_(m.weight, mode='fan_out', nonlinearity='relu')
+                nn.init.kaiming_normal_(m.weight, mode='fan_out', nonlinearity=nonlinearity)
 
 # Cell
 class Net(nn.Sequential):
     '''Constructor for model'''
     def __init__(self,  stem=Stem,
-                 body=Body, block=BasicBlock,
+                 body=Body, block=BasicBlock, sa=False,
                  layer_szs=[64,128,256,], blocks=[2,2,2,2],
                  head=Head,
                  c_in=3,  num_classes=1000,
                  body_in=64, body_out=512, expansion=1,
-#                  bn_1st=True,
-                init_type='normal', **kwargs):
+                init_fn=init_model, **kwargs):
+        self.init_model=init_fn
         super().__init__(OrderedDict([
             ('stem', stem(c_in=c_in,stem_out=body_in, **kwargs)),
             ('body', body(block, body_in, body_out,
-                        layer_szs=layer_szs, blocks=blocks, expansion=expansion, **kwargs)),
+                        layer_szs=layer_szs, blocks=blocks, expansion=expansion,
+                        sa=sa, **kwargs)),
             ('head', head(body_out*expansion, num_classes, **kwargs))
             ]))
-        init_model(self)
+        self.init_model(self)
