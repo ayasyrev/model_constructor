@@ -74,11 +74,12 @@ class Head(nn.Sequential):
              ]))
 
 # Cell
-def init_model(model, nonlinearity='relu'):
+def init_model(model, nonlinearity='leaky_relu'):
     '''Init model'''
     for m in model.modules():
-            if isinstance(m, nn.Conv2d):
-                nn.init.kaiming_normal_(m.weight, mode='fan_out', nonlinearity=nonlinearity)
+#             if isinstance(m, nn.Conv2d):
+            if isinstance(m, (nn.Conv2d, nn.Linear)):
+                nn.init.kaiming_normal_(m.weight, mode='fan_in', nonlinearity=nonlinearity)
 
 # Cell
 class Net(nn.Sequential):
