@@ -29,11 +29,11 @@ class ResBlock(nn.Module):
                  pool=nn.AvgPool2d(2, ceil_mode=True), sa=False,sym=False):
         super().__init__()
         nf,ni = nh*expansion,ni*expansion
-        layers  = [(f"conv_0", conv_layer(ni, nh, 3, stride=stride)),
+        layers  = [(f"conv_0", conv_layer(ni, nh, 3, stride=stride, act_fn=act_fn)),
                    (f"conv_1", conv_layer(nh, nf, 3, zero_bn=zero_bn, act=False))
         ] if expansion == 1 else [
-                   (f"conv_0",conv_layer(ni, nh, 1)),
-                   (f"conv_1",conv_layer(nh, nh, 3, stride=stride)),
+                   (f"conv_0",conv_layer(ni, nh, 1, act_fn=act_fn)),
+                   (f"conv_1",conv_layer(nh, nh, 3, stride=stride, act_fn=act_fn)),
                    (f"conv_2",conv_layer(nh, nf, 1, zero_bn=zero_bn, act=False))
         ]
         if sa: layers.append(('sa', SimpleSelfAttention(nf,ks=1,sym=sym)))
@@ -86,8 +86,9 @@ class Net():
 
     def _make_stem(self):
         stem = [(f"conv_{i}", self.conv_layer(self.stem_sizes[i], self.stem_sizes[i+1],
-                        stride=2 if i==0 else 1,
-                        norm=(not self.stem_bn_end) if i==(len(self.stem_sizes)-2) else True))
+                    stride=2 if i==0 else 1,
+                    norm=(not self.stem_bn_end) if i==(len(self.stem_sizes)-2) else True,
+                    act_fn=self.act_fn, bn_1st=self.bn_1st))
                 for i in range(len(self.stem_sizes)-1)]
         stem.append(('stem_pool', self.stem_pool))
         if self.stem_bn_end: stem.append(('norm', self.norm(self.stem_sizes[-1])))
