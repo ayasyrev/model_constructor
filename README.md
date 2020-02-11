@@ -10,7 +10,11 @@ _
 
 ## How to use
 
-model = Net()
+### Classic way
+
+```python
+from model_constructor.constructor import *
+```
 
 ```python
 model = Net()
@@ -208,5 +212,33 @@ model.body.layer_0.block_0
       (merge): Noop()
       (act_conn): LeakyReLU(negative_slope=0.01, inplace=True)
     )
+
+
+
+# Class Net
+
+```python
+from model_constructor.net import *
+```
+
+```python
+Net
+```
+
+
+
+
+    model_constructor.net.Net
+
+
+
+```python
+xresnet50
+```
+
+
+
+
+    <model_constructor.net.Net at 0x7f459035c750>
 
 

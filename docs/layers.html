@@ -43,7 +43,7 @@ summary: "Basic layers for constructor."
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="ConvLayer" class="doc_header"><code>class</code> <code>ConvLayer</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/layers.py#L15" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>ConvLayer</code>(<strong><code>ni</code></strong>, <strong><code>nf</code></strong>, <strong><code>ks</code></strong>=<em><code>3</code></em>, <strong><code>stride</code></strong>=<em><code>1</code></em>, <strong><code>act</code></strong>=<em><code>True</code></em>, <strong><code>act_fn</code></strong>=<em><code>ReLU(inplace=True)</code></em>, <strong><code>bn_layer</code></strong>=<em><code>True</code></em>, <strong><code>bn_1st</code></strong>=<em><code>True</code></em>, <strong><code>zero_bn</code></strong>=<em><code>False</code></em>, <strong><code>padding</code></strong>=<em><code>None</code></em>, <strong><code>bias</code></strong>=<em><code>False</code></em>, <strong><code>groups</code></strong>=<em><code>1</code></em>, <strong>**<code>kwargs</code></strong>) :: <code>Sequential</code></p>
+<h2 id="ConvLayer" class="doc_header"><code>class</code> <code>ConvLayer</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/layers.py#L16" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>ConvLayer</code>(<strong><code>ni</code></strong>, <strong><code>nf</code></strong>, <strong><code>ks</code></strong>=<em><code>3</code></em>, <strong><code>stride</code></strong>=<em><code>1</code></em>, <strong><code>act</code></strong>=<em><code>True</code></em>, <strong><code>act_fn</code></strong>=<em><code>ReLU(inplace=True)</code></em>, <strong><code>bn_layer</code></strong>=<em><code>True</code></em>, <strong><code>bn_1st</code></strong>=<em><code>True</code></em>, <strong><code>zero_bn</code></strong>=<em><code>False</code></em>, <strong><code>padding</code></strong>=<em><code>None</code></em>, <strong><code>bias</code></strong>=<em><code>False</code></em>, <strong><code>groups</code></strong>=<em><code>1</code></em>, <strong>**<code>kwargs</code></strong>) :: <code>Sequential</code></p>
 </blockquote>
 <p>Basic conv layers block</p>
 
@@ -189,6 +189,40 @@ summary: "Basic layers for constructor."
 </div>
 
 </div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">conv_layer</span> <span class="o">=</span> <span class="n">ConvLayer</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="n">bn_1st</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">act_fn</span><span class="o">=</span><span class="n">nn</span><span class="o">.</span><span class="n">LeakyReLU</span><span class="p">())</span>
+<span class="n">conv_layer</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>ConvLayer(
+  (conv): Conv2d(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+  (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+  (act_fn): LeakyReLU(negative_slope=0.01)
+)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="Flatten">Flatten<a class="anchor-link" href="#Flatten">&#182;</a></h1>
@@ -207,7 +241,7 @@ summary: "Basic layers for constructor."
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="Flatten" class="doc_header"><code>class</code> <code>Flatten</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/layers.py#L35" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>Flatten</code>() :: <code>Module</code></p>
+<h2 id="Flatten" class="doc_header"><code>class</code> <code>Flatten</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/layers.py#L36" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>Flatten</code>() :: <code>Module</code></p>
 </blockquote>
 <p>flat x to vector</p>
 
@@ -237,7 +271,27 @@ summary: "Basic layers for constructor."
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="Noop" class="doc_header"><code>class</code> <code>Noop</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/layers.py#L42" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>Noop</code>() :: <code>Module</code></p>
+<h4 id="noop" class="doc_header"><code>noop</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/layers.py#L44" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>noop</code>(<strong><code>x</code></strong>)</p>
+</blockquote>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h2 id="Noop" class="doc_header"><code>class</code> <code>Noop</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/layers.py#L46" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>Noop</code>() :: <code>Module</code></p>
 </blockquote>
 <p>Dummy module for vizualize skip conn</p>
 
@@ -267,7 +321,7 @@ summary: "Basic layers for constructor."
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="DownsampleBlock" class="doc_header"><code>DownsampleBlock</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/layers.py#L51" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>DownsampleBlock</code>(<strong><code>conv_layer</code></strong>, <strong><code>ni</code></strong>, <strong><code>nf</code></strong>, <strong><code>ks</code></strong>, <strong><code>stride</code></strong>, <strong><code>act</code></strong>=<em><code>False</code></em>, <strong>**<code>kwargs</code></strong>)</p>
+<h4 id="DownsampleBlock" class="doc_header"><code>DownsampleBlock</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/layers.py#L55" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>DownsampleBlock</code>(<strong><code>conv_layer</code></strong>, <strong><code>ni</code></strong>, <strong><code>nf</code></strong>, <strong><code>ks</code></strong>, <strong><code>stride</code></strong>, <strong><code>act</code></strong>=<em><code>False</code></em>, <strong>**<code>kwargs</code></strong>)</p>
 </blockquote>
 <p>Base downsample for res-like blocks</p>
 
@@ -297,7 +351,7 @@ summary: "Basic layers for constructor."
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="BasicBlock" class="doc_header"><code>class</code> <code>BasicBlock</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/layers.py#L56" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>BasicBlock</code>(<strong><code>ni</code></strong>, <strong><code>nf</code></strong>, <strong><code>expansion</code></strong>=<em><code>1</code></em>, <strong><code>stride</code></strong>=<em><code>1</code></em>, <strong><code>zero_bn</code></strong>=<em><code>False</code></em>, <strong><code>conv_layer</code></strong>=<em><code>'ConvLayer'</code></em>, <strong><code>act_fn</code></strong>=<em><code>ReLU(inplace=True)</code></em>, <strong><code>downsample_block</code></strong>=<em><code>'DownsampleBlock'</code></em>, <strong>**<code>kwargs</code></strong>) :: <code>Module</code></p>
+<h2 id="BasicBlock" class="doc_header"><code>class</code> <code>BasicBlock</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/layers.py#L60" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>BasicBlock</code>(<strong><code>ni</code></strong>, <strong><code>nf</code></strong>, <strong><code>expansion</code></strong>=<em><code>1</code></em>, <strong><code>stride</code></strong>=<em><code>1</code></em>, <strong><code>zero_bn</code></strong>=<em><code>False</code></em>, <strong><code>conv_layer</code></strong>=<em><code>'ConvLayer'</code></em>, <strong><code>act_fn</code></strong>=<em><code>ReLU(inplace=True)</code></em>, <strong><code>downsample_block</code></strong>=<em><code>'DownsampleBlock'</code></em>, <strong>**<code>kwargs</code></strong>) :: <code>Module</code></p>
 </blockquote>
 <p>Basic block (simplified) as in pytorch resnet</p>
 
@@ -723,7 +777,7 @@ summary: "Basic layers for constructor."
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="Bottleneck" class="doc_header"><code>class</code> <code>Bottleneck</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/layers.py#L79" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>Bottleneck</code>(<strong><code>ni</code></strong>, <strong><code>nh</code></strong>, <strong><code>expansion</code></strong>=<em><code>4</code></em>, <strong><code>stride</code></strong>=<em><code>1</code></em>, <strong><code>zero_bn</code></strong>=<em><code>False</code></em>, <strong><code>conv_layer</code></strong>=<em><code>'ConvLayer'</code></em>, <strong><code>act_fn</code></strong>=<em><code>ReLU(inplace=True)</code></em>, <strong><code>downsample_block</code></strong>=<em><code>'DownsampleBlock'</code></em>, <strong>**<code>kwargs</code></strong>) :: <code>Module</code></p>
+<h2 id="Bottleneck" class="doc_header"><code>class</code> <code>Bottleneck</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/layers.py#L83" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>Bottleneck</code>(<strong><code>ni</code></strong>, <strong><code>nh</code></strong>, <strong><code>expansion</code></strong>=<em><code>4</code></em>, <strong><code>stride</code></strong>=<em><code>1</code></em>, <strong><code>zero_bn</code></strong>=<em><code>False</code></em>, <strong><code>conv_layer</code></strong>=<em><code>'ConvLayer'</code></em>, <strong><code>act_fn</code></strong>=<em><code>ReLU(inplace=True)</code></em>, <strong><code>downsample_block</code></strong>=<em><code>'DownsampleBlock'</code></em>, <strong>**<code>kwargs</code></strong>) :: <code>Module</code></p>
 </blockquote>
 <p>Bottlneck block for resnet models</p>
 
@@ -981,7 +1035,7 @@ summary: "Basic layers for constructor."
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="DownsampleLayer" class="doc_header"><code>class</code> <code>DownsampleLayer</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/layers.py#L106" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DownsampleLayer</code>(<strong><code>conv_layer</code></strong>, <strong><code>ni</code></strong>, <strong><code>nf</code></strong>, <strong><code>stride</code></strong>, <strong><code>act</code></strong>, <strong><code>pool</code></strong>=<em><code>AvgPool2d(kernel_size=2, stride=2, padding=0)</code></em>, <strong><code>pool_1st</code></strong>=<em><code>True</code></em>, <strong>**<code>kwargs</code></strong>) :: <code>Sequential</code></p>
+<h2 id="DownsampleLayer" class="doc_header"><code>class</code> <code>DownsampleLayer</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/layers.py#L110" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DownsampleLayer</code>(<strong><code>conv_layer</code></strong>, <strong><code>ni</code></strong>, <strong><code>nf</code></strong>, <strong><code>stride</code></strong>, <strong><code>act</code></strong>, <strong><code>pool</code></strong>=<em><code>AvgPool2d(kernel_size=2, stride=2, padding=0)</code></em>, <strong><code>pool_1st</code></strong>=<em><code>True</code></em>, <strong>**<code>kwargs</code></strong>) :: <code>Sequential</code></p>
 </blockquote>
 <p>Downsample layer for Xresnet Resblock</p>
 
@@ -1011,7 +1065,7 @@ summary: "Basic layers for constructor."
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="XResBlock" class="doc_header"><code>class</code> <code>XResBlock</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/layers.py#L117" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>XResBlock</code>(<strong><code>ni</code></strong>, <strong><code>nh</code></strong>, <strong><code>expansion</code></strong>=<em><code>1</code></em>, <strong><code>stride</code></strong>=<em><code>1</code></em>, <strong><code>zero_bn</code></strong>=<em><code>True</code></em>, <strong><code>conv_layer</code></strong>=<em><code>'ConvLayer'</code></em>, <strong><code>act_fn</code></strong>=<em><code>ReLU(inplace=True)</code></em>, <strong>**<code>kwargs</code></strong>) :: <code>Module</code></p>
+<h2 id="XResBlock" class="doc_header"><code>class</code> <code>XResBlock</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/layers.py#L121" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>XResBlock</code>(<strong><code>ni</code></strong>, <strong><code>nh</code></strong>, <strong><code>expansion</code></strong>=<em><code>1</code></em>, <strong><code>stride</code></strong>=<em><code>1</code></em>, <strong><code>zero_bn</code></strong>=<em><code>True</code></em>, <strong><code>conv_layer</code></strong>=<em><code>'ConvLayer'</code></em>, <strong><code>act_fn</code></strong>=<em><code>ReLU(inplace=True)</code></em>, <strong>**<code>kwargs</code></strong>) :: <code>Module</code></p>
 </blockquote>
 <p>Base class for all neural network modules.</p>
 <p>Your models should also subclass this class.</p>
@@ -1741,7 +1795,7 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="conv1d" class="doc_header"><code>conv1d</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/layers.py#L140" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>conv1d</code>(<strong><code>ni</code></strong>:<code>int</code>, <strong><code>no</code></strong>:<code>int</code>, <strong><code>ks</code></strong>:<code>int</code>=<em><code>1</code></em>, <strong><code>stride</code></strong>:<code>int</code>=<em><code>1</code></em>, <strong><code>padding</code></strong>:<code>int</code>=<em><code>0</code></em>, <strong><code>bias</code></strong>:<code>bool</code>=<em><code>False</code></em>)</p>
+<h4 id="conv1d" class="doc_header"><code>conv1d</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/layers.py#L144" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>conv1d</code>(<strong><code>ni</code></strong>:<code>int</code>, <strong><code>no</code></strong>:<code>int</code>, <strong><code>ks</code></strong>:<code>int</code>=<em><code>1</code></em>, <strong><code>stride</code></strong>:<code>int</code>=<em><code>1</code></em>, <strong><code>padding</code></strong>:<code>int</code>=<em><code>0</code></em>, <strong><code>bias</code></strong>:<code>bool</code>=<em><code>False</code></em>)</p>
 </blockquote>
 <p>Create and initialize a <code>nn.Conv1d</code> layer with spectral normalization.</p>
 
@@ -1762,7 +1816,7 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="SimpleSelfAttention" class="doc_header"><code>class</code> <code>SimpleSelfAttention</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/layers.py#L150" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>SimpleSelfAttention</code>(<strong><code>n_in</code></strong>:<code>int</code>, <strong><code>ks</code></strong>=<em><code>1</code></em>, <strong><code>sym</code></strong>=<em><code>False</code></em>) :: <code>Module</code></p>
+<h2 id="SimpleSelfAttention" class="doc_header"><code>class</code> <code>SimpleSelfAttention</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/layers.py#L154" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>SimpleSelfAttention</code>(<strong><code>n_in</code></strong>:<code>int</code>, <strong><code>ks</code></strong>=<em><code>1</code></em>, <strong><code>sym</code></strong>=<em><code>False</code></em>) :: <code>Module</code></p>
 </blockquote>
 <p>Base class for all neural network modules.</p>
 <p>Your models should also subclass this class.</p>
@@ -1812,7 +1866,7 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="ConvBlockBasic" class="doc_header"><code>class</code> <code>ConvBlockBasic</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/layers.py#L174" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>ConvBlockBasic</code>(<strong><code>conv_layer</code></strong>, <strong><code>ni</code></strong>, <strong><code>nh</code></strong>, <strong><code>nf</code></strong>, <strong><code>stride</code></strong>, <strong><code>zero_bn</code></strong>, <strong><code>act</code></strong>=<em><code>False</code></em>, <strong>**<code>kwargs</code></strong>) :: <code>Sequential</code></p>
+<h2 id="ConvBlockBasic" class="doc_header"><code>class</code> <code>ConvBlockBasic</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/layers.py#L178" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>ConvBlockBasic</code>(<strong><code>conv_layer</code></strong>, <strong><code>ni</code></strong>, <strong><code>nh</code></strong>, <strong><code>nf</code></strong>, <strong><code>stride</code></strong>, <strong><code>zero_bn</code></strong>, <strong><code>act</code></strong>=<em><code>False</code></em>, <strong>**<code>kwargs</code></strong>) :: <code>Sequential</code></p>
 </blockquote>
 <p>Block of conv layers for basic resblock</p>
 
@@ -1833,7 +1887,7 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="ConvBlockBottle" class="doc_header"><code>class</code> <code>ConvBlockBottle</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/layers.py#L182" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>ConvBlockBottle</code>(<strong><code>conv_layer</code></strong>, <strong><code>ni</code></strong>, <strong><code>nh</code></strong>, <strong><code>nf</code></strong>, <strong><code>stride</code></strong>, <strong><code>zero_bn</code></strong>, <strong><code>act</code></strong>=<em><code>False</code></em>, <strong>**<code>kwargs</code></strong>) :: <code>Sequential</code></p>
+<h2 id="ConvBlockBottle" class="doc_header"><code>class</code> <code>ConvBlockBottle</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/layers.py#L186" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>ConvBlockBottle</code>(<strong><code>conv_layer</code></strong>, <strong><code>ni</code></strong>, <strong><code>nh</code></strong>, <strong><code>nf</code></strong>, <strong><code>stride</code></strong>, <strong><code>zero_bn</code></strong>, <strong><code>act</code></strong>=<em><code>False</code></em>, <strong>**<code>kwargs</code></strong>) :: <code>Sequential</code></p>
 </blockquote>
 <p>Basic block of conv layers for resblock</p>
 
@@ -1902,27 +1956,7 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="noop" class="doc_header"><code>noop</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/layers.py#L192" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>noop</code>(<strong><code>x</code></strong>)</p>
-</blockquote>
-
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-<div class="output_markdown rendered_html output_subarea ">
-<h2 id="ResBlock" class="doc_header"><code>class</code> <code>ResBlock</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/layers.py#L194" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>ResBlock</code>(<strong><code>ni</code></strong>, <strong><code>nh</code></strong>, <strong><code>expansion</code></strong>=<em><code>1</code></em>, <strong><code>stride</code></strong>=<em><code>1</code></em>, <strong><code>conv_layer</code></strong>=<em><code>'ConvLayer'</code></em>, <strong><code>conv_block</code></strong>=<em><code>'ConvBlockBasic'</code></em>, <strong><code>downsample</code></strong>=<em><code>'DownsampleLayer'</code></em>, <strong><code>act_fn</code></strong>=<em><code>ReLU(inplace=True)</code></em>, <strong><code>zero_bn</code></strong>=<em><code>True</code></em>, <strong><code>sa</code></strong>=<em><code>False</code></em>, <strong><code>sym</code></strong>=<em><code>False</code></em>, <strong>**<code>kwargs</code></strong>) :: <code>Module</code></p>
+<h2 id="ResBlock" class="doc_header"><code>class</code> <code>ResBlock</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/layers.py#L196" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>ResBlock</code>(<strong><code>ni</code></strong>, <strong><code>nh</code></strong>, <strong><code>expansion</code></strong>=<em><code>1</code></em>, <strong><code>stride</code></strong>=<em><code>1</code></em>, <strong><code>conv_layer</code></strong>=<em><code>'ConvLayer'</code></em>, <strong><code>conv_block</code></strong>=<em><code>'ConvBlockBasic'</code></em>, <strong><code>downsample</code></strong>=<em><code>'DownsampleLayer'</code></em>, <strong><code>act_fn</code></strong>=<em><code>ReLU(inplace=True)</code></em>, <strong><code>act_id</code></strong>=<em><code>False</code></em>, <strong><code>zero_bn</code></strong>=<em><code>True</code></em>, <strong><code>sa</code></strong>=<em><code>False</code></em>, <strong><code>sym</code></strong>=<em><code>False</code></em>, <strong>**<code>kwargs</code></strong>) :: <code>Module</code></p>
 </blockquote>
 <p>Base class for all neural network modules.</p>
 <p>Your models should also subclass this class.</p>
@@ -1980,7 +2014,7 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
     (conv_0): ConvLayer(
       (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
       (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-      (act_fn): ReLU(inplace=True)
+      (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
     )
     (conv_1): ConvLayer(
       (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
@@ -1993,8 +2027,7 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
   (identity): DownsampleLayer(
     (pool): AvgPool2d(kernel_size=2, stride=2, padding=0)
   )
-  (merge): Noop()
-  (act_fn): ReLU(inplace=True)
+  (merge): LeakyReLU(negative_slope=0.01, inplace=True)
 )</pre>
 </div>
 
@@ -2012,7 +2045,8 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">bs</span> <span class="o">=</span> <span class="mi">8</span>
 <span class="n">xb</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">bs</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">32</span><span class="p">)</span>
 <span class="n">y</span> <span class="o">=</span> <span class="n">basicblock</span><span class="p">(</span><span class="n">xb</span><span class="p">)</span>
-<span class="n">y</span><span class="o">.</span><span class="n">shape</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="k">assert</span> <span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="o">==</span><span class="n">torch</span><span class="o">.</span><span class="n">Size</span><span class="p">([</span><span class="n">bs</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">16</span><span class="p">])</span>
 </pre></div>
 
     </div>
@@ -2024,27 +2058,12 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
 
 <div class="output_area">
 
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>torch.Size([8, 64, 16, 16])</pre>
-</div>
-
-</div>
-
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>torch.Size([8, 64, 16, 16])
+</pre>
 </div>
 </div>
 
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">assert</span> <span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="o">==</span><span class="n">torch</span><span class="o">.</span><span class="n">Size</span><span class="p">([</span><span class="n">bs</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">16</span><span class="p">])</span>
-</pre></div>
-
-    </div>
 </div>
 </div>
 
@@ -2075,7 +2094,7 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
     (conv_0): ConvLayer(
       (conv): Conv2d(64, 128, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
       (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-      (act_fn): ReLU(inplace=True)
+      (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
     )
     (conv_1): ConvLayer(
       (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
@@ -2089,8 +2108,7 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
       (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
     )
   )
-  (merge): Noop()
-  (act_fn): ReLU(inplace=True)
+  (merge): LeakyReLU(negative_slope=0.01, inplace=True)
 )</pre>
 </div>
 
@@ -2108,7 +2126,8 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">bs</span> <span class="o">=</span> <span class="mi">8</span>
 <span class="n">xb</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">bs</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">32</span><span class="p">)</span>
 <span class="n">y</span> <span class="o">=</span> <span class="n">basicblock</span><span class="p">(</span><span class="n">xb</span><span class="p">)</span>
-<span class="n">y</span><span class="o">.</span><span class="n">shape</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="k">assert</span> <span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="o">==</span><span class="n">torch</span><span class="o">.</span><span class="n">Size</span><span class="p">([</span><span class="n">bs</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">16</span><span class="p">])</span>
 </pre></div>
 
     </div>
@@ -2120,12 +2139,10 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
 
 <div class="output_area">
 
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>torch.Size([8, 128, 16, 16])</pre>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>torch.Size([8, 128, 16, 16])
+</pre>
 </div>
-
 </div>
 
 </div>
@@ -2137,7 +2154,7 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">assert</span> <span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="o">==</span><span class="n">torch</span><span class="o">.</span><span class="n">Size</span><span class="p">([</span><span class="n">bs</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">16</span><span class="p">])</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">act_fn</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">LeakyReLU</span><span class="p">(</span><span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -2150,7 +2167,7 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">bottle</span> <span class="o">=</span> <span class="n">ResBlock</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span><span class="n">conv_block</span><span class="o">=</span><span class="n">ConvBlockBottle</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">bottle</span> <span class="o">=</span> <span class="n">ResBlock</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span><span class="n">conv_block</span><span class="o">=</span><span class="n">ConvBlockBottle</span><span class="p">,</span> <span class="n">act_fn</span><span class="o">=</span><span class="n">act_fn</span><span class="p">)</span>
 <span class="n">bottle</span>
 </pre></div>
 
@@ -2171,12 +2188,12 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
     (conv_0): ConvLayer(
       (conv): Conv2d(64, 64, kernel_size=(1, 1), stride=(1, 1), bias=False)
       (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-      (act_fn): ReLU(inplace=True)
+      (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
     )
     (conv_1): ConvLayer(
       (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
       (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-      (act_fn): ReLU(inplace=True)
+      (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
     )
     (conv_2): ConvLayer(
       (conv): Conv2d(64, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
@@ -2189,8 +2206,7 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
       (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
     )
   )
-  (merge): Noop()
-  (act_fn): ReLU(inplace=True)
+  (merge): LeakyReLU(negative_slope=0.01, inplace=True)
 )</pre>
 </div>
 
