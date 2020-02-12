@@ -22,6 +22,9 @@ entries:
       title: xresnet
       url: /xresnet
     - output: web,pdf
+      title: Net.
+      url: /Net
+    - output: web,pdf
       title: Title
       url: /test_xresnet
     output: web

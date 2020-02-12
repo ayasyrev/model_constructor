@@ -23,9 +23,51 @@ summary: "summary"
 
 </div>
 <div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># #hide</span>
+<span class="c1"># # from nbdev.showdoc import *</span>
+<span class="c1"># from fastcore.test import *</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
 
 </div>
 <div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># # export</span>
+<span class="c1"># import torch.nn as nn</span>
+<span class="c1"># from collections import OrderedDict</span>
+<span class="c1"># from model_constructor.layers import *</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># # export</span>
+<span class="c1"># import torch,math,sys</span>
+<span class="c1"># import torch.utils.model_zoo as model_zoo</span>
+<span class="c1"># from functools import partial</span>
+<span class="c1"># # from fastai.torch_core import Module</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
@@ -41,85 +83,29 @@ summary: "summary"
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
+<div class="input">
 
-</div>
-<div class="cell border-box-sizing code_cell rendered">
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># # export</span>
+<span class="c1"># act_fn = nn.ReLU(inplace=True)</span>
 
-<div class="output_wrapper">
-<div class="output">
+<span class="c1"># # in layers</span>
+<span class="c1"># class Flatten(Module):</span>
+<span class="c1">#     def forward(self, x): return x.view(x.size(0), -1)</span>
 
-<div class="output_area">
+<span class="c1"># def init_cnn(m):</span>
+<span class="c1">#     if getattr(m, &#39;bias&#39;, None) is not None: nn.init.constant_(m.bias, 0)</span>
+<span class="c1">#     if isinstance(m, (nn.Conv2d,nn.Linear)): nn.init.kaiming_normal_(m.weight)</span>
+<span class="c1">#     for l in m.children(): init_cnn(l)</span>
 
+<span class="c1"># def conv(ni, nf, ks=3, stride=1, bias=False):</span>
+<span class="c1">#     return nn.Conv2d(ni, nf, kernel_size=ks, stride=stride, padding=ks//2, bias=bias)</span>
+<span class="c1"># # in layers</span>
+<span class="c1"># def noop(x): return x</span>
+</pre></div>
 
-<div class="output_markdown rendered_html output_subarea ">
-<h2 id="Flatten" class="doc_header"><code>class</code> <code>Flatten</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/layers.py#L36" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>Flatten</code>() :: <code>Module</code></p>
-</blockquote>
-<p>flat x to vector</p>
-
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-<div class="output_markdown rendered_html output_subarea ">
-<h4 id="init_cnn" class="doc_header"><code>init_cnn</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/tst_net.py#L25" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>init_cnn</code>(<strong><code>m</code></strong>)</p>
-</blockquote>
-
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-<div class="output_markdown rendered_html output_subarea ">
-<h4 id="conv" class="doc_header"><code>conv</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/tst_net.py#L30" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>conv</code>(<strong><code>ni</code></strong>, <strong><code>nf</code></strong>, <strong><code>ks</code></strong>=<em><code>3</code></em>, <strong><code>stride</code></strong>=<em><code>1</code></em>, <strong><code>bias</code></strong>=<em><code>False</code></em>)</p>
-</blockquote>
-
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-<div class="output_markdown rendered_html output_subarea ">
-<h4 id="noop" class="doc_header"><code>noop</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/layers.py#L44" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>noop</code>(<strong><code>x</code></strong>)</p>
-</blockquote>
-
-</div>
-
-</div>
-
+    </div>
 </div>
 </div>
 
@@ -131,24 +117,21 @@ summary: "summary"
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
+<div class="input">
 
-</div>
-<div class="cell border-box-sizing code_cell rendered">
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># # export</span>
 
-<div class="output_wrapper">
-<div class="output">
+<span class="c1"># def conv_layer(ni, nf, ks=3, stride=1, zero_bn=False, act=True):</span>
+<span class="c1">#     bn = nn.BatchNorm2d(nf)</span>
+<span class="c1">#     nn.init.constant_(bn.weight, 0. if zero_bn else 1.)</span>
+<span class="c1">#     layers = [conv(ni, nf, ks, stride=stride), bn]</span>
+<span class="c1">#     if act: layers.append(act_fn)</span>
+<span class="c1">#     return nn.Sequential(*layers)</span>
+</pre></div>
 
-<div class="output_area">
-
-
-<div class="output_markdown rendered_html output_subarea ">
-<h4 id="conv_layer" class="doc_header"><code>conv_layer</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/tst_net.py#L37" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>conv_layer</code>(<strong><code>ni</code></strong>, <strong><code>nf</code></strong>, <strong><code>ks</code></strong>=<em><code>3</code></em>, <strong><code>stride</code></strong>=<em><code>1</code></em>, <strong><code>zero_bn</code></strong>=<em><code>False</code></em>, <strong><code>act</code></strong>=<em><code>True</code></em>)</p>
-</blockquote>
-
-</div>
-
-</div>
-
+    </div>
 </div>
 </div>
 
@@ -220,45 +203,33 @@ summary: "summary"
 
 </div>
 <div class="cell border-box-sizing code_cell rendered">
+<div class="input">
 
-</div>
-<div class="cell border-box-sizing code_cell rendered">
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># # export</span>
+<span class="c1"># class ResBlock(Module):</span>
+<span class="c1">#     def __init__(self, expansion, ni, nh, stride=1, </span>
+<span class="c1">#                  conv_layer=conv_layer, act_fn=act_fn,</span>
+<span class="c1">#                  pool=nn.AvgPool2d(2, ceil_mode=True), sa=False,sym=False):</span>
+<span class="c1">#         nf,ni = nh*expansion,ni*expansion</span>
+<span class="c1">#         layers  = [(f&quot;conv_0&quot;, conv_layer(ni, nh, 3, stride=stride)),</span>
+<span class="c1">#                    (f&quot;conv_1&quot;, conv_layer(nh, nf, 3, zero_bn=True, act=False))</span>
+<span class="c1">#         ] if expansion == 1 else [</span>
+<span class="c1">#                    (f&quot;conv_0&quot;,conv_layer(ni, nh, 1)),</span>
+<span class="c1">#                    (f&quot;conv_1&quot;,conv_layer(nh, nh, 3, stride=stride)),</span>
+<span class="c1">#                    (f&quot;conv_2&quot;,conv_layer(nh, nf, 1, zero_bn=True, act=False))</span>
+<span class="c1">#         ]</span>
+<span class="c1">#         if sa: layers.append((&#39;sa&#39;, SimpleSelfAttention(nf,ks=1,sym=sym)))</span>
+<span class="c1">#         self.convs = nn.Sequential(OrderedDict(layers))</span>
+<span class="c1">#         self.pool = noop if stride==1 else pool</span>
+<span class="c1">#         self.idconv = noop if ni==nf else conv_layer(ni, nf, 1, act=False)</span>
+<span class="c1">#         self.act_fn =act_fn</span>
 
-<div class="output_wrapper">
-<div class="output">
+<span class="c1">#     def forward(self, x): return self.act_fn(self.convs(x) + self.idconv(self.pool(x)))</span>
+</pre></div>
 
-<div class="output_area">
-
-
-<div class="output_markdown rendered_html output_subarea ">
-<h2 id="ResBlock" class="doc_header"><code>class</code> <code>ResBlock</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/layers.py#L196" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>ResBlock</code>(<strong><code>ni</code></strong>, <strong><code>nh</code></strong>, <strong><code>expansion</code></strong>=<em><code>1</code></em>, <strong><code>stride</code></strong>=<em><code>1</code></em>, <strong><code>conv_layer</code></strong>=<em><code>'ConvLayer'</code></em>, <strong><code>conv_block</code></strong>=<em><code>'ConvBlockBasic'</code></em>, <strong><code>downsample</code></strong>=<em><code>'DownsampleLayer'</code></em>, <strong><code>act_fn</code></strong>=<em><code>ReLU(inplace=True)</code></em>, <strong><code>act_id</code></strong>=<em><code>False</code></em>, <strong><code>zero_bn</code></strong>=<em><code>True</code></em>, <strong><code>sa</code></strong>=<em><code>False</code></em>, <strong><code>sym</code></strong>=<em><code>False</code></em>, <strong>**<code>kwargs</code></strong>) :: <code>Module</code></p>
-</blockquote>
-<p>Base class for all neural network modules.</p>
-<p>Your models should also subclass this class.</p>
-<p>Modules can also contain other Modules, allowing to nest them in
-a tree structure. You can assign the submodules as regular attributes::</p>
-
-<pre><code>import torch.nn as nn
-import torch.nn.functional as F
-
-class Model(nn.Module):
-    def __init__(self):
-        super(Model, self).__init__()
-        self.conv1 = nn.Conv2d(1, 20, 5)
-        self.conv2 = nn.Conv2d(20, 20, 5)
-
-    def forward(self, x):
-        x = F.relu(self.conv1(x))
-        return F.relu(self.conv2(x))
-
-</code></pre>
-<p>Submodules assigned in this way will be registered, and will have their
-parameters converted too when you call :meth:<code>to</code>, etc.</p>
-
-</div>
-
-</div>
-
+    </div>
 </div>
 </div>
 
@@ -268,42 +239,10 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ResBlock</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="n">sa</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># ResBlock(1,64,64,sa=True)</span>
 </pre></div>
 
     </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>ResBlock(
-  (convs): Sequential(
-    (conv_0): Sequential(
-      (0): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-      (1): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-      (2): ReLU(inplace=True)
-    )
-    (conv_1): Sequential(
-      (0): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-      (1): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-    )
-    (sa): SimpleSelfAttention(
-      (conv): Conv1d(64, 64, kernel_size=(1,), stride=(1,), bias=False)
-    )
-  )
-  (act_fn): ReLU(inplace=True)
-)</pre>
-</div>
-
-</div>
-
 </div>
 </div>
 
@@ -313,39 +252,10 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ResBlock</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="mi">64</span><span class="p">,)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># ResBlock(1,64,64,)</span>
 </pre></div>
 
     </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>ResBlock(
-  (convs): Sequential(
-    (conv_0): Sequential(
-      (0): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-      (1): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-      (2): ReLU(inplace=True)
-    )
-    (conv_1): Sequential(
-      (0): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-      (1): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-    )
-  )
-  (act_fn): ReLU(inplace=True)
-)</pre>
-</div>
-
-</div>
-
 </div>
 </div>
 
@@ -361,30 +271,30 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># initial version</span>
-<span class="k">class</span> <span class="nc">XResNet</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expansion</span><span class="p">,</span> <span class="n">layers</span><span class="p">,</span> <span class="n">c_in</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">c_out</span><span class="o">=</span><span class="mi">1000</span><span class="p">):</span>
-        <span class="n">stem</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="n">sizes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c_in</span><span class="p">,</span><span class="mi">32</span><span class="p">,</span><span class="mi">32</span><span class="p">,</span><span class="mi">64</span><span class="p">]</span>
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
-            <span class="n">stem</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">conv_layer</span><span class="p">(</span><span class="n">sizes</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">sizes</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">],</span> <span class="n">stride</span><span class="o">=</span><span class="mi">2</span> <span class="k">if</span> <span class="n">i</span><span class="o">==</span><span class="mi">0</span> <span class="k">else</span> <span class="mi">1</span><span class="p">))</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># # initial version</span>
+<span class="c1"># class XResNet(nn.Sequential):</span>
+<span class="c1">#     def __init__(self, expansion, layers, c_in=3, c_out=1000):</span>
+<span class="c1">#         stem = []</span>
+<span class="c1">#         sizes = [c_in,32,32,64]</span>
+<span class="c1">#         for i in range(3):</span>
+<span class="c1">#             stem.append(conv_layer(sizes[i], sizes[i+1], stride=2 if i==0 else 1))</span>
           
-        <span class="n">block_szs</span> <span class="o">=</span> <span class="p">[</span><span class="mi">64</span><span class="o">//</span><span class="n">expansion</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="mi">128</span><span class="p">,</span><span class="mi">256</span><span class="p">,</span><span class="mi">512</span><span class="p">]</span> <span class="o">+</span><span class="p">[</span><span class="mi">256</span><span class="p">]</span><span class="o">*</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">layers</span><span class="p">)</span><span class="o">-</span><span class="mi">4</span><span class="p">)</span>
-        <span class="n">blocks</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_make_layer</span><span class="p">(</span><span class="n">expansion</span><span class="p">,</span> <span class="n">block_szs</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">block_szs</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">],</span> <span class="n">l</span><span class="p">,</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">i</span><span class="o">==</span><span class="mi">0</span> <span class="k">else</span> <span class="mi">2</span><span class="p">)</span>
-                  <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">l</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">layers</span><span class="p">)]</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
-            <span class="o">*</span><span class="n">stem</span><span class="p">,</span>
-            <span class="n">nn</span><span class="o">.</span><span class="n">MaxPool2d</span><span class="p">(</span><span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
-            <span class="o">*</span><span class="n">blocks</span><span class="p">,</span>
-            <span class="n">nn</span><span class="o">.</span><span class="n">AdaptiveAvgPool2d</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">Flatten</span><span class="p">(),</span>
-            <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">block_szs</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">expansion</span><span class="p">,</span> <span class="n">c_out</span><span class="p">),</span>
-        <span class="p">)</span>
-        <span class="n">init_cnn</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+<span class="c1">#         block_szs = [64//expansion,64,128,256,512] +[256]*(len(layers)-4)</span>
+<span class="c1">#         blocks = [self._make_layer(expansion, block_szs[i], block_szs[i+1], l, 1 if i==0 else 2)</span>
+<span class="c1">#                   for i,l in enumerate(layers)]</span>
+<span class="c1">#         super().__init__(</span>
+<span class="c1">#             *stem,</span>
+<span class="c1">#             nn.MaxPool2d(kernel_size=3, stride=2, padding=1),</span>
+<span class="c1">#             *blocks,</span>
+<span class="c1">#             nn.AdaptiveAvgPool2d(1), Flatten(),</span>
+<span class="c1">#             nn.Linear(block_szs[-1]*expansion, c_out),</span>
+<span class="c1">#         )</span>
+<span class="c1">#         init_cnn(self)</span>
 
-    <span class="k">def</span> <span class="nf">_make_layer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expansion</span><span class="p">,</span> <span class="n">ni</span><span class="p">,</span> <span class="n">nf</span><span class="p">,</span> <span class="n">blocks</span><span class="p">,</span> <span class="n">stride</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
-            <span class="o">*</span><span class="p">[</span><span class="n">ResBlock</span><span class="p">(</span><span class="n">expansion</span><span class="p">,</span> <span class="n">ni</span> <span class="k">if</span> <span class="n">i</span><span class="o">==</span><span class="mi">0</span> <span class="k">else</span> <span class="n">nf</span><span class="p">,</span> <span class="n">nf</span><span class="p">,</span> <span class="n">stride</span> <span class="k">if</span> <span class="n">i</span><span class="o">==</span><span class="mi">0</span> <span class="k">else</span> <span class="mi">1</span><span class="p">)</span>
-              <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">blocks</span><span class="p">)])</span>
+<span class="c1">#     def _make_layer(self, expansion, ni, nf, blocks, stride):</span>
+<span class="c1">#         return nn.Sequential(</span>
+<span class="c1">#             *[ResBlock(expansion, ni if i==0 else nf, nf, stride if i==0 else 1)</span>
+<span class="c1">#               for i in range(blocks)])</span>
 </pre></div>
 
     </div>
@@ -431,33 +341,33 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># v3</span>
-<span class="k">class</span> <span class="nc">XResNet</span><span class="p">():</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expansion</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">layers</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span> <span class="n">c_in</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">c_out</span><span class="o">=</span><span class="mi">1000</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">c_in</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">c_out</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">expansion</span> <span class="o">=</span> <span class="n">c_in</span><span class="p">,</span><span class="n">c_out</span><span class="p">,</span><span class="n">expansion</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">stem</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="n">sizes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c_in</span><span class="p">,</span><span class="mi">32</span><span class="p">,</span><span class="mi">32</span><span class="p">,</span><span class="mi">64</span><span class="p">]</span>
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">stem</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">conv_layer</span><span class="p">(</span><span class="n">sizes</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">sizes</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">],</span> <span class="n">stride</span><span class="o">=</span><span class="mi">2</span> <span class="k">if</span> <span class="n">i</span><span class="o">==</span><span class="mi">0</span> <span class="k">else</span> <span class="mi">1</span><span class="p">))</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">block_szs</span> <span class="o">=</span> <span class="p">[</span><span class="mi">64</span><span class="o">//</span><span class="n">expansion</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="mi">128</span><span class="p">,</span><span class="mi">256</span><span class="p">,</span><span class="mi">512</span><span class="p">]</span> <span class="o">+</span><span class="p">[</span><span class="mi">256</span><span class="p">]</span><span class="o">*</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">layers</span><span class="p">)</span><span class="o">-</span><span class="mi">4</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">blocks</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_make_layer</span><span class="p">(</span><span class="n">expansion</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">block_szs</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">block_szs</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">],</span> <span class="n">l</span><span class="p">,</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">i</span><span class="o">==</span><span class="mi">0</span> <span class="k">else</span> <span class="mi">2</span><span class="p">)</span>
-                  <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">l</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">layers</span><span class="p">)]</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># # v3</span>
+<span class="c1"># class XResNet():</span>
+<span class="c1">#     def __init__(self, expansion=1, layers=[2,2,2,2], c_in=3, c_out=1000):</span>
+<span class="c1">#         super().__init__()</span>
+<span class="c1">#         self.c_in, self.c_out,self.expansion = c_in,c_out,expansion</span>
+<span class="c1">#         self.stem = []</span>
+<span class="c1">#         sizes = [c_in,32,32,64]</span>
+<span class="c1">#         for i in range(3):</span>
+<span class="c1">#             self.stem.append(conv_layer(sizes[i], sizes[i+1], stride=2 if i==0 else 1))</span>
+<span class="c1">#         self.block_szs = [64//expansion,64,128,256,512] +[256]*(len(layers)-4)</span>
+<span class="c1">#         self.blocks = [self._make_layer(expansion, self.block_szs[i], self.block_szs[i+1], l, 1 if i==0 else 2)</span>
+<span class="c1">#                   for i,l in enumerate(layers)]</span>
         
 
-    <span class="k">def</span> <span class="nf">_make_layer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expansion</span><span class="p">,</span> <span class="n">ni</span><span class="p">,</span> <span class="n">nf</span><span class="p">,</span> <span class="n">blocks</span><span class="p">,</span> <span class="n">stride</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
-            <span class="o">*</span><span class="p">[</span><span class="n">ResBlock</span><span class="p">(</span><span class="n">expansion</span><span class="p">,</span> <span class="n">ni</span> <span class="k">if</span> <span class="n">i</span><span class="o">==</span><span class="mi">0</span> <span class="k">else</span> <span class="n">nf</span><span class="p">,</span> <span class="n">nf</span><span class="p">,</span> <span class="n">stride</span> <span class="k">if</span> <span class="n">i</span><span class="o">==</span><span class="mi">0</span> <span class="k">else</span> <span class="mi">1</span><span class="p">)</span>
-              <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">blocks</span><span class="p">)])</span>
-    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">model</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span><span class="n">OrderedDict</span><span class="p">([</span>
-            <span class="p">(</span><span class="s1">&#39;stem&#39;</span><span class="p">,</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">stem</span><span class="p">,</span> <span class="n">nn</span><span class="o">.</span><span class="n">MaxPool2d</span><span class="p">(</span><span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="mi">1</span><span class="p">))),</span>
-            <span class="p">(</span><span class="s1">&#39;body&#39;</span><span class="p">,</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">blocks</span><span class="p">)),</span>
-            <span class="p">(</span><span class="s1">&#39;head&#39;</span><span class="p">,</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">AdaptiveAvgPool2d</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">Flatten</span><span class="p">(),</span> 
-             <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">block_szs</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">expansion</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">c_out</span><span class="p">)))</span>
-        <span class="p">]))</span>
-        <span class="n">init_cnn</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">model</span>
+<span class="c1">#     def _make_layer(self, expansion, ni, nf, blocks, stride):</span>
+<span class="c1">#         return nn.Sequential(</span>
+<span class="c1">#             *[ResBlock(expansion, ni if i==0 else nf, nf, stride if i==0 else 1)</span>
+<span class="c1">#               for i in range(blocks)])</span>
+<span class="c1">#     def __call__(self):</span>
+<span class="c1">#         model = nn.Sequential(OrderedDict([</span>
+<span class="c1">#             (&#39;stem&#39;, nn.Sequential(*self.stem, nn.MaxPool2d(kernel_size=3, stride=2, padding=1))),</span>
+<span class="c1">#             (&#39;body&#39;, nn.Sequential(*self.blocks)),</span>
+<span class="c1">#             (&#39;head&#39;, nn.Sequential(nn.AdaptiveAvgPool2d(1), Flatten(), </span>
+<span class="c1">#              nn.Linear(self.block_szs[-1]*self.expansion, self.c_out)))</span>
+<span class="c1">#         ]))</span>
+<span class="c1">#         init_cnn(model)</span>
+<span class="c1">#         return model</span>
 </pre></div>
 
     </div>
@@ -470,34 +380,34 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># v4</span>
-<span class="k">class</span> <span class="nc">XResNet</span><span class="p">():</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expansion</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">layers</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span> <span class="n">c_in</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">c_out</span><span class="o">=</span><span class="mi">1000</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">c_in</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">c_out</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">expansion</span> <span class="o">=</span> <span class="n">c_in</span><span class="p">,</span><span class="n">c_out</span><span class="p">,</span><span class="n">expansion</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">stem</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="n">sizes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c_in</span><span class="p">,</span><span class="mi">32</span><span class="p">,</span><span class="mi">32</span><span class="p">,</span><span class="mi">64</span><span class="p">]</span>
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">stem</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">conv_layer</span><span class="p">(</span><span class="n">sizes</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">sizes</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">],</span> <span class="n">stride</span><span class="o">=</span><span class="mi">2</span> <span class="k">if</span> <span class="n">i</span><span class="o">==</span><span class="mi">0</span> <span class="k">else</span> <span class="mi">1</span><span class="p">))</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">stem</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">MaxPool2d</span><span class="p">(</span><span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
-        <span class="n">block_szs</span> <span class="o">=</span> <span class="p">[</span><span class="mi">64</span><span class="o">//</span><span class="n">expansion</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="mi">128</span><span class="p">,</span><span class="mi">256</span><span class="p">,</span><span class="mi">512</span><span class="p">]</span> <span class="o">+</span><span class="p">[</span><span class="mi">256</span><span class="p">]</span><span class="o">*</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">layers</span><span class="p">)</span><span class="o">-</span><span class="mi">4</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">blocks</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_make_layer</span><span class="p">(</span><span class="n">expansion</span><span class="p">,</span> <span class="n">block_szs</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">block_szs</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">],</span> <span class="n">l</span><span class="p">,</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">i</span><span class="o">==</span><span class="mi">0</span> <span class="k">else</span> <span class="mi">2</span><span class="p">)</span>
-                  <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">l</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">layers</span><span class="p">)]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">head</span> <span class="o">=</span> <span class="p">[</span><span class="n">nn</span><span class="o">.</span><span class="n">AdaptiveAvgPool2d</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">Flatten</span><span class="p">(),</span> 
-             <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">block_szs</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">expansion</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">c_out</span><span class="p">)]</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># # v4</span>
+<span class="c1"># class XResNet():</span>
+<span class="c1">#     def __init__(self, expansion=1, layers=[2,2,2,2], c_in=3, c_out=1000):</span>
+<span class="c1">#         super().__init__()</span>
+<span class="c1">#         self.c_in, self.c_out,self.expansion = c_in,c_out,expansion</span>
+<span class="c1">#         self.stem = []</span>
+<span class="c1">#         sizes = [c_in,32,32,64]</span>
+<span class="c1">#         for i in range(3):</span>
+<span class="c1">#             self.stem.append(conv_layer(sizes[i], sizes[i+1], stride=2 if i==0 else 1))</span>
+<span class="c1">#         self.stem.append(nn.MaxPool2d(kernel_size=3, stride=2, padding=1))</span>
+<span class="c1">#         block_szs = [64//expansion,64,128,256,512] +[256]*(len(layers)-4)</span>
+<span class="c1">#         self.blocks = [self._make_layer(expansion, block_szs[i], block_szs[i+1], l, 1 if i==0 else 2)</span>
+<span class="c1">#                   for i,l in enumerate(layers)]</span>
+<span class="c1">#         self.head = [nn.AdaptiveAvgPool2d(1), Flatten(), </span>
+<span class="c1">#              nn.Linear(block_szs[-1]*self.expansion, self.c_out)]</span>
 
-    <span class="k">def</span> <span class="nf">_make_layer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expansion</span><span class="p">,</span> <span class="n">ni</span><span class="p">,</span> <span class="n">nf</span><span class="p">,</span> <span class="n">blocks</span><span class="p">,</span> <span class="n">stride</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
-            <span class="o">*</span><span class="p">[</span><span class="n">ResBlock</span><span class="p">(</span><span class="n">expansion</span><span class="p">,</span> <span class="n">ni</span> <span class="k">if</span> <span class="n">i</span><span class="o">==</span><span class="mi">0</span> <span class="k">else</span> <span class="n">nf</span><span class="p">,</span> <span class="n">nf</span><span class="p">,</span> <span class="n">stride</span> <span class="k">if</span> <span class="n">i</span><span class="o">==</span><span class="mi">0</span> <span class="k">else</span> <span class="mi">1</span><span class="p">)</span>
-              <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">blocks</span><span class="p">)])</span>
-    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">model</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span><span class="n">OrderedDict</span><span class="p">([</span>
-            <span class="p">(</span><span class="s1">&#39;stem&#39;</span><span class="p">,</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">stem</span><span class="p">)),</span>
-            <span class="p">(</span><span class="s1">&#39;body&#39;</span><span class="p">,</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">blocks</span><span class="p">)),</span>
-            <span class="p">(</span><span class="s1">&#39;head&#39;</span><span class="p">,</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">head</span><span class="p">))</span>
-        <span class="p">]))</span>
-        <span class="n">init_cnn</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">model</span>
+<span class="c1">#     def _make_layer(self, expansion, ni, nf, blocks, stride):</span>
+<span class="c1">#         return nn.Sequential(</span>
+<span class="c1">#             *[ResBlock(expansion, ni if i==0 else nf, nf, stride if i==0 else 1)</span>
+<span class="c1">#               for i in range(blocks)])</span>
+<span class="c1">#     def __call__(self):</span>
+<span class="c1">#         model = nn.Sequential(OrderedDict([</span>
+<span class="c1">#             (&#39;stem&#39;, nn.Sequential(*self.stem)),</span>
+<span class="c1">#             (&#39;body&#39;, nn.Sequential(*self.blocks)),</span>
+<span class="c1">#             (&#39;head&#39;, nn.Sequential(*self.head))</span>
+<span class="c1">#         ]))</span>
+<span class="c1">#         init_cnn(model)</span>
+<span class="c1">#         return model</span>
 </pre></div>
 
     </div>
@@ -671,110 +581,86 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-<div class="output_markdown rendered_html output_subarea ">
-<h2 id="XResNet" class="doc_header"><code>class</code> <code>XResNet</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/tst_net.py#L67" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>XResNet</code>(<strong><code>expansion</code></strong>=<em><code>1</code></em>, <strong><code>layers</code></strong>=<em><code>[2, 2, 2, 2]</code></em>, <strong><code>c_in</code></strong>=<em><code>3</code></em>, <strong><code>c_out</code></strong>=<em><code>1000</code></em>)</p>
-</blockquote>
-
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># v7</span>
-<span class="k">class</span> <span class="nc">Net</span><span class="p">():</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expansion</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">layers</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span> <span class="n">c_in</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">c_out</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Net&#39;</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">c_in</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">c_out</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">expansion</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">layers</span> <span class="o">=</span> <span class="n">c_in</span><span class="p">,</span><span class="n">c_out</span><span class="p">,</span><span class="n">expansion</span><span class="p">,</span><span class="n">layers</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">stem_sizes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c_in</span><span class="p">,</span><span class="mi">32</span><span class="p">,</span><span class="mi">32</span><span class="p">,</span><span class="mi">64</span><span class="p">]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">stem_pool</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">MaxPool2d</span><span class="p">(</span><span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">stem_bn_end</span> <span class="o">=</span> <span class="kc">False</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">block_szs</span> <span class="o">=</span> <span class="p">[</span><span class="mi">64</span><span class="o">//</span><span class="n">expansion</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="mi">128</span><span class="p">,</span><span class="mi">256</span><span class="p">,</span><span class="mi">512</span><span class="p">]</span> <span class="o">+</span><span class="p">[</span><span class="mi">256</span><span class="p">]</span><span class="o">*</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">layers</span><span class="p">)</span><span class="o">-</span><span class="mi">4</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">block</span> <span class="o">=</span> <span class="n">ResBlock</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">norm</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">BatchNorm2d</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">act_fn</span><span class="o">=</span><span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">(</span><span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">pool</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">AvgPool2d</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">ceil_mode</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">sa</span><span class="o">=</span><span class="kc">False</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">bn_1st</span> <span class="o">=</span> <span class="kc">True</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">zero_bn</span><span class="o">=</span><span class="kc">True</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># # export</span>
+<span class="c1"># # v6</span>
+<span class="c1"># class XResNet():</span>
+<span class="c1">#     def __init__(self, expansion=1, layers=[2,2,2,2], c_in=3, c_out=1000):</span>
+<span class="c1">#         super().__init__()</span>
+<span class="c1">#         self.c_in, self.c_out,self.expansion,self.layers = c_in,c_out,expansion,layers</span>
+<span class="c1">#         self.stem_sizes = [c_in,32,32,64]</span>
+<span class="c1">#         self.stem_pool = nn.MaxPool2d(kernel_size=3, stride=2, padding=1)</span>
+<span class="c1">#         self.stem_bn_end = False</span>
+<span class="c1">#         self.block_szs = [64//expansion,64,128,256,512] +[256]*(len(layers)-4)</span>
+<span class="c1">#         self.block = ResBlock</span>
+<span class="c1">#         self.norm = nn.BatchNorm2d</span>
+<span class="c1">#         self.act_fn=nn.ReLU(inplace=True)</span>
+<span class="c1">#         self.pool = nn.AvgPool2d(2, ceil_mode=True)</span>
+<span class="c1">#         self.sa=False</span>
+<span class="c1">#         self.bn_1st = True</span>
+<span class="c1">#         #         self._conv_layer = conv_layer</span>
+<span class="c1">#         #     @property</span>
+<span class="c1">#         #     def conv_layer(self): return self._conv_layer</span>
 
-    <span class="k">def</span> <span class="nf">conv_layer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ni</span><span class="p">,</span> <span class="n">nf</span><span class="p">,</span> <span class="n">ks</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">zero_bn</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">act</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">norm</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-        <span class="n">bn</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">nf</span><span class="p">)</span>
-        <span class="n">nn</span><span class="o">.</span><span class="n">init</span><span class="o">.</span><span class="n">constant_</span><span class="p">(</span><span class="n">bn</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span> <span class="mf">0.</span> <span class="k">if</span> <span class="n">zero_bn</span> <span class="k">else</span> <span class="mf">1.</span><span class="p">)</span>
-        <span class="n">layers</span> <span class="o">=</span>  <span class="p">[(</span><span class="s1">&#39;norm&#39;</span><span class="p">,</span> <span class="n">bn</span><span class="p">)]</span> <span class="k">if</span> <span class="n">norm</span> <span class="k">else</span> <span class="p">[]</span>
-        <span class="k">if</span> <span class="n">act</span><span class="p">:</span> <span class="n">layers</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s1">&#39;act_fn&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">act_fn</span><span class="p">))</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">bn_1st</span><span class="p">:</span> <span class="n">layers</span><span class="o">.</span><span class="n">reverse</span><span class="p">()</span>
-        <span class="n">layers</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;conv&#39;</span><span class="p">,</span> <span class="n">conv</span><span class="p">(</span><span class="n">ni</span><span class="p">,</span> <span class="n">nf</span><span class="p">,</span> <span class="n">ks</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="n">stride</span><span class="p">))]</span> <span class="o">+</span> <span class="n">layers</span>
-        <span class="k">return</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span><span class="n">OrderedDict</span><span class="p">(</span><span class="n">layers</span><span class="p">))</span>
+<span class="c1">#     def conv_layer(self, ni, nf, ks=3, stride=1, zero_bn=False, act=True, norm=True):</span>
+<span class="c1">#         bn = self.norm(nf)</span>
+<span class="c1">#         nn.init.constant_(bn.weight, 0. if zero_bn else 1.)</span>
+<span class="c1">#         layers =  [(&#39;norm&#39;, bn)] if norm else []</span>
+<span class="c1">#         if act: layers.append((&#39;act_fn&#39;, self.act_fn))</span>
+<span class="c1">#         if not self.bn_1st: layers.reverse()</span>
+<span class="c1">#         layers = [(&#39;conv&#39;, conv(ni, nf, ks, stride=stride))] + layers</span>
+<span class="c1">#         return nn.Sequential(OrderedDict(layers))</span>
     
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">stem</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_make_stem</span><span class="p">()</span>
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">head</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_make_head</span><span class="p">()</span>
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">body</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_make_body</span><span class="p">()</span>
+<span class="c1">#     @property</span>
+<span class="c1">#     def stem(self):</span>
+<span class="c1">#         return self._make_stem()</span>
+<span class="c1">#     @property</span>
+<span class="c1">#     def head(self):</span>
+<span class="c1">#         return self._make_head()</span>
+<span class="c1">#     @property</span>
+<span class="c1">#     def body(self):</span>
+<span class="c1">#         return self._make_body()</span>
     
-    <span class="k">def</span> <span class="nf">_make_stem</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">stem</span> <span class="o">=</span> <span class="p">[(</span><span class="sa">f</span><span class="s2">&quot;conv_</span><span class="si">{i}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">conv_layer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">stem_sizes</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">stem_sizes</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">],</span> 
-                        <span class="n">stride</span><span class="o">=</span><span class="mi">2</span> <span class="k">if</span> <span class="n">i</span><span class="o">==</span><span class="mi">0</span> <span class="k">else</span> <span class="mi">1</span><span class="p">,</span> 
-                        <span class="n">norm</span><span class="o">=</span><span class="p">(</span><span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">stem_bn_end</span><span class="p">)</span> <span class="k">if</span> <span class="n">i</span><span class="o">==</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">stem_sizes</span><span class="p">)</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span> <span class="k">else</span> <span class="kc">True</span><span class="p">))</span>
-                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">stem_sizes</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)]</span>
-        <span class="n">stem</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s1">&#39;stem_pool&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">stem_pool</span><span class="p">))</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">stem_bn_end</span><span class="p">:</span> <span class="n">stem</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s1">&#39;norm&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">stem_sizes</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])))</span>
-        <span class="k">return</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span><span class="n">OrderedDict</span><span class="p">(</span><span class="n">stem</span><span class="p">))</span>
+<span class="c1">#     def _make_stem(self):</span>
+<span class="c1">#         stem = [(f&quot;conv_{i}&quot;, self.conv_layer(self.stem_sizes[i], self.stem_sizes[i+1], </span>
+<span class="c1">#                         stride=2 if i==0 else 1, </span>
+<span class="c1">#                         norm=(not self.stem_bn_end) if i==(len(self.stem_sizes)-2) else True))</span>
+<span class="c1">#                 for i in range(len(self.stem_sizes)-1)]</span>
+<span class="c1">#         stem.append((&#39;stem_pool&#39;, self.stem_pool))</span>
+<span class="c1">#         if self.stem_bn_end: stem.append((&#39;norm&#39;, self.norm(self.stem_sizes[-1])))</span>
+<span class="c1">#         return nn.Sequential(OrderedDict(stem))</span>
     
-    <span class="k">def</span> <span class="nf">_make_head</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">head</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;pool&#39;</span><span class="p">,</span> <span class="n">nn</span><span class="o">.</span><span class="n">AdaptiveAvgPool2d</span><span class="p">(</span><span class="mi">1</span><span class="p">)),</span>
-                <span class="p">(</span><span class="s1">&#39;flat&#39;</span><span class="p">,</span> <span class="n">Flatten</span><span class="p">()),</span>
-                <span class="p">(</span><span class="s1">&#39;fc&#39;</span><span class="p">,</span>   <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">block_szs</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">expansion</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">c_out</span><span class="p">))]</span>
-        <span class="k">return</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span><span class="n">OrderedDict</span><span class="p">(</span><span class="n">head</span><span class="p">))</span>
+<span class="c1">#     def _make_head(self):</span>
+<span class="c1">#         head = [(&#39;pool&#39;, nn.AdaptiveAvgPool2d(1)),</span>
+<span class="c1">#                 (&#39;flat&#39;, Flatten()),</span>
+<span class="c1">#                 (&#39;fc&#39;,   nn.Linear(self.block_szs[-1]*self.expansion, self.c_out))]</span>
+<span class="c1">#         return nn.Sequential(OrderedDict(head))</span>
     
-    <span class="k">def</span> <span class="nf">_make_body</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">blocks</span> <span class="o">=</span> <span class="p">[(</span><span class="sa">f</span><span class="s2">&quot;l_</span><span class="si">{i}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_make_layer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">expansion</span><span class="p">,</span> 
-                        <span class="bp">self</span><span class="o">.</span><span class="n">block_szs</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">block_szs</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">],</span> <span class="n">l</span><span class="p">,</span> 
-                        <span class="mi">1</span> <span class="k">if</span> <span class="n">i</span><span class="o">==</span><span class="mi">0</span> <span class="k">else</span> <span class="mi">2</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">sa</span> <span class="k">if</span> <span class="n">i</span><span class="o">==</span><span class="mi">0</span> <span class="k">else</span> <span class="kc">False</span><span class="p">))</span>
-                  <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">l</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">layers</span><span class="p">)]</span>
-        <span class="k">return</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span><span class="n">OrderedDict</span><span class="p">(</span><span class="n">blocks</span><span class="p">))</span>
+<span class="c1">#     def _make_body(self):</span>
+<span class="c1">#         blocks = [(f&quot;l_{i}&quot;, self._make_layer(self.expansion, </span>
+<span class="c1">#                         self.block_szs[i], self.block_szs[i+1], l, </span>
+<span class="c1">#                         1 if i==0 else 2, self.sa if i==0 else False))</span>
+<span class="c1">#                   for i,l in enumerate(self.layers)]</span>
+<span class="c1">#         return nn.Sequential(OrderedDict(blocks))</span>
     
-    <span class="k">def</span> <span class="nf">_make_layer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">expansion</span><span class="p">,</span><span class="n">ni</span><span class="p">,</span><span class="n">nf</span><span class="p">,</span><span class="n">blocks</span><span class="p">,</span><span class="n">stride</span><span class="p">,</span><span class="n">sa</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span><span class="n">OrderedDict</span><span class="p">(</span>
-            <span class="p">[(</span><span class="sa">f</span><span class="s2">&quot;bl_</span><span class="si">{i}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">block</span><span class="p">(</span><span class="n">expansion</span><span class="p">,</span> <span class="n">ni</span> <span class="k">if</span> <span class="n">i</span><span class="o">==</span><span class="mi">0</span> <span class="k">else</span> <span class="n">nf</span><span class="p">,</span> <span class="n">nf</span><span class="p">,</span> 
-                    <span class="n">stride</span> <span class="k">if</span> <span class="n">i</span><span class="o">==</span><span class="mi">0</span> <span class="k">else</span> <span class="mi">1</span><span class="p">,</span> <span class="n">sa</span><span class="o">=</span><span class="n">sa</span> <span class="k">if</span> <span class="n">i</span><span class="o">==</span><span class="n">blocks</span><span class="o">-</span><span class="mi">1</span> <span class="k">else</span> <span class="kc">False</span><span class="p">,</span>
-                    <span class="n">conv_layer</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">conv_layer</span><span class="p">,</span> <span class="n">act_fn</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">act_fn</span><span class="p">,</span> <span class="n">pool</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">pool</span><span class="p">,</span><span class="n">zero_bn</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">zero_bn</span><span class="p">))</span>
-              <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">blocks</span><span class="p">)]))</span>
+<span class="c1">#     def _make_layer(self, expansion, ni, nf, blocks, stride,sa):</span>
+<span class="c1">#         return nn.Sequential(OrderedDict(</span>
+<span class="c1">#             [(f&quot;bl_{i}&quot;, self.block(expansion, ni if i==0 else nf, nf, </span>
+<span class="c1">#                     stride if i==0 else 1, sa=sa if i==blocks-1 else False,</span>
+<span class="c1">#                     conv_layer=self.conv_layer, act_fn=self.act_fn, pool=self.pool))</span>
+<span class="c1">#               for i in range(blocks)]))</span>
     
-    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">model</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span><span class="n">OrderedDict</span><span class="p">([</span>
-            <span class="p">(</span><span class="s1">&#39;stem&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">stem</span><span class="p">),</span>
-            <span class="p">(</span><span class="s1">&#39;body&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">body</span><span class="p">),</span>
-            <span class="p">(</span><span class="s1">&#39;head&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">head</span><span class="p">)</span>
-        <span class="p">]))</span>
-        <span class="n">init_cnn</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
-        <span class="n">model</span><span class="o">.</span><span class="n">extra_repr</span> <span class="o">=</span> <span class="k">lambda</span> <span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;model </span><span class="si">{self.name}</span><span class="s2">&quot;</span>
-        <span class="k">return</span> <span class="n">model</span>
-    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot; constr </span><span class="si">{self.name}</span><span class="s2">&quot;</span>
+<span class="c1">#     def __call__(self):</span>
+<span class="c1">#         model = nn.Sequential(OrderedDict([</span>
+<span class="c1">#             (&#39;stem&#39;, self.stem),</span>
+<span class="c1">#             (&#39;body&#39;, self.body),</span>
+<span class="c1">#             (&#39;head&#39;, self.head)</span>
+<span class="c1">#         ]))</span>
+<span class="c1">#         init_cnn(model)</span>
+<span class="c1">#         return model</span>
 </pre></div>
 
     </div>
@@ -787,7 +673,83 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">model</span>  <span class="o">=</span> <span class="n">XResNet</span><span class="p">()</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># # v7</span>
+<span class="c1"># class Net():</span>
+<span class="c1">#     def __init__(self, expansion=1, layers=[2,2,2,2], c_in=3, c_out=1000, name=&#39;Net&#39;):</span>
+<span class="c1">#         super().__init__()</span>
+<span class="c1">#         self.name = name</span>
+<span class="c1">#         self.c_in, self.c_out,self.expansion,self.layers = c_in,c_out,expansion,layers</span>
+<span class="c1">#         self.stem_sizes = [c_in,32,32,64]</span>
+<span class="c1">#         self.stem_pool = nn.MaxPool2d(kernel_size=3, stride=2, padding=1)</span>
+<span class="c1">#         self.stem_bn_end = False</span>
+<span class="c1">#         self.block_szs = [64//expansion,64,128,256,512] +[256]*(len(layers)-4)</span>
+<span class="c1">#         self.block = ResBlock</span>
+<span class="c1">#         self.norm = nn.BatchNorm2d</span>
+<span class="c1">#         self.act_fn=nn.ReLU(inplace=True)</span>
+<span class="c1">#         self.pool = nn.AvgPool2d(2, ceil_mode=True)</span>
+<span class="c1">#         self.sa=False</span>
+<span class="c1">#         self.bn_1st = True</span>
+<span class="c1">#         self.zero_bn=True</span>
+
+<span class="c1">#     def conv_layer(self, ni, nf, ks=3, stride=1, zero_bn=False, act=True, norm=True):</span>
+<span class="c1">#         bn = self.norm(nf)</span>
+<span class="c1">#         nn.init.constant_(bn.weight, 0. if zero_bn else 1.)</span>
+<span class="c1">#         layers =  [(&#39;norm&#39;, bn)] if norm else []</span>
+<span class="c1">#         if act: layers.append((&#39;act_fn&#39;, self.act_fn))</span>
+<span class="c1">#         if not self.bn_1st: layers.reverse()</span>
+<span class="c1">#         layers = [(&#39;conv&#39;, conv(ni, nf, ks, stride=stride))] + layers</span>
+<span class="c1">#         return nn.Sequential(OrderedDict(layers))</span>
+    
+<span class="c1">#     @property</span>
+<span class="c1">#     def stem(self):</span>
+<span class="c1">#         return self._make_stem()</span>
+<span class="c1">#     @property</span>
+<span class="c1">#     def head(self):</span>
+<span class="c1">#         return self._make_head()</span>
+<span class="c1">#     @property</span>
+<span class="c1">#     def body(self):</span>
+<span class="c1">#         return self._make_body()</span>
+    
+<span class="c1">#     def _make_stem(self):</span>
+<span class="c1">#         stem = [(f&quot;conv_{i}&quot;, self.conv_layer(self.stem_sizes[i], self.stem_sizes[i+1], </span>
+<span class="c1">#                         stride=2 if i==0 else 1, </span>
+<span class="c1">#                         norm=(not self.stem_bn_end) if i==(len(self.stem_sizes)-2) else True))</span>
+<span class="c1">#                 for i in range(len(self.stem_sizes)-1)]</span>
+<span class="c1">#         stem.append((&#39;stem_pool&#39;, self.stem_pool))</span>
+<span class="c1">#         if self.stem_bn_end: stem.append((&#39;norm&#39;, self.norm(self.stem_sizes[-1])))</span>
+<span class="c1">#         return nn.Sequential(OrderedDict(stem))</span>
+    
+<span class="c1">#     def _make_head(self):</span>
+<span class="c1">#         head = [(&#39;pool&#39;, nn.AdaptiveAvgPool2d(1)),</span>
+<span class="c1">#                 (&#39;flat&#39;, Flatten()),</span>
+<span class="c1">#                 (&#39;fc&#39;,   nn.Linear(self.block_szs[-1]*self.expansion, self.c_out))]</span>
+<span class="c1">#         return nn.Sequential(OrderedDict(head))</span>
+    
+<span class="c1">#     def _make_body(self):</span>
+<span class="c1">#         blocks = [(f&quot;l_{i}&quot;, self._make_layer(self.expansion, </span>
+<span class="c1">#                         self.block_szs[i], self.block_szs[i+1], l, </span>
+<span class="c1">#                         1 if i==0 else 2, self.sa if i==0 else False))</span>
+<span class="c1">#                   for i,l in enumerate(self.layers)]</span>
+<span class="c1">#         return nn.Sequential(OrderedDict(blocks))</span>
+    
+<span class="c1">#     def _make_layer(self,expansion,ni,nf,blocks,stride,sa):</span>
+<span class="c1">#         return nn.Sequential(OrderedDict(</span>
+<span class="c1">#             [(f&quot;bl_{i}&quot;, self.block(expansion, ni if i==0 else nf, nf, </span>
+<span class="c1">#                     stride if i==0 else 1, sa=sa if i==blocks-1 else False,</span>
+<span class="c1">#                     conv_layer=self.conv_layer, act_fn=self.act_fn, pool=self.pool,zero_bn=self.zero_bn))</span>
+<span class="c1">#               for i in range(blocks)]))</span>
+    
+<span class="c1">#     def __call__(self):</span>
+<span class="c1">#         model = nn.Sequential(OrderedDict([</span>
+<span class="c1">#             (&#39;stem&#39;, self.stem),</span>
+<span class="c1">#             (&#39;body&#39;, self.body),</span>
+<span class="c1">#             (&#39;head&#39;, self.head)</span>
+<span class="c1">#         ]))</span>
+<span class="c1">#         init_cnn(model)</span>
+<span class="c1">#         model.extra_repr = lambda : f&quot;model {self.name}&quot;</span>
+<span class="c1">#         return model</span>
+<span class="c1">#     def __repr__(self):</span>
+<span class="c1">#         return f&quot; constr {self.name}&quot;</span>
 </pre></div>
 
     </div>
@@ -800,53 +762,7 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">stem</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>Sequential(
-  (conv_0): Sequential(
-    (conv): Conv2d(3, 32, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
-    (norm): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-    (act_fn): ReLU(inplace=True)
-  )
-  (conv_1): Sequential(
-    (conv): Conv2d(32, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-    (norm): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-    (act_fn): ReLU(inplace=True)
-  )
-  (conv_2): Sequential(
-    (conv): Conv2d(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-    (norm): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-    (act_fn): ReLU(inplace=True)
-  )
-  (stem_pool): MaxPool2d(kernel_size=3, stride=2, padding=1, dilation=1, ceil_mode=False)
-)</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">bn_1st</span> <span class="o">=</span> <span class="kc">False</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># model  = XResNet()</span>
 </pre></div>
 
     </div>
@@ -859,7 +775,7 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">act_fn</span> <span class="o">=</span><span class="n">nn</span><span class="o">.</span><span class="n">LeakyReLU</span><span class="p">(</span><span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># model.stem</span>
 </pre></div>
 
     </div>
@@ -872,7 +788,7 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">sa</span> <span class="o">=</span> <span class="kc">True</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># model.bn_1st = False</span>
 </pre></div>
 
     </div>
@@ -885,7 +801,7 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">stem_bn_end</span> <span class="o">=</span> <span class="kc">True</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># model.act_fn =nn.LeakyReLU(inplace=True)</span>
 </pre></div>
 
     </div>
@@ -898,402 +814,7 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">m</span> <span class="o">=</span> <span class="n">model</span><span class="p">()</span>
-<span class="n">m</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>Sequential(
-  (stem): Sequential(
-    (conv_0): Sequential(
-      (conv): Conv2d(3, 32, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
-      (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-      (norm): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-    )
-    (conv_1): Sequential(
-      (conv): Conv2d(32, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-      (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-      (norm): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-    )
-    (conv_2): Sequential(
-      (conv): Conv2d(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-      (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-    )
-    (stem_pool): MaxPool2d(kernel_size=3, stride=2, padding=1, dilation=1, ceil_mode=False)
-    (norm): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-  )
-  (body): Sequential(
-    (l_0): Sequential(
-      (bl_0): ResBlock(
-        (convs): Sequential(
-          (conv_0): Sequential(
-            (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-            (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-            (norm): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-          )
-          (conv_1): Sequential(
-            (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-            (norm): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-          )
-        )
-        (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-      )
-      (bl_1): ResBlock(
-        (convs): Sequential(
-          (conv_0): Sequential(
-            (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-            (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-            (norm): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-          )
-          (conv_1): Sequential(
-            (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-            (norm): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-          )
-        )
-        (sa): SimpleSelfAttention(
-          (conv): Conv1d(64, 64, kernel_size=(1,), stride=(1,), bias=False)
-        )
-        (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-      )
-    )
-    (l_1): Sequential(
-      (bl_0): ResBlock(
-        (convs): Sequential(
-          (conv_0): Sequential(
-            (conv): Conv2d(64, 128, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
-            (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-            (norm): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-          )
-          (conv_1): Sequential(
-            (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-            (norm): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-          )
-        )
-        (pool): AvgPool2d(kernel_size=2, stride=2, padding=0)
-        (idconv): Sequential(
-          (conv): Conv2d(64, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
-          (norm): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-        )
-        (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-      )
-      (bl_1): ResBlock(
-        (convs): Sequential(
-          (conv_0): Sequential(
-            (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-            (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-            (norm): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-          )
-          (conv_1): Sequential(
-            (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-            (norm): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-          )
-        )
-        (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-      )
-    )
-    (l_2): Sequential(
-      (bl_0): ResBlock(
-        (convs): Sequential(
-          (conv_0): Sequential(
-            (conv): Conv2d(128, 256, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
-            (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-            (norm): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-          )
-          (conv_1): Sequential(
-            (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-            (norm): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-          )
-        )
-        (pool): AvgPool2d(kernel_size=2, stride=2, padding=0)
-        (idconv): Sequential(
-          (conv): Conv2d(128, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
-          (norm): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-        )
-        (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-      )
-      (bl_1): ResBlock(
-        (convs): Sequential(
-          (conv_0): Sequential(
-            (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-            (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-            (norm): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-          )
-          (conv_1): Sequential(
-            (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-            (norm): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-          )
-        )
-        (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-      )
-    )
-    (l_3): Sequential(
-      (bl_0): ResBlock(
-        (convs): Sequential(
-          (conv_0): Sequential(
-            (conv): Conv2d(256, 512, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
-            (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-            (norm): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-          )
-          (conv_1): Sequential(
-            (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-            (norm): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-          )
-        )
-        (pool): AvgPool2d(kernel_size=2, stride=2, padding=0)
-        (idconv): Sequential(
-          (conv): Conv2d(256, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
-          (norm): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-        )
-        (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-      )
-      (bl_1): ResBlock(
-        (convs): Sequential(
-          (conv_0): Sequential(
-            (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-            (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-            (norm): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-          )
-          (conv_1): Sequential(
-            (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-            (norm): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-          )
-        )
-        (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-      )
-    )
-  )
-  (head): Sequential(
-    (pool): AdaptiveAvgPool2d(output_size=1)
-    (flat): Flatten()
-    (fc): Linear(in_features=512, out_features=1000, bias=True)
-  )
-)</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">bs_test</span> <span class="o">=</span> <span class="mi">16</span>
-<span class="n">xb</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">bs_test</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="mi">128</span><span class="p">)</span>
-<span class="n">y</span> <span class="o">=</span> <span class="n">m</span><span class="p">(</span><span class="n">xb</span><span class="p">)</span>
-<span class="c1"># y.shape</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
-<span class="k">assert</span> <span class="n">y</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="n">torch</span><span class="o">.</span><span class="n">Size</span><span class="p">([</span><span class="n">bs_test</span><span class="p">,</span> <span class="mi">1000</span><span class="p">]),</span> <span class="sa">f</span><span class="s2">&quot;size expected </span><span class="si">{bs_test}</span><span class="s2">, 1000&quot;</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>torch.Size([16, 1000])
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">m</span><span class="o">.</span><span class="n">stem</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>Sequential(
-  (conv_0): Sequential(
-    (conv): Conv2d(3, 32, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
-    (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-    (norm): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-  )
-  (conv_1): Sequential(
-    (conv): Conv2d(32, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-    (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-    (norm): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-  )
-  (conv_2): Sequential(
-    (conv): Conv2d(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-    (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-  )
-  (stem_pool): MaxPool2d(kernel_size=3, stride=2, padding=1, dilation=1, ceil_mode=False)
-  (norm): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-)</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">m</span><span class="o">.</span><span class="n">body</span><span class="o">.</span><span class="n">l_0</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>Sequential(
-  (bl_0): ResBlock(
-    (convs): Sequential(
-      (conv_0): Sequential(
-        (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-        (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-        (norm): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-      )
-      (conv_1): Sequential(
-        (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-        (norm): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-      )
-    )
-    (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-  )
-  (bl_1): ResBlock(
-    (convs): Sequential(
-      (conv_0): Sequential(
-        (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-        (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-        (norm): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-      )
-      (conv_1): Sequential(
-        (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-        (norm): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-      )
-    )
-    (sa): SimpleSelfAttention(
-      (conv): Conv1d(64, 64, kernel_size=(1,), stride=(1,), bias=False)
-    )
-    (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-  )
-)</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">conv_layer</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span><span class="mi">64</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>Sequential(
-  (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-  (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-  (norm): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-)</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">stem_sizes</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>[3, 32, 32, 64]</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">stem_sizes</span> <span class="o">=</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">64</span><span class="p">]</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># model.sa = True</span>
 </pre></div>
 
     </div>
@@ -1306,48 +827,10 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">stem</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># model.stem_bn_end = True</span>
 </pre></div>
 
     </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>Sequential(
-  (conv_0): Sequential(
-    (conv): Conv2d(3, 32, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
-    (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-    (norm): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-  )
-  (conv_1): Sequential(
-    (conv): Conv2d(32, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-    (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-    (norm): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-  )
-  (conv_2): Sequential(
-    (conv): Conv2d(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-    (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-    (norm): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-  )
-  (conv_3): Sequential(
-    (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-    (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-    (norm): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-  )
-  (stem_pool): MaxPool2d(kernel_size=3, stride=2, padding=1, dilation=1, ceil_mode=False)
-)</pre>
-</div>
-
-</div>
-
 </div>
 </div>
 
@@ -1357,165 +840,11 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">body</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># m = model()</span>
+<span class="c1"># m</span>
 </pre></div>
 
     </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>Sequential(
-  (l_0): Sequential(
-    (bl_0): ResBlock(
-      (convs): Sequential(
-        (conv_0): Sequential(
-          (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-          (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-          (norm): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-        )
-        (conv_1): Sequential(
-          (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-          (norm): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-        )
-      )
-      (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-    )
-    (bl_1): ResBlock(
-      (convs): Sequential(
-        (conv_0): Sequential(
-          (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-          (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-          (norm): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-        )
-        (conv_1): Sequential(
-          (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-          (norm): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-        )
-      )
-      (sa): SimpleSelfAttention(
-        (conv): Conv1d(64, 64, kernel_size=(1,), stride=(1,), bias=False)
-      )
-      (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-    )
-  )
-  (l_1): Sequential(
-    (bl_0): ResBlock(
-      (convs): Sequential(
-        (conv_0): Sequential(
-          (conv): Conv2d(64, 128, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
-          (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-          (norm): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-        )
-        (conv_1): Sequential(
-          (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-          (norm): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-        )
-      )
-      (pool): AvgPool2d(kernel_size=2, stride=2, padding=0)
-      (idconv): Sequential(
-        (conv): Conv2d(64, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
-        (norm): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-      )
-      (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-    )
-    (bl_1): ResBlock(
-      (convs): Sequential(
-        (conv_0): Sequential(
-          (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-          (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-          (norm): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-        )
-        (conv_1): Sequential(
-          (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-          (norm): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-        )
-      )
-      (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-    )
-  )
-  (l_2): Sequential(
-    (bl_0): ResBlock(
-      (convs): Sequential(
-        (conv_0): Sequential(
-          (conv): Conv2d(128, 256, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
-          (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-          (norm): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-        )
-        (conv_1): Sequential(
-          (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-          (norm): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-        )
-      )
-      (pool): AvgPool2d(kernel_size=2, stride=2, padding=0)
-      (idconv): Sequential(
-        (conv): Conv2d(128, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
-        (norm): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-      )
-      (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-    )
-    (bl_1): ResBlock(
-      (convs): Sequential(
-        (conv_0): Sequential(
-          (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-          (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-          (norm): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-        )
-        (conv_1): Sequential(
-          (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-          (norm): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-        )
-      )
-      (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-    )
-  )
-  (l_3): Sequential(
-    (bl_0): ResBlock(
-      (convs): Sequential(
-        (conv_0): Sequential(
-          (conv): Conv2d(256, 512, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
-          (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-          (norm): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-        )
-        (conv_1): Sequential(
-          (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-          (norm): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-        )
-      )
-      (pool): AvgPool2d(kernel_size=2, stride=2, padding=0)
-      (idconv): Sequential(
-        (conv): Conv2d(256, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
-        (norm): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-      )
-      (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-    )
-    (bl_1): ResBlock(
-      (convs): Sequential(
-        (conv_0): Sequential(
-          (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-          (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-          (norm): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-        )
-        (conv_1): Sequential(
-          (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-          (norm): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-        )
-      )
-      (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-    )
-  )
-)</pre>
-</div>
-
-</div>
-
 </div>
 </div>
 
@@ -1525,30 +854,15 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">head</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># bs_test = 16</span>
+<span class="c1"># xb = torch.randn(bs_test, 3, 128, 128)</span>
+<span class="c1"># y = m(xb)</span>
+<span class="c1"># # y.shape</span>
+<span class="c1"># print(y.shape)</span>
+<span class="c1"># assert y.shape == torch.Size([bs_test, 1000]), f&quot;size expected {bs_test}, 1000&quot;</span>
 </pre></div>
 
     </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>Sequential(
-  (pool): AdaptiveAvgPool2d(output_size=1)
-  (flat): Flatten()
-  (fc): Linear(in_features=512, out_features=1000, bias=True)
-)</pre>
-</div>
-
-</div>
-
 </div>
 </div>
 
@@ -1558,196 +872,10 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">m</span> <span class="o">=</span> <span class="n">model</span><span class="p">()</span>
-<span class="n">m</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># m.stem</span>
 </pre></div>
 
     </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>Sequential(
-  (stem): Sequential(
-    (conv_0): Sequential(
-      (conv): Conv2d(3, 32, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
-      (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-      (norm): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-    )
-    (conv_1): Sequential(
-      (conv): Conv2d(32, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-      (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-      (norm): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-    )
-    (conv_2): Sequential(
-      (conv): Conv2d(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-      (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-      (norm): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-    )
-    (conv_3): Sequential(
-      (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-      (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-      (norm): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-    )
-    (stem_pool): MaxPool2d(kernel_size=3, stride=2, padding=1, dilation=1, ceil_mode=False)
-  )
-  (body): Sequential(
-    (l_0): Sequential(
-      (bl_0): ResBlock(
-        (convs): Sequential(
-          (conv_0): Sequential(
-            (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-            (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-            (norm): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-          )
-          (conv_1): Sequential(
-            (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-            (norm): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-          )
-        )
-        (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-      )
-      (bl_1): ResBlock(
-        (convs): Sequential(
-          (conv_0): Sequential(
-            (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-            (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-            (norm): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-          )
-          (conv_1): Sequential(
-            (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-            (norm): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-          )
-        )
-        (sa): SimpleSelfAttention(
-          (conv): Conv1d(64, 64, kernel_size=(1,), stride=(1,), bias=False)
-        )
-        (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-      )
-    )
-    (l_1): Sequential(
-      (bl_0): ResBlock(
-        (convs): Sequential(
-          (conv_0): Sequential(
-            (conv): Conv2d(64, 128, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
-            (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-            (norm): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-          )
-          (conv_1): Sequential(
-            (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-            (norm): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-          )
-        )
-        (pool): AvgPool2d(kernel_size=2, stride=2, padding=0)
-        (idconv): Sequential(
-          (conv): Conv2d(64, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
-          (norm): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-        )
-        (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-      )
-      (bl_1): ResBlock(
-        (convs): Sequential(
-          (conv_0): Sequential(
-            (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-            (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-            (norm): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-          )
-          (conv_1): Sequential(
-            (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-            (norm): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-          )
-        )
-        (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-      )
-    )
-    (l_2): Sequential(
-      (bl_0): ResBlock(
-        (convs): Sequential(
-          (conv_0): Sequential(
-            (conv): Conv2d(128, 256, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
-            (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-            (norm): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-          )
-          (conv_1): Sequential(
-            (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-            (norm): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-          )
-        )
-        (pool): AvgPool2d(kernel_size=2, stride=2, padding=0)
-        (idconv): Sequential(
-          (conv): Conv2d(128, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
-          (norm): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-        )
-        (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-      )
-      (bl_1): ResBlock(
-        (convs): Sequential(
-          (conv_0): Sequential(
-            (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-            (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-            (norm): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-          )
-          (conv_1): Sequential(
-            (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-            (norm): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-          )
-        )
-        (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-      )
-    )
-    (l_3): Sequential(
-      (bl_0): ResBlock(
-        (convs): Sequential(
-          (conv_0): Sequential(
-            (conv): Conv2d(256, 512, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
-            (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-            (norm): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-          )
-          (conv_1): Sequential(
-            (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-            (norm): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-          )
-        )
-        (pool): AvgPool2d(kernel_size=2, stride=2, padding=0)
-        (idconv): Sequential(
-          (conv): Conv2d(256, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
-          (norm): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-        )
-        (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-      )
-      (bl_1): ResBlock(
-        (convs): Sequential(
-          (conv_0): Sequential(
-            (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-            (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-            (norm): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-          )
-          (conv_1): Sequential(
-            (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-            (norm): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-          )
-        )
-        (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-      )
-    )
-  )
-  (head): Sequential(
-    (pool): AdaptiveAvgPool2d(output_size=1)
-    (flat): Flatten()
-    (fc): Linear(in_features=512, out_features=1000, bias=True)
-  )
-)</pre>
-</div>
-
-</div>
-
 </div>
 </div>
 
@@ -1757,48 +885,10 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">m</span><span class="o">.</span><span class="n">stem</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># m.body.l_0</span>
 </pre></div>
 
     </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>Sequential(
-  (conv_0): Sequential(
-    (conv): Conv2d(3, 32, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
-    (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-    (norm): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-  )
-  (conv_1): Sequential(
-    (conv): Conv2d(32, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-    (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-    (norm): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-  )
-  (conv_2): Sequential(
-    (conv): Conv2d(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-    (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-    (norm): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-  )
-  (conv_3): Sequential(
-    (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-    (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-    (norm): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-  )
-  (stem_pool): MaxPool2d(kernel_size=3, stride=2, padding=1, dilation=1, ceil_mode=False)
-)</pre>
-</div>
-
-</div>
-
 </div>
 </div>
 
@@ -1808,165 +898,10 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">m</span><span class="o">.</span><span class="n">body</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># model.conv_layer(64,64)</span>
 </pre></div>
 
     </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>Sequential(
-  (l_0): Sequential(
-    (bl_0): ResBlock(
-      (convs): Sequential(
-        (conv_0): Sequential(
-          (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-          (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-          (norm): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-        )
-        (conv_1): Sequential(
-          (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-          (norm): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-        )
-      )
-      (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-    )
-    (bl_1): ResBlock(
-      (convs): Sequential(
-        (conv_0): Sequential(
-          (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-          (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-          (norm): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-        )
-        (conv_1): Sequential(
-          (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-          (norm): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-        )
-      )
-      (sa): SimpleSelfAttention(
-        (conv): Conv1d(64, 64, kernel_size=(1,), stride=(1,), bias=False)
-      )
-      (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-    )
-  )
-  (l_1): Sequential(
-    (bl_0): ResBlock(
-      (convs): Sequential(
-        (conv_0): Sequential(
-          (conv): Conv2d(64, 128, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
-          (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-          (norm): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-        )
-        (conv_1): Sequential(
-          (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-          (norm): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-        )
-      )
-      (pool): AvgPool2d(kernel_size=2, stride=2, padding=0)
-      (idconv): Sequential(
-        (conv): Conv2d(64, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
-        (norm): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-      )
-      (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-    )
-    (bl_1): ResBlock(
-      (convs): Sequential(
-        (conv_0): Sequential(
-          (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-          (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-          (norm): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-        )
-        (conv_1): Sequential(
-          (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-          (norm): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-        )
-      )
-      (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-    )
-  )
-  (l_2): Sequential(
-    (bl_0): ResBlock(
-      (convs): Sequential(
-        (conv_0): Sequential(
-          (conv): Conv2d(128, 256, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
-          (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-          (norm): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-        )
-        (conv_1): Sequential(
-          (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-          (norm): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-        )
-      )
-      (pool): AvgPool2d(kernel_size=2, stride=2, padding=0)
-      (idconv): Sequential(
-        (conv): Conv2d(128, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
-        (norm): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-      )
-      (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-    )
-    (bl_1): ResBlock(
-      (convs): Sequential(
-        (conv_0): Sequential(
-          (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-          (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-          (norm): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-        )
-        (conv_1): Sequential(
-          (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-          (norm): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-        )
-      )
-      (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-    )
-  )
-  (l_3): Sequential(
-    (bl_0): ResBlock(
-      (convs): Sequential(
-        (conv_0): Sequential(
-          (conv): Conv2d(256, 512, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
-          (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-          (norm): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-        )
-        (conv_1): Sequential(
-          (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-          (norm): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-        )
-      )
-      (pool): AvgPool2d(kernel_size=2, stride=2, padding=0)
-      (idconv): Sequential(
-        (conv): Conv2d(256, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
-        (norm): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-      )
-      (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-    )
-    (bl_1): ResBlock(
-      (convs): Sequential(
-        (conv_0): Sequential(
-          (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-          (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-          (norm): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-        )
-        (conv_1): Sequential(
-          (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-          (norm): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-        )
-      )
-      (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-    )
-  )
-)</pre>
-</div>
-
-</div>
-
 </div>
 </div>
 
@@ -1976,30 +911,10 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">m</span><span class="o">.</span><span class="n">head</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># model.stem_sizes</span>
 </pre></div>
 
     </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>Sequential(
-  (pool): AdaptiveAvgPool2d(output_size=1)
-  (flat): Flatten()
-  (fc): Linear(in_features=512, out_features=1000, bias=True)
-)</pre>
-</div>
-
-</div>
-
 </div>
 </div>
 
@@ -2059,45 +974,9 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">xresnet</span><span class="p">(</span><span class="n">expansion</span><span class="p">,</span> <span class="n">n_layers</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">c_out</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">pretrained</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-    <span class="n">model</span> <span class="o">=</span> <span class="n">XResNet</span><span class="p">(</span><span class="n">expansion</span><span class="p">,</span> <span class="n">n_layers</span><span class="p">,</span> <span class="n">c_out</span><span class="o">=</span><span class="n">c_out</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">model</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-<div class="output_markdown rendered_html output_subarea ">
-<h4 id="xresnet" class="doc_header"><code>xresnet</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/tst_net.py#L143" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>xresnet</code>(<strong><code>expansion</code></strong>, <strong><code>n_layers</code></strong>, <strong><code>name</code></strong>, <strong><code>c_out</code></strong>=<em><code>1000</code></em>, <strong><code>pretrained</code></strong>=<em><code>False</code></em>, <strong>**<code>kwargs</code></strong>)</p>
-</blockquote>
-
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">xresnet50_d</span> <span class="o">=</span> <span class="n">xresnet</span><span class="p">(</span><span class="n">expansion</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">n_layers</span><span class="o">=</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span>  <span class="mi">6</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;xresnet50_deep&#39;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># def xresnet(expansion, n_layers, name, c_out=1000, pretrained=False, **kwargs):</span>
+<span class="c1">#     model = XResNet(expansion, n_layers, c_out=c_out, **kwargs)</span>
+<span class="c1">#     return model</span>
 </pre></div>
 
     </div>
@@ -2110,7 +989,9 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">m</span> <span class="o">=</span> <span class="n">xresnet50_d</span><span class="p">(</span><span class="n">c_out</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># # export</span>
+<span class="c1"># def xresnet(expansion, n_layers, name, c_out=1000, pretrained=False, **kwargs):</span>
+<span class="c1">#     return partial(XResNet, expansion, n_layers, c_out=c_out, **kwargs)</span>
 </pre></div>
 
     </div>
@@ -2123,46 +1004,7 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">m</span><span class="o">.</span><span class="n">c_out</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>10</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">me</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="vm">__name__</span><span class="p">]</span>
-<span class="k">for</span> <span class="n">n</span><span class="p">,</span><span class="n">e</span><span class="p">,</span><span class="n">l</span> <span class="ow">in</span> <span class="p">[[</span> <span class="mi">18</span> <span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span> <span class="p">,</span><span class="mi">2</span><span class="p">]</span> <span class="p">],</span>
-    <span class="p">[</span> <span class="mi">34</span> <span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">6</span> <span class="p">,</span><span class="mi">3</span><span class="p">]</span> <span class="p">],</span>
-    <span class="p">[</span> <span class="mi">50</span> <span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">6</span> <span class="p">,</span><span class="mi">3</span><span class="p">]</span> <span class="p">],</span>
-    <span class="p">[</span> <span class="mi">101</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">23</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span> <span class="p">],</span>
-    <span class="p">[</span> <span class="mi">152</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">36</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span> <span class="p">],]:</span>
-    <span class="n">name</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;net</span><span class="si">{n}</span><span class="s1">&#39;</span>
-    <span class="nb">setattr</span><span class="p">(</span><span class="n">me</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">partial</span><span class="p">(</span><span class="n">XResNet</span><span class="p">,</span> <span class="n">expansion</span><span class="o">=</span><span class="n">e</span><span class="p">,</span> <span class="n">layers</span><span class="o">=</span><span class="n">l</span><span class="p">,))</span><span class="c1"># name=name))</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># xresnet50_d = xresnet(expansion=4, n_layers=[3, 4,  6, 3,1,1], name=&#39;xresnet50_deep&#39;)</span>
 </pre></div>
 
     </div>
@@ -2175,7 +1017,7 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">m</span> <span class="o">=</span> <span class="n">net50</span><span class="p">()</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># m = xresnet50_d(c_out=10)</span>
 </pre></div>
 
     </div>
@@ -2188,36 +1030,7 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">m</span><span class="o">.</span><span class="n">layers</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>[3, 4, 6, 3]</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">mod</span> <span class="o">=</span> <span class="n">m</span><span class="p">()</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># m.c_out</span>
 </pre></div>
 
     </div>
@@ -2230,88 +1043,44 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">mod</span><span class="o">.</span><span class="n">body</span><span class="o">.</span><span class="n">l_0</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># # export</span>
+<span class="c1"># me = sys.modules[__name__]</span>
+<span class="c1"># for n,e,l in [</span>
+<span class="c1">#     [ 18 , 1, [2,2,2 ,2] ],</span>
+<span class="c1">#     [ 34 , 1, [3,4,6 ,3] ],</span>
+<span class="c1">#     [ 50 , 4, [3,4,6 ,3] ],</span>
+<span class="c1">#     [ 101, 4, [3,4,23,3] ],</span>
+<span class="c1">#     [ 152, 4, [3,8,36,3] ],</span>
+<span class="c1"># ]:</span>
+<span class="c1">#     name = f&#39;xresnet{n}&#39;</span>
+<span class="c1">#     setattr(me, name, xresnet(expansion=e, n_layers=l, name=name))</span>
+
+<span class="c1"># xresnet18_deep = xresnet(expansion=1, n_layers=[2, 2,  2, 2,1,1], name=&#39;xresnet18_deep&#39;)</span>
+<span class="c1"># xresnet34_deep = xresnet(expansion=1, n_layers=[3, 4,  6, 3,1,1], name=&#39;xresnet34_deep&#39;)</span>
+<span class="c1"># xresnet50_deep = xresnet(expansion=4, n_layers=[3, 4,  6, 3,1,1], name=&#39;xresnet50_deep&#39;)</span>
 </pre></div>
 
     </div>
 </div>
 </div>
 
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>Sequential(
-  (bl_0): ResBlock(
-    (convs): Sequential(
-      (conv_0): Sequential(
-        (conv): Conv2d(64, 64, kernel_size=(1, 1), stride=(1, 1), bias=False)
-        (norm): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-        (act_fn): ReLU(inplace=True)
-      )
-      (conv_1): Sequential(
-        (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-        (norm): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-        (act_fn): ReLU(inplace=True)
-      )
-      (conv_2): Sequential(
-        (conv): Conv2d(64, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
-        (norm): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-      )
-    )
-    (idconv): Sequential(
-      (conv): Conv2d(64, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
-      (norm): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-    )
-    (act_fn): ReLU(inplace=True)
-  )
-  (bl_1): ResBlock(
-    (convs): Sequential(
-      (conv_0): Sequential(
-        (conv): Conv2d(256, 64, kernel_size=(1, 1), stride=(1, 1), bias=False)
-        (norm): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-        (act_fn): ReLU(inplace=True)
-      )
-      (conv_1): Sequential(
-        (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-        (norm): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-        (act_fn): ReLU(inplace=True)
-      )
-      (conv_2): Sequential(
-        (conv): Conv2d(64, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
-        (norm): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-      )
-    )
-    (act_fn): ReLU(inplace=True)
-  )
-  (bl_2): ResBlock(
-    (convs): Sequential(
-      (conv_0): Sequential(
-        (conv): Conv2d(256, 64, kernel_size=(1, 1), stride=(1, 1), bias=False)
-        (norm): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-        (act_fn): ReLU(inplace=True)
-      )
-      (conv_1): Sequential(
-        (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-        (norm): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-        (act_fn): ReLU(inplace=True)
-      )
-      (conv_2): Sequential(
-        (conv): Conv2d(64, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
-        (norm): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-      )
-    )
-    (act_fn): ReLU(inplace=True)
-  )
-)</pre>
 </div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
 
-</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># me = sys.modules[__name__]</span>
+<span class="c1"># for n,e,l in [[ 18 , 1, [2,2,2 ,2] ],</span>
+<span class="c1">#     [ 34 , 1, [3,4,6 ,3] ],</span>
+<span class="c1">#     [ 50 , 4, [3,4,6 ,3] ],</span>
+<span class="c1">#     [ 101, 4, [3,4,23,3] ],</span>
+<span class="c1">#     [ 152, 4, [3,8,36,3] ],]:</span>
+<span class="c1">#     name = f&#39;net{n}&#39;</span>
+<span class="c1">#     setattr(me, name, partial(XResNet, expansion=e, layers=l,))# name=name))</span>
+</pre></div>
 
+    </div>
 </div>
 </div>
 
@@ -2323,6 +1092,21 @@ by ayasyrev</p>
 
 </div>
 </div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># # hide</span>
+<span class="c1"># from nbdev.export import *</span>
+<span class="c1"># notebook2script()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
 </div>
 </div>
  

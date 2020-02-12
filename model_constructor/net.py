@@ -5,12 +5,9 @@ __all__ = ['init_cnn', 'act_fn', 'ResBlock', 'Net', 'me', 'xresnet50']
 # Cell
 import torch.nn as nn
 import sys, torch
-# import torch,math,sys
-# import torch.utils.model_zoo as model_zoo
 from functools import partial
 from collections import OrderedDict
 
-# from fastai.torch_core import Module
 from .layers import *
 
 # Cell
@@ -65,15 +62,6 @@ class Net():
         self._init_cnn = init_cnn
         self.conv_layer = ConvLayer
 
-#     def conv_layer(self, ni, nf, ks=3, stride=1, zero_bn=False, act=True, norm=True):
-#         bn = self.norm(nf)
-#         nn.init.constant_(bn.weight, 0. if zero_bn else 1.)
-#         layers =  [('norm', bn)] if norm else []
-#         if act: layers.append(('act_fn', self.act_fn))
-#         if not self.bn_1st: layers.reverse()
-#         layers = [('conv', conv(ni, nf, ks, stride=stride))] + layers
-#         return nn.Sequential(OrderedDict(layers))
-
     @property
     def stem(self):
         return self._make_stem()
@@ -125,22 +113,6 @@ class Net():
         return model
     def __repr__(self):
         return f" constr {self.name}"
-
-# Cell
-# me = sys.modules[__name__]
-# for n,e,l in [  [ 18 , 1, [2,2,2 ,2] ],
-#                 [ 34 , 1, [3,4,6 ,3] ],
-#                 [ 50 , 4, [3,4,6 ,3] ],
-#                 [ 101, 4, [3,4,23,3] ],
-#                 [ 152, 4, [3,8,36,3] ], ]:
-#     name = f'xresnet{n}'
-#     setattr(me, name, xresnet(expansion=e, n_layers=l, name=name))
-# xresnet50      = xresnet(expansion=4, n_layers=[3, 4,  6, 3], name='xresnet50')
-
-# xresnet18_deep = xresnet(expansion=1, n_layers=[2, 2,  2, 2,1,1], name='xresnet18_deep')
-# xresnet34_deep = xresnet(expansion=1, n_layers=[3, 4,  6, 3,1,1], name='xresnet34_deep')
-# xresnet50_deep = xresnet(expansion=4, n_layers=[3, 4,  6, 3,1,1], name='xresnet50_deep')
-
 
 # Cell
 me = sys.modules[__name__]
