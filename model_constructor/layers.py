@@ -43,8 +43,8 @@ class Flatten(nn.Module):
 
 def noop(x): return x
 
-class Noop(nn.Module): # alternative name Merge
-    '''Dummy module for vizualize skip conn'''
+class Noop(nn.Module):
+    '''Dummy module'''
     def __init__(self):
         super().__init__()
 

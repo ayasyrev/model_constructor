@@ -30,6 +30,7 @@ index = {"Stem": "00_constructor.ipynb",
          "xresnet34": "03_xresnet.ipynb",
          "xresnet50": "04_Net.ipynb",
          "init_cnn": "04_Net.ipynb",
+         "NewResBlock": "04_Net.ipynb",
          "me": "04_Net.ipynb"}
 
 modules = ["constructor.py",

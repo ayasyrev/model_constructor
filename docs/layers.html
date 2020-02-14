@@ -18,7 +18,8 @@ summary: "Basic layers for constructor."
 -->
 
 <div class="container" id="notebook-container">
-    
+    {% raw %}
+        
 <div class="cell border-box-sizing code_cell rendered">
 
 </div>
@@ -293,7 +294,7 @@ summary: "Basic layers for constructor."
 <div class="output_markdown rendered_html output_subarea ">
 <h2 id="Noop" class="doc_header"><code>class</code> <code>Noop</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/layers.py#L46" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>Noop</code>() :: <code>Module</code></p>
 </blockquote>
-<p>Dummy module for vizualize skip conn</p>
+<p>Dummy module</p>
 
 </div>
 
@@ -2014,7 +2015,7 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
     (conv_0): ConvLayer(
       (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
       (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-      (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
+      (act_fn): ReLU(inplace=True)
     )
     (conv_1): ConvLayer(
       (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
@@ -2027,7 +2028,7 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
   (identity): DownsampleLayer(
     (pool): AvgPool2d(kernel_size=2, stride=2, padding=0)
   )
-  (merge): LeakyReLU(negative_slope=0.01, inplace=True)
+  (merge): ReLU(inplace=True)
 )</pre>
 </div>
 
@@ -2094,7 +2095,7 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
     (conv_0): ConvLayer(
       (conv): Conv2d(64, 128, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
       (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-      (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
+      (act_fn): ReLU(inplace=True)
     )
     (conv_1): ConvLayer(
       (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
@@ -2108,7 +2109,7 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
       (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
     )
   )
-  (merge): LeakyReLU(negative_slope=0.01, inplace=True)
+  (merge): ReLU(inplace=True)
 )</pre>
 </div>
 
@@ -2269,6 +2270,7 @@ by ayasyrev</p>
 </div>
 </div>
 </div>
+    {% endraw %}
 </div>
  
 

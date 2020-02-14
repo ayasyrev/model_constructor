@@ -84,7 +84,7 @@ model.layers
 
 
 
-    [64, 64, 128, 256, 512]
+    [2, 2, 2, 2]
 
 
 
@@ -621,10 +621,21 @@ model.body
 
 
 
+```python
+model.block_szs
+```
+
+
+
+
+    [16, 64, 128, 256, 512]
+
+
+
 ## More modification.
 
 Main purpose of this module - fast and easy modify model.
-And here is the link to more modification to beat Imagenette leaderboard with addin MaxBlurPool and modification to ResBlock https://github.com/ayasyrev/imagenette_experiments/blob/master/ResnetTrick_create_model_fit.ipynb  
+And here is the link to more modification to beat Imagenette leaderboard with add MaxBlurPool and modification to ResBlock https://github.com/ayasyrev/imagenette_experiments/blob/master/ResnetTrick_create_model_fit.ipynb  
 
 But now lets create model as mxresnet50 from fastai forums tread https://forums.fast.ai/t/how-we-beat-the-5-epoch-imagewoof-leaderboard-score-some-new-techniques-to-consider  
 
@@ -657,11 +668,23 @@ class Mish(nn.Module):
 mxresnet.expansion = 4
 mxresnet.layers = [3,4,6,3]
 mxresnet.act_fn = Mish()
+mxresnet.name = 'mxresnet50'
 ```
 
 Now we have mxresnet50 constructor.  
 We can inspect some parts of it.  
 And after call it we got model.
+
+```python
+mxresnet
+```
+
+
+
+
+     constr mxresnet50
+
+
 
 ```python
 mxresnet.stem.conv_1
@@ -688,7 +711,7 @@ mxresnet.body.l_0.bl_0
     ResBlock(
       (convs): Sequential(
         (conv_0): ConvLayer(
-          (conv): Conv2d(256, 64, kernel_size=(1, 1), stride=(1, 1), bias=False)
+          (conv): Conv2d(64, 64, kernel_size=(1, 1), stride=(1, 1), bias=False)
           (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
           (act_fn): Mish()
         )
@@ -702,7 +725,53 @@ mxresnet.body.l_0.bl_0
           (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
         )
       )
+      (idconv): ConvLayer(
+        (conv): Conv2d(64, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
       (act_fn): Mish()
+    )
+
+
+
+Now lets change Resblock. NewResBlock (stiil not own name yet) is in lib from version 0.1.0
+
+```python
+mxresnet.block = NewResBlock
+```
+
+That all. Let see what we have.
+
+```python
+mxresnet.body.l_1.bl_0
+```
+
+
+
+
+    NewResBlock(
+      (reduce): AvgPool2d(kernel_size=2, stride=2, padding=0)
+      (convs): Sequential(
+        (conv_0): ConvLayer(
+          (conv): Conv2d(256, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
+          (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (act_fn): Mish()
+        )
+        (conv_1): ConvLayer(
+          (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+          (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (act_fn): Mish()
+        )
+        (conv_2): ConvLayer(
+          (conv): Conv2d(128, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+          (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+      )
+      (idconv): ConvLayer(
+        (conv): Conv2d(256, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+      (merge): Mish()
     )
 
 

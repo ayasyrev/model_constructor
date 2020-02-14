@@ -18,7 +18,8 @@ summary: "Create and tune pytorch model."
 -->
 
 <div class="container" id="notebook-container">
-    
+    {% raw %}
+        
 <div class="cell border-box-sizing code_cell rendered">
 
 </div>
@@ -154,7 +155,7 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ResBlock</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="n">act_fn</span><span class="o">=</span><span class="n">nn</span><span class="o">.</span><span class="n">LeakyReLU</span><span class="p">())</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ResBlock</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="n">act_fn</span><span class="o">=</span><span class="n">nn</span><span class="o">.</span><span class="n">LeakyReLU</span><span class="p">())</span>
 </pre></div>
 
     </div>
@@ -172,13 +173,18 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
 <pre>ResBlock(
   (convs): Sequential(
     (conv_0): ConvLayer(
-      (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (conv): Conv2d(128, 64, kernel_size=(1, 1), stride=(1, 1), bias=False)
       (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
       (act_fn): LeakyReLU(negative_slope=0.01)
     )
     (conv_1): ConvLayer(
       (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
       (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (act_fn): LeakyReLU(negative_slope=0.01)
+    )
+    (conv_2): ConvLayer(
+      (conv): Conv2d(64, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
     )
   )
   (act_fn): LeakyReLU(negative_slope=0.01)
@@ -193,38 +199,9 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Net">Net<a class="anchor-link" href="#Net">&#182;</a></h1>
+<h1 id="NewResBlock">NewResBlock<a class="anchor-link" href="#NewResBlock">&#182;</a></h1>
 </div>
 </div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ConvLayer</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>model_constructor.layers.ConvLayer</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 
@@ -238,7 +215,57 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="Net" class="doc_header"><code>class</code> <code>Net</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/net.py#L46" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>Net</code>(<strong><code>expansion</code></strong>=<em><code>1</code></em>, <strong><code>layers</code></strong>=<em><code>[2, 2, 2, 2]</code></em>, <strong><code>c_in</code></strong>=<em><code>3</code></em>, <strong><code>c_out</code></strong>=<em><code>1000</code></em>, <strong><code>name</code></strong>=<em><code>'Net'</code></em>)</p>
+<h2 id="NewResBlock" class="doc_header"><code>class</code> <code>NewResBlock</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/net.py#L46" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>NewResBlock</code>(<strong><code>expansion</code></strong>, <strong><code>ni</code></strong>, <strong><code>nh</code></strong>, <strong><code>stride</code></strong>=<em><code>1</code></em>, <strong><code>conv_layer</code></strong>=<em><code>'ConvLayer'</code></em>, <strong><code>act_fn</code></strong>=<em><code>ReLU(inplace=True)</code></em>, <strong><code>pool</code></strong>=<em><code>AvgPool2d(kernel_size=2, stride=2, padding=0)</code></em>, <strong><code>sa</code></strong>=<em><code>False</code></em>, <strong><code>sym</code></strong>=<em><code>False</code></em>, <strong><code>zero_bn</code></strong>=<em><code>True</code></em>) :: <code>Module</code></p>
+</blockquote>
+<p>Base class for all neural network modules.</p>
+<p>Your models should also subclass this class.</p>
+<p>Modules can also contain other Modules, allowing to nest them in
+a tree structure. You can assign the submodules as regular attributes::</p>
+
+<pre><code>import torch.nn as nn
+import torch.nn.functional as F
+
+class Model(nn.Module):
+    def __init__(self):
+        super(Model, self).__init__()
+        self.conv1 = nn.Conv2d(1, 20, 5)
+        self.conv2 = nn.Conv2d(20, 20, 5)
+
+    def forward(self, x):
+        x = F.relu(self.conv1(x))
+        return F.relu(self.conv2(x))
+
+</code></pre>
+<p>Submodules assigned in this way will be registered, and will have their
+parameters converted too when you call :meth:<code>to</code>, etc.</p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Net-class.">Net class.<a class="anchor-link" href="#Net-class.">&#182;</a></h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h2 id="Net" class="doc_header"><code>class</code> <code>Net</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/net.py#L71" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>Net</code>(<strong><code>expansion</code></strong>=<em><code>1</code></em>, <strong><code>layers</code></strong>=<em><code>[2, 2, 2, 2]</code></em>, <strong><code>c_in</code></strong>=<em><code>3</code></em>, <strong><code>c_out</code></strong>=<em><code>1000</code></em>, <strong><code>name</code></strong>=<em><code>'Net'</code></em>)</p>
 </blockquote>
 
 </div>
@@ -296,6 +323,35 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
 
 <div class="inner_cell">
     <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">block_szs</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>[64, 64, 128, 256, 512]</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">stem</span>
 </pre></div>
 
@@ -314,18 +370,18 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
 <pre>Sequential(
   (conv_0): ConvLayer(
     (conv): Conv2d(3, 32, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
-    (act_fn): ReLU(inplace=True)
     (bn): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (act_fn): ReLU(inplace=True)
   )
   (conv_1): ConvLayer(
     (conv): Conv2d(32, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-    (act_fn): ReLU(inplace=True)
     (bn): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (act_fn): ReLU(inplace=True)
   )
   (conv_2): ConvLayer(
     (conv): Conv2d(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-    (act_fn): ReLU(inplace=True)
     (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (act_fn): ReLU(inplace=True)
   )
   (stem_pool): MaxPool2d(kernel_size=3, stride=2, padding=1, dilation=1, ceil_mode=False)
 )</pre>
@@ -369,6 +425,96 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">sa</span> <span class="o">=</span> <span class="kc">True</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">body</span><span class="o">.</span><span class="n">l_1</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>Sequential(
+  (bl_0): ResBlock(
+    (convs): Sequential(
+      (conv_0): ConvLayer(
+        (conv): Conv2d(64, 128, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
+        (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
+      )
+      (conv_1): ConvLayer(
+        (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+    )
+    (pool): AvgPool2d(kernel_size=2, stride=2, padding=0)
+    (idconv): ConvLayer(
+      (conv): Conv2d(64, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    )
+    (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
+  )
+  (bl_1): ResBlock(
+    (convs): Sequential(
+      (conv_0): ConvLayer(
+        (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
+      )
+      (conv_1): ConvLayer(
+        (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+    )
+    (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
+  )
+)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">block</span> <span class="o">=</span> <span class="n">NewResBlock</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># model = Net(expansion=4)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">expansion</span> <span class="o">=</span> <span class="mi">4</span>
 </pre></div>
 
     </div>
@@ -442,224 +588,9 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">m</span> <span class="o">=</span> <span class="n">model</span><span class="p">()</span>
-<span class="n">m</span>
 </pre></div>
 
     </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>Sequential(
-  model Net
-  (stem): Sequential(
-    (conv_0): ConvLayer(
-      (conv): Conv2d(3, 32, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
-      (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-      (bn): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-    )
-    (conv_1): ConvLayer(
-      (conv): Conv2d(32, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-      (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-      (bn): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-    )
-    (conv_2): ConvLayer(
-      (conv): Conv2d(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-      (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-      (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-    )
-    (stem_pool): MaxPool2d(kernel_size=3, stride=2, padding=1, dilation=1, ceil_mode=False)
-    (norm): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-  )
-  (body): Sequential(
-    (l_0): Sequential(
-      (bl_0): ResBlock(
-        (convs): Sequential(
-          (conv_0): ConvLayer(
-            (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-            (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-            (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-          )
-          (conv_1): ConvLayer(
-            (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-            (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-          )
-        )
-        (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-      )
-      (bl_1): ResBlock(
-        (convs): Sequential(
-          (conv_0): ConvLayer(
-            (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-            (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-            (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-          )
-          (conv_1): ConvLayer(
-            (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-            (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-          )
-          (sa): SimpleSelfAttention(
-            (conv): Conv1d(64, 64, kernel_size=(1,), stride=(1,), bias=False)
-          )
-        )
-        (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-      )
-    )
-    (l_1): Sequential(
-      (bl_0): ResBlock(
-        (convs): Sequential(
-          (conv_0): ConvLayer(
-            (conv): Conv2d(64, 128, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
-            (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-            (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-          )
-          (conv_1): ConvLayer(
-            (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-            (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-          )
-        )
-        (pool): AvgPool2d(kernel_size=2, stride=2, padding=0)
-        (idconv): ConvLayer(
-          (conv): Conv2d(64, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
-          (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-        )
-        (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-      )
-      (bl_1): ResBlock(
-        (convs): Sequential(
-          (conv_0): ConvLayer(
-            (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-            (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-            (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-          )
-          (conv_1): ConvLayer(
-            (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-            (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-          )
-        )
-        (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-      )
-    )
-    (l_2): Sequential(
-      (bl_0): ResBlock(
-        (convs): Sequential(
-          (conv_0): ConvLayer(
-            (conv): Conv2d(128, 256, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
-            (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-            (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-          )
-          (conv_1): ConvLayer(
-            (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-            (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-          )
-        )
-        (pool): AvgPool2d(kernel_size=2, stride=2, padding=0)
-        (idconv): ConvLayer(
-          (conv): Conv2d(128, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
-          (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-        )
-        (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-      )
-      (bl_1): ResBlock(
-        (convs): Sequential(
-          (conv_0): ConvLayer(
-            (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-            (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-            (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-          )
-          (conv_1): ConvLayer(
-            (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-            (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-          )
-        )
-        (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-      )
-    )
-    (l_3): Sequential(
-      (bl_0): ResBlock(
-        (convs): Sequential(
-          (conv_0): ConvLayer(
-            (conv): Conv2d(256, 512, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
-            (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-            (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-          )
-          (conv_1): ConvLayer(
-            (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-            (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-          )
-        )
-        (pool): AvgPool2d(kernel_size=2, stride=2, padding=0)
-        (idconv): ConvLayer(
-          (conv): Conv2d(256, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
-          (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-        )
-        (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-      )
-      (bl_1): ResBlock(
-        (convs): Sequential(
-          (conv_0): ConvLayer(
-            (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-            (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-            (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-          )
-          (conv_1): ConvLayer(
-            (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-            (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-          )
-        )
-        (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-      )
-    )
-  )
-  (head): Sequential(
-    (pool): AdaptiveAvgPool2d(output_size=1)
-    (flat): Flatten()
-    (fc): Linear(in_features=512, out_features=1000, bias=True)
-  )
-)</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">bs_test</span> <span class="o">=</span> <span class="mi">16</span>
-<span class="n">xb</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">bs_test</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="mi">128</span><span class="p">)</span>
-<span class="n">y</span> <span class="o">=</span> <span class="n">m</span><span class="p">(</span><span class="n">xb</span><span class="p">)</span>
-<span class="c1"># y.shape</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
-<span class="k">assert</span> <span class="n">y</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="n">torch</span><span class="o">.</span><span class="n">Size</span><span class="p">([</span><span class="n">bs_test</span><span class="p">,</span> <span class="mi">1000</span><span class="p">]),</span> <span class="sa">f</span><span class="s2">&quot;size expected </span><span class="si">{bs_test}</span><span class="s2">, 1000&quot;</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>torch.Size([16, 1000])
-</pre>
-</div>
-</div>
-
 </div>
 </div>
 
@@ -673,91 +604,6 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
 </pre></div>
 
     </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">stem</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>Sequential(
-  (conv_0): ConvLayer(
-    (conv): Conv2d(3, 32, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
-    (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-    (bn): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-  )
-  (conv_1): ConvLayer(
-    (conv): Conv2d(32, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-    (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-    (bn): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-  )
-  (conv_2): ConvLayer(
-    (conv): Conv2d(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-    (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-    (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-  )
-  (conv_3): ConvLayer(
-    (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-    (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-    (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-  )
-  (stem_pool): MaxPool2d(kernel_size=3, stride=2, padding=1, dilation=1, ceil_mode=False)
-  (norm): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-)</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">head</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>Sequential(
-  (pool): AdaptiveAvgPool2d(output_size=1)
-  (flat): Flatten()
-  (fc): Linear(in_features=512, out_features=1000, bias=True)
-)</pre>
-</div>
-
-</div>
-
 </div>
 </div>
 
@@ -821,6 +667,7 @@ by ayasyrev</p>
 </div>
 </div>
 </div>
+    {% endraw %}
 </div>
  
 
