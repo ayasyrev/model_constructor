@@ -103,7 +103,7 @@ class Net():
     def _make_stem(self):
         stem = [(f"conv_{i}", self.conv_layer(self.stem_sizes[i], self.stem_sizes[i+1],
                     stride=2 if i==0 else 1,
-                    norm=(not self.stem_bn_end) if i==(len(self.stem_sizes)-2) else True,
+                    bn_layer=(not self.stem_bn_end) if i==(len(self.stem_sizes)-2) else True,
                     act_fn=self.act_fn, bn_1st=self.bn_1st))
                 for i in range(len(self.stem_sizes)-1)]
         stem.append(('stem_pool', self.stem_pool))
