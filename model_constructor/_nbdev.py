@@ -7,9 +7,9 @@ index = {"Stem": "00_constructor.ipynb",
          "Body": "00_constructor.ipynb",
          "Head": "00_constructor.ipynb",
          "init_model": "00_constructor.ipynb",
-         "Net": "81_Net.ipynb",
+         "Net": "04_Net.ipynb",
          "ConvLayer": "01_layers.ipynb",
-         "act_fn": "81_Net.ipynb",
+         "act_fn": "04_Net.ipynb",
          "Flatten": "01_layers.ipynb",
          "noop": "01_layers.ipynb",
          "Noop": "01_layers.ipynb",
@@ -22,24 +22,22 @@ index = {"Stem": "00_constructor.ipynb",
          "SimpleSelfAttention": "01_layers.ipynb",
          "ConvBlockBasic": "01_layers.ipynb",
          "ConvBlockBottle": "01_layers.ipynb",
-         "ResBlock": "81_Net.ipynb",
+         "ResBlock": "04_Net.ipynb",
          "resnet18": "02_resnet.ipynb",
          "resnet34": "02_resnet.ipynb",
          "resnet50": "02_resnet.ipynb",
          "xresnet18": "03_xresnet.ipynb",
          "xresnet34": "03_xresnet.ipynb",
-         "xresnet50": "81_Net.ipynb",
-         "init_cnn": "81_Net.ipynb",
-         "NewResBlock": "81_Net.ipynb",
-         "me": "81_Net.ipynb",
-         "NewConvLayer": "81_Net.ipynb"}
+         "xresnet50": "04_Net.ipynb",
+         "init_cnn": "04_Net.ipynb",
+         "NewResBlock": "04_Net.ipynb",
+         "me": "04_Net.ipynb"}
 
 modules = ["constructor.py",
            "layers.py",
            "resnet.py",
            "xresnet.py",
-           "net.py",
-           "tst_net_2.py"]
+           "net.py"]
 
 doc_url = "https://ayasyrev.github.io/model_constructor/"
 

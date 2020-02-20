@@ -23,15 +23,15 @@ And by creating constructor object, then modify it and then create model.
 
 First import constructor class, then create model constructor oject.
 
-```python
+```
 from model_constructor.net import *
 ```
 
-```python
+```
 model = Net()
 ```
 
-```python
+```
 model
 ```
 
@@ -44,7 +44,7 @@ model
 
 Now we have model consructor, defoult setting as xresnet18. And we can get model after call it.
 
-```python
+```
 model.c_in
 ```
 
@@ -55,7 +55,7 @@ model.c_in
 
 
 
-```python
+```
 model.c_out
 ```
 
@@ -66,7 +66,7 @@ model.c_out
 
 
 
-```python
+```
 model.stem_sizes
 ```
 
@@ -77,7 +77,7 @@ model.stem_sizes
 
 
 
-```python
+```
 model.layers
 ```
 
@@ -88,7 +88,7 @@ model.layers
 
 
 
-```python
+```
 model.expansion
 ```
 
@@ -99,7 +99,7 @@ model.expansion
 
 
 
-```python
+```
 model()
 ```
 
@@ -275,14 +275,14 @@ model()
 If you want to change model, just change constructor parameters.  
 Lets create xresnet50.
 
-```python
+```
 model.expansion = 4
 model.layers = [3,4,6,3]
 ```
 
 Now we can look at model body and if we call constructor - we have pytorch model!
 
-```python
+```
 model.body
 ```
 
@@ -621,7 +621,7 @@ model.body
 
 
 
-```python
+```
 model.block_szs
 ```
 
@@ -642,20 +642,20 @@ But now lets create model as mxresnet50 from fastai forums tread https://forums.
 
 Lets create mxresnet constructor.
 
-```python
+```
 mxresnet = Net()
 ```
 
 Then lets modify stem.
 
-```python
+```
 mxresnet.stem_sizes = [3,32,64,64]
 ```
 
 Now lets change activation function to Mish.
 Here is link to forum disscussion https://forums.fast.ai/t/meet-mish-new-activation-function-possible-successor-to-relu
 
-```python
+```
 class Mish(nn.Module):
     def __init__(self):
         super().__init__()
@@ -664,7 +664,7 @@ class Mish(nn.Module):
         return x *( torch.tanh(F.softplus(x))) 
 ```
 
-```python
+```
 mxresnet.expansion = 4
 mxresnet.layers = [3,4,6,3]
 mxresnet.act_fn = Mish()
@@ -675,7 +675,7 @@ Now we have mxresnet50 constructor.
 We can inspect some parts of it.  
 And after call it we got model.
 
-```python
+```
 mxresnet
 ```
 
@@ -686,7 +686,7 @@ mxresnet
 
 
 
-```python
+```
 mxresnet.stem.conv_1
 ```
 
@@ -701,7 +701,7 @@ mxresnet.stem.conv_1
 
 
 
-```python
+```
 mxresnet.body.l_0.bl_0
 ```
 
@@ -736,13 +736,13 @@ mxresnet.body.l_0.bl_0
 
 Now lets change Resblock. NewResBlock (stiil not own name yet) is in lib from version 0.1.0
 
-```python
+```
 mxresnet.block = NewResBlock
 ```
 
 That all. Let see what we have.
 
-```python
+```
 mxresnet.body.l_1.bl_0
 ```
 
@@ -780,34 +780,34 @@ mxresnet.body.l_1.bl_0
 
 Usual way to get model - call constructor with parametrs.
 
-```python
+```
 from model_constructor.constructor import *
 ```
 
 Default is resnet18.
 
-```python
+```
 model = Net()
 ```
 
 You cant modify model after call constructor, so define model with parameters.   
 For example, resnet34:
 
-```python
+```
 resnet34 = Net(block=BasicBlock, blocks=[3, 4, 6, 3])
 ```
 
 ## Predefined Resnet models - 18, 34, 50.
 
-```python
+```
 from model_constructor.resnet import *
 ```
 
-```python
+```
 model = resnet34(num_classes=10)
 ```
 
-```python
+```
 model = resnet50(num_classes=10)
 ```
 
@@ -815,11 +815,11 @@ model = resnet50(num_classes=10)
 
 This ie simplified version from fastai v1. I did refactoring for better understand and experiment with models. For example, it's very simple to change activation funtions, different stems, batchnorm and activation order etc. In v2 much powerfull realisation.
 
-```python
+```
 from model_constructor.xresnet import *
 ```
 
-```python
+```
 model = xresnet50()
 ```
 
@@ -834,11 +834,11 @@ Here is some examples:
 
 Stem with 3 conv layers
 
-```python
+```
 model = Net(stem=partial(Stem, stem_sizes=[32, 32]))
 ```
 
-```python
+```
 model.stem
 ```
 
@@ -867,11 +867,11 @@ model.stem
 
 
 
-```python
+```
 model = Net(stem_sizes=[32, 64])
 ```
 
-```python
+```
 model.stem
 ```
 
@@ -902,11 +902,11 @@ model.stem
 
 ### Activation function before Normalization
 
-```python
+```
 model = Net(bn_1st=False)
 ```
 
-```python
+```
 model.stem
 ```
 
@@ -928,15 +928,15 @@ model.stem
 
 ### Change activation function
 
-```python
+```
 new_act_fn = nn.LeakyReLU(inplace=True)
 ```
 
-```python
+```
 model = Net(act_fn=new_act_fn)
 ```
 
-```python
+```
 model.stem
 ```
 
@@ -955,7 +955,7 @@ model.stem
 
 
 
-```python
+```
 model.body.layer_0.block_0
 ```
 
