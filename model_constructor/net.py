@@ -152,5 +152,5 @@ for n,e,l in [[ 18 , 1, [2,2,2 ,2] ],
     [ 152, 4, [3,8,36,3] ],]:
     name = f'net{n}'
     setattr(me, name, partial(Net, expansion=e, layers=l, name=name))
-xresnet34  = partial(Net, expansion=4, layers=[3, 4,  6, 3], name='xresnet50')
+xresnet34  = partial(Net, expansion=1, layers=[3, 4,  6, 3], name='xresnet34')
 xresnet50  = partial(Net, expansion=4, layers=[3, 4,  6, 3], name='xresnet50')
