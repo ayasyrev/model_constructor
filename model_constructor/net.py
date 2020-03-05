@@ -67,6 +67,41 @@ class NewResBlock(nn.Module):
         return self.merge(self.convs(o) + self.idconv(o))
 
 # Cell
+def _make_stem(self):
+        stem = [(f"conv_{i}", self.conv_layer(self.stem_sizes[i], self.stem_sizes[i+1],
+                    stride=2 if i==0 else 1,
+                    bn_layer=(not self.stem_bn_end) if i==(len(self.stem_sizes)-2) else True,
+                    act_fn=self.act_fn, bn_1st=self.bn_1st))
+                for i in range(len(self.stem_sizes)-1)]
+        stem.append(('stem_pool', self.stem_pool))
+        if self.stem_bn_end: stem.append(('norm', self.norm(self.stem_sizes[-1])))
+        return nn.Sequential(OrderedDict(stem))
+
+# Cell
+def _make_layer(self,expansion,ni,nf,blocks,stride,sa):
+        return nn.Sequential(OrderedDict(
+            [(f"bl_{i}", self.block(expansion, ni if i==0 else nf, nf,
+                    stride if i==0 else 1, sa=sa if i==blocks-1 else False,
+                    conv_layer=self.conv_layer, act_fn=self.act_fn, pool=self.pool,
+                                    zero_bn=self.zero_bn, bn_1st=self.bn_1st))
+              for i in range(blocks)]))
+
+# Cell
+def _make_body(self):
+        blocks = [(f"l_{i}", self._make_layer(self,self.expansion,
+                        self.block_szs[i], self.block_szs[i+1], l,
+                        1 if i==0 else 2, self.sa if i==0 else False))
+                  for i,l in enumerate(self.layers)]
+        return nn.Sequential(OrderedDict(blocks))
+
+# Cell
+def _make_head(self):
+        head = [('pool', nn.AdaptiveAvgPool2d(1)),
+                ('flat', Flatten()),
+                ('fc',   nn.Linear(self.block_szs[-1]*self.expansion, self.c_out))]
+        return nn.Sequential(OrderedDict(head))
+
+# Cell
 # v8
 class Net():
     def __init__(self, expansion=1, layers=[2,2,2,2], c_in=3, c_out=1000, name='Net'):
@@ -83,8 +118,13 @@ class Net():
         self.sa=False
         self.bn_1st = True
         self.zero_bn=True
-        self._init_cnn = init_cnn
         self.conv_layer = ConvLayer
+        self._init_cnn = init_cnn
+        self._make_stem = _make_stem
+        self._make_layer = _make_layer
+        self._make_body = _make_body
+        self._make_head = _make_head
+
 
     @property
     def block_szs(self):
@@ -92,44 +132,47 @@ class Net():
 
     @property
     def stem(self):
-        return self._make_stem()
+        return self._make_stem(self)
     @property
     def head(self):
-        return self._make_head()
+        return self._make_head(self)
+#     @property
+#     def _make_layer(self):
+#         return self.__make_layer(self)
     @property
     def body(self):
-        return self._make_body()
+        return self._make_body(self)
 
-    def _make_stem(self):
-        stem = [(f"conv_{i}", self.conv_layer(self.stem_sizes[i], self.stem_sizes[i+1],
-                    stride=2 if i==0 else 1,
-                    bn_layer=(not self.stem_bn_end) if i==(len(self.stem_sizes)-2) else True,
-                    act_fn=self.act_fn, bn_1st=self.bn_1st))
-                for i in range(len(self.stem_sizes)-1)]
-        stem.append(('stem_pool', self.stem_pool))
-        if self.stem_bn_end: stem.append(('norm', self.norm(self.stem_sizes[-1])))
-        return nn.Sequential(OrderedDict(stem))
+#     def _make_stem(self):
+#         stem = [(f"conv_{i}", self.conv_layer(self.stem_sizes[i], self.stem_sizes[i+1],
+#                     stride=2 if i==0 else 1,
+#                     bn_layer=(not self.stem_bn_end) if i==(len(self.stem_sizes)-2) else True,
+#                     act_fn=self.act_fn, bn_1st=self.bn_1st))
+#                 for i in range(len(self.stem_sizes)-1)]
+#         stem.append(('stem_pool', self.stem_pool))
+#         if self.stem_bn_end: stem.append(('norm', self.norm(self.stem_sizes[-1])))
+#         return nn.Sequential(OrderedDict(stem))
 
-    def _make_head(self):
-        head = [('pool', nn.AdaptiveAvgPool2d(1)),
-                ('flat', Flatten()),
-                ('fc',   nn.Linear(self.block_szs[-1]*self.expansion, self.c_out))]
-        return nn.Sequential(OrderedDict(head))
+#     def _make_head(self):
+#         head = [('pool', nn.AdaptiveAvgPool2d(1)),
+#                 ('flat', Flatten()),
+#                 ('fc',   nn.Linear(self.block_szs[-1]*self.expansion, self.c_out))]
+#         return nn.Sequential(OrderedDict(head))
 
-    def _make_body(self):
-        blocks = [(f"l_{i}", self._make_layer(self.expansion,
-                        self.block_szs[i], self.block_szs[i+1], l,
-                        1 if i==0 else 2, self.sa if i==0 else False))
-                  for i,l in enumerate(self.layers)]
-        return nn.Sequential(OrderedDict(blocks))
+#     def _make_body(self):
+#         blocks = [(f"l_{i}", self._make_layer(self.expansion,
+#                         self.block_szs[i], self.block_szs[i+1], l,
+#                         1 if i==0 else 2, self.sa if i==0 else False))
+#                   for i,l in enumerate(self.layers)]
+#         return nn.Sequential(OrderedDict(blocks))
 
-    def _make_layer(self,expansion,ni,nf,blocks,stride,sa):
-        return nn.Sequential(OrderedDict(
-            [(f"bl_{i}", self.block(expansion, ni if i==0 else nf, nf,
-                    stride if i==0 else 1, sa=sa if i==blocks-1 else False,
-                    conv_layer=self.conv_layer, act_fn=self.act_fn, pool=self.pool,
-                                    zero_bn=self.zero_bn, bn_1st=self.bn_1st))
-              for i in range(blocks)]))
+#     def _make_layer(self,expansion,ni,nf,blocks,stride,sa):
+#         return nn.Sequential(OrderedDict(
+#             [(f"bl_{i}", self.block(expansion, ni if i==0 else nf, nf,
+#                     stride if i==0 else 1, sa=sa if i==blocks-1 else False,
+#                     conv_layer=self.conv_layer, act_fn=self.act_fn, pool=self.pool,
+#                                     zero_bn=self.zero_bn, bn_1st=self.bn_1st))
+#               for i in range(blocks)]))
 
     def __call__(self):
         model = nn.Sequential(OrderedDict([
