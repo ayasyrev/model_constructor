@@ -27,12 +27,14 @@ index = {"Stem": "00_constructor.ipynb",
          "resnet34": "02_resnet.ipynb",
          "resnet50": "02_resnet.ipynb",
          "xresnet18": "03_xresnet.ipynb",
-         "xresnet34": "04_Net.ipynb",
+         "xresnet34": "03_xresnet.ipynb",
          "xresnet50": "81_Net.ipynb",
          "init_cnn": "81_Net.ipynb",
          "NewResBlock": "81_Net.ipynb",
-         "me": "81_Net.ipynb",
-         "NewConvLayer": "81_Net.ipynb"}
+         "net34": "04_Net.ipynb",
+         "net50": "04_Net.ipynb",
+         "NewConvLayer": "81_Net.ipynb",
+         "me": "81_Net.ipynb"}
 
 modules = ["constructor.py",
            "layers.py",
