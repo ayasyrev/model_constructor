@@ -15,6 +15,7 @@ act_fn = nn.ReLU(inplace=True)
 
 class ConvLayer(nn.Sequential):
     """Basic conv layers block"""
+    Conv2d = nn.Conv2d
     def __init__(self, ni, nf, ks=3, stride=1,
             act=True,  act_fn=act_fn,
             bn_layer=True, bn_1st=True, zero_bn=False,
@@ -22,7 +23,7 @@ class ConvLayer(nn.Sequential):
 
 #         self.act = act
         if padding==None: padding = ks//2
-        layers = [('conv', nn.Conv2d(ni, nf, ks, stride=stride, padding=padding, bias=bias, groups=groups))]
+        layers = [('conv', self.Conv2d(ni, nf, ks, stride=stride, padding=padding, bias=bias, groups=groups))]
         act_bn = [('act_fn', act_fn)] if act else []
         if bn_layer:
             bn = nn.BatchNorm2d(nf)
