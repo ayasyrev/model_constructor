@@ -19,14 +19,14 @@ class ConvTwist(nn.Module):
     def __init__(self, ni, nf,
                  ks=3, stride=1, padding=1, bias=False,
                  groups=1, iters=1, init_max=0.7, twist = False, permute=True):
-#         super(ConvTwist, self).__init__()
         super().__init__()
         self.twist = twist
         self.permute = permute
         self.same = ni==nf and stride==1
         if not (ni%groups==0 and nf%groups==0): groups = 1
-        # elif ni%64==0: groups = ni//8
-        self.conv = nn.Conv2d(ni, nf, kernel_size=3, stride=stride, padding=padding, bias=bias, groups=groups)
+        elif ni%64==0: groups = ni//8
+
+        self.conv = nn.Conv2d(ni, nf, kernel_size=3, stride=stride, padding=1, bias=False, groups=groups)
         if self.twist:
             # self.conv_x = nn.Conv2d(ni, nf, kernel_size=3, stride=stride, padding=1, bias=False, groups=groups)
             # self.conv_y = nn.Conv2d(ni, nf, kernel_size=3, stride=stride, padding=1, bias=False, groups=groups)
@@ -79,10 +79,10 @@ class ConvTwist(nn.Module):
         return KK
 
     def _conv(self, inpt, kernel=None):
-#         permute = True
+        permute = True
         if kernel is None:
             kernel = self.conv.weight
-        if not self.permute:
+        if permute is False:
             return F.conv2d(inpt, kernel, padding=1, stride=self.stride, groups=self.groups)
         else:
             return F.conv2d(inpt, self.full_kernel(kernel), padding=1, stride=self.stride, groups=1)
@@ -96,7 +96,7 @@ class ConvTwist(nn.Module):
 
     def forward(self, inpt):
         # self.symmetrize(self.conv.weight)
-        out = self.conv(inpt)
+        out = self._conv(inpt)
         if self.twist is False:
             return out
         _,_,h,w = out.size()
@@ -123,7 +123,7 @@ class ConvTwist(nn.Module):
         return out
 
     def extra_repr(self):
-        return f"twist: {self.twist}, permute: {self.permute}, same: {self.same}"
+        return f"twist: {self.twist}, permute: {self.permute}, same: {self.same}, groups: {self.groups}"
 
 # Cell
 class ConvLayerTwist(ConvLayer): # replace Conv2d by Twist

@@ -42,23 +42,6 @@ class ResBlock(nn.Module):
     def forward(self, x): return self.act_fn(self.convs(x) + self.idconv(self.pool(x)))
 
 # Cell
-# class version
-class _ResBlock(Constructor):
-    def __init__(self, expansion=1, conv_layer=ConvLayer, act_fn=act_fn, zero_bn=True,
-                 pool=nn.AvgPool2d(2, ceil_mode=True), sym=False):
-        super().__init__()
-        self.__dict__.update(locals())
-#         self.__dict__.update(self.__dict__.pop('kwargs'))
-
-
-    def __call__(self,  ni, nh, stride=1, sa=False):
-        return ResBlock(self.expansion, ni,nh,stride,sa,
-                self.conv_layer, self.act_fn, self.zero_bn, self.pool, self.sym)
-    def __getattr__(self, k):
-        if hasattr(self, '_model'):
-            return getattr(self._model, k)
-
-# Cell
 # Still no name - just New block YET!
 class NewResBlock(nn.Module):
     def __init__(self, expansion, ni, nh, stride=1,
