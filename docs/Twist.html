@@ -48,7 +48,7 @@ description: "Create and tune models with Twist layers."
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="ConvTwist" class="doc_header"><code>class</code> <code>ConvTwist</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/twist.py#L17" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>ConvTwist</code>(<strong><code>ni</code></strong>, <strong><code>nf</code></strong>, <strong><code>ks</code></strong>=<em><code>3</code></em>, <strong><code>stride</code></strong>=<em><code>1</code></em>, <strong><code>padding</code></strong>=<em><code>1</code></em>, <strong><code>bias</code></strong>=<em><code>False</code></em>, <strong><code>groups</code></strong>=<em><code>1</code></em>, <strong><code>iters</code></strong>=<em><code>1</code></em>, <strong><code>init_max</code></strong>=<em><code>0.7</code></em>, <strong><code>twist</code></strong>=<em><code>False</code></em>, <strong><code>permute</code></strong>=<em><code>True</code></em>) :: <code>Module</code></p>
+<h2 id="ConvTwist" class="doc_header"><code>class</code> <code>ConvTwist</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/twist.py#L17" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>ConvTwist</code>(<strong><code>ni</code></strong>, <strong><code>nf</code></strong>, <strong><code>ks</code></strong>=<em><code>3</code></em>, <strong><code>stride</code></strong>=<em><code>1</code></em>, <strong><code>padding</code></strong>=<em><code>1</code></em>, <strong><code>bias</code></strong>=<em><code>False</code></em>, <strong><code>groups</code></strong>=<em><code>1</code></em>, <strong><code>iters</code></strong>=<em><code>1</code></em>, <strong><code>init_max</code></strong>=<em><code>0.7</code></em>) :: <code>Module</code></p>
 </blockquote>
 <p>Replacement for Conv2d (kernelsize 3x3)</p>
 
@@ -187,7 +187,9 @@ description: "Create and tune models with Twist layers."
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ConvTwist</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="n">twist</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">permute</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ConvTwist</span><span class="o">.</span><span class="n">twist</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="n">ConvTwist</span><span class="o">.</span><span class="n">permute</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="n">ConvTwist</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span><span class="mi">64</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -203,7 +205,7 @@ description: "Create and tune models with Twist layers."
 
 <div class="output_text output_subarea output_execute_result">
 <pre>ConvTwist(
-  twist: False, permute: True, same: True, groups: 8
+  twist: True, permute: False, same: True, groups: 8
   (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=8, bias=False)
 )</pre>
 </div>
@@ -266,7 +268,7 @@ description: "Create and tune models with Twist layers."
 <div class="output_text output_subarea output_execute_result">
 <pre>ConvLayerTwist(
   (conv): ConvTwist(
-    twist: False, permute: True, same: True, groups: 8
+    twist: True, permute: False, same: True, groups: 8
     (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=8, bias=False)
   )
   (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
@@ -361,7 +363,7 @@ description: "Create and tune models with Twist layers."
 <div class="output_text output_subarea output_execute_result">
 <pre>ConvLayerTwist(
   (conv): ConvTwist(
-    twist: False, permute: True, same: False, groups: 4
+    twist: True, permute: False, same: False, groups: 4
     (conv): Conv2d(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=4, bias=False)
   )
   (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
@@ -380,7 +382,8 @@ description: "Create and tune models with Twist layers."
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">conv_layer</span> <span class="o">=</span> <span class="n">ConvLayerTwist</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="n">twist</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ConvTwist</span><span class="o">.</span><span class="n">twist</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="n">conv_layer</span> <span class="o">=</span> <span class="n">ConvLayerTwist</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="mi">64</span><span class="p">)</span>
 <span class="n">conv_layer</span>
 </pre></div>
 
@@ -398,7 +401,7 @@ description: "Create and tune models with Twist layers."
 <div class="output_text output_subarea output_execute_result">
 <pre>ConvLayerTwist(
   (conv): ConvTwist(
-    twist: False, permute: True, same: False, groups: 4
+    twist: False, permute: False, same: False, groups: 4
     (conv): Conv2d(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=4, bias=False)
   )
   (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
@@ -435,7 +438,7 @@ description: "Create and tune models with Twist layers."
 <div class="output_text output_subarea output_execute_result">
 <pre>ConvLayerTwist(
   (conv): ConvTwist(
-    twist: False, permute: True, same: False, groups: 4
+    twist: False, permute: False, same: False, groups: 4
     (conv): Conv2d(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=4, bias=False)
   )
   (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
@@ -471,7 +474,7 @@ description: "Create and tune models with Twist layers."
 <div class="output_text output_subarea output_execute_result">
 <pre>ConvLayerTwist(
   (conv): ConvTwist(
-    twist: False, permute: True, same: False, groups: 4
+    twist: False, permute: False, same: False, groups: 4
     (conv): Conv2d(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=4, bias=False)
   )
   (act_fn): ReLU(inplace=True)
@@ -507,7 +510,7 @@ description: "Create and tune models with Twist layers."
 <div class="output_text output_subarea output_execute_result">
 <pre>ConvLayerTwist(
   (conv): ConvTwist(
-    twist: False, permute: True, same: False, groups: 4
+    twist: False, permute: False, same: False, groups: 4
     (conv): Conv2d(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=4, bias=False)
   )
   (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
@@ -544,7 +547,7 @@ description: "Create and tune models with Twist layers."
 <div class="output_text output_subarea output_execute_result">
 <pre>ConvLayerTwist(
   (conv): ConvTwist(
-    twist: False, permute: True, same: False, groups: 4
+    twist: False, permute: False, same: False, groups: 4
     (conv): Conv2d(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=4, bias=False)
   )
   (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
@@ -581,7 +584,7 @@ description: "Create and tune models with Twist layers."
 <div class="output_text output_subarea output_execute_result">
 <pre>ConvLayerTwist(
   (conv): ConvTwist(
-    twist: False, permute: True, same: False, groups: 4
+    twist: False, permute: False, same: False, groups: 4
     (conv): Conv2d(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=4, bias=False)
   )
   (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
@@ -618,7 +621,7 @@ description: "Create and tune models with Twist layers."
 <div class="output_text output_subarea output_execute_result">
 <pre>ConvLayerTwist(
   (conv): ConvTwist(
-    twist: False, permute: True, same: False, groups: 4
+    twist: False, permute: False, same: False, groups: 4
     (conv): Conv2d(32, 64, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), groups=4, bias=False)
   )
   (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
@@ -655,7 +658,7 @@ description: "Create and tune models with Twist layers."
 <div class="output_text output_subarea output_execute_result">
 <pre>ConvLayerTwist(
   (conv): ConvTwist(
-    twist: False, permute: True, same: False, groups: 4
+    twist: False, permute: False, same: False, groups: 4
     (conv): Conv2d(32, 64, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), groups=4, bias=False)
   )
   (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
@@ -693,7 +696,7 @@ description: "Create and tune models with Twist layers."
 <div class="output_text output_subarea output_execute_result">
 <pre>ConvLayerTwist(
   (conv): ConvTwist(
-    twist: False, permute: True, same: False, groups: 8
+    twist: False, permute: False, same: False, groups: 8
     (conv): Conv2d(32, 64, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), groups=8, bias=False)
   )
   (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
@@ -787,7 +790,7 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
     )
     (conv_1_twist): ConvLayerTwist(
       (conv): ConvTwist(
-        twist: False, permute: True, same: True, groups: 16
+        twist: False, permute: False, same: True, groups: 16
         (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=16, bias=False)
       )
       (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
@@ -842,7 +845,7 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
     )
     (conv_1_twist): ConvLayerTwist(
       (conv): ConvTwist(
-        twist: False, permute: True, same: True, groups: 16
+        twist: False, permute: False, same: True, groups: 16
         (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=16, bias=False)
       )
       (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
@@ -894,7 +897,7 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
     )
     (conv_1_twist): ConvLayerTwist(
       (conv): ConvTwist(
-        twist: False, permute: True, same: True, groups: 32
+        twist: False, permute: False, same: True, groups: 32
         (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=32, bias=False)
       )
       (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
@@ -999,7 +1002,7 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
     )
     (conv_1_twist): ConvLayerTwist(
       (conv): ConvTwist(
-        twist: False, permute: True, same: True, groups: 16
+        twist: False, permute: False, same: True, groups: 16
         (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=16, bias=False)
       )
       (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
@@ -1053,7 +1056,7 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
     )
     (conv_1_twist): ConvLayerTwist(
       (conv): ConvTwist(
-        twist: False, permute: True, same: False, groups: 16
+        twist: False, permute: False, same: False, groups: 16
         (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), groups=16, bias=False)
       )
       (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
@@ -1105,7 +1108,7 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
     )
     (conv_1_twist): ConvLayerTwist(
       (conv): ConvTwist(
-        twist: False, permute: True, same: False, groups: 32
+        twist: False, permute: False, same: False, groups: 32
         (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), groups=32, bias=False)
       )
       (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
@@ -1194,7 +1197,7 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
         )
         (conv_1_twist): ConvLayerTwist(
           (conv): ConvTwist(
-            twist: False, permute: True, same: True, groups: 16
+            twist: False, permute: False, same: True, groups: 16
             (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=16, bias=False)
           )
           (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
@@ -1220,7 +1223,7 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
         )
         (conv_1_twist): ConvLayerTwist(
           (conv): ConvTwist(
-            twist: False, permute: True, same: True, groups: 16
+            twist: False, permute: False, same: True, groups: 16
             (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=16, bias=False)
           )
           (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
@@ -1242,7 +1245,7 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
         )
         (conv_1_twist): ConvLayerTwist(
           (conv): ConvTwist(
-            twist: False, permute: True, same: True, groups: 16
+            twist: False, permute: False, same: True, groups: 16
             (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=16, bias=False)
           )
           (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
@@ -1267,7 +1270,7 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
         )
         (conv_1_twist): ConvLayerTwist(
           (conv): ConvTwist(
-            twist: False, permute: True, same: True, groups: 32
+            twist: False, permute: False, same: True, groups: 32
             (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=32, bias=False)
           )
           (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
@@ -1293,7 +1296,7 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
         )
         (conv_1_twist): ConvLayerTwist(
           (conv): ConvTwist(
-            twist: False, permute: True, same: True, groups: 32
+            twist: False, permute: False, same: True, groups: 32
             (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=32, bias=False)
           )
           (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
@@ -1315,7 +1318,7 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
         )
         (conv_1_twist): ConvLayerTwist(
           (conv): ConvTwist(
-            twist: False, permute: True, same: True, groups: 32
+            twist: False, permute: False, same: True, groups: 32
             (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=32, bias=False)
           )
           (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
@@ -1337,7 +1340,7 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
         )
         (conv_1_twist): ConvLayerTwist(
           (conv): ConvTwist(
-            twist: False, permute: True, same: True, groups: 32
+            twist: False, permute: False, same: True, groups: 32
             (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=32, bias=False)
           )
           (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
@@ -1362,7 +1365,7 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
         )
         (conv_1_twist): ConvLayerTwist(
           (conv): ConvTwist(
-            twist: False, permute: True, same: True, groups: 64
+            twist: False, permute: False, same: True, groups: 64
             (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=64, bias=False)
           )
           (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
@@ -1388,7 +1391,7 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
         )
         (conv_1_twist): ConvLayerTwist(
           (conv): ConvTwist(
-            twist: False, permute: True, same: True, groups: 64
+            twist: False, permute: False, same: True, groups: 64
             (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=64, bias=False)
           )
           (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
@@ -1410,7 +1413,7 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
         )
         (conv_1_twist): ConvLayerTwist(
           (conv): ConvTwist(
-            twist: False, permute: True, same: True, groups: 64
+            twist: False, permute: False, same: True, groups: 64
             (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=64, bias=False)
           )
           (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
@@ -1432,7 +1435,7 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
         )
         (conv_1_twist): ConvLayerTwist(
           (conv): ConvTwist(
-            twist: False, permute: True, same: True, groups: 64
+            twist: False, permute: False, same: True, groups: 64
             (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=64, bias=False)
           )
           (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
@@ -1454,7 +1457,7 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
         )
         (conv_1_twist): ConvLayerTwist(
           (conv): ConvTwist(
-            twist: False, permute: True, same: True, groups: 64
+            twist: False, permute: False, same: True, groups: 64
             (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=64, bias=False)
           )
           (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
@@ -1476,7 +1479,7 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
         )
         (conv_1_twist): ConvLayerTwist(
           (conv): ConvTwist(
-            twist: False, permute: True, same: True, groups: 64
+            twist: False, permute: False, same: True, groups: 64
             (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=64, bias=False)
           )
           (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
@@ -1501,7 +1504,7 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
         )
         (conv_1_twist): ConvLayerTwist(
           (conv): ConvTwist(
-            twist: False, permute: True, same: True, groups: 128
+            twist: False, permute: False, same: True, groups: 128
             (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=128, bias=False)
           )
           (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
@@ -1527,7 +1530,7 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
         )
         (conv_1_twist): ConvLayerTwist(
           (conv): ConvTwist(
-            twist: False, permute: True, same: True, groups: 128
+            twist: False, permute: False, same: True, groups: 128
             (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=128, bias=False)
           )
           (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
@@ -1549,7 +1552,7 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
         )
         (conv_1_twist): ConvLayerTwist(
           (conv): ConvTwist(
-            twist: False, permute: True, same: True, groups: 128
+            twist: False, permute: False, same: True, groups: 128
             (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=128, bias=False)
           )
           (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
@@ -1707,7 +1710,7 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
       )
       (conv_1_twist): ConvLayerTwist(
         (conv): ConvTwist(
-          twist: False, permute: True, same: True, groups: 16
+          twist: False, permute: False, same: True, groups: 16
           (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=16, bias=False)
         )
         (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
@@ -1733,7 +1736,7 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
       )
       (conv_1_twist): ConvLayerTwist(
         (conv): ConvTwist(
-          twist: False, permute: True, same: True, groups: 16
+          twist: False, permute: False, same: True, groups: 16
           (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=16, bias=False)
         )
         (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
@@ -1755,7 +1758,7 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
       )
       (conv_1_twist): ConvLayerTwist(
         (conv): ConvTwist(
-          twist: False, permute: True, same: True, groups: 16
+          twist: False, permute: False, same: True, groups: 16
           (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=16, bias=False)
         )
         (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
@@ -1807,7 +1810,7 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
       )
       (conv_1_twist): ConvLayerTwist(
         (conv): ConvTwist(
-          twist: False, permute: True, same: False, groups: 32
+          twist: False, permute: False, same: False, groups: 32
           (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), groups=32, bias=False)
         )
         (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
@@ -1834,7 +1837,7 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
       )
       (conv_1_twist): ConvLayerTwist(
         (conv): ConvTwist(
-          twist: False, permute: True, same: True, groups: 32
+          twist: False, permute: False, same: True, groups: 32
           (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=32, bias=False)
         )
         (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
@@ -1856,7 +1859,7 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
       )
       (conv_1_twist): ConvLayerTwist(
         (conv): ConvTwist(
-          twist: False, permute: True, same: True, groups: 32
+          twist: False, permute: False, same: True, groups: 32
           (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=32, bias=False)
         )
         (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
@@ -1878,7 +1881,7 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
       )
       (conv_1_twist): ConvLayerTwist(
         (conv): ConvTwist(
-          twist: False, permute: True, same: True, groups: 32
+          twist: False, permute: False, same: True, groups: 32
           (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=32, bias=False)
         )
         (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
@@ -1930,7 +1933,7 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
       )
       (conv_1_twist): ConvLayerTwist(
         (conv): ConvTwist(
-          twist: False, permute: True, same: False, groups: 64
+          twist: False, permute: False, same: False, groups: 64
           (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), groups=64, bias=False)
         )
         (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
@@ -1957,7 +1960,7 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
       )
       (conv_1_twist): ConvLayerTwist(
         (conv): ConvTwist(
-          twist: False, permute: True, same: True, groups: 64
+          twist: False, permute: False, same: True, groups: 64
           (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=64, bias=False)
         )
         (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
@@ -1979,7 +1982,7 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
       )
       (conv_1_twist): ConvLayerTwist(
         (conv): ConvTwist(
-          twist: False, permute: True, same: True, groups: 64
+          twist: False, permute: False, same: True, groups: 64
           (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=64, bias=False)
         )
         (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
@@ -2001,7 +2004,7 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
       )
       (conv_1_twist): ConvLayerTwist(
         (conv): ConvTwist(
-          twist: False, permute: True, same: True, groups: 64
+          twist: False, permute: False, same: True, groups: 64
           (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=64, bias=False)
         )
         (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
@@ -2023,7 +2026,7 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
       )
       (conv_1_twist): ConvLayerTwist(
         (conv): ConvTwist(
-          twist: False, permute: True, same: True, groups: 64
+          twist: False, permute: False, same: True, groups: 64
           (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=64, bias=False)
         )
         (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
@@ -2045,7 +2048,7 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
       )
       (conv_1_twist): ConvLayerTwist(
         (conv): ConvTwist(
-          twist: False, permute: True, same: True, groups: 64
+          twist: False, permute: False, same: True, groups: 64
           (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=64, bias=False)
         )
         (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
@@ -2097,7 +2100,7 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
       )
       (conv_1_twist): ConvLayerTwist(
         (conv): ConvTwist(
-          twist: False, permute: True, same: False, groups: 128
+          twist: False, permute: False, same: False, groups: 128
           (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), groups=128, bias=False)
         )
         (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
@@ -2124,7 +2127,7 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
       )
       (conv_1_twist): ConvLayerTwist(
         (conv): ConvTwist(
-          twist: False, permute: True, same: True, groups: 128
+          twist: False, permute: False, same: True, groups: 128
           (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=128, bias=False)
         )
         (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
@@ -2146,7 +2149,7 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
       )
       (conv_1_twist): ConvLayerTwist(
         (conv): ConvTwist(
-          twist: False, permute: True, same: True, groups: 128
+          twist: False, permute: False, same: True, groups: 128
           (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=128, bias=False)
         )
         (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)

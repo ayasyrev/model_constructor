@@ -22,7 +22,7 @@ class ConvTwist(nn.Module):
     groups_ch = 8
     def __init__(self, ni, nf,
                  ks=3, stride=1, padding=1, bias=False,
-                 groups=1, iters=1, init_max=0.7, twist = False, permute=True):
+                 groups=1, iters=1, init_max=0.7):
         super().__init__()
         self.same = ni==nf and stride==1
         self.groups = ni//self.groups_ch if self.use_groups else 1
