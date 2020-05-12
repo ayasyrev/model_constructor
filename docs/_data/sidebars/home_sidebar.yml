@@ -27,9 +27,6 @@ entries:
     - output: web,pdf
       title: Twist.
       url: /Twist
-    - output: web,pdf
-      title: Title
-      url: /test_xresnet
     output: web
     title: model_constructor
   output: web

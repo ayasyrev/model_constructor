@@ -66,10 +66,9 @@ class ConvTwist(nn.Module):
         return KK
 
     def _conv(self, inpt, kernel=None):
-        permute = True
         if kernel is None:
             kernel = self.conv.weight
-        if permute is False:
+        if self.permute is False:
             return F.conv2d(inpt, kernel, padding=1, stride=self.stride, groups=self.groups)
         else:
             return F.conv2d(inpt, self.full_kernel(kernel), padding=1, stride=self.stride, groups=1)
