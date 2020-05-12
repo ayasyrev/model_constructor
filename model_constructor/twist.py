@@ -16,32 +16,24 @@ F = torch.nn.functional
 # Cell
 class ConvTwist(nn.Module):
     '''Replacement for Conv2d (kernelsize 3x3)'''
+    permute = True
+    twist = False
+    use_groups = True
+    groups_ch = 8
     def __init__(self, ni, nf,
                  ks=3, stride=1, padding=1, bias=False,
                  groups=1, iters=1, init_max=0.7, twist = False, permute=True):
         super().__init__()
-        self.twist = twist
-        self.permute = permute
         self.same = ni==nf and stride==1
-        if not (ni%groups==0 and nf%groups==0): groups = 1
-        elif ni%64==0: groups = ni//8
+        self.groups = ni//self.groups_ch if self.use_groups else 1
 
-        self.conv = nn.Conv2d(ni, nf, kernel_size=3, stride=stride, padding=1, bias=False, groups=groups)
+        self.conv = nn.Conv2d(ni, nf, kernel_size=3, stride=stride, padding=1, bias=False, groups=self.groups)
         if self.twist:
-            # self.conv_x = nn.Conv2d(ni, nf, kernel_size=3, stride=stride, padding=1, bias=False, groups=groups)
-            # self.conv_y = nn.Conv2d(ni, nf, kernel_size=3, stride=stride, padding=1, bias=False, groups=groups)
             std = self.conv.weight.std().item()
             self.coeff_Ax = nn.Parameter(torch.empty((nf,ni//groups)).normal_(0, std), requires_grad=True)
             self.coeff_Ay = nn.Parameter(torch.empty((nf,ni//groups)).normal_(0, std), requires_grad=True)
-            # self.coeff_Bx = nn.Parameter(torch.zeros((nf,ni)).normal_(0, std), requires_grad=True)
-            # self.coeff_By = nn.Parameter(torch.zeros((nf,ni)).normal_(0, std), requires_grad=True)
-            # self.center_x = nn.Parameter(torch.Tensor(nf), requires_grad=True)
-            # self.center_y = nn.Parameter(torch.Tensor(nf), requires_grad=True)
-            # self.center_x.data.uniform_(-init_max, init_max)
-            # self.center_y.data.uniform_(-init_max, init_max)
         self.iters = iters
         self.stride = stride
-        self.groups = groups
         self.DD = self.derivatives()
 
     def derivatives(self):
@@ -55,10 +47,6 @@ class ConvTwist(nn.Module):
         D_xy = convolution(I+D_x, I+D_y).view(5,5)
         return {'x': D_x, 'y': D_y, 'xx': D_xx, 'yy': D_yy, 'xy': D_xy}
 
-    # def init_coeff(self):
-    #     self.coeff_Bx.data = self.coeff_Ay
-    #     self.coeff_By.data = -self.coeff_Ax
-
     def kernel(self, coeff_x, coeff_y):
         D_x = torch.Tensor([[-1,0,1],[-2,0,2],[-1,0,1]]).to(coeff_x.device)
         D_y = torch.Tensor([[1,2,1],[0,0,0],[-1,-2,-1]]).to(coeff_x.device)
@@ -70,7 +58,6 @@ class ConvTwist(nn.Module):
         a,b,_,_ = kernel.size()
         a = a//n
         KK = torch.zeros((a*n,b*n,3,3)).to(kernel.device)
-        # KK[:a,-b:] = kernel[:a]
         for i in range(n):
             if i%4==0:
                 KK[a*i:a*(i+1),b*(i+3):b*(i+4)] = kernel[a*i:a*(i+1)]
@@ -88,33 +75,22 @@ class ConvTwist(nn.Module):
             return F.conv2d(inpt, self.full_kernel(kernel), padding=1, stride=self.stride, groups=1)
 
     def symmetrize(self, conv_wt):
-        # conv_wt.data = (conv_wt - conv_wt.flip(2).flip(3)) / 2
         if self.same:
             n = conv_wt.size()[1]
             for i in range(self.groups):
                 conv_wt.data[n*i:n*(i+1)] = (conv_wt[n*i:n*(i+1)] + torch.transpose(conv_wt[n*i:n*(i+1)],0,1)) / 2
 
     def forward(self, inpt):
-        # self.symmetrize(self.conv.weight)
         out = self._conv(inpt)
         if self.twist is False:
             return out
         _,_,h,w = out.size()
         XX = torch.from_numpy(np.indices((1,1,h,w))[3]*2/w-1).type(out.dtype).to(out.device)
         YY = torch.from_numpy(np.indices((1,1,h,w))[2]*2/h-1).type(out.dtype).to(out.device)
-        # self.symmetrize(self.conv_x.weight)
-        # self.symmetrize(self.conv_y.weight)
-        # kernel_x = self.conv_x.weight
-        # kernel_y = self.conv_y.weight
-        # self.symmetrize(self.coeff_Ax)
-        # self.symmetrize(self.coeff_Ay)
         kernel_x = self.kernel(self.coeff_Ax, self.coeff_Ay)
         self.symmetrize(kernel_x)
-        # self.symmetrize(kernel_y)
         kernel_y = kernel_x.transpose(2,3).flip(3)  # make conv_y a 90 degree rotation of conv_x
-        # kernel_y = self.kernel(self.coeff_Bx, self.coeff_By)
         out = out + XX * self._conv(inpt, kernel_x) + YY * self._conv(inpt, kernel_y)
-        # out = out + (XX-self.center_x.view(-1,1,1)) * self.conv_x(inpt) + (YY-self.center_y.view(-1,1,1)) * self.conv_y(inpt)
         if self.same and self.iters>1:
             out = inpt + out / self.iters
             for _ in range(self.iters-1):
