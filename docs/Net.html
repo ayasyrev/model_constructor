@@ -192,6 +192,60 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
 
 <div class="inner_cell">
     <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ResBlock</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="n">sa</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">groups</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>ResBlock(
+  (convs): Sequential(
+    (conv_0): ConvLayer(
+      (conv): Conv2d(256, 64, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (act_fn): ReLU(inplace=True)
+    )
+    (conv_1): ConvLayer(
+      (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=4, bias=False)
+      (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (act_fn): ReLU(inplace=True)
+    )
+    (conv_2): ConvLayer(
+      (conv): Conv2d(64, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    )
+    (sa): SimpleSelfAttention(
+      (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
+    )
+  )
+  (act_fn): ReLU(inplace=True)
+)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">ResBlock</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="n">act_fn</span><span class="o">=</span><span class="n">nn</span><span class="o">.</span><span class="n">LeakyReLU</span><span class="p">(),</span> <span class="n">bn_1st</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 
@@ -260,7 +314,7 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="NewResBlock" class="doc_header"><code>class</code> <code>NewResBlock</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/net.py#L46" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>NewResBlock</code>(<strong><code>expansion</code></strong>, <strong><code>ni</code></strong>, <strong><code>nh</code></strong>, <strong><code>stride</code></strong>=<em><code>1</code></em>, <strong><code>conv_layer</code></strong>=<em><code>'ConvLayer'</code></em>, <strong><code>act_fn</code></strong>=<em><code>ReLU(inplace=True)</code></em>, <strong><code>zero_bn</code></strong>=<em><code>True</code></em>, <strong><code>bn_1st</code></strong>=<em><code>True</code></em>, <strong><code>pool</code></strong>=<em><code>AvgPool2d(kernel_size=2, stride=2, padding=0)</code></em>, <strong><code>sa</code></strong>=<em><code>False</code></em>, <strong><code>sym</code></strong>=<em><code>False</code></em>) :: <code>Module</code></p>
+<h2 id="NewResBlock" class="doc_header"><code>class</code> <code>NewResBlock</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/net.py#L46" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>NewResBlock</code>(<strong><code>expansion</code></strong>, <strong><code>ni</code></strong>, <strong><code>nh</code></strong>, <strong><code>stride</code></strong>=<em><code>1</code></em>, <strong><code>conv_layer</code></strong>=<em><code>'ConvLayer'</code></em>, <strong><code>act_fn</code></strong>=<em><code>ReLU(inplace=True)</code></em>, <strong><code>zero_bn</code></strong>=<em><code>True</code></em>, <strong><code>bn_1st</code></strong>=<em><code>True</code></em>, <strong><code>pool</code></strong>=<em><code>AvgPool2d(kernel_size=2, stride=2, padding=0)</code></em>, <strong><code>sa</code></strong>=<em><code>False</code></em>, <strong><code>sym</code></strong>=<em><code>False</code></em>, <strong><code>groups</code></strong>=<em><code>1</code></em>) :: <code>Module</code></p>
 </blockquote>
 <p>Base class for all neural network modules.</p>
 <p>Your models should also subclass this class.</p>
@@ -404,7 +458,10 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre> constr Net</pre>
+<pre> constr Net
+ expansion: 1, sa: 0, groups: 1
+ stem sizes: [3, 32, 32, 64]
+ body sizes [64, 64, 128, 256, 512]</pre>
 </div>
 
 </div>
@@ -461,7 +518,10 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
     </div>
 </div>
 </div>
-
+<details class="description">
+      <summary data-open="Hide Output" data-close="Show Output"></summary>
+        <summary></summary>
+        
 <div class="output_wrapper">
 <div class="output">
 
@@ -473,18 +533,18 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
 <pre>Sequential(
   (conv_0): ConvLayer(
     (conv): Conv2d(3, 32, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
+    (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
     (bn): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-    (act_fn): ReLU(inplace=True)
   )
   (conv_1): ConvLayer(
     (conv): Conv2d(32, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+    (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
     (bn): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-    (act_fn): ReLU(inplace=True)
   )
   (conv_2): ConvLayer(
     (conv): Conv2d(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+    (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
     (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-    (act_fn): ReLU(inplace=True)
   )
   (stem_pool): MaxPool2d(kernel_size=3, stride=2, padding=1, dilation=1, ceil_mode=False)
 )</pre>
@@ -495,6 +555,7 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
 </div>
 </div>
 
+    </details>
 </div>
     {% endraw %}
 
@@ -562,7 +623,10 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
     </div>
 </div>
 </div>
-
+<details class="description">
+      <summary data-open="Hide Output" data-close="Show Output"></summary>
+        <summary></summary>
+        
 <div class="output_wrapper">
 <div class="output">
 
@@ -613,6 +677,7 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
 </div>
 </div>
 
+    </details>
 </div>
     {% endraw %}
 
@@ -644,73 +709,6 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
 </pre></div>
 
     </div>
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">stem_bn_end</span> <span class="o">=</span> <span class="kc">True</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">stem</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>Sequential(
-  (conv_0): ConvLayer(
-    (conv): Conv2d(3, 32, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
-    (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-    (bn): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-  )
-  (conv_1): ConvLayer(
-    (conv): Conv2d(32, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-    (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-    (bn): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-  )
-  (conv_2): ConvLayer(
-    (conv): Conv2d(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-    (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-  )
-  (stem_pool): MaxPool2d(kernel_size=3, stride=2, padding=1, dilation=1, ceil_mode=False)
-  (norm): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-)</pre>
-</div>
-
-</div>
-
 </div>
 </div>
 
@@ -803,9 +801,6 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
         (conv_2): ConvLayer(
           (conv): Conv2d(64, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
           (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-        )
-        (sa): SimpleSelfAttention(
-          (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
         )
       )
       (merge): LeakyReLU(negative_slope=0.01, inplace=True)
@@ -958,23 +953,6 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
 </div>
     {% endraw %}
 
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">stem_sizes</span> <span class="o">=</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">64</span><span class="p">]</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="xresnet-constructor">xresnet constructor<a class="anchor-link" href="#xresnet-constructor"> </a></h2>
@@ -1027,7 +1005,11 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>( constr xresnet50, 10)</pre>
+<pre>( constr xresnet50
+  expansion: 4, sa: 0, groups: 1
+  stem sizes: [3, 32, 32, 64]
+  body sizes [16, 64, 128, 256, 512],
+ 10)</pre>
 </div>
 
 </div>
