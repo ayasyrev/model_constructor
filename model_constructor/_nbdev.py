@@ -31,21 +31,23 @@ index = {"Stem": "00_constructor.ipynb",
          "xresnet50": "03_xresnet.ipynb",
          "init_cnn": "04_Net.ipynb",
          "NewResBlock": "04_Net.ipynb",
-         "net34": "04_Net.ipynb",
-         "net50": "04_Net.ipynb",
          "nn": "05_Twist.ipynb",
          "F": "05_Twist.ipynb",
          "ConvTwist": "05_Twist.ipynb",
          "ConvLayerTwist": "05_Twist.ipynb",
          "NewResBlockTwist": "05_Twist.ipynb",
-         "ResBlockTwist": "05_Twist.ipynb"}
+         "ResBlockTwist": "05_Twist.ipynb",
+         "YResBlock": "06_YResnet.ipynb",
+         "yresnet34": "06_YResnet.ipynb",
+         "yresnet50": "06_YResnet.ipynb"}
 
 modules = ["constructor.py",
            "layers.py",
            "resnet.py",
            "xresnet.py",
            "net.py",
-           "twist.py"]
+           "twist.py",
+           "yresnet.py"]
 
 doc_url = "https://ayasyrev.github.io/model_constructor/"
 
