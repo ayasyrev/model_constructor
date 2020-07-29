@@ -701,24 +701,6 @@ description: "Yet Another ResNet model."
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">yaresnet34</span>  <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">Net</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;YaResnet34&#39;</span><span class="p">,</span> <span class="n">expansion</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">layers</span><span class="o">=</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span>  <span class="mi">6</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="o">**</span><span class="n">yaresnet_parameters</span><span class="p">)</span>
-<span class="n">yaresnet50</span>  <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">Net</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;YaResnet50&#39;</span><span class="p">,</span> <span class="n">expansion</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">layers</span><span class="o">=</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span>  <span class="mi">6</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="o">**</span><span class="n">yaresnet_parameters</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">yaresnet50</span><span class="p">(</span><span class="n">c_out</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
 </pre></div>
 

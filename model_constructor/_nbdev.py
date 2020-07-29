@@ -40,7 +40,11 @@ index = {"Stem": "00_constructor.ipynb",
          "ResBlockTwist": "05_Twist.ipynb",
          "YaResBlock": "06_YaResNet.ipynb",
          "yaresnet_parameters": "06_YaResNet.ipynb",
-         "mxresnet_parameters": "07_MXResNet.ipynb"}
+         "yaresnet34": "06_YaResNet.ipynb",
+         "yaresnet50": "06_YaResNet.ipynb",
+         "mxresnet_parameters": "07_MXResNet.ipynb",
+         "mxresnet34": "07_MXResNet.ipynb",
+         "mxresnet50": "07_MXResNet.ipynb"}
 
 modules = ["constructor.py",
            "layers.py",

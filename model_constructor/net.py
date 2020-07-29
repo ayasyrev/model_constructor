@@ -118,7 +118,7 @@ class Net():
         self.stem_sizes = stem_sizes if stem_sizes else [c_in,32,32,64]
         self.stem_pool = nn.MaxPool2d(kernel_size=3, stride=2, padding=1)
         self.stem_bn_end = False
-#         self.norm = nn.BatchNorm2d
+        self.norm = nn.BatchNorm2d
         self.bn_1st = True
         self.zero_bn=True
         self.conv_layer = ConvLayer
