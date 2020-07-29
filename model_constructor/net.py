@@ -105,19 +105,20 @@ def _make_head(self):
 # Cell
 # v8
 class Net():
-    def __init__(self, expansion=1, layers=[2,2,2,2], c_in=3, c_out=1000,
-                 name='Net', block=ResBlock,act_fn=nn.ReLU(inplace=True),
-                 pool = nn.AvgPool2d(2, ceil_mode=True), sa=0):
+    def __init__(self, name='Net', expansion=1,  c_in=3, c_out=1000,
+                block=ResBlock, layers=[2,2,2,2], pool = nn.AvgPool2d(2, ceil_mode=True),
+                act_fn=nn.ReLU(inplace=True), sa=0,
+                stem_sizes=None, stem_stride_on=0):
         super().__init__()
         self.name = name
         self.c_in, self.c_out,self.expansion,self.layers = c_in,c_out,expansion,layers # todo setter for expansion
         self.block, self.act_fn, self.pool, self.sa = block, act_fn, pool, sa
         self.groups = 1
-        self.stem_sizes = [c_in,32,32,64]
+        self.stem_stride_on = stem_stride_on
+        self.stem_sizes = stem_sizes if stem_sizes else [c_in,32,32,64]
         self.stem_pool = nn.MaxPool2d(kernel_size=3, stride=2, padding=1)
-        self.stem_stride_on = 0
         self.stem_bn_end = False
-        self.norm = nn.BatchNorm2d
+#         self.norm = nn.BatchNorm2d
         self.bn_1st = True
         self.zero_bn=True
         self.conv_layer = ConvLayer

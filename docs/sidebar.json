@@ -6,6 +6,8 @@
     "resnet": "/resnet",
     "xresnet": "/xresnet",
     "Net.": "/Net",
-    "Twist.": "/Twist"
+    "Twist.": "/Twist",
+    "YaResNet.": "/YaResNet",
+    "MXResNet.": "/MXResNet"
   }
 }

@@ -27,6 +27,12 @@ entries:
     - output: web,pdf
       title: Twist.
       url: /Twist
+    - output: web,pdf
+      title: YaResNet.
+      url: /YaResNet
+    - output: web,pdf
+      title: MXResNet.
+      url: /MXResNet
     output: web
     title: model_constructor
   output: web

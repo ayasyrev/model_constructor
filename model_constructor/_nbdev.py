@@ -13,6 +13,7 @@ index = {"Stem": "00_constructor.ipynb",
          "Flatten": "01_layers.ipynb",
          "noop": "01_layers.ipynb",
          "Noop": "01_layers.ipynb",
+         "Mish": "01_layers.ipynb",
          "DownsampleBlock": "01_layers.ipynb",
          "BasicBlock": "01_layers.ipynb",
          "Bottleneck": "01_layers.ipynb",
@@ -37,9 +38,9 @@ index = {"Stem": "00_constructor.ipynb",
          "ConvLayerTwist": "05_Twist.ipynb",
          "NewResBlockTwist": "05_Twist.ipynb",
          "ResBlockTwist": "05_Twist.ipynb",
-         "YResBlock": "06_YResnet.ipynb",
-         "yresnet34": "06_YResnet.ipynb",
-         "yresnet50": "06_YResnet.ipynb"}
+         "YaResBlock": "06_YaResNet.ipynb",
+         "yaresnet_parameters": "06_YaResNet.ipynb",
+         "mxresnet_parameters": "07_MXResNet.ipynb"}
 
 modules = ["constructor.py",
            "layers.py",
@@ -47,7 +48,8 @@ modules = ["constructor.py",
            "xresnet.py",
            "net.py",
            "twist.py",
-           "yresnet.py"]
+           "yaresnet.py",
+           "mxresnet.py"]
 
 doc_url = "https://ayasyrev.github.io/model_constructor/"
 
