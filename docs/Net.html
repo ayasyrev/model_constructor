@@ -269,7 +269,7 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
       (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
     )
     (conv_1): ConvLayer(
-      (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=64, bias=False)
+      (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
       (act_fn): LeakyReLU(negative_slope=0.01)
       (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
     )
@@ -322,7 +322,7 @@ Here i left old name for compatibility with existing Notebooks.</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="NewResBlock" class="doc_header"><code>class</code> <code>NewResBlock</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/net.py#L46" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>NewResBlock</code>(<strong><code>expansion</code></strong>, <strong><code>ni</code></strong>, <strong><code>nh</code></strong>, <strong><code>stride</code></strong>=<em><code>1</code></em>, <strong><code>conv_layer</code></strong>=<em><code>'ConvLayer'</code></em>, <strong><code>act_fn</code></strong>=<em><code>ReLU(inplace=True)</code></em>, <strong><code>zero_bn</code></strong>=<em><code>True</code></em>, <strong><code>bn_1st</code></strong>=<em><code>True</code></em>, <strong><code>pool</code></strong>=<em><code>AvgPool2d(kernel_size=2, stride=2, padding=0)</code></em>, <strong><code>sa</code></strong>=<em><code>False</code></em>, <strong><code>sym</code></strong>=<em><code>False</code></em>, <strong><code>groups</code></strong>=<em><code>1</code></em>) :: <code>Module</code></p>
+<h2 id="NewResBlock" class="doc_header"><code>class</code> <code>NewResBlock</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/net.py#L47" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>NewResBlock</code>(<strong><code>expansion</code></strong>, <strong><code>ni</code></strong>, <strong><code>nh</code></strong>, <strong><code>stride</code></strong>=<em><code>1</code></em>, <strong><code>conv_layer</code></strong>=<em><code>'ConvLayer'</code></em>, <strong><code>act_fn</code></strong>=<em><code>ReLU(inplace=True)</code></em>, <strong><code>zero_bn</code></strong>=<em><code>True</code></em>, <strong><code>bn_1st</code></strong>=<em><code>True</code></em>, <strong><code>pool</code></strong>=<em><code>AvgPool2d(kernel_size=2, stride=2, padding=0)</code></em>, <strong><code>sa</code></strong>=<em><code>False</code></em>, <strong><code>sym</code></strong>=<em><code>False</code></em>, <strong><code>groups</code></strong>=<em><code>1</code></em>) :: <code>Module</code></p>
 </blockquote>
 <p>Base class for all neural network modules.</p>
 <p>Your models should also subclass this class.</p>
@@ -432,7 +432,7 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="Net" class="doc_header"><code>class</code> <code>Net</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/net.py#L107" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>Net</code>(<strong><code>name</code></strong>=<em><code>'Net'</code></em>, <strong><code>expansion</code></strong>=<em><code>1</code></em>, <strong><code>c_in</code></strong>=<em><code>3</code></em>, <strong><code>c_out</code></strong>=<em><code>1000</code></em>, <strong><code>block</code></strong>=<em><code>'ResBlock'</code></em>, <strong><code>layers</code></strong>=<em><code>[2, 2, 2, 2]</code></em>, <strong><code>pool</code></strong>=<em><code>AvgPool2d(kernel_size=2, stride=2, padding=0)</code></em>, <strong><code>act_fn</code></strong>=<em><code>ReLU(inplace=True)</code></em>, <strong><code>sa</code></strong>=<em><code>0</code></em>, <strong><code>stem_sizes</code></strong>=<em><code>None</code></em>, <strong><code>stem_stride_on</code></strong>=<em><code>0</code></em>)</p>
+<h2 id="Net" class="doc_header"><code>class</code> <code>Net</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/net.py#L109" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>Net</code>(<strong><code>name</code></strong>=<em><code>'Net'</code></em>, <strong><code>expansion</code></strong>=<em><code>1</code></em>, <strong><code>c_in</code></strong>=<em><code>3</code></em>, <strong><code>c_out</code></strong>=<em><code>1000</code></em>, <strong><code>block</code></strong>=<em><code>'ResBlock'</code></em>, <strong><code>layers</code></strong>=<em><code>[2, 2, 2, 2]</code></em>, <strong><code>pool</code></strong>=<em><code>AvgPool2d(kernel_size=2, stride=2, padding=0)</code></em>, <strong><code>act_fn</code></strong>=<em><code>ReLU(inplace=True)</code></em>, <strong><code>sa</code></strong>=<em><code>0</code></em>, <strong><code>stem_sizes</code></strong>=<em><code>None</code></em>, <strong><code>stem_stride_on</code></strong>=<em><code>0</code></em>)</p>
 </blockquote>
 
 </div>
@@ -836,7 +836,7 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
           (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
         )
         (conv_1): ConvLayer(
-          (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=64, bias=False)
+          (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
           (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
           (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
         )
@@ -859,7 +859,7 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
           (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
         )
         (conv_1): ConvLayer(
-          (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=64, bias=False)
+          (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
           (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
           (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
         )
@@ -884,7 +884,7 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
           (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
         )
         (conv_1): ConvLayer(
-          (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=128, bias=False)
+          (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
           (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
           (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
         )
@@ -907,7 +907,7 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
           (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
         )
         (conv_1): ConvLayer(
-          (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=128, bias=False)
+          (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
           (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
           (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
         )
@@ -929,7 +929,7 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
           (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
         )
         (conv_1): ConvLayer(
-          (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=256, bias=False)
+          (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
           (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
           (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
         )
@@ -952,7 +952,7 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
           (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
         )
         (conv_1): ConvLayer(
-          (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=256, bias=False)
+          (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
           (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
           (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
         )
@@ -974,7 +974,7 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
           (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
         )
         (conv_1): ConvLayer(
-          (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=512, bias=False)
+          (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
           (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
           (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
         )
@@ -997,7 +997,7 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
           (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
         )
         (conv_1): ConvLayer(
-          (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=512, bias=False)
+          (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
           (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
           (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
         )

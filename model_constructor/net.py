@@ -25,12 +25,13 @@ class ResBlock(nn.Module):
                  pool=nn.AvgPool2d(2, ceil_mode=True), sa=False,sym=False, groups=1):
         super().__init__()
         nf,ni = nh*expansion,ni*expansion
+        if groups != 1: groups = int(nh/groups)
         layers  = [(f"conv_0", conv_layer(ni, nh, 3, stride=stride, act_fn=act_fn, bn_1st=bn_1st)),
                    (f"conv_1", conv_layer(nh, nf, 3, zero_bn=zero_bn, act=False, bn_1st=bn_1st))
         ] if expansion == 1 else [
                    (f"conv_0",conv_layer(ni, nh, 1, act_fn=act_fn, bn_1st=bn_1st)),
                    (f"conv_1",conv_layer(nh, nh, 3, stride=stride, act_fn=act_fn, bn_1st=bn_1st,
-                                         groups=int(nh/groups))),
+                                         groups=groups)),
                    (f"conv_2",conv_layer(nh, nf, 1, zero_bn=zero_bn, act=False, bn_1st=bn_1st))
         ]
         if sa: layers.append(('sa', SimpleSelfAttention(nf,ks=1,sym=sym)))
@@ -49,12 +50,13 @@ class NewResBlock(nn.Module):
                  pool=nn.AvgPool2d(2, ceil_mode=True), sa=False,sym=False, groups=1):
         super().__init__()
         nf,ni = nh*expansion,ni*expansion
+        if groups != 1: groups = int(nh/groups)
         self.reduce = noop if stride==1 else pool
         layers  = [(f"conv_0", conv_layer(ni, nh, 3, stride=1, act_fn=act_fn, bn_1st=bn_1st)), # stride 1 !!!
                    (f"conv_1", conv_layer(nh, nf, 3, zero_bn=zero_bn, act=False, bn_1st=bn_1st))
         ] if expansion == 1 else [
                    (f"conv_0",conv_layer(ni, nh, 1, act_fn=act_fn, bn_1st=bn_1st)),
-                   (f"conv_1",conv_layer(nh, nh, 3, stride=1, act_fn=act_fn, bn_1st=bn_1st, groups=int(nh/groups))), # stride 1 !!!
+                   (f"conv_1",conv_layer(nh, nh, 3, stride=1, act_fn=act_fn, bn_1st=bn_1st, groups=groups)), # stride 1 !!!
                    (f"conv_2",conv_layer(nh, nf, 1, zero_bn=zero_bn, act=False, bn_1st=bn_1st))
         ]
         if sa: layers.append(('sa', SimpleSelfAttention(nf,ks=1,sym=sym)))
