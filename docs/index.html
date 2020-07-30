@@ -42,7 +42,8 @@ description: "Constructor to create pytorch model."
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>2020-05-10 add Twist module, tutorial will be soon.</p>
+<p>2020-07-29 added YaResNet and MXResNet constructor.<br>
+2020-05-10 added Twist module.</p>
 
 </div>
 </div>
@@ -83,15 +84,15 @@ description: "Constructor to create pytorch model."
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>It can be used two ways.<br>
-Classic - create model from function with parameters.<br>
-And by creating constructor object, then modify it and then create model.</p>
+Recomended - by creating constructor object, then modify it and then create model.<br>
+And Classic - create model from function with parameters.</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Class-Net">Class Net<a class="anchor-link" href="#Class-Net"> </a></h1>
+<h1 id="Model-Constructor">Model Constructor<a class="anchor-link" href="#Model-Constructor"> </a></h1>
 </div>
 </div>
 </div>
@@ -158,7 +159,10 @@ And by creating constructor object, then modify it and then create model.</p>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre> constr Net</pre>
+<pre>Net constructor
+ expansion: 1, sa: 0, groups: 1
+ stem sizes: [3, 32, 32, 64]
+ body sizes [64, 64, 128, 256, 512]</pre>
 </div>
 
 </div>
@@ -171,7 +175,7 @@ And by creating constructor object, then modify it and then create model.</p>
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Now we have model consructor, defoult setting as xresnet18. And we can get model after call it.</p>
+<p>Now we have model consructor, default setting as xresnet18. And we can get model after call it.</p>
 
 </div>
 </div>
@@ -354,7 +358,10 @@ And by creating constructor object, then modify it and then create model.</p>
     </div>
 </div>
 </div>
-
+<details class="description">
+      <summary data-open="Hide Output" data-close="Show Output"></summary>
+        <summary></summary>
+        
 <div class="output_wrapper">
 <div class="output">
 
@@ -533,6 +540,7 @@ And by creating constructor object, then modify it and then create model.</p>
 </div>
 </div>
 
+    </details>
 </div>
     {% endraw %}
 
@@ -582,7 +590,10 @@ Lets create xresnet50.</p>
     </div>
 </div>
 </div>
-
+<details class="description">
+      <summary data-open="Hide Output" data-close="Show Output"></summary>
+        <summary></summary>
+        
 <div class="output_wrapper">
 <div class="output">
 
@@ -596,12 +607,12 @@ Lets create xresnet50.</p>
     (bl_0): ResBlock(
       (convs): Sequential(
         (conv_0): ConvLayer(
-          (conv): Conv2d(256, 64, kernel_size=(1, 1), stride=(1, 1), bias=False)
+          (conv): Conv2d(64, 64, kernel_size=(1, 1), stride=(1, 1), bias=False)
           (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
           (act_fn): ReLU(inplace=True)
         )
         (conv_1): ConvLayer(
-          (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+          (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=64, bias=False)
           (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
           (act_fn): ReLU(inplace=True)
         )
@@ -609,6 +620,10 @@ Lets create xresnet50.</p>
           (conv): Conv2d(64, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
           (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
         )
+      )
+      (idconv): ConvLayer(
+        (conv): Conv2d(64, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
       )
       (act_fn): ReLU(inplace=True)
     )
@@ -620,7 +635,7 @@ Lets create xresnet50.</p>
           (act_fn): ReLU(inplace=True)
         )
         (conv_1): ConvLayer(
-          (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+          (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=64, bias=False)
           (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
           (act_fn): ReLU(inplace=True)
         )
@@ -639,7 +654,7 @@ Lets create xresnet50.</p>
           (act_fn): ReLU(inplace=True)
         )
         (conv_1): ConvLayer(
-          (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+          (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=64, bias=False)
           (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
           (act_fn): ReLU(inplace=True)
         )
@@ -660,7 +675,7 @@ Lets create xresnet50.</p>
           (act_fn): ReLU(inplace=True)
         )
         (conv_1): ConvLayer(
-          (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
+          (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), groups=128, bias=False)
           (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
           (act_fn): ReLU(inplace=True)
         )
@@ -684,7 +699,7 @@ Lets create xresnet50.</p>
           (act_fn): ReLU(inplace=True)
         )
         (conv_1): ConvLayer(
-          (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+          (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=128, bias=False)
           (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
           (act_fn): ReLU(inplace=True)
         )
@@ -703,7 +718,7 @@ Lets create xresnet50.</p>
           (act_fn): ReLU(inplace=True)
         )
         (conv_1): ConvLayer(
-          (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+          (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=128, bias=False)
           (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
           (act_fn): ReLU(inplace=True)
         )
@@ -722,7 +737,7 @@ Lets create xresnet50.</p>
           (act_fn): ReLU(inplace=True)
         )
         (conv_1): ConvLayer(
-          (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+          (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=128, bias=False)
           (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
           (act_fn): ReLU(inplace=True)
         )
@@ -743,7 +758,7 @@ Lets create xresnet50.</p>
           (act_fn): ReLU(inplace=True)
         )
         (conv_1): ConvLayer(
-          (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
+          (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), groups=256, bias=False)
           (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
           (act_fn): ReLU(inplace=True)
         )
@@ -767,7 +782,7 @@ Lets create xresnet50.</p>
           (act_fn): ReLU(inplace=True)
         )
         (conv_1): ConvLayer(
-          (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+          (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=256, bias=False)
           (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
           (act_fn): ReLU(inplace=True)
         )
@@ -786,7 +801,7 @@ Lets create xresnet50.</p>
           (act_fn): ReLU(inplace=True)
         )
         (conv_1): ConvLayer(
-          (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+          (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=256, bias=False)
           (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
           (act_fn): ReLU(inplace=True)
         )
@@ -805,7 +820,7 @@ Lets create xresnet50.</p>
           (act_fn): ReLU(inplace=True)
         )
         (conv_1): ConvLayer(
-          (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+          (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=256, bias=False)
           (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
           (act_fn): ReLU(inplace=True)
         )
@@ -824,7 +839,7 @@ Lets create xresnet50.</p>
           (act_fn): ReLU(inplace=True)
         )
         (conv_1): ConvLayer(
-          (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+          (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=256, bias=False)
           (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
           (act_fn): ReLU(inplace=True)
         )
@@ -843,7 +858,7 @@ Lets create xresnet50.</p>
           (act_fn): ReLU(inplace=True)
         )
         (conv_1): ConvLayer(
-          (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+          (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=256, bias=False)
           (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
           (act_fn): ReLU(inplace=True)
         )
@@ -864,7 +879,7 @@ Lets create xresnet50.</p>
           (act_fn): ReLU(inplace=True)
         )
         (conv_1): ConvLayer(
-          (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
+          (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), groups=512, bias=False)
           (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
           (act_fn): ReLU(inplace=True)
         )
@@ -888,7 +903,7 @@ Lets create xresnet50.</p>
           (act_fn): ReLU(inplace=True)
         )
         (conv_1): ConvLayer(
-          (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+          (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=512, bias=False)
           (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
           (act_fn): ReLU(inplace=True)
         )
@@ -907,7 +922,7 @@ Lets create xresnet50.</p>
           (act_fn): ReLU(inplace=True)
         )
         (conv_1): ConvLayer(
-          (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+          (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=512, bias=False)
           (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
           (act_fn): ReLU(inplace=True)
         )
@@ -927,6 +942,7 @@ Lets create xresnet50.</p>
 </div>
 </div>
 
+    </details>
 </div>
     {% endraw %}
 
@@ -992,7 +1008,7 @@ And here is the link to more modification to beat Imagenette leaderboard with ad
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">mxresnet</span> <span class="o">=</span> <span class="n">Net</span><span class="p">()</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">Net</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;MxResNet&#39;</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -1016,7 +1032,7 @@ And here is the link to more modification to beat Imagenette leaderboard with ad
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">mxresnet</span><span class="o">.</span><span class="n">stem_sizes</span> <span class="o">=</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">32</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="mi">64</span><span class="p">]</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">stem_sizes</span> <span class="o">=</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">32</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="mi">64</span><span class="p">]</span>
 </pre></div>
 
     </div>
@@ -1029,7 +1045,8 @@ And here is the link to more modification to beat Imagenette leaderboard with ad
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Now lets change activation function to Mish.
-Here is link to forum disscussion <a href="https://forums.fast.ai/t/meet-mish-new-activation-function-possible-successor-to-relu">https://forums.fast.ai/t/meet-mish-new-activation-function-possible-successor-to-relu</a></p>
+Here is link to forum disscussion <a href="https://forums.fast.ai/t/meet-mish-new-activation-function-possible-successor-to-relu">https://forums.fast.ai/t/meet-mish-new-activation-function-possible-successor-to-relu</a><br>
+Mish is in model_constructor.layer.</p>
 
 </div>
 </div>
@@ -1041,12 +1058,7 @@ Here is link to forum disscussion <a href="https://forums.fast.ai/t/meet-mish-ne
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Mish</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
-
-    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>  
-        <span class="k">return</span> <span class="n">x</span> <span class="o">*</span><span class="p">(</span> <span class="n">torch</span><span class="o">.</span><span class="n">tanh</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">softplus</span><span class="p">(</span><span class="n">x</span><span class="p">)))</span> 
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">act_fn</span> <span class="o">=</span> <span class="n">Mish</span><span class="p">()</span>
 </pre></div>
 
     </div>
@@ -1063,36 +1075,7 @@ Here is link to forum disscussion <a href="https://forums.fast.ai/t/meet-mish-ne
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">mxresnet</span><span class="o">.</span><span class="n">expansion</span> <span class="o">=</span> <span class="mi">4</span>
-<span class="n">mxresnet</span><span class="o">.</span><span class="n">layers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span>
-<span class="n">mxresnet</span><span class="o">.</span><span class="n">act_fn</span> <span class="o">=</span> <span class="n">Mish</span><span class="p">()</span>
-<span class="n">mxresnet</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;mxresnet50&#39;</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Now we have mxresnet50 constructor.<br>
-We can inspect some parts of it.<br>
-And after call it we got model.</p>
-
-</div>
-</div>
-</div>
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">mxresnet</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">model</span>
 </pre></div>
 
     </div>
@@ -1107,7 +1090,10 @@ And after call it we got model.</p>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre> constr mxresnet50</pre>
+<pre>MxResNet constructor
+ expansion: 1, sa: 0, groups: 1
+ stem sizes: [3, 32, 64, 64]
+ body sizes [64, 64, 128, 256, 512]</pre>
 </div>
 
 </div>
@@ -1125,13 +1111,292 @@ And after call it we got model.</p>
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">mxresnet</span><span class="o">.</span><span class="n">stem</span><span class="o">.</span><span class="n">conv_1</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">model</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+<details class="description">
+      <summary data-open="Hide Output" data-close="Show Output"></summary>
+        <summary></summary>
+        
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>Sequential(
+  model MxResNet
+  (stem): Sequential(
+    (conv_0): ConvLayer(
+      (conv): Conv2d(3, 32, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
+      (bn): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (act_fn): Mish()
+    )
+    (conv_1): ConvLayer(
+      (conv): Conv2d(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (act_fn): Mish()
+    )
+    (conv_2): ConvLayer(
+      (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (act_fn): Mish()
+    )
+    (stem_pool): MaxPool2d(kernel_size=3, stride=2, padding=1, dilation=1, ceil_mode=False)
+  )
+  (body): Sequential(
+    (l_0): Sequential(
+      (bl_0): ResBlock(
+        (convs): Sequential(
+          (conv_0): ConvLayer(
+            (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+            (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (act_fn): Mish()
+          )
+          (conv_1): ConvLayer(
+            (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+            (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+        )
+        (act_fn): Mish()
+      )
+      (bl_1): ResBlock(
+        (convs): Sequential(
+          (conv_0): ConvLayer(
+            (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+            (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (act_fn): Mish()
+          )
+          (conv_1): ConvLayer(
+            (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+            (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+        )
+        (act_fn): Mish()
+      )
+    )
+    (l_1): Sequential(
+      (bl_0): ResBlock(
+        (convs): Sequential(
+          (conv_0): ConvLayer(
+            (conv): Conv2d(64, 128, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
+            (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (act_fn): Mish()
+          )
+          (conv_1): ConvLayer(
+            (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+            (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+        )
+        (pool): AvgPool2d(kernel_size=2, stride=2, padding=0)
+        (idconv): ConvLayer(
+          (conv): Conv2d(64, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
+          (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+        (act_fn): Mish()
+      )
+      (bl_1): ResBlock(
+        (convs): Sequential(
+          (conv_0): ConvLayer(
+            (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+            (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (act_fn): Mish()
+          )
+          (conv_1): ConvLayer(
+            (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+            (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+        )
+        (act_fn): Mish()
+      )
+    )
+    (l_2): Sequential(
+      (bl_0): ResBlock(
+        (convs): Sequential(
+          (conv_0): ConvLayer(
+            (conv): Conv2d(128, 256, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
+            (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (act_fn): Mish()
+          )
+          (conv_1): ConvLayer(
+            (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+            (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+        )
+        (pool): AvgPool2d(kernel_size=2, stride=2, padding=0)
+        (idconv): ConvLayer(
+          (conv): Conv2d(128, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+          (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+        (act_fn): Mish()
+      )
+      (bl_1): ResBlock(
+        (convs): Sequential(
+          (conv_0): ConvLayer(
+            (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+            (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (act_fn): Mish()
+          )
+          (conv_1): ConvLayer(
+            (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+            (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+        )
+        (act_fn): Mish()
+      )
+    )
+    (l_3): Sequential(
+      (bl_0): ResBlock(
+        (convs): Sequential(
+          (conv_0): ConvLayer(
+            (conv): Conv2d(256, 512, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
+            (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (act_fn): Mish()
+          )
+          (conv_1): ConvLayer(
+            (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+            (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+        )
+        (pool): AvgPool2d(kernel_size=2, stride=2, padding=0)
+        (idconv): ConvLayer(
+          (conv): Conv2d(256, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+          (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+        (act_fn): Mish()
+      )
+      (bl_1): ResBlock(
+        (convs): Sequential(
+          (conv_0): ConvLayer(
+            (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+            (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (act_fn): Mish()
+          )
+          (conv_1): ConvLayer(
+            (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+            (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+        )
+        (act_fn): Mish()
+      )
+    )
+  )
+  (head): Sequential(
+    (pool): AdaptiveAvgPool2d(output_size=1)
+    (flat): Flatten()
+    (fc): Linear(in_features=512, out_features=1000, bias=True)
+  )
+)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+    </details>
+</div>
+    {% endraw %}
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="MXResNet">MXResNet<a class="anchor-link" href="#MXResNet"> </a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Now lets make MxResNet50</p>
+
+</div>
+</div>
+</div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">expansion</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="n">model</span><span class="o">.</span><span class="n">layers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span>
+<span class="n">model</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;mxresnet50&#39;</span>
 </pre></div>
 
     </div>
 </div>
 </div>
 
+</div>
+    {% endraw %}
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Now we have mxresnet50 constructor.<br>
+We can inspect every parts of it.<br>
+And after call it we got model.</p>
+
+</div>
+</div>
+</div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">model</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>mxresnet50 constructor
+ expansion: 4, sa: 0, groups: 1
+ stem sizes: [3, 32, 64, 64]
+ body sizes [16, 64, 128, 256, 512]</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">stem</span><span class="o">.</span><span class="n">conv_1</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+<details class="description">
+      <summary data-open="Hide Output" data-close="Show Output"></summary>
+        <summary></summary>
+        
 <div class="output_wrapper">
 <div class="output">
 
@@ -1152,6 +1417,7 @@ And after call it we got model.</p>
 </div>
 </div>
 
+    </details>
 </div>
     {% endraw %}
 
@@ -1162,13 +1428,16 @@ And after call it we got model.</p>
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">mxresnet</span><span class="o">.</span><span class="n">body</span><span class="o">.</span><span class="n">l_0</span><span class="o">.</span><span class="n">bl_0</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">body</span><span class="o">.</span><span class="n">l_0</span><span class="o">.</span><span class="n">bl_0</span>
 </pre></div>
 
     </div>
 </div>
 </div>
-
+<details class="description">
+      <summary data-open="Hide Output" data-close="Show Output"></summary>
+        <summary></summary>
+        
 <div class="output_wrapper">
 <div class="output">
 
@@ -1185,7 +1454,7 @@ And after call it we got model.</p>
       (act_fn): Mish()
     )
     (conv_1): ConvLayer(
-      (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=64, bias=False)
       (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
       (act_fn): Mish()
     )
@@ -1207,12 +1476,19 @@ And after call it we got model.</p>
 </div>
 </div>
 
+    </details>
 </div>
     {% endraw %}
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Now lets change Resblock. NewResBlock (stiil not own name yet) is in lib from version 0.1.0</p>
+<h2 id="YaResNet">YaResNet<a class="anchor-link" href="#YaResNet"> </a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Now lets change Resblock to YaResBlock (Yet another ResNet, former NewResBlock) is in lib from version 0.1.0</p>
 
 </div>
 </div>
@@ -1224,7 +1500,24 @@ And after call it we got model.</p>
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">mxresnet</span><span class="o">.</span><span class="n">block</span> <span class="o">=</span> <span class="n">NewResBlock</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">model_constructor.yaresnet</span> <span class="kn">import</span> <span class="n">YaResBlock</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">block</span> <span class="o">=</span> <span class="n">YaResBlock</span>
 </pre></div>
 
     </div>
@@ -1236,7 +1529,7 @@ And after call it we got model.</p>
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>That all. Let see what we have.</p>
+<p>That all. Now we have YaResNet constructor</p>
 
 </div>
 </div>
@@ -1248,7 +1541,8 @@ And after call it we got model.</p>
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">mxresnet</span><span class="o">.</span><span class="n">body</span><span class="o">.</span><span class="n">l_1</span><span class="o">.</span><span class="n">bl_0</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;YaResNet&#39;</span>
+<span class="n">model</span>
 </pre></div>
 
     </div>
@@ -1263,7 +1557,211 @@ And after call it we got model.</p>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>NewResBlock(
+<pre>Net(
+  (stem): Stem(
+    sizes: [3, 64]
+    (conv_0): ConvLayer(
+      (conv): Conv2d(3, 64, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
+      (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
+    )
+    (pool): MaxPool2d(kernel_size=3, stride=2, padding=1, dilation=1, ceil_mode=False)
+  )
+  (body): Body(
+    (layer_0): BasicLayer(
+      from 64 to 64, 2 blocks, expansion 1.
+      (block_0): BasicBlock(
+        (conv): Sequential(
+          (conv_0): ConvLayer(
+            (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+            (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
+          )
+          (conv_1): ConvLayer(
+            (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+            (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+        )
+        (merge): Noop()
+        (act_conn): LeakyReLU(negative_slope=0.01, inplace=True)
+      )
+      (block_1): BasicBlock(
+        (conv): Sequential(
+          (conv_0): ConvLayer(
+            (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+            (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
+          )
+          (conv_1): ConvLayer(
+            (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+            (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+        )
+        (merge): Noop()
+        (act_conn): LeakyReLU(negative_slope=0.01, inplace=True)
+      )
+    )
+    (layer_1): BasicLayer(
+      from 64 to 128, 2 blocks, expansion 1.
+      (block_0): BasicBlock(
+        (conv): Sequential(
+          (conv_0): ConvLayer(
+            (conv): Conv2d(64, 128, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
+            (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
+          )
+          (conv_1): ConvLayer(
+            (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+            (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+        )
+        (downsample): ConvLayer(
+          (conv): Conv2d(64, 128, kernel_size=(1, 1), stride=(2, 2), bias=False)
+          (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+        (merge): Noop()
+        (act_conn): LeakyReLU(negative_slope=0.01, inplace=True)
+      )
+      (block_1): BasicBlock(
+        (conv): Sequential(
+          (conv_0): ConvLayer(
+            (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+            (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
+          )
+          (conv_1): ConvLayer(
+            (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+            (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+        )
+        (merge): Noop()
+        (act_conn): LeakyReLU(negative_slope=0.01, inplace=True)
+      )
+    )
+    (layer_2): BasicLayer(
+      from 128 to 256, 2 blocks, expansion 1.
+      (block_0): BasicBlock(
+        (conv): Sequential(
+          (conv_0): ConvLayer(
+            (conv): Conv2d(128, 256, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
+            (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
+          )
+          (conv_1): ConvLayer(
+            (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+            (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+        )
+        (downsample): ConvLayer(
+          (conv): Conv2d(128, 256, kernel_size=(1, 1), stride=(2, 2), bias=False)
+          (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+        (merge): Noop()
+        (act_conn): LeakyReLU(negative_slope=0.01, inplace=True)
+      )
+      (block_1): BasicBlock(
+        (conv): Sequential(
+          (conv_0): ConvLayer(
+            (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+            (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
+          )
+          (conv_1): ConvLayer(
+            (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+            (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+        )
+        (merge): Noop()
+        (act_conn): LeakyReLU(negative_slope=0.01, inplace=True)
+      )
+    )
+    (layer_3): BasicLayer(
+      from 256 to 512, 2 blocks, expansion 1.
+      (block_0): BasicBlock(
+        (conv): Sequential(
+          (conv_0): ConvLayer(
+            (conv): Conv2d(256, 512, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
+            (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
+          )
+          (conv_1): ConvLayer(
+            (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+            (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+        )
+        (downsample): ConvLayer(
+          (conv): Conv2d(256, 512, kernel_size=(1, 1), stride=(2, 2), bias=False)
+          (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+        (merge): Noop()
+        (act_conn): LeakyReLU(negative_slope=0.01, inplace=True)
+      )
+      (block_1): BasicBlock(
+        (conv): Sequential(
+          (conv_0): ConvLayer(
+            (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+            (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
+          )
+          (conv_1): ConvLayer(
+            (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+            (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+        )
+        (merge): Noop()
+        (act_conn): LeakyReLU(negative_slope=0.01, inplace=True)
+      )
+    )
+  )
+  (head): Head(
+    (pool): AdaptiveAvgPool2d(output_size=(1, 1))
+    (flat): Flatten()
+    (fc): Linear(in_features=512, out_features=1000, bias=True)
+  )
+)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Let see what we have.</p>
+
+</div>
+</div>
+</div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">body</span><span class="o">.</span><span class="n">l_1</span><span class="o">.</span><span class="n">bl_0</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+<details class="description">
+      <summary data-open="Hide Output" data-close="Show Output"></summary>
+        <summary></summary>
+        
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>YaResBlock(
   (reduce): AvgPool2d(kernel_size=2, stride=2, padding=0)
   (convs): Sequential(
     (conv_0): ConvLayer(
@@ -1272,7 +1770,7 @@ And after call it we got model.</p>
       (act_fn): Mish()
     )
     (conv_1): ConvLayer(
-      (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=128, bias=False)
       (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
       (act_fn): Mish()
     )
@@ -1294,6 +1792,7 @@ And after call it we got model.</p>
 </div>
 </div>
 
+    </details>
 </div>
     {% endraw %}
 
@@ -1423,7 +1922,41 @@ For example, resnet34:</p>
 
 <div class="inner_cell">
     <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">model</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">resnet50</span><span class="p">(</span><span class="n">num_classes</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">model</span>
 </pre></div>
 
     </div>
@@ -1471,6 +2004,23 @@ For example, resnet34:</p>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">xresnet50</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">model</span>
 </pre></div>
 
     </div>
@@ -1543,7 +2093,10 @@ For example, resnet34:</p>
     </div>
 </div>
 </div>
-
+<details class="description">
+      <summary data-open="Hide Output" data-close="Show Output"></summary>
+        <summary></summary>
+        
 <div class="output_wrapper">
 <div class="output">
 
@@ -1578,6 +2131,7 @@ For example, resnet34:</p>
 </div>
 </div>
 
+    </details>
 </div>
     {% endraw %}
 
@@ -1611,7 +2165,10 @@ For example, resnet34:</p>
     </div>
 </div>
 </div>
-
+<details class="description">
+      <summary data-open="Hide Output" data-close="Show Output"></summary>
+        <summary></summary>
+        
 <div class="output_wrapper">
 <div class="output">
 
@@ -1646,6 +2203,7 @@ For example, resnet34:</p>
 </div>
 </div>
 
+    </details>
 </div>
     {% endraw %}
 
@@ -1766,7 +2324,10 @@ For example, resnet34:</p>
     </div>
 </div>
 </div>
-
+<details class="description">
+      <summary data-open="Hide Output" data-close="Show Output"></summary>
+        <summary></summary>
+        
 <div class="output_wrapper">
 <div class="output">
 
@@ -1791,6 +2352,7 @@ For example, resnet34:</p>
 </div>
 </div>
 
+    </details>
 </div>
     {% endraw %}
 
@@ -1807,7 +2369,10 @@ For example, resnet34:</p>
     </div>
 </div>
 </div>
-
+<details class="description">
+      <summary data-open="Hide Output" data-close="Show Output"></summary>
+        <summary></summary>
+        
 <div class="output_wrapper">
 <div class="output">
 
@@ -1838,6 +2403,7 @@ For example, resnet34:</p>
 </div>
 </div>
 
+    </details>
 </div>
     {% endraw %}
 

@@ -42,7 +42,7 @@ class ResBlock(nn.Module):
     def forward(self, x): return self.act_fn(self.convs(x) + self.idconv(self.pool(x)))
 
 # Cell
-# Still no name - just New block YET!
+# NewResBlock now is YaResBlock - Yet Another ResNet Block! It is now at model_constructor.yaresnet.
 class NewResBlock(nn.Module):
     def __init__(self, expansion, ni, nh, stride=1,
                  conv_layer=ConvLayer, act_fn=act_fn, zero_bn=True, bn_1st=True,

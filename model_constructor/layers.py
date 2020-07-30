@@ -55,6 +55,7 @@ class Noop(nn.Module):
 # Mish: Self Regularized
 # Non-Monotonic Activation Function
 # https://github.com/digantamisra98/Mish
+# fastai forum discussion https://forums.fast.ai/t/meet-mish-new-activation-function-possible-successor-to-relu
 
 class Mish(nn.Module):
     '''Self Regularized Non-Monotonic Activation Function'''
