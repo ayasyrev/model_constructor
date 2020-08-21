@@ -129,21 +129,20 @@ class Net():
         self._make_layer = _make_layer
         self._make_body = _make_body
         self._make_head = _make_head
-
+        self._block_szs = [64,128,256,512]
 
     @property
     def block_szs(self):
-        return [self.stem_sizes[-1]//self.expansion,64,128,256,512] +[256]*(len(self.layers)-4)
+        return [self.stem_sizes[-1]//self.expansion] + self._block_szs +[256]*(len(self.layers)-4)
 
     @property
     def stem(self):
         return self._make_stem(self)
+
     @property
     def head(self):
         return self._make_head(self)
-#     @property
-#     def _make_layer(self):
-#         return self.__make_layer(self)
+
     @property
     def body(self):
         return self._make_body(self)
@@ -157,5 +156,7 @@ class Net():
         self._init_cnn(model)
         model.extra_repr = lambda : f"model {self.name}"
         return model
+
     def __repr__(self):
-        return f"{self.name} constructor\n expansion: {self.expansion}, sa: {self.sa}, groups: {self.groups}\n stem sizes: {self.stem_sizes}\n body sizes {self.block_szs}"
+        return f"{self.name} constructor\n expansion: {self.expansion}, sa: {self.sa}, groups: {self.groups}\n" +\
+        f" stem sizes: {self.stem_sizes}, stide on {self.stem_stride_on}\n body sizes {self.block_szs}\n layers: {self.layers}"
