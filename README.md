@@ -42,8 +42,9 @@ model
 
     Net constructor
      expansion: 1, sa: 0, groups: 1
-     stem sizes: [3, 32, 32, 64]
-     body sizes [64, 64, 128, 256, 512]
+     stem sizes: [3, 32, 32, 64], stide on 0
+     body sizes [64, 128, 256, 512]
+     layers: [2, 2, 2, 2]
 
 
 
@@ -312,7 +313,7 @@ model.body
               (act_fn): ReLU(inplace=True)
             )
             (conv_1): ConvLayer(
-              (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=64, bias=False)
+              (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
               (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
               (act_fn): ReLU(inplace=True)
             )
@@ -335,7 +336,7 @@ model.body
               (act_fn): ReLU(inplace=True)
             )
             (conv_1): ConvLayer(
-              (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=64, bias=False)
+              (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
               (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
               (act_fn): ReLU(inplace=True)
             )
@@ -354,7 +355,7 @@ model.body
               (act_fn): ReLU(inplace=True)
             )
             (conv_1): ConvLayer(
-              (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=64, bias=False)
+              (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
               (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
               (act_fn): ReLU(inplace=True)
             )
@@ -375,7 +376,7 @@ model.body
               (act_fn): ReLU(inplace=True)
             )
             (conv_1): ConvLayer(
-              (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), groups=128, bias=False)
+              (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
               (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
               (act_fn): ReLU(inplace=True)
             )
@@ -399,7 +400,7 @@ model.body
               (act_fn): ReLU(inplace=True)
             )
             (conv_1): ConvLayer(
-              (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=128, bias=False)
+              (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
               (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
               (act_fn): ReLU(inplace=True)
             )
@@ -418,7 +419,7 @@ model.body
               (act_fn): ReLU(inplace=True)
             )
             (conv_1): ConvLayer(
-              (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=128, bias=False)
+              (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
               (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
               (act_fn): ReLU(inplace=True)
             )
@@ -437,7 +438,7 @@ model.body
               (act_fn): ReLU(inplace=True)
             )
             (conv_1): ConvLayer(
-              (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=128, bias=False)
+              (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
               (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
               (act_fn): ReLU(inplace=True)
             )
@@ -458,7 +459,7 @@ model.body
               (act_fn): ReLU(inplace=True)
             )
             (conv_1): ConvLayer(
-              (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), groups=256, bias=False)
+              (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
               (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
               (act_fn): ReLU(inplace=True)
             )
@@ -482,7 +483,7 @@ model.body
               (act_fn): ReLU(inplace=True)
             )
             (conv_1): ConvLayer(
-              (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=256, bias=False)
+              (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
               (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
               (act_fn): ReLU(inplace=True)
             )
@@ -501,7 +502,7 @@ model.body
               (act_fn): ReLU(inplace=True)
             )
             (conv_1): ConvLayer(
-              (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=256, bias=False)
+              (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
               (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
               (act_fn): ReLU(inplace=True)
             )
@@ -520,7 +521,7 @@ model.body
               (act_fn): ReLU(inplace=True)
             )
             (conv_1): ConvLayer(
-              (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=256, bias=False)
+              (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
               (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
               (act_fn): ReLU(inplace=True)
             )
@@ -539,7 +540,7 @@ model.body
               (act_fn): ReLU(inplace=True)
             )
             (conv_1): ConvLayer(
-              (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=256, bias=False)
+              (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
               (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
               (act_fn): ReLU(inplace=True)
             )
@@ -558,7 +559,7 @@ model.body
               (act_fn): ReLU(inplace=True)
             )
             (conv_1): ConvLayer(
-              (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=256, bias=False)
+              (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
               (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
               (act_fn): ReLU(inplace=True)
             )
@@ -579,7 +580,7 @@ model.body
               (act_fn): ReLU(inplace=True)
             )
             (conv_1): ConvLayer(
-              (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), groups=512, bias=False)
+              (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
               (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
               (act_fn): ReLU(inplace=True)
             )
@@ -603,7 +604,7 @@ model.body
               (act_fn): ReLU(inplace=True)
             )
             (conv_1): ConvLayer(
-              (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=512, bias=False)
+              (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
               (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
               (act_fn): ReLU(inplace=True)
             )
@@ -622,7 +623,7 @@ model.body
               (act_fn): ReLU(inplace=True)
             )
             (conv_1): ConvLayer(
-              (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=512, bias=False)
+              (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
               (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
               (act_fn): ReLU(inplace=True)
             )
@@ -639,17 +640,6 @@ model.body
 
 
 </details>
-
-```python
-model.block_szs
-```
-
-
-
-
-    [16, 64, 128, 256, 512]
-
-
 
 ## More modification.
 
@@ -688,8 +678,9 @@ model
 
     MxResNet constructor
      expansion: 1, sa: 0, groups: 1
-     stem sizes: [3, 32, 64, 64]
-     body sizes [64, 64, 128, 256, 512]
+     stem sizes: [3, 32, 64, 64], stide on 0
+     body sizes [64, 128, 256, 512]
+     layers: [2, 2, 2, 2]
 
 
 
@@ -894,8 +885,9 @@ model
 
     mxresnet50 constructor
      expansion: 4, sa: 0, groups: 1
-     stem sizes: [3, 32, 64, 64]
-     body sizes [16, 64, 128, 256, 512]
+     stem sizes: [3, 32, 64, 64], stide on 0
+     body sizes [64, 128, 256, 512]
+     layers: [3, 4, 6, 3]
 
 
 
@@ -937,7 +929,7 @@ model.body.l_0.bl_0
           (act_fn): Mish()
         )
         (conv_1): ConvLayer(
-          (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=64, bias=False)
+          (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
           (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
           (act_fn): Mish()
         )
@@ -982,168 +974,11 @@ model
 
 
 
-    Net(
-      (stem): Stem(
-        sizes: [3, 64]
-        (conv_0): ConvLayer(
-          (conv): Conv2d(3, 64, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
-          (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-          (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-        )
-        (pool): MaxPool2d(kernel_size=3, stride=2, padding=1, dilation=1, ceil_mode=False)
-      )
-      (body): Body(
-        (layer_0): BasicLayer(
-          from 64 to 64, 2 blocks, expansion 1.
-          (block_0): BasicBlock(
-            (conv): Sequential(
-              (conv_0): ConvLayer(
-                (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-                (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-                (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-              )
-              (conv_1): ConvLayer(
-                (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-                (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-              )
-            )
-            (merge): Noop()
-            (act_conn): LeakyReLU(negative_slope=0.01, inplace=True)
-          )
-          (block_1): BasicBlock(
-            (conv): Sequential(
-              (conv_0): ConvLayer(
-                (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-                (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-                (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-              )
-              (conv_1): ConvLayer(
-                (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-                (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-              )
-            )
-            (merge): Noop()
-            (act_conn): LeakyReLU(negative_slope=0.01, inplace=True)
-          )
-        )
-        (layer_1): BasicLayer(
-          from 64 to 128, 2 blocks, expansion 1.
-          (block_0): BasicBlock(
-            (conv): Sequential(
-              (conv_0): ConvLayer(
-                (conv): Conv2d(64, 128, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
-                (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-                (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-              )
-              (conv_1): ConvLayer(
-                (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-                (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-              )
-            )
-            (downsample): ConvLayer(
-              (conv): Conv2d(64, 128, kernel_size=(1, 1), stride=(2, 2), bias=False)
-              (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-            )
-            (merge): Noop()
-            (act_conn): LeakyReLU(negative_slope=0.01, inplace=True)
-          )
-          (block_1): BasicBlock(
-            (conv): Sequential(
-              (conv_0): ConvLayer(
-                (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-                (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-                (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-              )
-              (conv_1): ConvLayer(
-                (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-                (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-              )
-            )
-            (merge): Noop()
-            (act_conn): LeakyReLU(negative_slope=0.01, inplace=True)
-          )
-        )
-        (layer_2): BasicLayer(
-          from 128 to 256, 2 blocks, expansion 1.
-          (block_0): BasicBlock(
-            (conv): Sequential(
-              (conv_0): ConvLayer(
-                (conv): Conv2d(128, 256, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
-                (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-                (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-              )
-              (conv_1): ConvLayer(
-                (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-                (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-              )
-            )
-            (downsample): ConvLayer(
-              (conv): Conv2d(128, 256, kernel_size=(1, 1), stride=(2, 2), bias=False)
-              (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-            )
-            (merge): Noop()
-            (act_conn): LeakyReLU(negative_slope=0.01, inplace=True)
-          )
-          (block_1): BasicBlock(
-            (conv): Sequential(
-              (conv_0): ConvLayer(
-                (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-                (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-                (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-              )
-              (conv_1): ConvLayer(
-                (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-                (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-              )
-            )
-            (merge): Noop()
-            (act_conn): LeakyReLU(negative_slope=0.01, inplace=True)
-          )
-        )
-        (layer_3): BasicLayer(
-          from 256 to 512, 2 blocks, expansion 1.
-          (block_0): BasicBlock(
-            (conv): Sequential(
-              (conv_0): ConvLayer(
-                (conv): Conv2d(256, 512, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
-                (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-                (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-              )
-              (conv_1): ConvLayer(
-                (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-                (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-              )
-            )
-            (downsample): ConvLayer(
-              (conv): Conv2d(256, 512, kernel_size=(1, 1), stride=(2, 2), bias=False)
-              (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-            )
-            (merge): Noop()
-            (act_conn): LeakyReLU(negative_slope=0.01, inplace=True)
-          )
-          (block_1): BasicBlock(
-            (conv): Sequential(
-              (conv_0): ConvLayer(
-                (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-                (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-                (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-              )
-              (conv_1): ConvLayer(
-                (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-                (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-              )
-            )
-            (merge): Noop()
-            (act_conn): LeakyReLU(negative_slope=0.01, inplace=True)
-          )
-        )
-      )
-      (head): Head(
-        (pool): AdaptiveAvgPool2d(output_size=(1, 1))
-        (flat): Flatten()
-        (fc): Linear(in_features=512, out_features=1000, bias=True)
-      )
-    )
+    YaResNet constructor
+     expansion: 4, sa: 0, groups: 1
+     stem sizes: [3, 32, 64, 64], stide on 0
+     body sizes [64, 128, 256, 512]
+     layers: [3, 4, 6, 3]
 
 
 
@@ -1170,7 +1005,7 @@ model.body.l_1.bl_0
           (act_fn): Mish()
         )
         (conv_1): ConvLayer(
-          (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=128, bias=False)
+          (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
           (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
           (act_fn): Mish()
         )

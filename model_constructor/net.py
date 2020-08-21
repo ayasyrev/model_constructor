@@ -92,7 +92,7 @@ def _make_layer(self,expansion,ni,nf,blocks,stride,sa):
 # Cell
 def _make_body(self):
         blocks = [(f"l_{i}", self._make_layer(self,self.expansion,
-                        self.block_szs[i], self.block_szs[i+1], l,
+                        self.block_sizes[i], self.block_sizes[i+1], l,
                         1 if i==0 else 2, self.sa if i==0 else False))
                   for i,l in enumerate(self.layers)]
         return nn.Sequential(OrderedDict(blocks))
@@ -101,7 +101,7 @@ def _make_body(self):
 def _make_head(self):
         head = [('pool', nn.AdaptiveAvgPool2d(1)),
                 ('flat', Flatten()),
-                ('fc',   nn.Linear(self.block_szs[-1]*self.expansion, self.c_out))]
+                ('fc',   nn.Linear(self.block_sizes[-1]*self.expansion, self.c_out))]
         return nn.Sequential(OrderedDict(head))
 
 # Cell
@@ -110,30 +110,37 @@ class Net():
     def __init__(self, name='Net', expansion=1,  c_in=3, c_out=1000,
                 block=ResBlock, layers=[2,2,2,2], pool = nn.AvgPool2d(2, ceil_mode=True),
                 act_fn=nn.ReLU(inplace=True), sa=0,
-                stem_sizes=None, stem_stride_on=0):
+                groups = 1,
+                stem_stride_on = 0,
+                stem_sizes = [32,32,64],    # ! c_in
+                stem_pool = nn.MaxPool2d(kernel_size=3, stride=2, padding=1),
+                stem_bn_end = False,
+                norm = nn.BatchNorm2d,
+                bn_1st = True,
+                zero_bn=True,
+                conv_layer = ConvLayer,
+                _init_cnn = init_cnn,
+                _make_stem = _make_stem,
+                _make_layer = _make_layer,
+                _make_body = _make_body,
+                _make_head = _make_head,
+#                 _block_sizes = [128,256,512]     # ! [64,128,256,512]
+                block_sizes = [64,128,256,512]     # ! [64,128,256,512]
+                ):
         super().__init__()
-        self.name = name
-        self.c_in, self.c_out,self.expansion,self.layers = c_in,c_out,expansion,layers # todo setter for expansion
-        self.block, self.act_fn, self.pool, self.sa = block, act_fn, pool, sa
-        self.groups = 1
-        self.stem_stride_on = stem_stride_on
-        self.stem_sizes = stem_sizes if stem_sizes else [c_in,32,32,64]
-        self.stem_pool = nn.MaxPool2d(kernel_size=3, stride=2, padding=1)
-        self.stem_bn_end = False
-        self.norm = nn.BatchNorm2d
-        self.bn_1st = True
-        self.zero_bn=True
-        self.conv_layer = ConvLayer
-        self._init_cnn = init_cnn
-        self._make_stem = _make_stem
-        self._make_layer = _make_layer
-        self._make_body = _make_body
-        self._make_head = _make_head
-        self._block_szs = [64,128,256,512]
+
+        params = locals()
+        del params['self']
+        self.__dict__ = params
+        self._block_sizes = params['block_sizes']
+        if self.stem_sizes[0] != self.c_in: self.stem_sizes = [self.c_in] + self.stem_sizes
 
     @property
-    def block_szs(self):
-        return [self.stem_sizes[-1]//self.expansion] + self._block_szs +[256]*(len(self.layers)-4)
+    def block_sizes(self):
+        return [self.stem_sizes[-1]//self.expansion] + self._block_sizes +[256]*(len(self.layers)-4)
+#     @block_sizes.setter
+#     def block_sizes(self, block_sizes):
+#         self._block_sizes = [self.stem_sizes[-1]] + block_sizes
 
     @property
     def stem(self):
@@ -159,4 +166,4 @@ class Net():
 
     def __repr__(self):
         return f"{self.name} constructor\n expansion: {self.expansion}, sa: {self.sa}, groups: {self.groups}\n" +\
-        f" stem sizes: {self.stem_sizes}, stide on {self.stem_stride_on}\n body sizes {self.block_szs}\n layers: {self.layers}"
+        f" stem sizes: {self.stem_sizes}, stide on {self.stem_stride_on}\n body sizes {self._block_sizes}\n layers: {self.layers}"
