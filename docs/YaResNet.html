@@ -65,7 +65,7 @@ description: "Yet Another ResNet model."
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="YaResBlock" class="doc_header"><code>class</code> <code>YaResBlock</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/yaresnet.py#L16" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>YaResBlock</code>(<strong><code>expansion</code></strong>, <strong><code>ni</code></strong>, <strong><code>nh</code></strong>, <strong><code>stride</code></strong>=<em><code>1</code></em>, <strong><code>conv_layer</code></strong>=<em><code>'ConvLayer'</code></em>, <strong><code>act_fn</code></strong>=<em><code>ReLU(inplace=True)</code></em>, <strong><code>zero_bn</code></strong>=<em><code>True</code></em>, <strong><code>bn_1st</code></strong>=<em><code>True</code></em>, <strong><code>pool</code></strong>=<em><code>AvgPool2d(kernel_size=2, stride=2, padding=0)</code></em>, <strong><code>sa</code></strong>=<em><code>False</code></em>, <strong><code>sym</code></strong>=<em><code>False</code></em>, <strong><code>groups</code></strong>=<em><code>1</code></em>) :: <code>Module</code></p>
+<h2 id="YaResBlock" class="doc_header"><code>class</code> <code>YaResBlock</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/yaresnet.py#L16" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>YaResBlock</code>(<strong><code>expansion</code></strong>, <strong><code>ni</code></strong>, <strong><code>nh</code></strong>, <strong><code>stride</code></strong>=<em><code>1</code></em>, <strong><code>conv_layer</code></strong>=<em><code>'ConvLayer'</code></em>, <strong><code>act_fn</code></strong>=<em><code>ReLU(inplace=True)</code></em>, <strong><code>zero_bn</code></strong>=<em><code>True</code></em>, <strong><code>bn_1st</code></strong>=<em><code>True</code></em>, <strong><code>pool</code></strong>=<em><code>AvgPool2d(kernel_size=2, stride=2, padding=0)</code></em>, <strong><code>sa</code></strong>=<em><code>False</code></em>, <strong><code>sym</code></strong>=<em><code>False</code></em>, <strong><code>se</code></strong>=<em><code>False</code></em>, <strong><code>groups</code></strong>=<em><code>1</code></em>, <strong><code>dw</code></strong>=<em><code>False</code></em>) :: <code>Module</code></p>
 </blockquote>
 <p>YaResBlock. Reduce by pool instead of stride 2</p>
 
@@ -125,9 +125,10 @@ description: "Yet Another ResNet model."
 
 <div class="output_text output_subarea output_execute_result">
 <pre>YaResNet constructor
- expansion: 1, sa: 0, groups: 1
- stem sizes: [3, 32, 64, 64]
- body sizes [64, 64, 128, 256, 512]</pre>
+  c_in: 3, c_out: 1000, expansion: 1, groups: 1, dw: False, sa: False
+  stem sizes: [3, 32, 64, 64], stide on 0
+  body sizes [64, 128, 256, 512]
+  layers: [2, 2, 2, 2]</pre>
 </div>
 
 </div>
@@ -720,9 +721,10 @@ description: "Yet Another ResNet model."
 
 <div class="output_text output_subarea output_execute_result">
 <pre>YaResnet50 constructor
- expansion: 4, sa: 0, groups: 1
- stem sizes: [3, 32, 64, 64]
- body sizes [16, 64, 128, 256, 512]</pre>
+  c_in: 3, c_out: 10, expansion: 4, groups: 1, dw: False, sa: False
+  stem sizes: [3, 32, 64, 64], stide on 1
+  body sizes [64, 128, 256, 512]
+  layers: [3, 4, 6, 3]</pre>
 </div>
 
 </div>

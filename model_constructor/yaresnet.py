@@ -15,21 +15,26 @@ from .net import Net
 # Yet another ResNet.
 class YaResBlock(nn.Module):
     '''YaResBlock. Reduce by pool instead of stride 2'''
+    se_block = SEBlock
     def __init__(self, expansion, ni, nh, stride=1,
                  conv_layer=ConvLayer, act_fn=act_fn, zero_bn=True, bn_1st=True,
-                 pool=nn.AvgPool2d(2, ceil_mode=True), sa=False,sym=False, groups=1):
+                 pool=nn.AvgPool2d(2, ceil_mode=True), sa=False,sym=False,  se=False,
+                 groups=1, dw=False):
         super().__init__()
         nf,ni = nh*expansion,ni*expansion
         if groups != 1: groups = int(nh/groups)
         self.reduce = noop if stride==1 else pool
-        layers  = [(f"conv_0", conv_layer(ni, nh, 3, stride=1, act_fn=act_fn, bn_1st=bn_1st)), # stride 1 !!!
+        layers  = [(f"conv_0", conv_layer(ni, nh, 3, stride=1, act_fn=act_fn, bn_1st=bn_1st,
+                                         groups= nh if dw else groups)), # stride 1 !!!
                    (f"conv_1", conv_layer(nh, nf, 3, zero_bn=zero_bn, act=False, bn_1st=bn_1st))
         ] if expansion == 1 else [
                    (f"conv_0",conv_layer(ni, nh, 1, act_fn=act_fn, bn_1st=bn_1st)),
-                   (f"conv_1",conv_layer(nh, nh, 3, stride=1, act_fn=act_fn, bn_1st=bn_1st, groups=groups)), # stride 1 !!!
+                   (f"conv_1",conv_layer(nh, nh, 3, stride=1, act_fn=act_fn, bn_1st=bn_1st,
+                                        groups= nh if dw else groups)), # stride 1 !!!
                    (f"conv_2",conv_layer(nh, nf, 1, zero_bn=zero_bn, act=False, bn_1st=bn_1st))
         ]
         if sa: layers.append(('sa', SimpleSelfAttention(nf,ks=1,sym=sym)))
+        if se: layers.append(('se', self.se_block(nf)))
         self.convs = nn.Sequential(OrderedDict(layers))
         self.idconv = noop if ni==nf else conv_layer(ni, nf, 1, act=False)
         self.merge =act_fn

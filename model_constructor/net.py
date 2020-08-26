@@ -20,21 +20,26 @@ def init_cnn(m):
 
 # Cell
 class ResBlock(nn.Module):
+    '''Resnet block'''
+    se_block = SEBlock
     def __init__(self, expansion, ni, nh, stride=1,
                  conv_layer=ConvLayer, act_fn=act_fn, zero_bn=True, bn_1st=True,
-                 pool=nn.AvgPool2d(2, ceil_mode=True), sa=False,sym=False, groups=1):
+                 pool=nn.AvgPool2d(2, ceil_mode=True), sa=False, sym=False, se=False,
+                 groups=1, dw=False):
         super().__init__()
         nf,ni = nh*expansion,ni*expansion
         if groups != 1: groups = int(nh/groups)
-        layers  = [(f"conv_0", conv_layer(ni, nh, 3, stride=stride, act_fn=act_fn, bn_1st=bn_1st)),
+        layers  = [(f"conv_0", conv_layer(ni, nh, 3, stride=stride, act_fn=act_fn, bn_1st=bn_1st,
+                                         groups= nh if dw else groups)),
                    (f"conv_1", conv_layer(nh, nf, 3, zero_bn=zero_bn, act=False, bn_1st=bn_1st))
         ] if expansion == 1 else [
                    (f"conv_0",conv_layer(ni, nh, 1, act_fn=act_fn, bn_1st=bn_1st)),
                    (f"conv_1",conv_layer(nh, nh, 3, stride=stride, act_fn=act_fn, bn_1st=bn_1st,
-                                         groups=groups)),
+                                         groups= nh if dw else groups)),
                    (f"conv_2",conv_layer(nh, nf, 1, zero_bn=zero_bn, act=False, bn_1st=bn_1st))
         ]
         if sa: layers.append(('sa', SimpleSelfAttention(nf,ks=1,sym=sym)))
+        if se: layers.append(('se', self.se_block(nf)))
         self.convs = nn.Sequential(OrderedDict(layers))
         self.pool = noop if stride==1 else pool
         self.idconv = noop if ni==nf else conv_layer(ni, nf, 1, act=False)
@@ -45,21 +50,27 @@ class ResBlock(nn.Module):
 # Cell
 # NewResBlock now is YaResBlock - Yet Another ResNet Block! It is now at model_constructor.yaresnet.
 class NewResBlock(nn.Module):
+    '''YaResnet block'''
+    se_block = SEBlock
     def __init__(self, expansion, ni, nh, stride=1,
                  conv_layer=ConvLayer, act_fn=act_fn, zero_bn=True, bn_1st=True,
-                 pool=nn.AvgPool2d(2, ceil_mode=True), sa=False,sym=False, groups=1):
+                 pool=nn.AvgPool2d(2, ceil_mode=True), sa=False,sym=False, se=False,
+                 groups=1, dw=False):
         super().__init__()
         nf,ni = nh*expansion,ni*expansion
         if groups != 1: groups = int(nh/groups)
         self.reduce = noop if stride==1 else pool
-        layers  = [(f"conv_0", conv_layer(ni, nh, 3, stride=1, act_fn=act_fn, bn_1st=bn_1st)), # stride 1 !!!
+        layers  = [(f"conv_0", conv_layer(ni, nh, 3, stride=1, act_fn=act_fn, bn_1st=bn_1st,
+                                          groups= nh if dw else groups)), # stride 1 !!!
                    (f"conv_1", conv_layer(nh, nf, 3, zero_bn=zero_bn, act=False, bn_1st=bn_1st))
         ] if expansion == 1 else [
                    (f"conv_0",conv_layer(ni, nh, 1, act_fn=act_fn, bn_1st=bn_1st)),
-                   (f"conv_1",conv_layer(nh, nh, 3, stride=1, act_fn=act_fn, bn_1st=bn_1st, groups=groups)), # stride 1 !!!
+                   (f"conv_1",conv_layer(nh, nh, 3, stride=1, act_fn=act_fn, bn_1st=bn_1st,
+                                         groups= nh if dw else groups)), # stride 1 !!!
                    (f"conv_2",conv_layer(nh, nf, 1, zero_bn=zero_bn, act=False, bn_1st=bn_1st))
         ]
         if sa: layers.append(('sa', SimpleSelfAttention(nf,ks=1,sym=sym)))
+        if se: layers.append(('se', self.se_block(nf)))
         self.convs = nn.Sequential(OrderedDict(layers))
         self.idconv = noop if ni==nf else conv_layer(ni, nf, 1, act=False)
         self.merge =act_fn
@@ -86,7 +97,7 @@ def _make_layer(self,expansion,ni,nf,blocks,stride,sa):
             [(f"bl_{i}", self.block(expansion, ni if i==0 else nf, nf,
                     stride if i==0 else 1, sa=sa if i==blocks-1 else False,
                     conv_layer=self.conv_layer, act_fn=self.act_fn, pool=self.pool,
-                                    zero_bn=self.zero_bn, bn_1st=self.bn_1st, groups=self.groups))
+                                    zero_bn=self.zero_bn, bn_1st=self.bn_1st, groups=self.groups, dw=self.dw))
               for i in range(blocks)]))
 
 # Cell
@@ -112,7 +123,7 @@ class Net():
                 norm = nn.BatchNorm2d,
                 act_fn=nn.ReLU(inplace=True),
                 pool = nn.AvgPool2d(2, ceil_mode=True),
-                expansion=1, groups = 1, sa=0,
+                expansion=1, groups = 1, dw=False, sa=False,
                 bn_1st = True,
                 zero_bn=True,
                 stem_stride_on = 0,
@@ -167,7 +178,7 @@ class Net():
 #         layers: {self.layers}"""
     def __repr__(self):
         return (f"{self.name} constructor\n"
-        f"  c_in: {self.c_in}, c_out: {self.c_out}, expansion: {self.expansion}, groups: {self.groups}, sa: {self.sa}\n"
+        f"  c_in: {self.c_in}, c_out: {self.c_out}, expansion: {self.expansion}, groups: {self.groups}, dw: {self.dw}, sa: {self.sa}\n"
         f"  stem sizes: {self.stem_sizes}, stide on {self.stem_stride_on}\n"
         f"  body sizes {self._block_sizes}\n"
         f"  layers: {self.layers}")

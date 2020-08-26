@@ -102,7 +102,7 @@ description: "Create and tune pytorch model."
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="ResBlock" class="doc_header"><code>class</code> <code>ResBlock</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/layers.py#L210" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>ResBlock</code>(<strong><code>ni</code></strong>, <strong><code>nh</code></strong>, <strong><code>expansion</code></strong>=<em><code>1</code></em>, <strong><code>stride</code></strong>=<em><code>1</code></em>, <strong><code>conv_layer</code></strong>=<em><code>'ConvLayer'</code></em>, <strong><code>conv_block</code></strong>=<em><code>'ConvBlockBasic'</code></em>, <strong><code>downsample</code></strong>=<em><code>'DownsampleLayer'</code></em>, <strong><code>act_fn</code></strong>=<em><code>ReLU(inplace=True)</code></em>, <strong><code>act_id</code></strong>=<em><code>False</code></em>, <strong><code>zero_bn</code></strong>=<em><code>True</code></em>, <strong><code>sa</code></strong>=<em><code>False</code></em>, <strong><code>sym</code></strong>=<em><code>False</code></em>, <strong>**<code>kwargs</code></strong>) :: <code>Module</code></p>
+<h2 id="ResBlock" class="doc_header"><code>class</code> <code>ResBlock</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/layers.py#L233" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>ResBlock</code>(<strong><code>ni</code></strong>, <strong><code>nh</code></strong>, <strong><code>expansion</code></strong>=<em><code>1</code></em>, <strong><code>stride</code></strong>=<em><code>1</code></em>, <strong><code>conv_layer</code></strong>=<em><code>'ConvLayer'</code></em>, <strong><code>conv_block</code></strong>=<em><code>'ConvBlockBasic'</code></em>, <strong><code>downsample</code></strong>=<em><code>'DownsampleLayer'</code></em>, <strong><code>act_fn</code></strong>=<em><code>ReLU(inplace=True)</code></em>, <strong><code>act_id</code></strong>=<em><code>False</code></em>, <strong><code>zero_bn</code></strong>=<em><code>True</code></em>, <strong><code>sa</code></strong>=<em><code>False</code></em>, <strong><code>sym</code></strong>=<em><code>False</code></em>, <strong>**<code>kwargs</code></strong>) :: <code>Module</code></p>
 </blockquote>
 <p>Base class for all neural network modules.</p>
 <p>Your models should also subclass this class.</p>
@@ -171,6 +171,60 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
     )
     (sa): SimpleSelfAttention(
       (conv): Conv1d(64, 64, kernel_size=(1,), stride=(1,), bias=False)
+    )
+  )
+  (act_fn): ReLU(inplace=True)
+)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ResBlock</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="n">sa</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">dw</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>ResBlock(
+  (convs): Sequential(
+    (conv_0): ConvLayer(
+      (conv): Conv2d(256, 64, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (act_fn): ReLU(inplace=True)
+    )
+    (conv_1): ConvLayer(
+      (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=64, bias=False)
+      (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (act_fn): ReLU(inplace=True)
+    )
+    (conv_2): ConvLayer(
+      (conv): Conv2d(64, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    )
+    (sa): SimpleSelfAttention(
+      (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
     )
   )
   (act_fn): ReLU(inplace=True)
@@ -290,6 +344,69 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
 </div>
     {% endraw %}
 
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ResBlock</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span><span class="n">s</span> <span class="n">a</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">se</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>ResBlock(
+  (convs): Sequential(
+    (conv_0): ConvLayer(
+      (conv): Conv2d(128, 64, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (act_fn): ReLU(inplace=True)
+    )
+    (conv_1): ConvLayer(
+      (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (act_fn): ReLU(inplace=True)
+    )
+    (conv_2): ConvLayer(
+      (conv): Conv2d(64, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    )
+    (sa): SimpleSelfAttention(
+      (conv): Conv1d(128, 128, kernel_size=(1,), stride=(1,), bias=False)
+    )
+    (se): SEBlock(
+      (squeeze): AdaptiveAvgPool2d(output_size=1)
+      (excitation): Sequential(
+        (fc_1): Linear(in_features=128, out_features=8, bias=False)
+        (se_act): ReLU(inplace=True)
+        (fc_2): Linear(in_features=8, out_features=128, bias=False)
+        (sigmoid): Sigmoid()
+      )
+    )
+  )
+  (act_fn): ReLU(inplace=True)
+)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="NewResBlock">NewResBlock<a class="anchor-link" href="#NewResBlock"> </a></h1>
@@ -322,30 +439,65 @@ Here i left old name for compatibility with existing Notebooks.</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="NewResBlock" class="doc_header"><code>class</code> <code>NewResBlock</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/net.py#L47" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>NewResBlock</code>(<strong><code>expansion</code></strong>, <strong><code>ni</code></strong>, <strong><code>nh</code></strong>, <strong><code>stride</code></strong>=<em><code>1</code></em>, <strong><code>conv_layer</code></strong>=<em><code>'ConvLayer'</code></em>, <strong><code>act_fn</code></strong>=<em><code>ReLU(inplace=True)</code></em>, <strong><code>zero_bn</code></strong>=<em><code>True</code></em>, <strong><code>bn_1st</code></strong>=<em><code>True</code></em>, <strong><code>pool</code></strong>=<em><code>AvgPool2d(kernel_size=2, stride=2, padding=0)</code></em>, <strong><code>sa</code></strong>=<em><code>False</code></em>, <strong><code>sym</code></strong>=<em><code>False</code></em>, <strong><code>groups</code></strong>=<em><code>1</code></em>) :: <code>Module</code></p>
+<h2 id="NewResBlock" class="doc_header"><code>class</code> <code>NewResBlock</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/net.py#L52" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>NewResBlock</code>(<strong><code>expansion</code></strong>, <strong><code>ni</code></strong>, <strong><code>nh</code></strong>, <strong><code>stride</code></strong>=<em><code>1</code></em>, <strong><code>conv_layer</code></strong>=<em><code>'ConvLayer'</code></em>, <strong><code>act_fn</code></strong>=<em><code>ReLU(inplace=True)</code></em>, <strong><code>zero_bn</code></strong>=<em><code>True</code></em>, <strong><code>bn_1st</code></strong>=<em><code>True</code></em>, <strong><code>pool</code></strong>=<em><code>AvgPool2d(kernel_size=2, stride=2, padding=0)</code></em>, <strong><code>sa</code></strong>=<em><code>False</code></em>, <strong><code>sym</code></strong>=<em><code>False</code></em>, <strong><code>se</code></strong>=<em><code>False</code></em>, <strong><code>groups</code></strong>=<em><code>1</code></em>, <strong><code>dw</code></strong>=<em><code>False</code></em>) :: <code>Module</code></p>
 </blockquote>
-<p>Base class for all neural network modules.</p>
-<p>Your models should also subclass this class.</p>
-<p>Modules can also contain other Modules, allowing to nest them in
-a tree structure. You can assign the submodules as regular attributes::</p>
+<p>YaResnet block</p>
 
-<pre><code>import torch.nn as nn
-import torch.nn.functional as F
+</div>
 
-class Model(nn.Module):
-    def __init__(self):
-        super(Model, self).__init__()
-        self.conv1 = nn.Conv2d(1, 20, 5)
-        self.conv2 = nn.Conv2d(20, 20, 5)
+</div>
 
-    def forward(self, x):
-        x = F.relu(self.conv1(x))
-        return F.relu(self.conv2(x))
+</div>
+</div>
 
-</code></pre>
-<p>Submodules assigned in this way will be registered, and will have their
-parameters converted too when you call :meth:<code>to</code>, etc.</p>
+</div>
+    {% endraw %}
 
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">NewResBlock</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="n">dw</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>NewResBlock(
+  (convs): Sequential(
+    (conv_0): ConvLayer(
+      (conv): Conv2d(256, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (act_fn): ReLU(inplace=True)
+    )
+    (conv_1): ConvLayer(
+      (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=128, bias=False)
+      (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (act_fn): ReLU(inplace=True)
+    )
+    (conv_2): ConvLayer(
+      (conv): Conv2d(128, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    )
+  )
+  (idconv): ConvLayer(
+    (conv): Conv2d(256, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+    (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+  )
+  (merge): ReLU(inplace=True)
+)</pre>
 </div>
 
 </div>
@@ -432,7 +584,7 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="Net" class="doc_header"><code>class</code> <code>Net</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/net.py#L108" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>Net</code>(<strong><code>name</code></strong>=<em><code>'Net'</code></em>, <strong><code>c_in</code></strong>=<em><code>3</code></em>, <strong><code>c_out</code></strong>=<em><code>1000</code></em>, <strong><code>block</code></strong>=<em><code>'ResBlock'</code></em>, <strong><code>conv_layer</code></strong>=<em><code>'ConvLayer'</code></em>, <strong><code>block_sizes</code></strong>=<em><code>[64, 128, 256, 512]</code></em>, <strong><code>layers</code></strong>=<em><code>[2, 2, 2, 2]</code></em>, <strong><code>norm</code></strong>=<em><code>'BatchNorm2d'</code></em>, <strong><code>act_fn</code></strong>=<em><code>ReLU(inplace=True)</code></em>, <strong><code>pool</code></strong>=<em><code>AvgPool2d(kernel_size=2, stride=2, padding=0)</code></em>, <strong><code>expansion</code></strong>=<em><code>1</code></em>, <strong><code>groups</code></strong>=<em><code>1</code></em>, <strong><code>sa</code></strong>=<em><code>0</code></em>, <strong><code>bn_1st</code></strong>=<em><code>True</code></em>, <strong><code>zero_bn</code></strong>=<em><code>True</code></em>, <strong><code>stem_stride_on</code></strong>=<em><code>0</code></em>, <strong><code>stem_sizes</code></strong>=<em><code>[32, 32, 64]</code></em>, <strong><code>stem_pool</code></strong>=<em><code>MaxPool2d(kernel_size=3, stride=2, padding=1, dilation=1, ceil_mode=False)</code></em>, <strong><code>stem_bn_end</code></strong>=<em><code>False</code></em>, <strong><code>_init_cnn</code></strong>=<em><code>'init_cnn'</code></em>, <strong><code>_make_stem</code></strong>=<em><code>'_make_stem'</code></em>, <strong><code>_make_layer</code></strong>=<em><code>'_make_layer'</code></em>, <strong><code>_make_body</code></strong>=<em><code>'_make_body'</code></em>, <strong><code>_make_head</code></strong>=<em><code>'_make_head'</code></em>)</p>
+<h2 id="Net" class="doc_header"><code>class</code> <code>Net</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/net.py#L119" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>Net</code>(<strong><code>name</code></strong>=<em><code>'Net'</code></em>, <strong><code>c_in</code></strong>=<em><code>3</code></em>, <strong><code>c_out</code></strong>=<em><code>1000</code></em>, <strong><code>block</code></strong>=<em><code>'ResBlock'</code></em>, <strong><code>conv_layer</code></strong>=<em><code>'ConvLayer'</code></em>, <strong><code>block_sizes</code></strong>=<em><code>[64, 128, 256, 512]</code></em>, <strong><code>layers</code></strong>=<em><code>[2, 2, 2, 2]</code></em>, <strong><code>norm</code></strong>=<em><code>'BatchNorm2d'</code></em>, <strong><code>act_fn</code></strong>=<em><code>ReLU(inplace=True)</code></em>, <strong><code>pool</code></strong>=<em><code>AvgPool2d(kernel_size=2, stride=2, padding=0)</code></em>, <strong><code>expansion</code></strong>=<em><code>1</code></em>, <strong><code>groups</code></strong>=<em><code>1</code></em>, <strong><code>dw</code></strong>=<em><code>False</code></em>, <strong><code>sa</code></strong>=<em><code>False</code></em>, <strong><code>bn_1st</code></strong>=<em><code>True</code></em>, <strong><code>zero_bn</code></strong>=<em><code>True</code></em>, <strong><code>stem_stride_on</code></strong>=<em><code>0</code></em>, <strong><code>stem_sizes</code></strong>=<em><code>[32, 32, 64]</code></em>, <strong><code>stem_pool</code></strong>=<em><code>MaxPool2d(kernel_size=3, stride=2, padding=1, dilation=1, ceil_mode=False)</code></em>, <strong><code>stem_bn_end</code></strong>=<em><code>False</code></em>, <strong><code>_init_cnn</code></strong>=<em><code>'init_cnn'</code></em>, <strong><code>_make_stem</code></strong>=<em><code>'_make_stem'</code></em>, <strong><code>_make_layer</code></strong>=<em><code>'_make_layer'</code></em>, <strong><code>_make_body</code></strong>=<em><code>'_make_body'</code></em>, <strong><code>_make_head</code></strong>=<em><code>'_make_head'</code></em>)</p>
 </blockquote>
 
 </div>
@@ -469,7 +621,7 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
 
 <div class="output_text output_subarea output_execute_result">
 <pre>Net constructor
-  c_in: 3, c_out: 1000, expansion: 1, groups: 1, sa: 0
+  c_in: 3, c_out: 1000, expansion: 1, groups: 1, dw: False, sa: False
   stem sizes: [3, 32, 32, 64], stide on 0
   body sizes [64, 128, 256, 512]
   layers: [2, 2, 2, 2]</pre>
@@ -573,7 +725,7 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
 
 <div class="output_text output_subarea output_execute_result">
 <pre>Net constructor
-  c_in: 3, c_out: 1000, expansion: 1, groups: 1, sa: 0
+  c_in: 3, c_out: 1000, expansion: 1, groups: 1, dw: False, sa: False
   stem sizes: [3, 32, 32, 64], stide on 0
   body sizes [128, 256, 512, 1024]
   layers: [2, 2, 2, 2]</pre>
