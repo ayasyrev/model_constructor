@@ -417,41 +417,6 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#         self.c_in, self.c_out,self.expansion,self.layers = c_in,c_out,expansion,layers # todo setter for expansion</span>
-<span class="c1">#         self.block, self.act_fn, self.pool, self.sa = block, act_fn, pool, sa</span>
-        
-<span class="c1">#         self.groups = 1</span>
-<span class="c1">#         self.stem_stride_on = stem_stride_on</span>
-<span class="c1">#         self.stem_sizes = stem_sizes if stem_sizes else [c_in,32,32,64]</span>
-<span class="c1">#         self.stem_pool = nn.MaxPool2d(kernel_size=3, stride=2, padding=1)</span>
-<span class="c1">#         self.stem_bn_end = False</span>
-<span class="c1">#         self.norm = nn.BatchNorm2d</span>
-<span class="c1">#         self.bn_1st = True</span>
-<span class="c1">#         self.zero_bn=True</span>
-<span class="c1">#         self.conv_layer = ConvLayer</span>
-<span class="c1">#         self._init_cnn = init_cnn</span>
-<span class="c1">#         self._make_stem = _make_stem</span>
-<span class="c1">#         self._make_layer = _make_layer</span>
-<span class="c1">#         self._make_body = _make_body</span>
-<span class="c1">#         self._make_head = _make_head</span>
-<span class="c1">#         self._block_szs = [64,128,256,512]</span>
-        
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
 
 </div>
     {% endraw %}
@@ -467,7 +432,7 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="Net" class="doc_header"><code>class</code> <code>Net</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/net.py#L109" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>Net</code>(<strong><code>name</code></strong>=<em><code>'Net'</code></em>, <strong><code>expansion</code></strong>=<em><code>1</code></em>, <strong><code>c_in</code></strong>=<em><code>3</code></em>, <strong><code>c_out</code></strong>=<em><code>1000</code></em>, <strong><code>block</code></strong>=<em><code>'ResBlock'</code></em>, <strong><code>layers</code></strong>=<em><code>[2, 2, 2, 2]</code></em>, <strong><code>pool</code></strong>=<em><code>AvgPool2d(kernel_size=2, stride=2, padding=0)</code></em>, <strong><code>act_fn</code></strong>=<em><code>ReLU(inplace=True)</code></em>, <strong><code>sa</code></strong>=<em><code>0</code></em>, <strong><code>groups</code></strong>=<em><code>1</code></em>, <strong><code>stem_stride_on</code></strong>=<em><code>0</code></em>, <strong><code>stem_sizes</code></strong>=<em><code>[32, 32, 64]</code></em>, <strong><code>stem_pool</code></strong>=<em><code>MaxPool2d(kernel_size=3, stride=2, padding=1, dilation=1, ceil_mode=False)</code></em>, <strong><code>stem_bn_end</code></strong>=<em><code>False</code></em>, <strong><code>norm</code></strong>=<em><code>'BatchNorm2d'</code></em>, <strong><code>bn_1st</code></strong>=<em><code>True</code></em>, <strong><code>zero_bn</code></strong>=<em><code>True</code></em>, <strong><code>conv_layer</code></strong>=<em><code>'ConvLayer'</code></em>, <strong><code>_init_cnn</code></strong>=<em><code>'init_cnn'</code></em>, <strong><code>_make_stem</code></strong>=<em><code>'_make_stem'</code></em>, <strong><code>_make_layer</code></strong>=<em><code>'_make_layer'</code></em>, <strong><code>_make_body</code></strong>=<em><code>'_make_body'</code></em>, <strong><code>_make_head</code></strong>=<em><code>'_make_head'</code></em>, <strong><code>block_sizes</code></strong>=<em><code>[64, 128, 256, 512]</code></em>)</p>
+<h2 id="Net" class="doc_header"><code>class</code> <code>Net</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/net.py#L108" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>Net</code>(<strong><code>name</code></strong>=<em><code>'Net'</code></em>, <strong><code>c_in</code></strong>=<em><code>3</code></em>, <strong><code>c_out</code></strong>=<em><code>1000</code></em>, <strong><code>block</code></strong>=<em><code>'ResBlock'</code></em>, <strong><code>conv_layer</code></strong>=<em><code>'ConvLayer'</code></em>, <strong><code>block_sizes</code></strong>=<em><code>[64, 128, 256, 512]</code></em>, <strong><code>layers</code></strong>=<em><code>[2, 2, 2, 2]</code></em>, <strong><code>norm</code></strong>=<em><code>'BatchNorm2d'</code></em>, <strong><code>act_fn</code></strong>=<em><code>ReLU(inplace=True)</code></em>, <strong><code>pool</code></strong>=<em><code>AvgPool2d(kernel_size=2, stride=2, padding=0)</code></em>, <strong><code>expansion</code></strong>=<em><code>1</code></em>, <strong><code>groups</code></strong>=<em><code>1</code></em>, <strong><code>sa</code></strong>=<em><code>0</code></em>, <strong><code>bn_1st</code></strong>=<em><code>True</code></em>, <strong><code>zero_bn</code></strong>=<em><code>True</code></em>, <strong><code>stem_stride_on</code></strong>=<em><code>0</code></em>, <strong><code>stem_sizes</code></strong>=<em><code>[32, 32, 64]</code></em>, <strong><code>stem_pool</code></strong>=<em><code>MaxPool2d(kernel_size=3, stride=2, padding=1, dilation=1, ceil_mode=False)</code></em>, <strong><code>stem_bn_end</code></strong>=<em><code>False</code></em>, <strong><code>_init_cnn</code></strong>=<em><code>'init_cnn'</code></em>, <strong><code>_make_stem</code></strong>=<em><code>'_make_stem'</code></em>, <strong><code>_make_layer</code></strong>=<em><code>'_make_layer'</code></em>, <strong><code>_make_body</code></strong>=<em><code>'_make_body'</code></em>, <strong><code>_make_head</code></strong>=<em><code>'_make_head'</code></em>)</p>
 </blockquote>
 
 </div>
@@ -504,10 +469,10 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
 
 <div class="output_text output_subarea output_execute_result">
 <pre>Net constructor
- expansion: 1, sa: 0, groups: 1
- stem sizes: [3, 32, 32, 64], stide on 0
- body sizes [64, 128, 256, 512]
- layers: [2, 2, 2, 2]</pre>
+  c_in: 3, c_out: 1000, expansion: 1, groups: 1, sa: 0
+  stem sizes: [3, 32, 32, 64], stide on 0
+  body sizes [64, 128, 256, 512]
+  layers: [2, 2, 2, 2]</pre>
 </div>
 
 </div>
@@ -608,10 +573,10 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
 
 <div class="output_text output_subarea output_execute_result">
 <pre>Net constructor
- expansion: 1, sa: 0, groups: 1
- stem sizes: [3, 32, 32, 64], stide on 0
- body sizes [128, 256, 512, 1024]
- layers: [2, 2, 2, 2]</pre>
+  c_in: 3, c_out: 1000, expansion: 1, groups: 1, sa: 0
+  stem sizes: [3, 32, 32, 64], stide on 0
+  body sizes [128, 256, 512, 1024]
+  layers: [2, 2, 2, 2]</pre>
 </div>
 
 </div>
@@ -1285,6 +1250,13 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
     </div>
 </div>
 </div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
 
 </div>
     {% endraw %}
