@@ -125,7 +125,8 @@ description: "Yet Another ResNet model."
 
 <div class="output_text output_subarea output_execute_result">
 <pre>YaResNet constructor
-  c_in: 3, c_out: 1000, expansion: 1, groups: 1, dw: False, sa: False
+  c_in: 3, c_out: 1000, expansion: 1, groups: 1, dw: False
+  sa: False, se: False
   stem sizes: [3, 32, 64, 64], stide on 0
   body sizes [64, 128, 256, 512]
   layers: [2, 2, 2, 2]</pre>
@@ -721,7 +722,8 @@ description: "Yet Another ResNet model."
 
 <div class="output_text output_subarea output_execute_result">
 <pre>YaResnet50 constructor
-  c_in: 3, c_out: 10, expansion: 4, groups: 1, dw: False, sa: False
+  c_in: 3, c_out: 10, expansion: 4, groups: 1, dw: False
+  sa: False, se: False
   stem sizes: [3, 32, 64, 64], stide on 1
   body sizes [64, 128, 256, 512]
   layers: [3, 4, 6, 3]</pre>

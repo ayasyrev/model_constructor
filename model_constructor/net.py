@@ -24,7 +24,7 @@ class ResBlock(nn.Module):
     se_block = SEBlock
     def __init__(self, expansion, ni, nh, stride=1,
                  conv_layer=ConvLayer, act_fn=act_fn, zero_bn=True, bn_1st=True,
-                 pool=nn.AvgPool2d(2, ceil_mode=True), sa=False, sym=False, se=False,
+                 pool=nn.AvgPool2d(2, ceil_mode=True), sa=False, sym=False, se=False, se_reduction=16,
                  groups=1, dw=False):
         super().__init__()
         nf,ni = nh*expansion,ni*expansion
@@ -38,8 +38,8 @@ class ResBlock(nn.Module):
                                          groups= nh if dw else groups)),
                    (f"conv_2",conv_layer(nh, nf, 1, zero_bn=zero_bn, act=False, bn_1st=bn_1st))
         ]
+        if se: layers.append(('se', self.se_block(nf, se_reduction)))
         if sa: layers.append(('sa', SimpleSelfAttention(nf,ks=1,sym=sym)))
-        if se: layers.append(('se', self.se_block(nf)))
         self.convs = nn.Sequential(OrderedDict(layers))
         self.pool = noop if stride==1 else pool
         self.idconv = noop if ni==nf else conv_layer(ni, nf, 1, act=False)
@@ -54,7 +54,7 @@ class NewResBlock(nn.Module):
     se_block = SEBlock
     def __init__(self, expansion, ni, nh, stride=1,
                  conv_layer=ConvLayer, act_fn=act_fn, zero_bn=True, bn_1st=True,
-                 pool=nn.AvgPool2d(2, ceil_mode=True), sa=False,sym=False, se=False,
+                 pool=nn.AvgPool2d(2, ceil_mode=True), sa=False,sym=False, se=False, se_reduction=16,
                  groups=1, dw=False):
         super().__init__()
         nf,ni = nh*expansion,ni*expansion
@@ -69,8 +69,8 @@ class NewResBlock(nn.Module):
                                          groups= nh if dw else groups)), # stride 1 !!!
                    (f"conv_2",conv_layer(nh, nf, 1, zero_bn=zero_bn, act=False, bn_1st=bn_1st))
         ]
+        if se: layers.append(('se', self.se_block(nf, se_reduction)))
         if sa: layers.append(('sa', SimpleSelfAttention(nf,ks=1,sym=sym)))
-        if se: layers.append(('se', self.se_block(nf)))
         self.convs = nn.Sequential(OrderedDict(layers))
         self.idconv = noop if ni==nf else conv_layer(ni, nf, 1, act=False)
         self.merge =act_fn
@@ -124,7 +124,7 @@ class Net():
                 act_fn=nn.ReLU(inplace=True),
                 pool = nn.AvgPool2d(2, ceil_mode=True),
                 expansion=1, groups = 1, dw=False,
-                sa=False, se=False,
+                sa=False, se=False, se_reduction=16,
                 bn_1st = True,
                 zero_bn=True,
                 stem_stride_on = 0,
@@ -171,15 +171,10 @@ class Net():
         model.extra_repr = lambda : f"model {self.name}"
         return model
 
-#     def __repr__(self):
-#         return f"""{self.name} constructor
-#         c_in: {self.c_in}, c_out: {self.c_out}, expansion: {self.expansion}, groups: {self.groups}, sa: {self.sa}
-#         stem sizes: {self.stem_sizes}, stide on {self.stem_stride_on}
-#         body sizes {self._block_sizes}
-#         layers: {self.layers}"""
     def __repr__(self):
         return (f"{self.name} constructor\n"
-        f"  c_in: {self.c_in}, c_out: {self.c_out}, expansion: {self.expansion}, groups: {self.groups}, dw: {self.dw}\n"
+        f"  c_in: {self.c_in}, c_out: {self.c_out}\n"
+        f"  expansion: {self.expansion}, groups: {self.groups}, dw: {self.dw}\n"
         f"  sa: {self.sa}, se: {self.se}\n"
         f"  stem sizes: {self.stem_sizes}, stide on {self.stem_stride_on}\n"
         f"  body sizes {self._block_sizes}\n"

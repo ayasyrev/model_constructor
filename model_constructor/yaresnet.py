@@ -33,8 +33,8 @@ class YaResBlock(nn.Module):
                                         groups= nh if dw else groups)), # stride 1 !!!
                    (f"conv_2",conv_layer(nh, nf, 1, zero_bn=zero_bn, act=False, bn_1st=bn_1st))
         ]
-        if sa: layers.append(('sa', SimpleSelfAttention(nf,ks=1,sym=sym)))
         if se: layers.append(('se', self.se_block(nf)))
+        if sa: layers.append(('sa', SimpleSelfAttention(nf,ks=1,sym=sym)))
         self.convs = nn.Sequential(OrderedDict(layers))
         self.idconv = noop if ni==nf else conv_layer(ni, nf, 1, act=False)
         self.merge =act_fn
