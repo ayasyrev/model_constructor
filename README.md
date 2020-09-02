@@ -25,15 +25,15 @@ And Classic - create model from function with parameters.
 
 First import constructor class, then create model constructor oject.
 
-```
+```python
 from model_constructor.net import *
 ```
 
-```
+```python
 model = Net()
 ```
 
-```
+```python
 model
 ```
 
@@ -41,16 +41,18 @@ model
 
 
     Net constructor
-     expansion: 1, sa: 0, groups: 1
-     stem sizes: [3, 32, 32, 64], stide on 0
-     body sizes [64, 128, 256, 512]
-     layers: [2, 2, 2, 2]
+      c_in: 3, c_out: 1000
+      expansion: 1, groups: 1, dw: False
+      sa: False, se: False
+      stem sizes: [3, 32, 32, 64], stide on 0
+      body sizes [64, 128, 256, 512]
+      layers: [2, 2, 2, 2]
 
 
 
 Now we have model consructor, default setting as xresnet18. And we can get model after call it.
 
-```
+```python
 model.c_in
 ```
 
@@ -61,7 +63,7 @@ model.c_in
 
 
 
-```
+```python
 model.c_out
 ```
 
@@ -72,7 +74,7 @@ model.c_out
 
 
 
-```
+```python
 model.stem_sizes
 ```
 
@@ -83,7 +85,7 @@ model.stem_sizes
 
 
 
-```
+```python
 model.layers
 ```
 
@@ -94,7 +96,7 @@ model.layers
 
 
 
-```
+```python
 model.expansion
 ```
 
@@ -105,7 +107,7 @@ model.expansion
 
 
 
-```
+```python
 %nbdev_collapse_output
 model()
 ```
@@ -286,14 +288,14 @@ model()
 If you want to change model, just change constructor parameters.  
 Lets create xresnet50.
 
-```
+```python
 model.expansion = 4
 model.layers = [3,4,6,3]
 ```
 
 Now we can look at model body and if we call constructor - we have pytorch model!
 
-```
+```python
 %nbdev_collapse_output
 model.body
 ```
@@ -651,25 +653,29 @@ But now lets create model as mxresnet50 from fastai forums tread https://forums.
 
 Lets create mxresnet constructor.
 
-```
+```python
 model = Net(name='MxResNet')
 ```
 
 Then lets modify stem.
 
-```
+```python
 model.stem_sizes = [3,32,64,64]
 ```
 
 Now lets change activation function to Mish.
 Here is link to forum disscussion https://forums.fast.ai/t/meet-mish-new-activation-function-possible-successor-to-relu  
-Mish is in model_constructor.layer.
+Mish is in model_constructor.activations
 
+```python
+from model_constructor.activations import Mish
 ```
+
+```python
 model.act_fn = Mish()
 ```
 
-```
+```python
 model
 ```
 
@@ -677,14 +683,16 @@ model
 
 
     MxResNet constructor
-     expansion: 1, sa: 0, groups: 1
-     stem sizes: [3, 32, 64, 64], stide on 0
-     body sizes [64, 128, 256, 512]
-     layers: [2, 2, 2, 2]
+      c_in: 3, c_out: 1000
+      expansion: 1, groups: 1, dw: False
+      sa: False, se: False
+      stem sizes: [3, 32, 64, 64], stide on 0
+      body sizes [64, 128, 256, 512]
+      layers: [2, 2, 2, 2]
 
 
 
-```
+```python
 %nbdev_collapse_output
 model()
 ```
@@ -866,7 +874,7 @@ model()
 
 Now lets make MxResNet50
 
-```
+```python
 model.expansion = 4
 model.layers = [3,4,6,3]
 model.name = 'mxresnet50'
@@ -876,7 +884,7 @@ Now we have mxresnet50 constructor.
 We can inspect every parts of it.  
 And after call it we got model.
 
-```
+```python
 model
 ```
 
@@ -884,14 +892,16 @@ model
 
 
     mxresnet50 constructor
-     expansion: 4, sa: 0, groups: 1
-     stem sizes: [3, 32, 64, 64], stide on 0
-     body sizes [64, 128, 256, 512]
-     layers: [3, 4, 6, 3]
+      c_in: 3, c_out: 1000
+      expansion: 4, groups: 1, dw: False
+      sa: False, se: False
+      stem sizes: [3, 32, 64, 64], stide on 0
+      body sizes [64, 128, 256, 512]
+      layers: [3, 4, 6, 3]
 
 
 
-```
+```python
 %nbdev_collapse_output
 model.stem.conv_1
 ```
@@ -911,7 +921,7 @@ model.stem.conv_1
 
 </details>
 
-```
+```python
 %nbdev_collapse_output
 model.body.l_0.bl_0
 ```
@@ -953,17 +963,17 @@ model.body.l_0.bl_0
 
 Now lets change Resblock to YaResBlock (Yet another ResNet, former NewResBlock) is in lib from version 0.1.0
 
-```
+```python
 from model_constructor.yaresnet import YaResBlock
 ```
 
-```
+```python
 model.block = YaResBlock
 ```
 
 That all. Now we have YaResNet constructor
 
-```
+```python
 %nbdev_collapse_output
 model.name = 'YaResNet'
 model
@@ -975,10 +985,12 @@ model
 
 
     YaResNet constructor
-     expansion: 4, sa: 0, groups: 1
-     stem sizes: [3, 32, 64, 64], stide on 0
-     body sizes [64, 128, 256, 512]
-     layers: [3, 4, 6, 3]
+      c_in: 3, c_out: 1000
+      expansion: 4, groups: 1, dw: False
+      sa: False, se: False
+      stem sizes: [3, 32, 64, 64], stide on 0
+      body sizes [64, 128, 256, 512]
+      layers: [3, 4, 6, 3]
 
 
 
@@ -986,7 +998,7 @@ model
 
 Let see what we have.
 
-```
+```python
 %nbdev_collapse_output
 model.body.l_1.bl_0
 ```
@@ -1029,43 +1041,43 @@ model.body.l_1.bl_0
 
 Usual way to get model - call constructor with parametrs.
 
-```
+```python
 from model_constructor.constructor import *
 ```
 
 Default is resnet18.
 
-```
+```python
 model = Net()
 ```
 
 You cant modify model after call constructor, so define model with parameters.   
 For example, resnet34:
 
-```
+```python
 resnet34 = Net(block=BasicBlock, blocks=[3, 4, 6, 3])
 ```
 
 ## Predefined Resnet models - 18, 34, 50.
 
-```
+```python
 from model_constructor.resnet import *
 ```
 
-```
+```python
 model = resnet34(num_classes=10)
 ```
 
-```
+```python
 %nbdev_hide_output
 model
 ```
 
-```
+```python
 model = resnet50(num_classes=10)
 ```
 
-```
+```python
 %nbdev_hide_output
 model
 ```
@@ -1074,15 +1086,15 @@ model
 
 This ie simplified version from fastai v1. I did refactoring for better understand and experiment with models. For example, it's very simple to change activation funtions, different stems, batchnorm and activation order etc. In v2 much powerfull realisation.
 
-```
+```python
 from model_constructor.xresnet import *
 ```
 
-```
+```python
 model = xresnet50()
 ```
 
-```
+```python
 %nbdev_hide_output
 model
 ```
@@ -1098,11 +1110,11 @@ Here is some examples:
 
 Stem with 3 conv layers
 
-```
+```python
 model = Net(stem=partial(Stem, stem_sizes=[32, 32]))
 ```
 
-```
+```python
 %nbdev_collapse_output
 model.stem
 ```
@@ -1136,11 +1148,11 @@ model.stem
 
 </details>
 
-```
+```python
 model = Net(stem_sizes=[32, 64])
 ```
 
-```
+```python
 %nbdev_collapse_output
 model.stem
 ```
@@ -1176,11 +1188,11 @@ model.stem
 
 ### Activation function before Normalization
 
-```
+```python
 model = Net(bn_1st=False)
 ```
 
-```
+```python
 model.stem
 ```
 
@@ -1202,15 +1214,15 @@ model.stem
 
 ### Change activation function
 
-```
+```python
 new_act_fn = nn.LeakyReLU(inplace=True)
 ```
 
-```
+```python
 model = Net(act_fn=new_act_fn)
 ```
 
-```
+```python
 %nbdev_collapse_output
 model.stem
 ```
@@ -1234,7 +1246,7 @@ model.stem
 
 </details>
 
-```
+```python
 %nbdev_collapse_output
 model.body.layer_0.block_0
 ```

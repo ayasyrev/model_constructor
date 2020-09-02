@@ -9,6 +9,7 @@ from functools import partial
 from collections import OrderedDict
 from .layers import *
 from .net import Net
+from .activations import Mish
 
 # Cell
 mxresnet_parameters = {'stem_sizes': [3, 32, 64, 64], 'act_fn': Mish()}

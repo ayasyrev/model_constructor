@@ -33,6 +33,9 @@ entries:
     - output: web,pdf
       title: MXResNet.
       url: /MXResNet
+    - output: web,pdf
+      title: Activations functions.
+      url: /activations
     output: web
     title: model_constructor
   output: web

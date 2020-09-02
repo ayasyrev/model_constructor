@@ -13,7 +13,6 @@ index = {"Stem": "00_constructor.ipynb",
          "Flatten": "01_layers.ipynb",
          "noop": "01_layers.ipynb",
          "Noop": "01_layers.ipynb",
-         "Mish": "01_layers.ipynb",
          "DownsampleBlock": "01_layers.ipynb",
          "BasicBlock": "01_layers.ipynb",
          "Bottleneck": "01_layers.ipynb",
@@ -46,7 +45,17 @@ index = {"Stem": "00_constructor.ipynb",
          "yaresnet50": "06_YaResNet.ipynb",
          "mxresnet_parameters": "07_MXResNet.ipynb",
          "mxresnet34": "07_MXResNet.ipynb",
-         "mxresnet50": "07_MXResNet.ipynb"}
+         "mxresnet50": "07_MXResNet.ipynb",
+         "Swish": "08_activations.ipynb",
+         "Mish": "08_activations.ipynb",
+         "sigmoid": "08_activations.ipynb",
+         "Sigmoid": "08_activations.ipynb",
+         "tanh": "08_activations.ipynb",
+         "Tanh": "08_activations.ipynb",
+         "hard_swish": "08_activations.ipynb",
+         "HardSwish": "08_activations.ipynb",
+         "hard_sigmoid": "08_activations.ipynb",
+         "HardSigmoid": "08_activations.ipynb"}
 
 modules = ["constructor.py",
            "layers.py",
@@ -55,7 +64,8 @@ modules = ["constructor.py",
            "net.py",
            "twist.py",
            "yaresnet.py",
-           "mxresnet.py"]
+           "mxresnet.py",
+           "activations.py"]
 
 doc_url = "https://ayasyrev.github.io/model_constructor/"
 

@@ -8,6 +8,7 @@
     "Net.": "/Net",
     "Twist.": "/Twist",
     "YaResNet.": "/YaResNet",
-    "MXResNet.": "/MXResNet"
+    "MXResNet.": "/MXResNet",
+    "Activations functions.": "/activations"
   }
 }
