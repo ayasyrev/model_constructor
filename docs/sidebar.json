@@ -1,14 +1,13 @@
 {
   "model_constructor": {
     "Overview": "/",
-    "model_constructor": "/constructor",
-    "Layers": "/layers",
-    "resnet": "/resnet",
-    "xresnet": "/xresnet",
-    "Net.": "/Net",
-    "Twist.": "/Twist",
-    "YaResNet.": "/YaResNet",
-    "MXResNet.": "/MXResNet",
-    "Activations functions.": "/activations"
+    "Net.": "Net.html",
+    "Activations functions.": "activations.html",
+    "Layers": "layers.html",
+    "MXResNet.": "MXResNet.html",
+    "YaResNet.": "YaResNet.html",
+    "Twist.": "Twist.html",
+    "model_constructor": "constructor.html",
+    "xresnet": "xresnet.html"
   }
 }
