@@ -17,23 +17,19 @@ Or instll from repo:
 
 ## How to use
 
-It can be used two ways.  
-Recomended - by creating constructor object, then modify it and then create model.  
-And Classic - create model from function with parameters.   
-
-# Model Constructor
-
 First import constructor class, then create model constructor oject.
 
-```
+Now you can change every part of model.
+
+```python
 from model_constructor.net import *
 ```
 
-```
+```python
 model = Net()
 ```
 
-```
+```python
 model
 ```
 
@@ -52,7 +48,7 @@ model
 
 Now we have model consructor, default setting as xresnet18. And we can get model after call it.
 
-```
+```python
 model.c_in
 ```
 
@@ -63,7 +59,7 @@ model.c_in
 
 
 
-```
+```python
 model.c_out
 ```
 
@@ -74,7 +70,7 @@ model.c_out
 
 
 
-```
+```python
 model.stem_sizes
 ```
 
@@ -85,7 +81,7 @@ model.stem_sizes
 
 
 
-```
+```python
 model.layers
 ```
 
@@ -96,7 +92,7 @@ model.layers
 
 
 
-```
+```python
 model.expansion
 ```
 
@@ -107,7 +103,7 @@ model.expansion
 
 
 
-```
+```python
 %nbdev_collapse_output
 model()
 ```
@@ -288,14 +284,14 @@ model()
 If you want to change model, just change constructor parameters.  
 Lets create xresnet50.
 
-```
+```python
 model.expansion = 4
 model.layers = [3,4,6,3]
 ```
 
 Now we can look at model body and if we call constructor - we have pytorch model!
 
-```
+```python
 %nbdev_collapse_output
 model.body
 ```
@@ -653,13 +649,13 @@ But now lets create model as mxresnet50 from fastai forums tread https://forums.
 
 Lets create mxresnet constructor.
 
-```
+```python
 model = Net(name='MxResNet')
 ```
 
 Then lets modify stem.
 
-```
+```python
 model.stem_sizes = [3,32,64,64]
 ```
 
@@ -667,15 +663,15 @@ Now lets change activation function to Mish.
 Here is link to forum disscussion https://forums.fast.ai/t/meet-mish-new-activation-function-possible-successor-to-relu  
 Mish is in model_constructor.activations
 
-```
+```python
 from model_constructor.activations import Mish
 ```
 
-```
+```python
 model.act_fn = Mish()
 ```
 
-```
+```python
 model
 ```
 
@@ -692,7 +688,7 @@ model
 
 
 
-```
+```python
 %nbdev_collapse_output
 model()
 ```
@@ -874,7 +870,7 @@ model()
 
 Now lets make MxResNet50
 
-```
+```python
 model.expansion = 4
 model.layers = [3,4,6,3]
 model.name = 'mxresnet50'
@@ -884,7 +880,7 @@ Now we have mxresnet50 constructor.
 We can inspect every parts of it.  
 And after call it we got model.
 
-```
+```python
 model
 ```
 
@@ -901,7 +897,7 @@ model
 
 
 
-```
+```python
 %nbdev_collapse_output
 model.stem.conv_1
 ```
@@ -921,7 +917,7 @@ model.stem.conv_1
 
 </details>
 
-```
+```python
 %nbdev_collapse_output
 model.body.l_0.bl_0
 ```
@@ -963,17 +959,17 @@ model.body.l_0.bl_0
 
 Now lets change Resblock to YaResBlock (Yet another ResNet, former NewResBlock) is in lib from version 0.1.0
 
-```
+```python
 from model_constructor.yaresnet import YaResBlock
 ```
 
-```
+```python
 model.block = YaResBlock
 ```
 
 That all. Now we have YaResNet constructor
 
-```
+```python
 %nbdev_collapse_output
 model.name = 'YaResNet'
 model
@@ -998,7 +994,7 @@ model
 
 Let see what we have.
 
-```
+```python
 %nbdev_collapse_output
 model.body.l_1.bl_0
 ```
@@ -1031,245 +1027,6 @@ model.body.l_1.bl_0
         (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
       )
       (merge): Mish()
-    )
-
-
-
-</details>
-
-# Classic way
-
-Usual way to get model - call constructor with parametrs.
-
-```
-from model_constructor.constructor import *
-```
-
-Default is resnet18.
-
-```
-model = Net()
-```
-
-You cant modify model after call constructor, so define model with parameters.   
-For example, resnet34:
-
-```
-resnet34 = Net(block=BasicBlock, blocks=[3, 4, 6, 3])
-```
-
-## Predefined Resnet models - 18, 34, 50.
-
-```
-from model_constructor.resnet import *
-```
-
-```
-model = resnet34(num_classes=10)
-```
-
-```
-%nbdev_hide_output
-model
-```
-
-```
-model = resnet50(num_classes=10)
-```
-
-```
-%nbdev_hide_output
-model
-```
-
-## Predefined Xresnet from fastai 1.
-
-This ie simplified version from fastai v1. I did refactoring for better understand and experiment with models. For example, it's very simple to change activation funtions, different stems, batchnorm and activation order etc. In v2 much powerfull realisation.
-
-```
-from model_constructor.xresnet import *
-```
-
-```
-model = xresnet50()
-```
-
-```
-%nbdev_hide_output
-model
-```
-
-## Some examples.
-
-We can experiment with models by changing some parts of model. Here only base functionality, but it can be easily extanded.
-
-Here is some examples:
-    
-
-### Custom stem
-
-Stem with 3 conv layers
-
-```
-model = Net(stem=partial(Stem, stem_sizes=[32, 32]))
-```
-
-```
-%nbdev_collapse_output
-model.stem
-```
-<details class="description">
-    <summary>Output details ...</summary>
-    
-
-
-
-    Stem(
-      sizes: [3, 32, 32, 64]
-      (conv_0): ConvLayer(
-        (conv): Conv2d(3, 32, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
-        (bn): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-        (act_fn): ReLU(inplace=True)
-      )
-      (conv_1): ConvLayer(
-        (conv): Conv2d(32, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-        (bn): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-        (act_fn): ReLU(inplace=True)
-      )
-      (conv_2): ConvLayer(
-        (conv): Conv2d(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-        (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-        (act_fn): ReLU(inplace=True)
-      )
-      (pool): MaxPool2d(kernel_size=3, stride=2, padding=1, dilation=1, ceil_mode=False)
-    )
-
-
-
-</details>
-
-```
-model = Net(stem_sizes=[32, 64])
-```
-
-```
-%nbdev_collapse_output
-model.stem
-```
-<details class="description">
-    <summary>Output details ...</summary>
-    
-
-
-
-    Stem(
-      sizes: [3, 32, 64, 64]
-      (conv_0): ConvLayer(
-        (conv): Conv2d(3, 32, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
-        (bn): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-        (act_fn): ReLU(inplace=True)
-      )
-      (conv_1): ConvLayer(
-        (conv): Conv2d(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-        (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-        (act_fn): ReLU(inplace=True)
-      )
-      (conv_2): ConvLayer(
-        (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-        (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-        (act_fn): ReLU(inplace=True)
-      )
-      (pool): MaxPool2d(kernel_size=3, stride=2, padding=1, dilation=1, ceil_mode=False)
-    )
-
-
-
-</details>
-
-### Activation function before Normalization
-
-```
-model = Net(bn_1st=False)
-```
-
-```
-model.stem
-```
-
-
-
-
-    Stem(
-      sizes: [3, 64]
-      (conv_0): ConvLayer(
-        (conv): Conv2d(3, 64, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
-        (act_fn): ReLU(inplace=True)
-        (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-      )
-      (pool): MaxPool2d(kernel_size=3, stride=2, padding=1, dilation=1, ceil_mode=False)
-    )
-
-
-
-
-### Change activation function
-
-```
-new_act_fn = nn.LeakyReLU(inplace=True)
-```
-
-```
-model = Net(act_fn=new_act_fn)
-```
-
-```
-%nbdev_collapse_output
-model.stem
-```
-<details class="description">
-    <summary>Output details ...</summary>
-    
-
-
-
-    Stem(
-      sizes: [3, 64]
-      (conv_0): ConvLayer(
-        (conv): Conv2d(3, 64, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
-        (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-        (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-      )
-      (pool): MaxPool2d(kernel_size=3, stride=2, padding=1, dilation=1, ceil_mode=False)
-    )
-
-
-
-</details>
-
-```
-%nbdev_collapse_output
-model.body.layer_0.block_0
-```
-<details class="description">
-    <summary>Output details ...</summary>
-    
-
-
-
-    BasicBlock(
-      (conv): Sequential(
-        (conv_0): ConvLayer(
-          (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-          (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-          (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-        )
-        (conv_1): ConvLayer(
-          (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-          (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-        )
-      )
-      (merge): Noop()
-      (act_conn): LeakyReLU(negative_slope=0.01, inplace=True)
     )
 
 

@@ -29,7 +29,7 @@ entries:
       url: Twist.html
     - output: web,pdf
       title: model_constructor
-      url: constructor.html
+      url: base_constructor.html
     - output: web,pdf
       title: xresnet
       url: xresnet.html

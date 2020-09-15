@@ -8,7 +8,7 @@ import torch
 from collections import OrderedDict
 
 # Cell
-from .constructor import *
+from .base_constructor import *
 from .layers import ConvLayer, Noop, act_fn
 
 # Cell
