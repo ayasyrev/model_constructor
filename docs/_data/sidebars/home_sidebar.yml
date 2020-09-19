@@ -10,32 +10,29 @@ entries:
       title: Overview
       url: /
     - output: web,pdf
-      title: model_constructor
-      url: /constructor
-    - output: web,pdf
-      title: Layers
-      url: /layers
-    - output: web,pdf
-      title: resnet
-      url: /resnet
-    - output: web,pdf
-      title: xresnet
-      url: /xresnet
-    - output: web,pdf
       title: Net.
-      url: /Net
-    - output: web,pdf
-      title: Twist.
-      url: /Twist
-    - output: web,pdf
-      title: YaResNet.
-      url: /YaResNet
-    - output: web,pdf
-      title: MXResNet.
-      url: /MXResNet
+      url: Net.html
     - output: web,pdf
       title: Activations functions.
-      url: /activations
+      url: activations.html
+    - output: web,pdf
+      title: Layers
+      url: layers.html
+    - output: web,pdf
+      title: MXResNet.
+      url: MXResNet.html
+    - output: web,pdf
+      title: YaResNet.
+      url: YaResNet.html
+    - output: web,pdf
+      title: Twist.
+      url: Twist.html
+    - output: web,pdf
+      title: model_constructor
+      url: base_constructor.html
+    - output: web,pdf
+      title: xresnet
+      url: xresnet.html
     output: web
     title: model_constructor
   output: web
