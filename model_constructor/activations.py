@@ -4,6 +4,7 @@ __all__ = ['mish_jit_fwd', 'mish_jit_bwd', 'MishJitAutoFn', 'mish', 'Swish', 'Mi
            'Tanh', 'hard_swish', 'HardSwish', 'hard_sigmoid', 'HardSigmoid']
 
 # Cell
+# forked from https://github.com/rwightman/pytorch-image-models/timm/models/layers/activations.py
 import torch
 from torch import nn as nn
 from torch.nn import functional as F
