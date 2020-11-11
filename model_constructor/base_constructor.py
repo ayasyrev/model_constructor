@@ -60,7 +60,6 @@ class BasicBlock(nn.Module):
             identity = self.downsample(x)
         return self.act_conn(self.merge(out + identity))
 
-
 # Cell
 class Bottleneck(nn.Module):
     '''Bottlneck block for resnet models'''
@@ -122,7 +121,6 @@ class Body(nn.Sequential):
                                            **kwargs))
                     for i in range(num_layers)]
         super().__init__(OrderedDict(layers))
-
 
 # Cell
 class Head(nn.Sequential):

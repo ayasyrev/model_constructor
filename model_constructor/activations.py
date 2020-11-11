@@ -155,7 +155,6 @@ class MishMe(nn.Module):
     def forward(self, x):
         return MishJitAutoFn.apply(x)
 
-
 # Cell
 def hard_swish(x, inplace: bool = False):
     """Hard swish activation function"""

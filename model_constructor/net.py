@@ -17,7 +17,6 @@ def init_cnn(m):
     if isinstance(m, (nn.Conv2d,nn.Linear)): nn.init.kaiming_normal_(m.weight)
     for l in m.children(): init_cnn(l)
 
-
 # Cell
 class ResBlock(nn.Module):
     '''Resnet block'''

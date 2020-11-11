@@ -5,6 +5,7 @@ __all__ = ['mxresnet_parameters', 'mxresnet34', 'mxresnet50']
 # Cell
 import torch.nn as nn
 import sys, torch
+import os
 from functools import partial
 from collections import OrderedDict
 from .layers import *
