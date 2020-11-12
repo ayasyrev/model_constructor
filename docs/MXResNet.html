@@ -29,13 +29,6 @@ nb_path: "nbs/03_MXResNet.ipynb"
 </div>
     {% endraw %}
 
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-
-</div>
-    {% endraw %}
-
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>MXResNet model, disscussed at <a href="https://forums.fast.ai/t/how-we-beat-the-5-epoch-imagewoof-leaderboard-score-some-new-techniques-to-consider">https://forums.fast.ai/t/how-we-beat-the-5-epoch-imagewoof-leaderboard-score-some-new-techniques-to-consider</a></p>
@@ -96,9 +89,12 @@ nb_path: "nbs/03_MXResNet.ipynb"
 
 <div class="output_text output_subarea output_execute_result">
 <pre>MXResNet constructor
- expansion: 1, sa: 0, groups: 1
- stem sizes: [3, 32, 64, 64]
- body sizes [64, 64, 128, 256, 512]</pre>
+  c_in: 3, c_out: 1000
+  expansion: 1, groups: 1, dw: False
+  sa: False, se: False
+  stem sizes: [3, 32, 64, 64], stide on 0
+  body sizes [64, 128, 256, 512]
+  layers: [2, 2, 2, 2]</pre>
 </div>
 
 </div>
@@ -630,9 +626,12 @@ nb_path: "nbs/03_MXResNet.ipynb"
 
 <div class="output_text output_subarea output_execute_result">
 <pre>MXResnet50 constructor
- expansion: 4, sa: 0, groups: 1
- stem sizes: [3, 32, 64, 64]
- body sizes [16, 64, 128, 256, 512]</pre>
+  c_in: 3, c_out: 10
+  expansion: 4, groups: 1, dw: False
+  sa: False, se: False
+  stem sizes: [3, 32, 64, 64], stide on 0
+  body sizes [64, 128, 256, 512]
+  layers: [3, 4, 6, 3]</pre>
 </div>
 
 </div>

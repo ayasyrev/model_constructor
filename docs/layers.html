@@ -53,13 +53,6 @@ nb_path: "nbs/01_layers.ipynb"
     
 <div class="cell border-box-sizing code_cell rendered">
 
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-
 <div class="output_wrapper">
 <div class="output">
 
@@ -81,6 +74,13 @@ nb_path: "nbs/01_layers.ipynb"
 </div>
     {% endraw %}
 
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+    {% endraw %}
+
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="Noop">Noop<a class="anchor-link" href="#Noop"> </a></h1>
@@ -91,13 +91,6 @@ nb_path: "nbs/01_layers.ipynb"
     
 <div class="cell border-box-sizing code_cell rendered">
 
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-
 <div class="output_wrapper">
 <div class="output">
 
@@ -105,9 +98,8 @@ nb_path: "nbs/01_layers.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="noop" class="doc_header"><code>noop</code><a href="https://github.com/fastai/fastcore/tree/master/fastcore/imports.py#L35" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>noop</code>(<strong><code>x</code></strong>=<em><code>None</code></em>, <strong>*<code>args</code></strong>, <strong>**<code>kwargs</code></strong>)</p>
+<h4 id="noop" class="doc_header"><code>noop</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/layers.py#L21" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>noop</code>(<strong><code>x</code></strong>)</p>
 </blockquote>
-<p>Do nothing</p>
 
 </div>
 
@@ -130,7 +122,7 @@ nb_path: "nbs/01_layers.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="Noop" class="doc_header"><code>class</code> <code>Noop</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/layers.py#L21" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>Noop</code>() :: <code>Module</code></p>
+<h2 id="Noop" class="doc_header"><code>class</code> <code>Noop</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/layers.py#L25" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>Noop</code>() :: <code>Module</code></p>
 </blockquote>
 <p>Dummy module</p>
 
@@ -140,6 +132,13 @@ nb_path: "nbs/01_layers.ipynb"
 
 </div>
 </div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
 
 </div>
     {% endraw %}
@@ -154,13 +153,6 @@ nb_path: "nbs/01_layers.ipynb"
     
 <div class="cell border-box-sizing code_cell rendered">
 
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-
 <div class="output_wrapper">
 <div class="output">
 
@@ -168,7 +160,7 @@ nb_path: "nbs/01_layers.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="ConvLayer" class="doc_header"><code>class</code> <code>ConvLayer</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/layers.py#L32" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>ConvLayer</code>(<strong><code>ni</code></strong>, <strong><code>nf</code></strong>, <strong><code>ks</code></strong>=<em><code>3</code></em>, <strong><code>stride</code></strong>=<em><code>1</code></em>, <strong><code>act</code></strong>=<em><code>True</code></em>, <strong><code>act_fn</code></strong>=<em><code>ReLU(inplace=True)</code></em>, <strong><code>bn_layer</code></strong>=<em><code>True</code></em>, <strong><code>bn_1st</code></strong>=<em><code>True</code></em>, <strong><code>zero_bn</code></strong>=<em><code>False</code></em>, <strong><code>padding</code></strong>=<em><code>None</code></em>, <strong><code>bias</code></strong>=<em><code>False</code></em>, <strong><code>groups</code></strong>=<em><code>1</code></em>, <strong>**<code>kwargs</code></strong>) :: <code>Sequential</code></p>
+<h2 id="ConvLayer" class="doc_header"><code>class</code> <code>ConvLayer</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/layers.py#L37" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>ConvLayer</code>(<strong><code>ni</code></strong>, <strong><code>nf</code></strong>, <strong><code>ks</code></strong>=<em><code>3</code></em>, <strong><code>stride</code></strong>=<em><code>1</code></em>, <strong><code>act</code></strong>=<em><code>True</code></em>, <strong><code>act_fn</code></strong>=<em><code>ReLU(inplace=True)</code></em>, <strong><code>bn_layer</code></strong>=<em><code>True</code></em>, <strong><code>bn_1st</code></strong>=<em><code>True</code></em>, <strong><code>zero_bn</code></strong>=<em><code>False</code></em>, <strong><code>padding</code></strong>=<em><code>None</code></em>, <strong><code>bias</code></strong>=<em><code>False</code></em>, <strong><code>groups</code></strong>=<em><code>1</code></em>, <strong>**<code>kwargs</code></strong>) :: <code>Sequential</code></p>
 </blockquote>
 <p>Basic conv layers block</p>
 
@@ -178,6 +170,13 @@ nb_path: "nbs/01_layers.ipynb"
 
 </div>
 </div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
 
 </div>
     {% endraw %}
@@ -380,13 +379,6 @@ nb_path: "nbs/01_layers.ipynb"
     
 <div class="cell border-box-sizing code_cell rendered">
 
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-
 <div class="output_wrapper">
 <div class="output">
 
@@ -394,9 +386,9 @@ nb_path: "nbs/01_layers.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="conv1d" class="doc_header"><code>conv1d</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/layers.py#L55" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>conv1d</code>(<strong><code>ni</code></strong>:<code>int</code>, <strong><code>no</code></strong>:<code>int</code>, <strong><code>ks</code></strong>:<code>int</code>=<em><code>1</code></em>, <strong><code>stride</code></strong>:<code>int</code>=<em><code>1</code></em>, <strong><code>padding</code></strong>:<code>int</code>=<em><code>0</code></em>, <strong><code>bias</code></strong>:<code>bool</code>=<em><code>False</code></em>)</p>
+<h4 id="conv1d" class="doc_header"><code>conv1d</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/layers.py#L62" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>conv1d</code>(<strong><code>ni</code></strong>:<code>int</code>, <strong><code>no</code></strong>:<code>int</code>, <strong><code>ks</code></strong>:<code>int</code>=<em><code>1</code></em>, <strong><code>stride</code></strong>:<code>int</code>=<em><code>1</code></em>, <strong><code>padding</code></strong>:<code>int</code>=<em><code>0</code></em>, <strong><code>bias</code></strong>:<code>bool</code>=<em><code>False</code></em>)</p>
 </blockquote>
-<p>Create and initialize a <a href="/model_constructor/Twist.html#nn.Conv1d"><code>nn.Conv1d</code></a> layer with spectral normalization.</p>
+<p>Create and initialize a <code>nn.Conv1d</code> layer with spectral normalization.</p>
 
 </div>
 
@@ -419,7 +411,7 @@ nb_path: "nbs/01_layers.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="SimpleSelfAttention" class="doc_header"><code>class</code> <code>SimpleSelfAttention</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/layers.py#L65" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>SimpleSelfAttention</code>(<strong><code>n_in</code></strong>:<code>int</code>, <strong><code>ks</code></strong>=<em><code>1</code></em>, <strong><code>sym</code></strong>=<em><code>False</code></em>) :: <code>Module</code></p>
+<h2 id="SimpleSelfAttention" class="doc_header"><code>class</code> <code>SimpleSelfAttention</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/layers.py#L74" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>SimpleSelfAttention</code>(<strong><code>n_in</code></strong>:<code>int</code>, <strong><code>ks</code></strong>=<em><code>1</code></em>, <strong><code>sym</code></strong>=<em><code>False</code></em>) :: <code>Module</code></p>
 </blockquote>
 <p>Base class for all neural network modules.</p>
 <p>Your models should also subclass this class.</p>
@@ -453,12 +445,6 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
 </div>
     {% endraw %}
 
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="SE-Block">SE Block<a class="anchor-link" href="#SE-Block"> </a></h1>
-</div>
-</div>
-</div>
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
@@ -466,6 +452,12 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
 </div>
     {% endraw %}
 
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="SE-Block">SE Block<a class="anchor-link" href="#SE-Block"> </a></h1>
+</div>
+</div>
+</div>
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
@@ -477,7 +469,7 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="SEBlock" class="doc_header"><code>class</code> <code>SEBlock</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/layers.py#L89" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>SEBlock</code>(<strong><code>c</code></strong>, <strong><code>r</code></strong>=<em><code>16</code></em>) :: <code>Module</code></p>
+<h2 id="SEBlock" class="doc_header"><code>class</code> <code>SEBlock</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/layers.py#L99" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>SEBlock</code>(<strong><code>c</code></strong>, <strong><code>r</code></strong>=<em><code>16</code></em>) :: <code>Module</code></p>
 </blockquote>
 <p>se block</p>
 
@@ -487,6 +479,13 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
 
 </div>
 </div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
 
 </div>
     {% endraw %}
@@ -543,13 +542,6 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
     
 <div class="cell border-box-sizing code_cell rendered">
 
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-
 <div class="output_wrapper">
 <div class="output">
 
@@ -557,7 +549,7 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="SEBlockConv" class="doc_header"><code>class</code> <code>SEBlockConv</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/layers.py#L112" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>SEBlockConv</code>(<strong><code>c</code></strong>, <strong><code>r</code></strong>=<em><code>16</code></em>) :: <code>Module</code></p>
+<h2 id="SEBlockConv" class="doc_header"><code>class</code> <code>SEBlockConv</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/layers.py#L122" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>SEBlockConv</code>(<strong><code>c</code></strong>, <strong><code>r</code></strong>=<em><code>16</code></em>) :: <code>Module</code></p>
 </blockquote>
 <p>se block with conv on excitation</p>
 
@@ -567,6 +559,13 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
 
 </div>
 </div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
 
 </div>
     {% endraw %}
