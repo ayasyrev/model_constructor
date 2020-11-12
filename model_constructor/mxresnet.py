@@ -4,8 +4,9 @@ __all__ = ['mxresnet_parameters', 'mxresnet34', 'mxresnet50']
 
 # Cell
 from functools import partial
-from .net import Net
+
 from .activations import Mish
+from .net import Net
 
 # Cell
 mxresnet_parameters = {'stem_sizes': [3, 32, 64, 64], 'act_fn': Mish()}

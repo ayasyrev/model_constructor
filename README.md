@@ -21,15 +21,15 @@ First import constructor class, then create model constructor oject.
 
 Now you can change every part of model.
 
-```python
+```
 from model_constructor.net import *
 ```
 
-```python
+```
 model = Net()
 ```
 
-```python
+```
 model
 ```
 
@@ -48,7 +48,7 @@ model
 
 Now we have model consructor, default setting as xresnet18. And we can get model after call it.
 
-```python
+```
 model.c_in
 ```
 
@@ -59,7 +59,7 @@ model.c_in
 
 
 
-```python
+```
 model.c_out
 ```
 
@@ -70,7 +70,7 @@ model.c_out
 
 
 
-```python
+```
 model.stem_sizes
 ```
 
@@ -81,7 +81,7 @@ model.stem_sizes
 
 
 
-```python
+```
 model.layers
 ```
 
@@ -92,7 +92,7 @@ model.layers
 
 
 
-```python
+```
 model.expansion
 ```
 
@@ -103,8 +103,8 @@ model.expansion
 
 
 
-```python
-%nbdev_collapse_output
+```
+#collapse_output
 model()
 ```
 <details class="description">
@@ -284,15 +284,15 @@ model()
 If you want to change model, just change constructor parameters.  
 Lets create xresnet50.
 
-```python
+```
 model.expansion = 4
 model.layers = [3,4,6,3]
 ```
 
 Now we can look at model body and if we call constructor - we have pytorch model!
 
-```python
-%nbdev_collapse_output
+```
+#collapse_output
 model.body
 ```
 <details class="description">
@@ -649,13 +649,13 @@ But now lets create model as mxresnet50 from fastai forums tread https://forums.
 
 Lets create mxresnet constructor.
 
-```python
+```
 model = Net(name='MxResNet')
 ```
 
 Then lets modify stem.
 
-```python
+```
 model.stem_sizes = [3,32,64,64]
 ```
 
@@ -663,15 +663,15 @@ Now lets change activation function to Mish.
 Here is link to forum disscussion https://forums.fast.ai/t/meet-mish-new-activation-function-possible-successor-to-relu  
 Mish is in model_constructor.activations
 
-```python
+```
 from model_constructor.activations import Mish
 ```
 
-```python
+```
 model.act_fn = Mish()
 ```
 
-```python
+```
 model
 ```
 
@@ -688,8 +688,8 @@ model
 
 
 
-```python
-%nbdev_collapse_output
+```
+#collapse_output
 model()
 ```
 <details class="description">
@@ -870,7 +870,7 @@ model()
 
 Now lets make MxResNet50
 
-```python
+```
 model.expansion = 4
 model.layers = [3,4,6,3]
 model.name = 'mxresnet50'
@@ -880,7 +880,7 @@ Now we have mxresnet50 constructor.
 We can inspect every parts of it.  
 And after call it we got model.
 
-```python
+```
 model
 ```
 
@@ -897,8 +897,8 @@ model
 
 
 
-```python
-%nbdev_collapse_output
+```
+#collapse_output
 model.stem.conv_1
 ```
 <details class="description">
@@ -917,8 +917,8 @@ model.stem.conv_1
 
 </details>
 
-```python
-%nbdev_collapse_output
+```
+#collapse_output
 model.body.l_0.bl_0
 ```
 <details class="description">
@@ -959,18 +959,18 @@ model.body.l_0.bl_0
 
 Now lets change Resblock to YaResBlock (Yet another ResNet, former NewResBlock) is in lib from version 0.1.0
 
-```python
+```
 from model_constructor.yaresnet import YaResBlock
 ```
 
-```python
+```
 model.block = YaResBlock
 ```
 
 That all. Now we have YaResNet constructor
 
-```python
-%nbdev_collapse_output
+```
+#collapse_output
 model.name = 'YaResNet'
 model
 ```
@@ -994,8 +994,8 @@ model
 
 Let see what we have.
 
-```python
-%nbdev_collapse_output
+```
+#collapse_output
 model.body.l_1.bl_0
 ```
 <details class="description">

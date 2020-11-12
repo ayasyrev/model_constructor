@@ -43,26 +43,12 @@ nb_path: "nbs/11_xresnet.ipynb"
 </div>
     {% endraw %}
 
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-
-</div>
-    {% endraw %}
-
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="Xresnet-constructor">Xresnet constructor<a class="anchor-link" href="#Xresnet-constructor"> </a></h1>
 </div>
 </div>
 </div>
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-
-</div>
-    {% endraw %}
-
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
@@ -74,7 +60,7 @@ nb_path: "nbs/11_xresnet.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="DownsampleLayer" class="doc_header"><code>class</code> <code>DownsampleLayer</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/xresnet.py#L15" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DownsampleLayer</code>(<strong><code>conv_layer</code></strong>, <strong><code>ni</code></strong>, <strong><code>nf</code></strong>, <strong><code>stride</code></strong>, <strong><code>act</code></strong>, <strong><code>pool</code></strong>=<em><code>AvgPool2d(kernel_size=2, stride=2, padding=0)</code></em>, <strong><code>pool_1st</code></strong>=<em><code>True</code></em>, <strong>**<code>kwargs</code></strong>) :: <code>Sequential</code></p>
+<h2 id="DownsampleLayer" class="doc_header"><code>class</code> <code>DownsampleLayer</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/xresnet.py#L14" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DownsampleLayer</code>(<strong><code>conv_layer</code></strong>, <strong><code>ni</code></strong>, <strong><code>nf</code></strong>, <strong><code>stride</code></strong>, <strong><code>act</code></strong>, <strong><code>pool</code></strong>=<em><code>AvgPool2d(kernel_size=2, stride=2, padding=0)</code></em>, <strong><code>pool_1st</code></strong>=<em><code>True</code></em>, <strong>**<code>kwargs</code></strong>) :: <code>Sequential</code></p>
 </blockquote>
 <p>Downsample layer for Xresnet Resblock</p>
 
@@ -136,6 +122,13 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
 
 </div>
 </div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
 
 </div>
     {% endraw %}
@@ -423,13 +416,6 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
     
 <div class="cell border-box-sizing code_cell rendered">
 
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-
 <div class="output_wrapper">
 <div class="output">
 
@@ -437,7 +423,7 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="xresnet18" class="doc_header"><code>xresnet18</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/xresnet.py#L46" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>xresnet18</code>(<strong>**<code>kwargs</code></strong>)</p>
+<h4 id="xresnet18" class="doc_header"><code>xresnet18</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/xresnet.py#L48" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>xresnet18</code>(<strong>**<code>kwargs</code></strong>)</p>
 </blockquote>
 <p>Constructs a xresnet-18 model.</p>
 
@@ -462,7 +448,7 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="xresnet34" class="doc_header"><code>xresnet34</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/xresnet.py#L49" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>xresnet34</code>(<strong>**<code>kwargs</code></strong>)</p>
+<h4 id="xresnet34" class="doc_header"><code>xresnet34</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/xresnet.py#L52" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>xresnet34</code>(<strong>**<code>kwargs</code></strong>)</p>
 </blockquote>
 <p>Constructs axresnet-34 model.</p>
 
@@ -487,7 +473,7 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="xresnet50" class="doc_header"><code>xresnet50</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/xresnet.py#L52" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>xresnet50</code>(<strong>**<code>kwargs</code></strong>)</p>
+<h4 id="xresnet50" class="doc_header"><code>xresnet50</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/xresnet.py#L56" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>xresnet50</code>(<strong>**<code>kwargs</code></strong>)</p>
 </blockquote>
 <p>Constructs axresnet-34 model.</p>
 
@@ -497,6 +483,13 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
 
 </div>
 </div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
 
 </div>
     {% endraw %}

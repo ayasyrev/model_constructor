@@ -8,10 +8,8 @@ import torch.nn as nn
 from collections import OrderedDict
 from .layers import ConvLayer, Noop, Flatten
 
-
 # Cell
 act_fn = nn.ReLU(inplace=True)
-
 
 # Cell
 class Stem(nn.Sequential):
@@ -39,12 +37,10 @@ class Stem(nn.Sequential):
     def extra_repr(self):
         return f"sizes: {self.sizes}"
 
-
 # Cell
 def DownsampleBlock(conv_layer, ni, nf, ks, stride, act=False, **kwargs):
     '''Base downsample for res-like blocks'''
     return conv_layer(ni, nf, ks, stride, act, **kwargs)
-
 
 # Cell
 class BasicBlock(nn.Module):
@@ -68,7 +64,6 @@ class BasicBlock(nn.Module):
         if self.downsample:
             identity = self.downsample(x)
         return self.act_conn(self.merge(out + identity))
-
 
 # Cell
 class Bottleneck(nn.Module):
@@ -97,7 +92,6 @@ class Bottleneck(nn.Module):
             identity = self.downsample(x)
         return self.act_conn(self.merge(out + identity))
 
-
 # Cell
 class BasicLayer(nn.Sequential):
     '''Layer from blocks'''
@@ -115,7 +109,6 @@ class BasicLayer(nn.Sequential):
 
     def extra_repr(self):
         return f'from {self.ni * self.expansion} to {self.nf}, {self.blocks} blocks, expansion {self.expansion}.'
-
 
 # Cell
 class Body(nn.Sequential):
@@ -135,7 +128,6 @@ class Body(nn.Sequential):
                   for i in range(num_layers)]
         super().__init__(OrderedDict(layers))
 
-
 # Cell
 class Head(nn.Sequential):
     '''base head'''
@@ -146,14 +138,12 @@ class Head(nn.Sequential):
              ('fc', nn.Linear(ni, nf)),
              ]))
 
-
 # Cell
 def init_model(model, nonlinearity='leaky_relu'):
     '''Init model'''
     for m in model.modules():
         if isinstance(m, (nn.Conv2d, nn.Linear)):
             nn.init.kaiming_normal_(m.weight, mode='fan_in', nonlinearity=nonlinearity)
-
 
 # Cell
 class Net(nn.Sequential):

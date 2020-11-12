@@ -3,10 +3,12 @@
 __all__ = ['init_cnn', 'act_fn', 'ResBlock', 'NewResBlock', 'Net', 'xresnet34', 'xresnet50']
 
 # Cell
-import torch.nn as nn
-from functools import partial
 from collections import OrderedDict
-from .layers import ConvLayer, noop, SEBlock, SimpleSelfAttention, Flatten
+from functools import partial
+
+import torch.nn as nn
+
+from .layers import ConvLayer, Flatten, SEBlock, SimpleSelfAttention, noop
 
 # Cell
 act_fn = nn.ReLU(inplace=True)
@@ -21,6 +23,8 @@ def init_cnn(module: nn.Module):
         init_cnn(layer)
 
 # Cell
+
+
 class ResBlock(nn.Module):
     '''Resnet block'''
     se_block = SEBlock
@@ -58,8 +62,6 @@ class ResBlock(nn.Module):
 
 # Cell
 # NewResBlock now is YaResBlock - Yet Another ResNet Block! It is now at model_constructor.yaresnet.
-
-
 class NewResBlock(nn.Module):
     '''YaResnet block'''
     se_block = SEBlock

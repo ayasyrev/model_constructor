@@ -40,8 +40,6 @@ index = {"init_cnn": "00_Net.ipynb",
          "yaresnet_parameters": "04_YaResNet.ipynb",
          "yaresnet34": "04_YaResNet.ipynb",
          "yaresnet50": "04_YaResNet.ipynb",
-         "nn": "05_Twist.ipynb",
-         "F": "05_Twist.ipynb",
          "ConvTwist": "05_Twist.ipynb",
          "ConvLayerTwist": "05_Twist.ipynb",
          "NewResBlockTwist": "05_Twist.ipynb",
@@ -71,4 +69,4 @@ doc_url = "https://ayasyrev.github.io/model_constructor/"
 
 git_url = "https://github.com/ayasyrev/model_constructor/tree/master/"
 
-def custom_doc_links(name): return None
+def custom_doc_links(name): return None # noqa E704

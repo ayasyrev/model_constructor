@@ -60,13 +60,6 @@ nb_path: "nbs/05_Twist.ipynb"
     
 <div class="cell border-box-sizing code_cell rendered">
 
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-
 <div class="output_wrapper">
 <div class="output">
 
@@ -84,6 +77,13 @@ nb_path: "nbs/05_Twist.ipynb"
 
 </div>
 </div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
 
 </div>
     {% endraw %}
@@ -274,13 +274,6 @@ nb_path: "nbs/05_Twist.ipynb"
     
 <div class="cell border-box-sizing code_cell rendered">
 
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-
 <div class="output_wrapper">
 <div class="output">
 
@@ -288,7 +281,7 @@ nb_path: "nbs/05_Twist.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="ConvLayerTwist" class="doc_header"><code>class</code> <code>ConvLayerTwist</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/twist.py#L104" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>ConvLayerTwist</code>(<strong><code>ni</code></strong>, <strong><code>nf</code></strong>, <strong><code>ks</code></strong>=<em><code>3</code></em>, <strong><code>stride</code></strong>=<em><code>1</code></em>, <strong><code>act</code></strong>=<em><code>True</code></em>, <strong><code>act_fn</code></strong>=<em><code>ReLU(inplace=True)</code></em>, <strong><code>bn_layer</code></strong>=<em><code>True</code></em>, <strong><code>bn_1st</code></strong>=<em><code>True</code></em>, <strong><code>zero_bn</code></strong>=<em><code>False</code></em>, <strong><code>padding</code></strong>=<em><code>None</code></em>, <strong><code>bias</code></strong>=<em><code>False</code></em>, <strong><code>groups</code></strong>=<em><code>1</code></em>, <strong>**<code>kwargs</code></strong>) :: <a href="/model_constructor/layers.html#ConvLayer"><code>ConvLayer</code></a></p>
+<h2 id="ConvLayerTwist" class="doc_header"><code>class</code> <code>ConvLayerTwist</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/twist.py#L108" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>ConvLayerTwist</code>(<strong><code>ni</code></strong>, <strong><code>nf</code></strong>, <strong><code>ks</code></strong>=<em><code>3</code></em>, <strong><code>stride</code></strong>=<em><code>1</code></em>, <strong><code>act</code></strong>=<em><code>True</code></em>, <strong><code>act_fn</code></strong>=<em><code>ReLU(inplace=True)</code></em>, <strong><code>bn_layer</code></strong>=<em><code>True</code></em>, <strong><code>bn_1st</code></strong>=<em><code>True</code></em>, <strong><code>zero_bn</code></strong>=<em><code>False</code></em>, <strong><code>padding</code></strong>=<em><code>None</code></em>, <strong><code>bias</code></strong>=<em><code>False</code></em>, <strong><code>groups</code></strong>=<em><code>1</code></em>, <strong>**<code>kwargs</code></strong>) :: <a href="/model_constructor/layers.html#ConvLayer"><code>ConvLayer</code></a></p>
 </blockquote>
 <p>Basic conv layers block</p>
 
@@ -298,6 +291,13 @@ nb_path: "nbs/05_Twist.ipynb"
 
 </div>
 </div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
 
 </div>
     {% endraw %}
@@ -828,13 +828,6 @@ nb_path: "nbs/05_Twist.ipynb"
     
 <div class="cell border-box-sizing code_cell rendered">
 
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-
 <div class="output_wrapper">
 <div class="output">
 
@@ -842,7 +835,7 @@ nb_path: "nbs/05_Twist.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="NewResBlockTwist" class="doc_header"><code>class</code> <code>NewResBlockTwist</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/twist.py#L108" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>NewResBlockTwist</code>(<strong><code>expansion</code></strong>, <strong><code>ni</code></strong>, <strong><code>nh</code></strong>, <strong><code>stride</code></strong>=<em><code>1</code></em>, <strong><code>conv_layer</code></strong>=<em><code>ConvLayer</code></em>, <strong><code>act_fn</code></strong>=<em><code>ReLU(inplace=True)</code></em>, <strong><code>bn_1st</code></strong>=<em><code>True</code></em>, <strong><code>pool</code></strong>=<em><code>AvgPool2d(kernel_size=2, stride=2, padding=0)</code></em>, <strong><code>sa</code></strong>=<em><code>False</code></em>, <strong><code>sym</code></strong>=<em><code>False</code></em>, <strong><code>zero_bn</code></strong>=<em><code>True</code></em>, <strong>**<code>kvargs</code></strong>) :: <code>Module</code></p>
+<h2 id="NewResBlockTwist" class="doc_header"><code>class</code> <code>NewResBlockTwist</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/twist.py#L112" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>NewResBlockTwist</code>(<strong><code>expansion</code></strong>, <strong><code>ni</code></strong>, <strong><code>nh</code></strong>, <strong><code>stride</code></strong>=<em><code>1</code></em>, <strong><code>conv_layer</code></strong>=<em><code>ConvLayer</code></em>, <strong><code>act_fn</code></strong>=<em><code>ReLU(inplace=True)</code></em>, <strong><code>bn_1st</code></strong>=<em><code>True</code></em>, <strong><code>pool</code></strong>=<em><code>AvgPool2d(kernel_size=2, stride=2, padding=0)</code></em>, <strong><code>sa</code></strong>=<em><code>False</code></em>, <strong><code>sym</code></strong>=<em><code>False</code></em>, <strong><code>zero_bn</code></strong>=<em><code>True</code></em>, <strong>**<code>kvargs</code></strong>) :: <code>Module</code></p>
 </blockquote>
 <p>Base class for all neural network modules.</p>
 <p>Your models should also subclass this class.</p>
@@ -872,6 +865,13 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
 
 </div>
 </div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
 
 </div>
     {% endraw %}
@@ -1060,13 +1060,6 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
     
 <div class="cell border-box-sizing code_cell rendered">
 
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-
 <div class="output_wrapper">
 <div class="output">
 
@@ -1074,7 +1067,7 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="ResBlockTwist" class="doc_header"><code>class</code> <code>ResBlockTwist</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/twist.py#L134" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>ResBlockTwist</code>(<strong><code>expansion</code></strong>, <strong><code>ni</code></strong>, <strong><code>nh</code></strong>, <strong><code>stride</code></strong>=<em><code>1</code></em>, <strong><code>conv_layer</code></strong>=<em><code>ConvLayer</code></em>, <strong><code>act_fn</code></strong>=<em><code>ReLU(inplace=True)</code></em>, <strong><code>zero_bn</code></strong>=<em><code>True</code></em>, <strong><code>bn_1st</code></strong>=<em><code>True</code></em>, <strong><code>pool</code></strong>=<em><code>AvgPool2d(kernel_size=2, stride=2, padding=0)</code></em>, <strong><code>sa</code></strong>=<em><code>False</code></em>, <strong><code>sym</code></strong>=<em><code>False</code></em>, <strong>**<code>kvargs</code></strong>) :: <code>Module</code></p>
+<h2 id="ResBlockTwist" class="doc_header"><code>class</code> <code>ResBlockTwist</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/twist.py#L137" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>ResBlockTwist</code>(<strong><code>expansion</code></strong>, <strong><code>ni</code></strong>, <strong><code>nh</code></strong>, <strong><code>stride</code></strong>=<em><code>1</code></em>, <strong><code>conv_layer</code></strong>=<em><code>ConvLayer</code></em>, <strong><code>act_fn</code></strong>=<em><code>ReLU(inplace=True)</code></em>, <strong><code>zero_bn</code></strong>=<em><code>True</code></em>, <strong><code>bn_1st</code></strong>=<em><code>True</code></em>, <strong><code>pool</code></strong>=<em><code>AvgPool2d(kernel_size=2, stride=2, padding=0)</code></em>, <strong><code>sa</code></strong>=<em><code>False</code></em>, <strong><code>sym</code></strong>=<em><code>False</code></em>, <strong>**<code>kvargs</code></strong>) :: <code>Module</code></p>
 </blockquote>
 <p>Base class for all neural network modules.</p>
 <p>Your models should also subclass this class.</p>
@@ -1104,6 +1097,13 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
 
 </div>
 </div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
 
 </div>
     {% endraw %}
