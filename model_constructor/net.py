@@ -115,8 +115,7 @@ def _make_layer(self, expansion, ni, nf, blocks, stride, sa):
     layers = [(f"bl_{i}", self.block(expansion, ni if i == 0 else nf, nf,
                                      stride if i == 0 else 1, sa=sa if i == blocks - 1 else False,
                                      conv_layer=self.conv_layer, act_fn=self.act_fn, pool=self.pool,
-                                     zero_bn=self.zero_bn, bn_1st=self.bn_1st, groups=self.groups,
-                                     dw=self.dw, se=self.se))
+                                     zero_bn=self.zero_bn, bn_1st=self.bn_1st, groups=self.groups))
               for i in range(blocks)]
     return nn.Sequential(OrderedDict(layers))
 
