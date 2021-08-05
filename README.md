@@ -2,16 +2,11 @@
 > Constructor to create pytorch model.
 
 
-# News
-
-2020-07-29 added YaResNet and MXResNet constructor.   
-2020-05-10 added Twist module.
-
 ## Install
 
 `pip install model-constructor`
 
-Or instll from repo:
+Or install from repo:
 
 `pip install git+https://github.com/ayasyrev/model_constructor.git`
 
