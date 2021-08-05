@@ -69,4 +69,4 @@ doc_url = "https://ayasyrev.github.io/model_constructor/"
 
 git_url = "https://github.com/ayasyrev/model_constructor/tree/master/"
 
-def custom_doc_links(name): return None # noqa E704
+def custom_doc_links(name): return None
