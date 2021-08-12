@@ -26,12 +26,38 @@ nb_path: "Nbs/05_Twist.ipynb"
     
 <div class="cell border-box-sizing code_cell rendered">
 
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>/home/jzz/anaconda3/envs/pt_19/lib/python3.8/site-packages/fastprogress/fastprogress.py:102: UserWarning: Couldn&#39;t import ipywidgets properly, progress bar will use console behavior
+  warn(&#34;Couldn&#39;t import ipywidgets properly, progress bar will use console behavior&#34;)
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
 </div>
     {% endraw %}
 
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">OrderedDict</span>
+<span class="kn">from</span> <span class="nn">model_constructor.layers</span> <span class="kn">import</span> <span class="n">ConvLayer</span><span class="p">,</span> <span class="n">noop</span><span class="p">,</span> <span class="n">act_fn</span><span class="p">,</span> <span class="n">SimpleSelfAttention</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
 
 </div>
     {% endraw %}
@@ -39,13 +65,19 @@ nb_path: "Nbs/05_Twist.ipynb"
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
+<div class="input">
 
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="nn">nn</span>
+<span class="kn">import</span> <span class="nn">torch.nn.functional</span> <span class="k">as</span> <span class="nn">F</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+</pre></div>
+
+    </div>
 </div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
+</div>
 
 </div>
     {% endraw %}
@@ -59,31 +91,104 @@ nb_path: "Nbs/05_Twist.ipynb"
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
+<div class="input">
 
-<div class="output_wrapper">
-<div class="output">
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">ConvTwist</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Replacement for Conv2d (kernelsize 3x3)&#39;&#39;&#39;</span>
+    <span class="n">permute</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">twist</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">use_groups</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">groups_ch</span> <span class="o">=</span> <span class="mi">8</span>
 
-<div class="output_area">
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ni</span><span class="p">,</span> <span class="n">nf</span><span class="p">,</span>
+                 <span class="n">ks</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                 <span class="n">groups</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">iters</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">init_max</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span> <span class="o">**</span><span class="n">kvargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">same</span> <span class="o">=</span> <span class="n">ni</span> <span class="o">==</span> <span class="n">nf</span> <span class="ow">and</span> <span class="n">stride</span> <span class="o">==</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">groups</span> <span class="o">=</span> <span class="n">ni</span> <span class="o">//</span> <span class="bp">self</span><span class="o">.</span><span class="n">groups_ch</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">use_groups</span> <span class="k">else</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">conv</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="n">ni</span><span class="p">,</span> <span class="n">nf</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="n">stride</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">groups</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">groups</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">twist</span><span class="p">:</span>
+            <span class="n">std</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conv</span><span class="o">.</span><span class="n">weight</span><span class="o">.</span><span class="n">std</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">coeff_Ax</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Parameter</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="n">nf</span><span class="p">,</span> <span class="n">ni</span> <span class="o">//</span> <span class="n">groups</span><span class="p">))</span><span class="o">.</span><span class="n">normal_</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">std</span><span class="p">),</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">coeff_Ay</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Parameter</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="n">nf</span><span class="p">,</span> <span class="n">ni</span> <span class="o">//</span> <span class="n">groups</span><span class="p">))</span><span class="o">.</span><span class="n">normal_</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">std</span><span class="p">),</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">iters</span> <span class="o">=</span> <span class="n">iters</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stride</span> <span class="o">=</span> <span class="n">stride</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">DD</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">derivatives</span><span class="p">()</span>
 
+    <span class="k">def</span> <span class="nf">derivatives</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">I</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]])</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>   <span class="c1"># noqa E741</span>
+        <span class="n">D_x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">([[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]])</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span> <span class="o">/</span> <span class="mi">10</span>
+        <span class="n">D_y</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]])</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span> <span class="o">/</span> <span class="mi">10</span>
 
-<div class="output_markdown rendered_html output_subarea ">
-<h2 id="ConvTwist" class="doc_header"><code>class</code> <code>ConvTwist</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/twist.py#L17" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>ConvTwist</code>(<strong><code>ni</code></strong>, <strong><code>nf</code></strong>, <strong><code>ks</code></strong>=<em><code>3</code></em>, <strong><code>stride</code></strong>=<em><code>1</code></em>, <strong><code>padding</code></strong>=<em><code>1</code></em>, <strong><code>bias</code></strong>=<em><code>False</code></em>, <strong><code>groups</code></strong>=<em><code>1</code></em>, <strong><code>iters</code></strong>=<em><code>1</code></em>, <strong><code>init_max</code></strong>=<em><code>0.7</code></em>, <strong>**<code>kvargs</code></strong>) :: <code>Module</code></p>
-</blockquote>
-<p>Replacement for Conv2d (kernelsize 3x3)</p>
+        <span class="k">def</span> <span class="nf">convolution</span><span class="p">(</span><span class="n">K1</span><span class="p">,</span> <span class="n">K2</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">F</span><span class="o">.</span><span class="n">conv2d</span><span class="p">(</span><span class="n">K1</span><span class="p">,</span> <span class="n">K2</span><span class="o">.</span><span class="n">flip</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">flip</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">padding</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">D_xx</span> <span class="o">=</span> <span class="n">convolution</span><span class="p">(</span><span class="n">I</span> <span class="o">+</span> <span class="n">D_x</span><span class="p">,</span> <span class="n">I</span> <span class="o">+</span> <span class="n">D_x</span><span class="p">)</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+        <span class="n">D_yy</span> <span class="o">=</span> <span class="n">convolution</span><span class="p">(</span><span class="n">I</span> <span class="o">+</span> <span class="n">D_y</span><span class="p">,</span> <span class="n">I</span> <span class="o">+</span> <span class="n">D_y</span><span class="p">)</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+        <span class="n">D_xy</span> <span class="o">=</span> <span class="n">convolution</span><span class="p">(</span><span class="n">I</span> <span class="o">+</span> <span class="n">D_x</span><span class="p">,</span> <span class="n">I</span> <span class="o">+</span> <span class="n">D_y</span><span class="p">)</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="n">D_x</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="n">D_y</span><span class="p">,</span> <span class="s1">&#39;xx&#39;</span><span class="p">:</span> <span class="n">D_xx</span><span class="p">,</span> <span class="s1">&#39;yy&#39;</span><span class="p">:</span> <span class="n">D_yy</span><span class="p">,</span> <span class="s1">&#39;xy&#39;</span><span class="p">:</span> <span class="n">D_xy</span><span class="p">}</span>
 
+    <span class="k">def</span> <span class="nf">kernel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">coeff_x</span><span class="p">,</span> <span class="n">coeff_y</span><span class="p">):</span>
+        <span class="n">D_x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">([[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]])</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">coeff_x</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+        <span class="n">D_y</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]])</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">coeff_x</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">coeff_x</span><span class="p">[:,</span> <span class="p">:,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="n">D_x</span> <span class="o">+</span> <span class="n">coeff_y</span><span class="p">[:,</span> <span class="p">:,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="n">D_y</span>
+
+    <span class="k">def</span> <span class="nf">full_kernel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kernel</span><span class="p">):</span>  <span class="c1"># permuting the groups</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">groups</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">kernel</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">groups</span>
+        <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">kernel</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="n">a</span> <span class="o">//</span> <span class="n">n</span>
+        <span class="n">KK</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">a</span> <span class="o">*</span> <span class="n">n</span><span class="p">,</span> <span class="n">b</span> <span class="o">*</span> <span class="n">n</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">kernel</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">i</span> <span class="o">%</span> <span class="mi">4</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">KK</span><span class="p">[</span><span class="n">a</span> <span class="o">*</span> <span class="n">i</span><span class="p">:</span><span class="n">a</span> <span class="o">*</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="n">b</span> <span class="o">*</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">3</span><span class="p">):</span><span class="n">b</span> <span class="o">*</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">4</span><span class="p">)]</span> <span class="o">=</span> <span class="n">kernel</span><span class="p">[</span><span class="n">a</span> <span class="o">*</span> <span class="n">i</span><span class="p">:</span><span class="n">a</span> <span class="o">*</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">KK</span><span class="p">[</span><span class="n">a</span> <span class="o">*</span> <span class="n">i</span><span class="p">:</span><span class="n">a</span> <span class="o">*</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="n">b</span> <span class="o">*</span> <span class="p">(</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span><span class="n">b</span> <span class="o">*</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">kernel</span><span class="p">[</span><span class="n">a</span> <span class="o">*</span> <span class="n">i</span><span class="p">:</span><span class="n">a</span> <span class="o">*</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)]</span>
+        <span class="k">return</span> <span class="n">KK</span>
+
+    <span class="k">def</span> <span class="nf">_conv</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inpt</span><span class="p">,</span> <span class="n">kernel</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">kernel</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">kernel</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conv</span><span class="o">.</span><span class="n">weight</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">permute</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">F</span><span class="o">.</span><span class="n">conv2d</span><span class="p">(</span><span class="n">inpt</span><span class="p">,</span> <span class="n">kernel</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">stride</span><span class="p">,</span> <span class="n">groups</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">groups</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">F</span><span class="o">.</span><span class="n">conv2d</span><span class="p">(</span><span class="n">inpt</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">full_kernel</span><span class="p">(</span><span class="n">kernel</span><span class="p">),</span> <span class="n">padding</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">stride</span><span class="p">,</span> <span class="n">groups</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">symmetrize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">conv_wt</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">same</span><span class="p">:</span>
+            <span class="n">n</span> <span class="o">=</span> <span class="n">conv_wt</span><span class="o">.</span><span class="n">size</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">groups</span><span class="p">):</span>
+                <span class="n">conv_wt</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">n</span> <span class="o">*</span> <span class="n">i</span><span class="p">:</span><span class="n">n</span> <span class="o">*</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)]</span> <span class="o">=</span> <span class="p">(</span><span class="n">conv_wt</span><span class="p">[</span><span class="n">n</span> <span class="o">*</span> <span class="n">i</span><span class="p">:</span><span class="n">n</span> <span class="o">*</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)]</span>
+                                                   <span class="o">+</span> <span class="n">torch</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">conv_wt</span><span class="p">[</span><span class="n">n</span> <span class="o">*</span> <span class="n">i</span><span class="p">:</span><span class="n">n</span> <span class="o">*</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)],</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span> <span class="o">/</span> <span class="mi">2</span>  <span class="c1"># noqa E503</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inpt</span><span class="p">):</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_conv</span><span class="p">(</span><span class="n">inpt</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">twist</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">out</span>
+        <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">w</span> <span class="o">=</span> <span class="n">out</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
+        <span class="n">XX</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">indices</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">w</span><span class="p">))[</span><span class="mi">3</span><span class="p">]</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">/</span> <span class="n">w</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">type</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+        <span class="n">YY</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">indices</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">w</span><span class="p">))[</span><span class="mi">2</span><span class="p">]</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">/</span> <span class="n">h</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">type</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+        <span class="n">kernel_x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">kernel</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">coeff_Ax</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">coeff_Ay</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">symmetrize</span><span class="p">(</span><span class="n">kernel_x</span><span class="p">)</span>
+        <span class="n">kernel_y</span> <span class="o">=</span> <span class="n">kernel_x</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">flip</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>  <span class="c1"># make conv_y a 90 degree rotation of conv_x</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="n">out</span> <span class="o">+</span> <span class="n">XX</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_conv</span><span class="p">(</span><span class="n">inpt</span><span class="p">,</span> <span class="n">kernel_x</span><span class="p">)</span> <span class="o">+</span> <span class="n">YY</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_conv</span><span class="p">(</span><span class="n">inpt</span><span class="p">,</span> <span class="n">kernel_y</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">same</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">iters</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="n">inpt</span> <span class="o">+</span> <span class="n">out</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">iters</span>
+            <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">iters</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+                <span class="n">out</span> <span class="o">=</span> <span class="n">out</span> <span class="o">+</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_conv</span><span class="p">(</span><span class="n">out</span><span class="p">)</span> <span class="o">+</span> <span class="n">XX</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_conv</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="n">kernel_x</span><span class="p">)</span>
+                                             <span class="o">+</span> <span class="n">YY</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_conv</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="n">kernel_y</span><span class="p">))</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">iters</span>  <span class="c1"># noqa E727</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="n">out</span> <span class="o">-</span> <span class="n">inpt</span>
+        <span class="k">return</span> <span class="n">out</span>
+
+    <span class="k">def</span> <span class="nf">extra_repr</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;twist: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">twist</span><span class="si">}</span><span class="s2">, permute: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">permute</span><span class="si">}</span><span class="s2">, same: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">same</span><span class="si">}</span><span class="s2">, groups: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">groups</span><span class="si">}</span><span class="s2">&quot;</span>
+</pre></div>
+
+    </div>
 </div>
-
 </div>
-
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
 
 </div>
     {% endraw %}
@@ -273,31 +378,17 @@ nb_path: "Nbs/05_Twist.ipynb"
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
+<div class="input">
 
-<div class="output_wrapper">
-<div class="output">
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">ConvLayerTwist</span><span class="p">(</span><span class="n">ConvLayer</span><span class="p">):</span>  <span class="c1"># replace Conv2d by Twist</span>
+    <span class="n">Conv2d</span> <span class="o">=</span> <span class="n">ConvTwist</span>
+</pre></div>
 
-<div class="output_area">
-
-
-<div class="output_markdown rendered_html output_subarea ">
-<h2 id="ConvLayerTwist" class="doc_header"><code>class</code> <code>ConvLayerTwist</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/twist.py#L108" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>ConvLayerTwist</code>(<strong><code>ni</code></strong>, <strong><code>nf</code></strong>, <strong><code>ks</code></strong>=<em><code>3</code></em>, <strong><code>stride</code></strong>=<em><code>1</code></em>, <strong><code>act</code></strong>=<em><code>True</code></em>, <strong><code>act_fn</code></strong>=<em><code>ReLU(inplace=True)</code></em>, <strong><code>bn_layer</code></strong>=<em><code>True</code></em>, <strong><code>bn_1st</code></strong>=<em><code>True</code></em>, <strong><code>zero_bn</code></strong>=<em><code>False</code></em>, <strong><code>padding</code></strong>=<em><code>None</code></em>, <strong><code>bias</code></strong>=<em><code>False</code></em>, <strong><code>groups</code></strong>=<em><code>1</code></em>, <strong>**<code>kwargs</code></strong>) :: <a href="/model_constructor/layers.html#ConvLayer"><code>ConvLayer</code></a></p>
-</blockquote>
-<p>Basic conv layers block</p>
-
-</div>
-
-</div>
-
+    </div>
 </div>
 </div>
-
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
 
 </div>
     {% endraw %}
@@ -827,54 +918,38 @@ nb_path: "Nbs/05_Twist.ipynb"
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
+<div class="input">
 
-<div class="output_wrapper">
-<div class="output">
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">NewResBlockTwist</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expansion</span><span class="p">,</span> <span class="n">ni</span><span class="p">,</span> <span class="n">nh</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                 <span class="n">conv_layer</span><span class="o">=</span><span class="n">ConvLayer</span><span class="p">,</span> <span class="n">act_fn</span><span class="o">=</span><span class="n">act_fn</span><span class="p">,</span> <span class="n">bn_1st</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                 <span class="n">pool</span><span class="o">=</span><span class="n">nn</span><span class="o">.</span><span class="n">AvgPool2d</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">ceil_mode</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span> <span class="n">sa</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">sym</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">zero_bn</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kvargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="n">nf</span><span class="p">,</span> <span class="n">ni</span> <span class="o">=</span> <span class="n">nh</span> <span class="o">*</span> <span class="n">expansion</span><span class="p">,</span> <span class="n">ni</span> <span class="o">*</span> <span class="n">expansion</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reduce</span> <span class="o">=</span> <span class="n">noop</span> <span class="k">if</span> <span class="n">stride</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">else</span> <span class="n">pool</span>
+        <span class="n">layers</span> <span class="o">=</span> <span class="p">[(</span><span class="s2">&quot;conv_0&quot;</span><span class="p">,</span> <span class="n">conv_layer</span><span class="p">(</span><span class="n">ni</span><span class="p">,</span> <span class="n">nh</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">act_fn</span><span class="o">=</span><span class="n">act_fn</span><span class="p">,</span> <span class="n">bn_1st</span><span class="o">=</span><span class="n">bn_1st</span><span class="p">)),</span>
+                  <span class="p">(</span><span class="s2">&quot;conv_1&quot;</span><span class="p">,</span> <span class="n">conv_layer</span><span class="p">(</span><span class="n">nh</span><span class="p">,</span> <span class="n">nf</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">zero_bn</span><span class="o">=</span><span class="n">zero_bn</span><span class="p">,</span> <span class="n">act</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">bn_1st</span><span class="o">=</span><span class="n">bn_1st</span><span class="p">))</span>
+                  <span class="p">]</span> <span class="k">if</span> <span class="n">expansion</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">else</span> <span class="p">[</span>
+                      <span class="p">(</span><span class="s2">&quot;conv_0&quot;</span><span class="p">,</span> <span class="n">conv_layer</span><span class="p">(</span><span class="n">ni</span><span class="p">,</span> <span class="n">nh</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">act_fn</span><span class="o">=</span><span class="n">act_fn</span><span class="p">,</span> <span class="n">bn_1st</span><span class="o">=</span><span class="n">bn_1st</span><span class="p">)),</span>
+                      <span class="p">(</span><span class="s2">&quot;conv_1_twist&quot;</span><span class="p">,</span> <span class="n">ConvLayerTwist</span><span class="p">(</span><span class="n">nh</span><span class="p">,</span> <span class="n">nh</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">act_fn</span><span class="o">=</span><span class="n">act_fn</span><span class="p">,</span> <span class="n">bn_1st</span><span class="o">=</span><span class="n">bn_1st</span><span class="p">)),</span>
+                      <span class="p">(</span><span class="s2">&quot;conv_2&quot;</span><span class="p">,</span> <span class="n">conv_layer</span><span class="p">(</span><span class="n">nh</span><span class="p">,</span> <span class="n">nf</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">zero_bn</span><span class="o">=</span><span class="n">zero_bn</span><span class="p">,</span> <span class="n">act</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">bn_1st</span><span class="o">=</span><span class="n">bn_1st</span><span class="p">))</span>
+        <span class="p">]</span>
+        <span class="k">if</span> <span class="n">sa</span><span class="p">:</span>
+            <span class="n">layers</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s1">&#39;sa&#39;</span><span class="p">,</span> <span class="n">SimpleSelfAttention</span><span class="p">(</span><span class="n">nf</span><span class="p">,</span> <span class="n">ks</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">sym</span><span class="o">=</span><span class="n">sym</span><span class="p">)))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">convs</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span><span class="n">OrderedDict</span><span class="p">(</span><span class="n">layers</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">idconv</span> <span class="o">=</span> <span class="n">noop</span> <span class="k">if</span> <span class="n">ni</span> <span class="o">==</span> <span class="n">nf</span> <span class="k">else</span> <span class="n">conv_layer</span><span class="p">(</span><span class="n">ni</span><span class="p">,</span> <span class="n">nf</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">act</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">bn_1st</span><span class="o">=</span><span class="n">bn_1st</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">merge</span> <span class="o">=</span> <span class="n">act_fn</span>
 
-<div class="output_area">
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="n">o</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">reduce</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">convs</span><span class="p">(</span><span class="n">o</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">idconv</span><span class="p">(</span><span class="n">o</span><span class="p">))</span>
+</pre></div>
 
-
-<div class="output_markdown rendered_html output_subarea ">
-<h2 id="NewResBlockTwist" class="doc_header"><code>class</code> <code>NewResBlockTwist</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/twist.py#L112" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>NewResBlockTwist</code>(<strong><code>expansion</code></strong>, <strong><code>ni</code></strong>, <strong><code>nh</code></strong>, <strong><code>stride</code></strong>=<em><code>1</code></em>, <strong><code>conv_layer</code></strong>=<em><code>ConvLayer</code></em>, <strong><code>act_fn</code></strong>=<em><code>ReLU(inplace=True)</code></em>, <strong><code>bn_1st</code></strong>=<em><code>True</code></em>, <strong><code>pool</code></strong>=<em><code>AvgPool2d(kernel_size=2, stride=2, padding=0)</code></em>, <strong><code>sa</code></strong>=<em><code>False</code></em>, <strong><code>sym</code></strong>=<em><code>False</code></em>, <strong><code>zero_bn</code></strong>=<em><code>True</code></em>, <strong>**<code>kvargs</code></strong>) :: <code>Module</code></p>
-</blockquote>
-<p>Base class for all neural network modules.</p>
-<p>Your models should also subclass this class.</p>
-<p>Modules can also contain other Modules, allowing to nest them in
-a tree structure. You can assign the submodules as regular attributes::</p>
-
-<pre><code>import torch.nn as nn
-import torch.nn.functional as F
-
-class Model(nn.Module):
-    def __init__(self):
-        super(Model, self).__init__()
-        self.conv1 = nn.Conv2d(1, 20, 5)
-        self.conv2 = nn.Conv2d(20, 20, 5)
-
-    def forward(self, x):
-        x = F.relu(self.conv1(x))
-        return F.relu(self.conv2(x))
-
-</code></pre>
-<p>Submodules assigned in this way will be registered, and will have their
-parameters converted too when you call :meth:<code>to</code>, etc.</p>
-<p>:ivar training: Boolean represents whether this module is in training or
-                evaluation mode.
-:vartype training: bool</p>
-
-</div>
-
-</div>
-
+    </div>
 </div>
 </div>
-
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
 
 </div>
     {% endraw %}
@@ -1062,54 +1137,37 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
+<div class="input">
 
-<div class="output_wrapper">
-<div class="output">
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">ResBlockTwist</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expansion</span><span class="p">,</span> <span class="n">ni</span><span class="p">,</span> <span class="n">nh</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                 <span class="n">conv_layer</span><span class="o">=</span><span class="n">ConvLayer</span><span class="p">,</span> <span class="n">act_fn</span><span class="o">=</span><span class="n">act_fn</span><span class="p">,</span> <span class="n">zero_bn</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">bn_1st</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                 <span class="n">pool</span><span class="o">=</span><span class="n">nn</span><span class="o">.</span><span class="n">AvgPool2d</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">ceil_mode</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span> <span class="n">sa</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">sym</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kvargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="n">nf</span><span class="p">,</span> <span class="n">ni</span> <span class="o">=</span> <span class="n">nh</span> <span class="o">*</span> <span class="n">expansion</span><span class="p">,</span> <span class="n">ni</span> <span class="o">*</span> <span class="n">expansion</span>
+        <span class="n">layers</span> <span class="o">=</span> <span class="p">[(</span><span class="s2">&quot;conv_0&quot;</span><span class="p">,</span> <span class="n">conv_layer</span><span class="p">(</span><span class="n">ni</span><span class="p">,</span> <span class="n">nh</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="n">stride</span><span class="p">,</span> <span class="n">act_fn</span><span class="o">=</span><span class="n">act_fn</span><span class="p">,</span> <span class="n">bn_1st</span><span class="o">=</span><span class="n">bn_1st</span><span class="p">)),</span>
+                  <span class="p">(</span><span class="s2">&quot;conv_1&quot;</span><span class="p">,</span> <span class="n">conv_layer</span><span class="p">(</span><span class="n">nh</span><span class="p">,</span> <span class="n">nf</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">zero_bn</span><span class="o">=</span><span class="n">zero_bn</span><span class="p">,</span> <span class="n">act</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">bn_1st</span><span class="o">=</span><span class="n">bn_1st</span><span class="p">))</span>
+                  <span class="p">]</span> <span class="k">if</span> <span class="n">expansion</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">else</span> <span class="p">[</span>
+                      <span class="p">(</span><span class="s2">&quot;conv_0&quot;</span><span class="p">,</span> <span class="n">conv_layer</span><span class="p">(</span><span class="n">ni</span><span class="p">,</span> <span class="n">nh</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">act_fn</span><span class="o">=</span><span class="n">act_fn</span><span class="p">,</span> <span class="n">bn_1st</span><span class="o">=</span><span class="n">bn_1st</span><span class="p">)),</span>
+                      <span class="p">(</span><span class="s2">&quot;conv_1_twist&quot;</span><span class="p">,</span> <span class="n">ConvLayerTwist</span><span class="p">(</span><span class="n">nh</span><span class="p">,</span> <span class="n">nh</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="n">stride</span><span class="p">,</span> <span class="n">act_fn</span><span class="o">=</span><span class="n">act_fn</span><span class="p">,</span> <span class="n">bn_1st</span><span class="o">=</span><span class="n">bn_1st</span><span class="p">)),</span>
+                      <span class="p">(</span><span class="s2">&quot;conv_2&quot;</span><span class="p">,</span> <span class="n">conv_layer</span><span class="p">(</span><span class="n">nh</span><span class="p">,</span> <span class="n">nf</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">zero_bn</span><span class="o">=</span><span class="n">zero_bn</span><span class="p">,</span> <span class="n">act</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">bn_1st</span><span class="o">=</span><span class="n">bn_1st</span><span class="p">))</span>
+        <span class="p">]</span>
+        <span class="k">if</span> <span class="n">sa</span><span class="p">:</span>
+            <span class="n">layers</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s1">&#39;sa&#39;</span><span class="p">,</span> <span class="n">SimpleSelfAttention</span><span class="p">(</span><span class="n">nf</span><span class="p">,</span> <span class="n">ks</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">sym</span><span class="o">=</span><span class="n">sym</span><span class="p">)))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">convs</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span><span class="n">OrderedDict</span><span class="p">(</span><span class="n">layers</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pool</span> <span class="o">=</span> <span class="n">noop</span> <span class="k">if</span> <span class="n">stride</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">else</span> <span class="n">pool</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">idconv</span> <span class="o">=</span> <span class="n">noop</span> <span class="k">if</span> <span class="n">ni</span> <span class="o">==</span> <span class="n">nf</span> <span class="k">else</span> <span class="n">conv_layer</span><span class="p">(</span><span class="n">ni</span><span class="p">,</span> <span class="n">nf</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">act</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">act_fn</span> <span class="o">=</span> <span class="n">act_fn</span>
 
-<div class="output_area">
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">act_fn</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">convs</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">idconv</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pool</span><span class="p">(</span><span class="n">x</span><span class="p">)))</span>
+</pre></div>
 
-
-<div class="output_markdown rendered_html output_subarea ">
-<h2 id="ResBlockTwist" class="doc_header"><code>class</code> <code>ResBlockTwist</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/twist.py#L137" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>ResBlockTwist</code>(<strong><code>expansion</code></strong>, <strong><code>ni</code></strong>, <strong><code>nh</code></strong>, <strong><code>stride</code></strong>=<em><code>1</code></em>, <strong><code>conv_layer</code></strong>=<em><code>ConvLayer</code></em>, <strong><code>act_fn</code></strong>=<em><code>ReLU(inplace=True)</code></em>, <strong><code>zero_bn</code></strong>=<em><code>True</code></em>, <strong><code>bn_1st</code></strong>=<em><code>True</code></em>, <strong><code>pool</code></strong>=<em><code>AvgPool2d(kernel_size=2, stride=2, padding=0)</code></em>, <strong><code>sa</code></strong>=<em><code>False</code></em>, <strong><code>sym</code></strong>=<em><code>False</code></em>, <strong>**<code>kvargs</code></strong>) :: <code>Module</code></p>
-</blockquote>
-<p>Base class for all neural network modules.</p>
-<p>Your models should also subclass this class.</p>
-<p>Modules can also contain other Modules, allowing to nest them in
-a tree structure. You can assign the submodules as regular attributes::</p>
-
-<pre><code>import torch.nn as nn
-import torch.nn.functional as F
-
-class Model(nn.Module):
-    def __init__(self):
-        super(Model, self).__init__()
-        self.conv1 = nn.Conv2d(1, 20, 5)
-        self.conv2 = nn.Conv2d(20, 20, 5)
-
-    def forward(self, x):
-        x = F.relu(self.conv1(x))
-        return F.relu(self.conv2(x))
-
-</code></pre>
-<p>Submodules assigned in this way will be registered, and will have their
-parameters converted too when you call :meth:<code>to</code>, etc.</p>
-<p>:ivar training: Boolean represents whether this module is in training or
-                evaluation mode.
-:vartype training: bool</p>
-
-</div>
-
-</div>
-
+    </div>
 </div>
 </div>
-
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
 
 </div>
     {% endraw %}

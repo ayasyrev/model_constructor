@@ -202,7 +202,7 @@ document.addEventListener("DOMContentLoaded", function() {
           
           
           
-          <li><a href="/model_constructor/Net.html">Net.</a></li>
+          <li><a href="/model_constructor/Net.html">Model constructor class.</a></li>
           
           
           
@@ -244,7 +244,7 @@ document.addEventListener("DOMContentLoaded", function() {
           
           
           
-          <li><a href="/model_constructor/base_constructor.html">model_constructor</a></li>
+          <li><a href="/model_constructor/base_constructor.html">Base constructor</a></li>
           
           
           
@@ -342,20 +342,25 @@ $('#toc').on('click', 'a', function() {
     
     
 <div class="cell border-box-sizing code_cell rendered">
+<div class="input">
 
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">print_doc</span><span class="p">(</span><span class="n">func_name</span><span class="p">):</span>
+    <span class="n">doc</span> <span class="o">=</span> <span class="n">show_doc</span><span class="p">(</span><span class="n">func_name</span><span class="p">,</span> <span class="n">title_level</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">disp</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="n">doc</span><span class="p">))</span>
+</pre></div>
+
+    </div>
 </div>
-    
-
-    
-    
-<div class="cell border-box-sizing code_cell rendered">
+</div>
 
 </div>
     
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Flatten">Flatten<a class="anchor-link" href="#Flatten"> </a></h1>
+<h2 id="Flatten-layer">Flatten layer<a class="anchor-link" href="#Flatten-layer"> </a></h2>
 </div>
 </div>
 </div>
@@ -370,7 +375,7 @@ $('#toc').on('click', 'a', function() {
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="Flatten" class="doc_header"><code>class</code> <code>Flatten</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/layers.py#L12" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>Flatten</code>() :: <code>Module</code></p>
+<h4 id="Flatten" class="doc_header"><code>class</code> <code>Flatten</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/layers.py#L11" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>Flatten</code>() :: <code>Module</code></p>
 </blockquote>
 <p>flat x to vector</p>
 
@@ -384,16 +389,9 @@ $('#toc').on('click', 'a', function() {
 </div>
     
 
-    
-    
-<div class="cell border-box-sizing code_cell rendered">
-
-</div>
-    
-
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Noop">Noop<a class="anchor-link" href="#Noop"> </a></h1>
+<h2 id="Noop---dummy-func-and-module.">Noop - dummy func and module.<a class="anchor-link" href="#Noop---dummy-func-and-module."> </a></h2>
 </div>
 </div>
 </div>
@@ -408,8 +406,9 @@ $('#toc').on('click', 'a', function() {
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="noop" class="doc_header"><code>noop</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/layers.py#L21" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>noop</code>(<strong><code>x</code></strong>)</p>
+<h4 id="noop" class="doc_header"><code>noop</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/layers.py#L20" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>noop</code>(<strong><code>x</code></strong>)</p>
 </blockquote>
+<p>Dummy func. Return input</p>
 
 </div>
 
@@ -432,7 +431,7 @@ $('#toc').on('click', 'a', function() {
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="Noop" class="doc_header"><code>class</code> <code>Noop</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/layers.py#L25" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>Noop</code>() :: <code>Module</code></p>
+<h4 id="Noop" class="doc_header"><code>class</code> <code>Noop</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/layers.py#L25" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>Noop</code>() :: <code>Module</code></p>
 </blockquote>
 <p>Dummy module</p>
 
@@ -446,16 +445,9 @@ $('#toc').on('click', 'a', function() {
 </div>
     
 
-    
-    
-<div class="cell border-box-sizing code_cell rendered">
-
-</div>
-    
-
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="ConvLayer">ConvLayer<a class="anchor-link" href="#ConvLayer"> </a></h1>
+<h2 id="ConvLayer---nn.module">ConvLayer - nn.module<a class="anchor-link" href="#ConvLayer---nn.module"> </a></h2>
 </div>
 </div>
 </div>
@@ -470,55 +462,10 @@ $('#toc').on('click', 'a', function() {
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="ConvLayer" class="doc_header"><code>class</code> <code>ConvLayer</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/layers.py#L37" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>ConvLayer</code>(<strong><code>ni</code></strong>, <strong><code>nf</code></strong>, <strong><code>ks</code></strong>=<em><code>3</code></em>, <strong><code>stride</code></strong>=<em><code>1</code></em>, <strong><code>act</code></strong>=<em><code>True</code></em>, <strong><code>act_fn</code></strong>=<em><code>ReLU(inplace=True)</code></em>, <strong><code>bn_layer</code></strong>=<em><code>True</code></em>, <strong><code>bn_1st</code></strong>=<em><code>True</code></em>, <strong><code>zero_bn</code></strong>=<em><code>False</code></em>, <strong><code>padding</code></strong>=<em><code>None</code></em>, <strong><code>bias</code></strong>=<em><code>False</code></em>, <strong><code>groups</code></strong>=<em><code>1</code></em>, <strong>**<code>kwargs</code></strong>) :: <code>Sequential</code></p>
+<h4 id="ConvLayer" class="doc_header"><code>class</code> <code>ConvLayer</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/layers.py#L37" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>ConvLayer</code>(<strong><code>ni</code></strong>, <strong><code>nf</code></strong>, <strong><code>ks</code></strong>=<em><code>3</code></em>, <strong><code>stride</code></strong>=<em><code>1</code></em>, <strong><code>act</code></strong>=<em><code>True</code></em>, <strong><code>act_fn</code></strong>=<em><code>ReLU(inplace=True)</code></em>, <strong><code>bn_layer</code></strong>=<em><code>True</code></em>, <strong><code>bn_1st</code></strong>=<em><code>True</code></em>, <strong><code>zero_bn</code></strong>=<em><code>False</code></em>, <strong><code>padding</code></strong>=<em><code>None</code></em>, <strong><code>bias</code></strong>=<em><code>False</code></em>, <strong><code>groups</code></strong>=<em><code>1</code></em>, <strong>**<code>kwargs</code></strong>) :: <code>Sequential</code></p>
 </blockquote>
 <p>Basic conv layers block</p>
 
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-    
-
-    
-    
-<div class="cell border-box-sizing code_cell rendered">
-
-</div>
-    
-
-    
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">conv_layer</span> <span class="o">=</span> <span class="n">ConvLayer</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="mi">64</span><span class="p">)</span>
-<span class="n">conv_layer</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>ConvLayer(
-  (conv): Conv2d(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-  (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-  (act_fn): ReLU(inplace=True)
-)</pre>
 </div>
 
 </div>
@@ -681,7 +628,14 @@ $('#toc').on('click', 'a', function() {
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="SimpleSelfAttention">SimpleSelfAttention<a class="anchor-link" href="#SimpleSelfAttention"> </a></h1>
+<h2 id="SimpleSelfAttention">SimpleSelfAttention<a class="anchor-link" href="#SimpleSelfAttention"> </a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>SA module from mxresnet at fastai.</p>
+
 </div>
 </div>
 </div>
@@ -696,7 +650,7 @@ $('#toc').on('click', 'a', function() {
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="conv1d" class="doc_header"><code>conv1d</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/layers.py#L62" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>conv1d</code>(<strong><code>ni</code></strong>:<code>int</code>, <strong><code>no</code></strong>:<code>int</code>, <strong><code>ks</code></strong>:<code>int</code>=<em><code>1</code></em>, <strong><code>stride</code></strong>:<code>int</code>=<em><code>1</code></em>, <strong><code>padding</code></strong>:<code>int</code>=<em><code>0</code></em>, <strong><code>bias</code></strong>:<code>bool</code>=<em><code>False</code></em>)</p>
+<h4 id="conv1d" class="doc_header"><code>conv1d</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/layers.py#L65" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>conv1d</code>(<strong><code>ni</code></strong>:<code>int</code>, <strong><code>no</code></strong>:<code>int</code>, <strong><code>ks</code></strong>:<code>int</code>=<em><code>1</code></em>, <strong><code>stride</code></strong>:<code>int</code>=<em><code>1</code></em>, <strong><code>padding</code></strong>:<code>int</code>=<em><code>0</code></em>, <strong><code>bias</code></strong>:<code>bool</code>=<em><code>False</code></em>)</p>
 </blockquote>
 <p>Create and initialize a <code>nn.Conv1d</code> layer with spectral normalization.</p>
 
@@ -713,6 +667,17 @@ $('#toc').on('click', 'a', function() {
     
     
 <div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Markdown(doc)</span>
+<span class="n">print_doc</span><span class="p">(</span><span class="n">SimpleSelfAttention</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
 
 <div class="output_wrapper">
 <div class="output">
@@ -721,32 +686,12 @@ $('#toc').on('click', 'a', function() {
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="SimpleSelfAttention" class="doc_header"><code>class</code> <code>SimpleSelfAttention</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/layers.py#L74" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>SimpleSelfAttention</code>(<strong><code>n_in</code></strong>:<code>int</code>, <strong><code>ks</code></strong>=<em><code>1</code></em>, <strong><code>sym</code></strong>=<em><code>False</code></em>) :: <code>Module</code></p>
+<h4 id="SimpleSelfAttention" class="doc_header"><code>class</code> <code>SimpleSelfAttention</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/layers.py#L74" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>SimpleSelfAttention</code>(<strong><code>n_in</code></strong>:<code>int</code>, <strong><code>ks</code></strong>=<em><code>1</code></em>, <strong><code>sym</code></strong>=<em><code>False</code></em>) :: <code>Module</code></p>
 </blockquote>
-<p>Base class for all neural network modules.</p>
-<p>Your models should also subclass this class.</p>
-<p>Modules can also contain other Modules, allowing to nest them in
-a tree structure. You can assign the submodules as regular attributes::</p>
-
-<pre><code>import torch.nn as nn
-import torch.nn.functional as F
-
-class Model(nn.Module):
-    def __init__(self):
-        super(Model, self).__init__()
-        self.conv1 = nn.Conv2d(1, 20, 5)
-        self.conv2 = nn.Conv2d(20, 20, 5)
-
-    def forward(self, x):
-        x = F.relu(self.conv1(x))
-        return F.relu(self.conv2(x))
-
-</code></pre>
-<p>Submodules assigned in this way will be registered, and will have their
-parameters converted too when you call :meth:<code>to</code>, etc.</p>
-<p>:ivar training: Boolean represents whether this module is in training or
-                evaluation mode.
-:vartype training: bool</p>
+<p>SimpleSelfAttention module.<br>
+Adapted from SelfAttention layer at<br>
+<a href="https://github.com/fastai/fastai/blob/5c51f9eabf76853a89a9bc5741804d2ed4407e49/fastai/layers.py">https://github.com/fastai/fastai/blob/5c51f9eabf76853a89a9bc5741804d2ed4407e49/fastai/layers.py</a><br>
+Inspired by <a href="https://arxiv.org/pdf/1805.08318.pdf">https://arxiv.org/pdf/1805.08318.pdf</a></p>
 
 </div>
 
@@ -754,20 +699,13 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
 
 </div>
 </div>
-
-</div>
-    
-
-    
-    
-<div class="cell border-box-sizing code_cell rendered">
 
 </div>
     
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="SE-Block">SE Block<a class="anchor-link" href="#SE-Block"> </a></h1>
+<h2 id="SE-Block">SE Block<a class="anchor-link" href="#SE-Block"> </a></h2>
 </div>
 </div>
 </div>
@@ -782,7 +720,7 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="SEBlock" class="doc_header"><code>class</code> <code>SEBlock</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/layers.py#L99" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>SEBlock</code>(<strong><code>c</code></strong>, <strong><code>r</code></strong>=<em><code>16</code></em>) :: <code>Module</code></p>
+<h4 id="SEBlock" class="doc_header"><code>class</code> <code>SEBlock</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/layers.py#L105" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>SEBlock</code>(<strong><code>c</code></strong>, <strong><code>r</code></strong>=<em><code>16</code></em>) :: <code>Module</code></p>
 </blockquote>
 <p>se block</p>
 
@@ -792,13 +730,6 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
 
 </div>
 </div>
-
-</div>
-    
-
-    
-    
-<div class="cell border-box-sizing code_cell rendered">
 
 </div>
     
@@ -847,7 +778,7 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="SEBlockConv">SEBlockConv<a class="anchor-link" href="#SEBlockConv"> </a></h1>
+<h2 id="SEBlockConv">SEBlockConv<a class="anchor-link" href="#SEBlockConv"> </a></h2>
 </div>
 </div>
 </div>
@@ -862,7 +793,7 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="SEBlockConv" class="doc_header"><code>class</code> <code>SEBlockConv</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/layers.py#L122" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>SEBlockConv</code>(<strong><code>c</code></strong>, <strong><code>r</code></strong>=<em><code>16</code></em>) :: <code>Module</code></p>
+<h4 id="SEBlockConv" class="doc_header"><code>class</code> <code>SEBlockConv</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/layers.py#L128" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>SEBlockConv</code>(<strong><code>c</code></strong>, <strong><code>r</code></strong>=<em><code>16</code></em>) :: <code>Module</code></p>
 </blockquote>
 <p>se block with conv on excitation</p>
 
@@ -872,13 +803,6 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
 
 </div>
 </div>
-
-</div>
-    
-
-    
-    
-<div class="cell border-box-sizing code_cell rendered">
 
 </div>
     
@@ -927,7 +851,7 @@ parameters converted too when you call :meth:<code>to</code>, etc.</p>
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="end">end<a class="anchor-link" href="#end"> </a></h1><p>model_constructor
+<h2 id="end">end<a class="anchor-link" href="#end"> </a></h2><p>model_constructor
 by ayasyrev</p>
 
 </div>
@@ -951,7 +875,7 @@ by ayasyrev</p>
                 <div class="col-lg-12 footer">
                   <p><img src="/model_constructor/assets/images/company_logo.png" alt="Company logo"/></p>
                &copy;2021 A. Yasyrev. All rights reserved. <br />
- Site last generated: Aug 5, 2021 <br />
+ Site last generated: Aug 12, 2021 <br />
                 </div>
             </div>
 </footer>

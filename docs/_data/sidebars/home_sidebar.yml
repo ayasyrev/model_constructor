@@ -10,7 +10,7 @@ entries:
       title: Overview
       url: /
     - output: web,pdf
-      title: Net.
+      title: Model constructor class.
       url: Net.html
     - output: web,pdf
       title: Activations functions.
@@ -28,7 +28,7 @@ entries:
       title: Twist.
       url: Twist.html
     - output: web,pdf
-      title: model_constructor
+      title: Base constructor
       url: base_constructor.html
     - output: web,pdf
       title: xresnet
