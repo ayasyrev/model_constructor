@@ -72,7 +72,7 @@ def conv1d(ni: int, no: int, ks: int = 1, stride: int = 1, padding: int = 0, bia
 
 
 class SimpleSelfAttention(nn.Module):
-    '''SimpleSelfAttention module.  
+    '''SimpleSelfAttention module.  # noqa W291
     Adapted from SelfAttention layer at  
     https://github.com/fastai/fastai/blob/5c51f9eabf76853a89a9bc5741804d2ed4407e49/fastai/layers.py  
     Inspired by https://arxiv.org/pdf/1805.08318.pdf  
