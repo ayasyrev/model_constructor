@@ -1,16 +1,16 @@
-__all__ = ['DownsampleLayer', 'XResBlock', 'xresnet18', 'xresnet34', 'xresnet50']
-
-# Cell
 import torch.nn as nn
 from collections import OrderedDict
 
-# Cell
 from .base_constructor import Net
 from .layers import ConvLayer, Noop, act_fn
 
-# Cell
+
+__all__ = ['DownsampleLayer', 'XResBlock', 'xresnet18', 'xresnet34', 'xresnet50']
+
+
 class DownsampleLayer(nn.Sequential):
     """Downsample layer for Xresnet Resblock"""
+
     def __init__(self, conv_layer, ni, nf, stride, act,
                  pool=nn.AvgPool2d(2, ceil_mode=True), pool_1st=True,
                  **kwargs):
@@ -20,8 +20,10 @@ class DownsampleLayer(nn.Sequential):
             layers.reverse()
         super().__init__(OrderedDict(layers))
 
-# Cell
+
 class XResBlock(nn.Module):
+    '''XResnet block'''
+
     def __init__(self, ni, nh, expansion=1, stride=1, zero_bn=True,
                  conv_layer=ConvLayer, act_fn=act_fn, **kwargs):
         super().__init__()
@@ -42,14 +44,16 @@ class XResBlock(nn.Module):
     def forward(self, x):
         return self.act_fn(self.merge(self.convs(x) + self.identity(x)))
 
-# Cell
+
 def xresnet18(**kwargs):
     """Constructs a xresnet-18 model. """
     return Net(stem_sizes=[32, 32], block=XResBlock, blocks=[2, 2, 2, 2], expansion=1, **kwargs)
 
+
 def xresnet34(**kwargs):
     """Constructs axresnet-34 model. """
     return Net(stem_sizes=[32, 32], block=XResBlock, blocks=[3, 4, 6, 3], expansion=1, **kwargs)
+
 
 def xresnet50(**kwargs):
     """Constructs axresnet-34 model. """
