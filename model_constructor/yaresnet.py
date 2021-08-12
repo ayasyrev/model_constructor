@@ -1,6 +1,6 @@
-__all__ = ['YaResBlock', 'yaresnet_parameters', 'yaresnet34', 'yaresnet50']
+# YaResBlock - former NewResBlock.
+# Yet another ResNet.
 
-# Cell
 import torch.nn as nn
 from functools import partial
 from collections import OrderedDict
@@ -8,9 +8,10 @@ from .layers import SEBlock, ConvLayer, act_fn, noop, SimpleSelfAttention
 from .net import Net
 from .activations import Mish
 
-# Cell
-# YaResBlock - former NewResBlock.
-# Yet another ResNet.
+
+__all__ = ['YaResBlock', 'yaresnet_parameters', 'yaresnet34', 'yaresnet50']
+
+
 class YaResBlock(nn.Module):
     '''YaResBlock. Reduce by pool instead of stride 2'''
     se_block = SEBlock
@@ -45,7 +46,7 @@ class YaResBlock(nn.Module):
         o = self.reduce(x)
         return self.merge(self.convs(o) + self.idconv(o))
 
-# Cell
+
 yaresnet_parameters = {'block': YaResBlock, 'stem_sizes': [3, 32, 64, 64], 'act_fn': Mish(), 'stem_stride_on': 1}
 yaresnet34 = partial(Net, name='YaResnet34', expansion=1, layers=[3, 4, 6, 3], **yaresnet_parameters)
 yaresnet50 = partial(Net, name='YaResnet50', expansion=4, layers=[3, 4, 6, 3], **yaresnet_parameters)
