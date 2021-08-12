@@ -1,6 +1,3 @@
-__all__ = ['init_cnn', 'act_fn', 'ResBlock', 'NewResBlock', 'Net', 'xresnet34', 'xresnet50']
-
-# Cell
 from collections import OrderedDict
 from functools import partial
 
@@ -8,19 +5,21 @@ import torch.nn as nn
 
 from .layers import ConvLayer, Flatten, SEBlock, SimpleSelfAttention, noop
 
-# Cell
+
+__all__ = ['init_cnn', 'act_fn', 'ResBlock', 'NewResBlock', 'Net', 'xresnet34', 'xresnet50']
+
+
 act_fn = nn.ReLU(inplace=True)
 
 
 def init_cnn(module: nn.Module):
+    "Init module - kaiming_normal for Conv2d and 0 for biases."
     if getattr(module, 'bias', None) is not None:
         nn.init.constant_(module.bias, 0)
     if isinstance(module, (nn.Conv2d, nn.Linear)):
         nn.init.kaiming_normal_(module.weight)
     for layer in module.children():
         init_cnn(layer)
-
-# Cell
 
 
 class ResBlock(nn.Module):
@@ -58,8 +57,10 @@ class ResBlock(nn.Module):
     def forward(self, x):
         return self.act_fn(self.convs(x) + self.idconv(self.pool(x)))
 
-# Cell
+
 # NewResBlock now is YaResBlock - Yet Another ResNet Block! It is now at model_constructor.yaresnet.
+
+
 class NewResBlock(nn.Module):
     '''YaResnet block'''
     se_block = SEBlock
@@ -96,7 +97,7 @@ class NewResBlock(nn.Module):
         o = self.reduce(x)
         return self.merge(self.convs(o) + self.idconv(o))
 
-# Cell
+
 def _make_stem(self):
     stem = [(f"conv_{i}", self.conv_layer(self.stem_sizes[i], self.stem_sizes[i + 1],
                                           stride=2 if i == self.stem_stride_on else 1,
@@ -108,7 +109,7 @@ def _make_stem(self):
         stem.append(('norm', self.norm(self.stem_sizes[-1])))
     return nn.Sequential(OrderedDict(stem))
 
-# Cell
+
 def _make_layer(self, expansion, ni, nf, blocks, stride, sa):
     layers = [(f"bl_{i}", self.block(expansion, ni if i == 0 else nf, nf,
                                      stride if i == 0 else 1, sa=sa if i == blocks - 1 else False,
@@ -118,7 +119,7 @@ def _make_layer(self, expansion, ni, nf, blocks, stride, sa):
               for i in range(blocks)]
     return nn.Sequential(OrderedDict(layers))
 
-# Cell
+
 def _make_body(self):
     blocks = [(f"l_{i}", self._make_layer(self, self.expansion,
                                           ni=self.block_sizes[i], nf=self.block_sizes[i + 1],
@@ -127,14 +128,14 @@ def _make_body(self):
               for i, l in enumerate(self.layers)]
     return nn.Sequential(OrderedDict(blocks))
 
-# Cell
+
 def _make_head(self):
     head = [('pool', nn.AdaptiveAvgPool2d(1)),
             ('flat', Flatten()),
             ('fc', nn.Linear(self.block_sizes[-1] * self.expansion, self.c_out))]
     return nn.Sequential(OrderedDict(head))
 
-# Cell
+
 class Net():
     """Model constructor. As default - xresnet18"""
     def __init__(self, name='Net', c_in=3, c_out=1000,
@@ -200,6 +201,6 @@ class Net():
                 f"  body sizes {self._block_sizes}\n"
                 f"  layers: {self.layers}")
 
-# Cell
+
 xresnet34 = partial(Net, name='xresnet34', expansion=1, layers=[3, 4, 6, 3])
 xresnet50 = partial(Net, name='xresnet34', expansion=4, layers=[3, 4, 6, 3])
