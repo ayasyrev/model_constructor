@@ -4,7 +4,7 @@
     <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Create pytorch model.  ">
+<meta name="description" content="Create pytorch model.">
 <meta name="keywords" content=" fastai">
 <title>Base constructor | model_constructor</title>
 <link rel="stylesheet" href="/model_constructor/assets/css/syntax.css">
@@ -63,7 +63,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 
-<meta name="twitter:description" content="Create pytorch model.  ">
+<meta name="twitter:description" content="Create pytorch model.">
 
 
 
@@ -289,7 +289,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <div class="post-content">
 
    
-    <div class="summary">Create pytorch model.  </div>
+    <div class="summary">Create pytorch model.</div>
    
 
     
@@ -336,40 +336,6 @@ $('#toc').on('click', 'a', function() {
     
 <div class="cell border-box-sizing code_cell rendered">
 
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>/home/jzz/anaconda3/envs/pt_19/lib/python3.8/site-packages/fastprogress/fastprogress.py:102: UserWarning: Couldn&#39;t import ipywidgets properly, progress bar will use console behavior
-  warn(&#34;Couldn&#39;t import ipywidgets properly, progress bar will use console behavior&#34;)
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-    
-
-    
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="nn">nn</span>
-<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">OrderedDict</span>
-<span class="kn">from</span> <span class="nn">model_constructor.layers</span> <span class="kn">import</span> <span class="n">ConvLayer</span><span class="p">,</span> <span class="n">Noop</span><span class="p">,</span> <span class="n">Flatten</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
 </div>
     
 
@@ -392,7 +358,7 @@ $('#toc').on('click', 'a', function() {
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Stem">Stem<a class="anchor-link" href="#Stem"> </a></h1>
+<h2 id="Stem">Stem<a class="anchor-link" href="#Stem"> </a></h2>
 </div>
 </div>
 </div>
@@ -679,23 +645,6 @@ $('#toc').on('click', 'a', function() {
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">assert</span> <span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Size</span><span class="p">([</span><span class="mi">64</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">32</span><span class="p">])</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-    
-
-    
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">stem</span> <span class="o">=</span> <span class="n">Stem</span><span class="p">(</span><span class="n">use_bn</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">stem_sizes</span><span class="o">=</span><span class="p">[</span><span class="mi">32</span><span class="p">],</span> <span class="n">stride_on</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">bn_1st</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="n">stem</span>
 </pre></div>
@@ -738,13 +687,13 @@ $('#toc').on('click', 'a', function() {
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Body">Body<a class="anchor-link" href="#Body"> </a></h1>
+<h2 id="Body">Body<a class="anchor-link" href="#Body"> </a></h2>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Blocks">Blocks<a class="anchor-link" href="#Blocks"> </a></h2>
+<h3 id="Blocks">Blocks<a class="anchor-link" href="#Blocks"> </a></h3>
 </div>
 </div>
 </div>
@@ -879,7 +828,7 @@ $('#toc').on('click', 'a', function() {
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Body-constructor">Body constructor<a class="anchor-link" href="#Body-constructor"> </a></h2>
+<h3 id="Body-constructor">Body constructor<a class="anchor-link" href="#Body-constructor"> </a></h3>
 </div>
 </div>
 </div>
@@ -929,7 +878,10 @@ $('#toc').on('click', 'a', function() {
     </div>
 </div>
 </div>
-
+<details class="description">
+      <summary data-open="Hide Output" data-close="Show Output"></summary>
+        <summary></summary>
+        
 <div class="output_wrapper">
 <div class="output">
 
@@ -1091,6 +1043,7 @@ $('#toc').on('click', 'a', function() {
 </div>
 </div>
 
+    </details>
 </div>
     
 
@@ -1101,37 +1054,255 @@ $('#toc').on('click', 'a', function() {
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">bs</span> <span class="o">=</span> <span class="mi">8</span>
-<span class="n">xb</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">bs</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">32</span><span class="p">)</span>
-<span class="n">y</span> <span class="o">=</span> <span class="n">body</span><span class="p">(</span><span class="n">xb</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
-<span class="k">assert</span> <span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="o">==</span><span class="n">torch</span><span class="o">.</span><span class="n">Size</span><span class="p">([</span><span class="n">bs</span><span class="p">,</span> <span class="mi">512</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">body</span> <span class="o">=</span> <span class="n">Body</span><span class="p">(</span><span class="n">BasicBlock</span><span class="p">,</span> <span class="n">bn_1st</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">body</span>
 </pre></div>
 
     </div>
 </div>
 </div>
-
+<details class="description">
+      <summary data-open="Hide Output" data-close="Show Output"></summary>
+        <summary></summary>
+        
 <div class="output_wrapper">
 <div class="output">
 
 <div class="output_area">
 
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>torch.Size([8, 512, 4, 4])
-</pre>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>Body(
+  (layer_0): BasicLayer(
+    from 64 to 64, 2 blocks, expansion 1.
+    (block_0): BasicBlock(
+      (conv): Sequential(
+        (conv_0): ConvLayer(
+          (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+          (act_fn): ReLU(inplace=True)
+          (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+        (conv_1): ConvLayer(
+          (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+          (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+      )
+      (merge): Noop()
+      (act_conn): ReLU(inplace=True)
+    )
+    (block_1): BasicBlock(
+      (conv): Sequential(
+        (conv_0): ConvLayer(
+          (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+          (act_fn): ReLU(inplace=True)
+          (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+        (conv_1): ConvLayer(
+          (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+          (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+      )
+      (merge): Noop()
+      (act_conn): ReLU(inplace=True)
+    )
+  )
+  (layer_1): BasicLayer(
+    from 64 to 128, 2 blocks, expansion 1.
+    (block_0): BasicBlock(
+      (conv): Sequential(
+        (conv_0): ConvLayer(
+          (conv): Conv2d(64, 128, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
+          (act_fn): ReLU(inplace=True)
+          (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+        (conv_1): ConvLayer(
+          (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+          (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+      )
+      (downsample): ConvLayer(
+        (conv): Conv2d(64, 128, kernel_size=(1, 1), stride=(2, 2), bias=False)
+        (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+      (merge): Noop()
+      (act_conn): ReLU(inplace=True)
+    )
+    (block_1): BasicBlock(
+      (conv): Sequential(
+        (conv_0): ConvLayer(
+          (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+          (act_fn): ReLU(inplace=True)
+          (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+        (conv_1): ConvLayer(
+          (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+          (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+      )
+      (merge): Noop()
+      (act_conn): ReLU(inplace=True)
+    )
+  )
+  (layer_2): BasicLayer(
+    from 128 to 256, 2 blocks, expansion 1.
+    (block_0): BasicBlock(
+      (conv): Sequential(
+        (conv_0): ConvLayer(
+          (conv): Conv2d(128, 256, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
+          (act_fn): ReLU(inplace=True)
+          (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+        (conv_1): ConvLayer(
+          (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+          (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+      )
+      (downsample): ConvLayer(
+        (conv): Conv2d(128, 256, kernel_size=(1, 1), stride=(2, 2), bias=False)
+        (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+      (merge): Noop()
+      (act_conn): ReLU(inplace=True)
+    )
+    (block_1): BasicBlock(
+      (conv): Sequential(
+        (conv_0): ConvLayer(
+          (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+          (act_fn): ReLU(inplace=True)
+          (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+        (conv_1): ConvLayer(
+          (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+          (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+      )
+      (merge): Noop()
+      (act_conn): ReLU(inplace=True)
+    )
+  )
+  (layer_3): BasicLayer(
+    from 256 to 512, 2 blocks, expansion 1.
+    (block_0): BasicBlock(
+      (conv): Sequential(
+        (conv_0): ConvLayer(
+          (conv): Conv2d(256, 512, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
+          (act_fn): ReLU(inplace=True)
+          (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+        (conv_1): ConvLayer(
+          (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+          (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+      )
+      (downsample): ConvLayer(
+        (conv): Conv2d(256, 512, kernel_size=(1, 1), stride=(2, 2), bias=False)
+        (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+      (merge): Noop()
+      (act_conn): ReLU(inplace=True)
+    )
+    (block_1): BasicBlock(
+      (conv): Sequential(
+        (conv_0): ConvLayer(
+          (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+          (act_fn): ReLU(inplace=True)
+          (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+        (conv_1): ConvLayer(
+          (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+          (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+      )
+      (merge): Noop()
+      (act_conn): ReLU(inplace=True)
+    )
+  )
+)</pre>
 </div>
+
 </div>
 
 </div>
 </div>
 
+    </details>
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">body</span> <span class="o">=</span> <span class="n">Body</span><span class="p">(</span><span class="n">BasicBlock</span><span class="p">,</span> <span class="n">sa</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">body</span><span class="o">.</span><span class="n">layer_0</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+<details class="description">
+      <summary data-open="Hide Output" data-close="Show Output"></summary>
+        <summary></summary>
+        
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>BasicLayer(
+  from 64 to 64, 2 blocks, expansion 1.
+  (block_0): BasicBlock(
+    (conv): Sequential(
+      (conv_0): ConvLayer(
+        (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act_fn): ReLU(inplace=True)
+      )
+      (conv_1): ConvLayer(
+        (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+    )
+    (merge): Noop()
+    (act_conn): ReLU(inplace=True)
+  )
+  (block_1): BasicBlock(
+    (conv): Sequential(
+      (conv_0): ConvLayer(
+        (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act_fn): ReLU(inplace=True)
+      )
+      (conv_1): ConvLayer(
+        (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+    )
+    (merge): Noop()
+    (act_conn): ReLU(inplace=True)
+  )
+)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+    </details>
 </div>
     
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Head">Head<a class="anchor-link" href="#Head"> </a></h1>
+<h2 id="Head">Head<a class="anchor-link" href="#Head"> </a></h2>
 </div>
 </div>
 </div>
@@ -1159,62 +1330,9 @@ $('#toc').on('click', 'a', function() {
 </div>
     
 
-    
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">head</span> <span class="o">=</span> <span class="n">Head</span><span class="p">(</span><span class="mi">512</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-    
-
-    
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">bs</span> <span class="o">=</span> <span class="mi">8</span>
-<span class="n">xb</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">bs</span><span class="p">,</span> <span class="mi">512</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
-<span class="n">y</span> <span class="o">=</span> <span class="n">head</span><span class="p">(</span><span class="n">xb</span><span class="p">)</span>
-<span class="n">y</span><span class="o">.</span><span class="n">shape</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>torch.Size([8, 10])</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-    
-
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="class-Net">class Net<a class="anchor-link" href="#class-Net"> </a></h1>
+<h2 id="class-Net">class Net<a class="anchor-link" href="#class-Net"> </a></h2>
 </div>
 </div>
 </div>
@@ -1303,7 +1421,10 @@ $('#toc').on('click', 'a', function() {
     </div>
 </div>
 </div>
-
+<details class="description">
+      <summary data-open="Hide Output" data-close="Show Output"></summary>
+        <summary></summary>
+        
 <div class="output_wrapper">
 <div class="output">
 
@@ -1481,6 +1602,7 @@ $('#toc').on('click', 'a', function() {
 </div>
 </div>
 
+    </details>
 </div>
     
 
@@ -1491,16 +1613,17 @@ $('#toc').on('click', 'a', function() {
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">bs_test</span> <span class="o">=</span> <span class="mi">16</span>
-<span class="n">xb</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">bs_test</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="mi">128</span><span class="p">)</span>
-<span class="n">y</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">xb</span><span class="p">)</span>
-<span class="n">y</span><span class="o">.</span><span class="n">shape</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">Net</span><span class="p">(</span><span class="n">bn_1st</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">body</span><span class="o">.</span><span class="n">layer_0</span>
 </pre></div>
 
     </div>
 </div>
 </div>
-
+<details class="description">
+      <summary data-open="Hide Output" data-close="Show Output"></summary>
+        <summary></summary>
+        
 <div class="output_wrapper">
 <div class="output">
 
@@ -1509,7 +1632,39 @@ $('#toc').on('click', 'a', function() {
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>torch.Size([16, 1000])</pre>
+<pre>BasicLayer(
+  from 64 to 64, 2 blocks, expansion 1.
+  (block_0): BasicBlock(
+    (conv): Sequential(
+      (conv_0): ConvLayer(
+        (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (act_fn): ReLU(inplace=True)
+        (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+      (conv_1): ConvLayer(
+        (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+    )
+    (merge): Noop()
+    (act_conn): ReLU(inplace=True)
+  )
+  (block_1): BasicBlock(
+    (conv): Sequential(
+      (conv_0): ConvLayer(
+        (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (act_fn): ReLU(inplace=True)
+        (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+      (conv_1): ConvLayer(
+        (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+    )
+    (merge): Noop()
+    (act_conn): ReLU(inplace=True)
+  )
+)</pre>
 </div>
 
 </div>
@@ -1517,12 +1672,212 @@ $('#toc').on('click', 'a', function() {
 </div>
 </div>
 
+    </details>
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">Net</span><span class="p">(</span><span class="n">sa</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">model</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+<details class="description">
+      <summary data-open="Hide Output" data-close="Show Output"></summary>
+        <summary></summary>
+        
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>Net(
+  (stem): Stem(
+    sizes: [3, 64]
+    (conv_0): ConvLayer(
+      (conv): Conv2d(3, 64, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
+      (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (act_fn): ReLU(inplace=True)
+    )
+    (pool): MaxPool2d(kernel_size=3, stride=2, padding=1, dilation=1, ceil_mode=False)
+  )
+  (body): Body(
+    (layer_0): BasicLayer(
+      from 64 to 64, 2 blocks, expansion 1.
+      (block_0): BasicBlock(
+        (conv): Sequential(
+          (conv_0): ConvLayer(
+            (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+            (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (act_fn): ReLU(inplace=True)
+          )
+          (conv_1): ConvLayer(
+            (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+            (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+        )
+        (merge): Noop()
+        (act_conn): ReLU(inplace=True)
+      )
+      (block_1): BasicBlock(
+        (conv): Sequential(
+          (conv_0): ConvLayer(
+            (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+            (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (act_fn): ReLU(inplace=True)
+          )
+          (conv_1): ConvLayer(
+            (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+            (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+        )
+        (merge): Noop()
+        (act_conn): ReLU(inplace=True)
+      )
+    )
+    (layer_1): BasicLayer(
+      from 64 to 128, 2 blocks, expansion 1.
+      (block_0): BasicBlock(
+        (conv): Sequential(
+          (conv_0): ConvLayer(
+            (conv): Conv2d(64, 128, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
+            (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (act_fn): ReLU(inplace=True)
+          )
+          (conv_1): ConvLayer(
+            (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+            (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+        )
+        (downsample): ConvLayer(
+          (conv): Conv2d(64, 128, kernel_size=(1, 1), stride=(2, 2), bias=False)
+          (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+        (merge): Noop()
+        (act_conn): ReLU(inplace=True)
+      )
+      (block_1): BasicBlock(
+        (conv): Sequential(
+          (conv_0): ConvLayer(
+            (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+            (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (act_fn): ReLU(inplace=True)
+          )
+          (conv_1): ConvLayer(
+            (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+            (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+        )
+        (merge): Noop()
+        (act_conn): ReLU(inplace=True)
+      )
+    )
+    (layer_2): BasicLayer(
+      from 128 to 256, 2 blocks, expansion 1.
+      (block_0): BasicBlock(
+        (conv): Sequential(
+          (conv_0): ConvLayer(
+            (conv): Conv2d(128, 256, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
+            (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (act_fn): ReLU(inplace=True)
+          )
+          (conv_1): ConvLayer(
+            (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+            (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+        )
+        (downsample): ConvLayer(
+          (conv): Conv2d(128, 256, kernel_size=(1, 1), stride=(2, 2), bias=False)
+          (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+        (merge): Noop()
+        (act_conn): ReLU(inplace=True)
+      )
+      (block_1): BasicBlock(
+        (conv): Sequential(
+          (conv_0): ConvLayer(
+            (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+            (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (act_fn): ReLU(inplace=True)
+          )
+          (conv_1): ConvLayer(
+            (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+            (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+        )
+        (merge): Noop()
+        (act_conn): ReLU(inplace=True)
+      )
+    )
+    (layer_3): BasicLayer(
+      from 256 to 512, 2 blocks, expansion 1.
+      (block_0): BasicBlock(
+        (conv): Sequential(
+          (conv_0): ConvLayer(
+            (conv): Conv2d(256, 512, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
+            (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (act_fn): ReLU(inplace=True)
+          )
+          (conv_1): ConvLayer(
+            (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+            (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+        )
+        (downsample): ConvLayer(
+          (conv): Conv2d(256, 512, kernel_size=(1, 1), stride=(2, 2), bias=False)
+          (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+        (merge): Noop()
+        (act_conn): ReLU(inplace=True)
+      )
+      (block_1): BasicBlock(
+        (conv): Sequential(
+          (conv_0): ConvLayer(
+            (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+            (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (act_fn): ReLU(inplace=True)
+          )
+          (conv_1): ConvLayer(
+            (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+            (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+        )
+        (merge): Noop()
+        (act_conn): ReLU(inplace=True)
+      )
+    )
+  )
+  (head): Head(
+    (pool): AdaptiveAvgPool2d(output_size=(1, 1))
+    (flat): Flatten()
+    (fc): Linear(in_features=512, out_features=1000, bias=True)
+  )
+)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+    </details>
 </div>
     
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="model-constructor">model constructor<a class="anchor-link" href="#model-constructor"> </a></h1><p>by ayasyrev</p>
+<h2 id="model-constructor">model constructor<a class="anchor-link" href="#model-constructor"> </a></h2><p>by ayasyrev</p>
 
 </div>
 </div>

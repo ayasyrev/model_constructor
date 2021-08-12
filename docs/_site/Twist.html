@@ -336,65 +336,12 @@ $('#toc').on('click', 'a', function() {
     
 <div class="cell border-box-sizing code_cell rendered">
 
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>/home/jzz/anaconda3/envs/pt_19/lib/python3.8/site-packages/fastprogress/fastprogress.py:102: UserWarning: Couldn&#39;t import ipywidgets properly, progress bar will use console behavior
-  warn(&#34;Couldn&#39;t import ipywidgets properly, progress bar will use console behavior&#34;)
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-    
-
-    
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">OrderedDict</span>
-<span class="kn">from</span> <span class="nn">model_constructor.layers</span> <span class="kn">import</span> <span class="n">ConvLayer</span><span class="p">,</span> <span class="n">noop</span><span class="p">,</span> <span class="n">act_fn</span><span class="p">,</span> <span class="n">SimpleSelfAttention</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-    
-
-    
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span>
-<span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="nn">nn</span>
-<span class="kn">import</span> <span class="nn">torch.nn.functional</span> <span class="k">as</span> <span class="nn">F</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
 </div>
     
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="ConvTwist">ConvTwist<a class="anchor-link" href="#ConvTwist"> </a></h1>
+<h2 id="ConvTwist">ConvTwist<a class="anchor-link" href="#ConvTwist"> </a></h2>
 </div>
 </div>
 </div>
@@ -681,7 +628,7 @@ $('#toc').on('click', 'a', function() {
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="ConvLayerTwist">ConvLayerTwist<a class="anchor-link" href="#ConvLayerTwist"> </a></h1>
+<h2 id="ConvLayerTwist">ConvLayerTwist<a class="anchor-link" href="#ConvLayerTwist"> </a></h2>
 </div>
 </div>
 </div>
@@ -1221,7 +1168,7 @@ $('#toc').on('click', 'a', function() {
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="NewResBlockTwist">NewResBlockTwist<a class="anchor-link" href="#NewResBlockTwist"> </a></h1>
+<h2 id="NewResBlockTwist">NewResBlockTwist<a class="anchor-link" href="#NewResBlockTwist"> </a></h2>
 </div>
 </div>
 </div>
@@ -1278,7 +1225,10 @@ $('#toc').on('click', 'a', function() {
     </div>
 </div>
 </div>
-
+<details class="description">
+      <summary data-open="Hide Output" data-close="Show Output"></summary>
+        <summary></summary>
+        
 <div class="output_wrapper">
 <div class="output">
 
@@ -1319,6 +1269,7 @@ $('#toc').on('click', 'a', function() {
 </div>
 </div>
 
+    </details>
 </div>
     
 
@@ -1336,7 +1287,10 @@ $('#toc').on('click', 'a', function() {
     </div>
 </div>
 </div>
-
+<details class="description">
+      <summary data-open="Hide Output" data-close="Show Output"></summary>
+        <summary></summary>
+        
 <div class="output_wrapper">
 <div class="output">
 
@@ -1375,6 +1329,7 @@ $('#toc').on('click', 'a', function() {
 </div>
 </div>
 
+    </details>
 </div>
     
 
@@ -1392,7 +1347,10 @@ $('#toc').on('click', 'a', function() {
     </div>
 </div>
 </div>
-
+<details class="description">
+      <summary data-open="Hide Output" data-close="Show Output"></summary>
+        <summary></summary>
+        
 <div class="output_wrapper">
 <div class="output">
 
@@ -1435,12 +1393,77 @@ $('#toc').on('click', 'a', function() {
 </div>
 </div>
 
+    </details>
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">bl</span> <span class="o">=</span> <span class="n">NewResBlockTwist</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="mi">128</span><span class="p">,</span><span class="n">stride</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="n">act_fn</span><span class="o">=</span><span class="n">nn</span><span class="o">.</span><span class="n">LeakyReLU</span><span class="p">(),</span> <span class="n">bn_1st</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">bl</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+<details class="description">
+      <summary data-open="Hide Output" data-close="Show Output"></summary>
+        <summary></summary>
+        
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>NewResBlockTwist(
+  (reduce): AvgPool2d(kernel_size=2, stride=2, padding=0)
+  (convs): Sequential(
+    (conv_0): ConvLayer(
+      (conv): Conv2d(256, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (act_fn): LeakyReLU(negative_slope=0.01)
+      (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    )
+    (conv_1_twist): ConvLayerTwist(
+      (conv): ConvTwist(
+        twist: False, permute: False, same: True, groups: 32
+        (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=32, bias=False)
+      )
+      (act_fn): LeakyReLU(negative_slope=0.01)
+      (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    )
+    (conv_2): ConvLayer(
+      (conv): Conv2d(128, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    )
+  )
+  (idconv): ConvLayer(
+    (conv): Conv2d(256, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+    (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+  )
+  (merge): LeakyReLU(negative_slope=0.01)
+)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+    </details>
 </div>
     
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="ResBlockTwist">ResBlockTwist<a class="anchor-link" href="#ResBlockTwist"> </a></h1>
+<h2 id="ResBlockTwist">ResBlockTwist<a class="anchor-link" href="#ResBlockTwist"> </a></h2>
 </div>
 </div>
 </div>
@@ -1496,7 +1519,10 @@ $('#toc').on('click', 'a', function() {
     </div>
 </div>
 </div>
-
+<details class="description">
+      <summary data-open="Hide Output" data-close="Show Output"></summary>
+        <summary></summary>
+        
 <div class="output_wrapper">
 <div class="output">
 
@@ -1537,6 +1563,7 @@ $('#toc').on('click', 'a', function() {
 </div>
 </div>
 
+    </details>
 </div>
     
 
@@ -1554,7 +1581,10 @@ $('#toc').on('click', 'a', function() {
     </div>
 </div>
 </div>
-
+<details class="description">
+      <summary data-open="Hide Output" data-close="Show Output"></summary>
+        <summary></summary>
+        
 <div class="output_wrapper">
 <div class="output">
 
@@ -1593,6 +1623,7 @@ $('#toc').on('click', 'a', function() {
 </div>
 </div>
 
+    </details>
 </div>
     
 
@@ -1610,7 +1641,10 @@ $('#toc').on('click', 'a', function() {
     </div>
 </div>
 </div>
-
+<details class="description">
+      <summary data-open="Hide Output" data-close="Show Output"></summary>
+        <summary></summary>
+        
 <div class="output_wrapper">
 <div class="output">
 
@@ -1653,12 +1687,13 @@ $('#toc').on('click', 'a', function() {
 </div>
 </div>
 
+    </details>
 </div>
     
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Model">Model<a class="anchor-link" href="#Model"> </a></h1>
+<h2 id="Model">Model<a class="anchor-link" href="#Model"> </a></h2>
 </div>
 </div>
 </div>
@@ -1709,7 +1744,10 @@ $('#toc').on('click', 'a', function() {
     </div>
 </div>
 </div>
-
+<details class="description">
+      <summary data-open="Hide Output" data-close="Show Output"></summary>
+        <summary></summary>
+        
 <div class="output_wrapper">
 <div class="output">
 
@@ -2106,6 +2144,7 @@ $('#toc').on('click', 'a', function() {
 </div>
 </div>
 
+    </details>
 </div>
     
 
@@ -2150,13 +2189,459 @@ $('#toc').on('click', 'a', function() {
 
 <div class="inner_cell">
     <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">m</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+<details class="description">
+      <summary data-open="Hide Output" data-close="Show Output"></summary>
+        <summary></summary>
+        
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>Sequential(
+  model Net
+  (stem): Sequential(
+    (conv_0): ConvLayer(
+      (conv): Conv2d(3, 32, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
+      (bn): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (act_fn): ReLU(inplace=True)
+    )
+    (conv_1): ConvLayer(
+      (conv): Conv2d(32, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (act_fn): ReLU(inplace=True)
+    )
+    (conv_2): ConvLayer(
+      (conv): Conv2d(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (act_fn): ReLU(inplace=True)
+    )
+    (stem_pool): MaxPool2d(kernel_size=3, stride=2, padding=1, dilation=1, ceil_mode=False)
+  )
+  (body): Sequential(
+    (l_0): Sequential(
+      (bl_0): ResBlockTwist(
+        (convs): Sequential(
+          (conv_0): ConvLayer(
+            (conv): Conv2d(64, 64, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (act_fn): ReLU(inplace=True)
+          )
+          (conv_1_twist): ConvLayerTwist(
+            (conv): ConvTwist(
+              twist: False, permute: False, same: True, groups: 16
+              (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=16, bias=False)
+            )
+            (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (act_fn): ReLU(inplace=True)
+          )
+          (conv_2): ConvLayer(
+            (conv): Conv2d(64, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+        )
+        (idconv): ConvLayer(
+          (conv): Conv2d(64, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+          (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+        (act_fn): ReLU(inplace=True)
+      )
+      (bl_1): ResBlockTwist(
+        (convs): Sequential(
+          (conv_0): ConvLayer(
+            (conv): Conv2d(256, 64, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (act_fn): ReLU(inplace=True)
+          )
+          (conv_1_twist): ConvLayerTwist(
+            (conv): ConvTwist(
+              twist: False, permute: False, same: True, groups: 16
+              (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=16, bias=False)
+            )
+            (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (act_fn): ReLU(inplace=True)
+          )
+          (conv_2): ConvLayer(
+            (conv): Conv2d(64, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+        )
+        (act_fn): ReLU(inplace=True)
+      )
+      (bl_2): ResBlockTwist(
+        (convs): Sequential(
+          (conv_0): ConvLayer(
+            (conv): Conv2d(256, 64, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (act_fn): ReLU(inplace=True)
+          )
+          (conv_1_twist): ConvLayerTwist(
+            (conv): ConvTwist(
+              twist: False, permute: False, same: True, groups: 16
+              (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=16, bias=False)
+            )
+            (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (act_fn): ReLU(inplace=True)
+          )
+          (conv_2): ConvLayer(
+            (conv): Conv2d(64, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+        )
+        (act_fn): ReLU(inplace=True)
+      )
+    )
+    (l_1): Sequential(
+      (bl_0): ResBlockTwist(
+        (convs): Sequential(
+          (conv_0): ConvLayer(
+            (conv): Conv2d(256, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (act_fn): ReLU(inplace=True)
+          )
+          (conv_1_twist): ConvLayerTwist(
+            (conv): ConvTwist(
+              twist: False, permute: False, same: False, groups: 32
+              (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), groups=32, bias=False)
+            )
+            (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (act_fn): ReLU(inplace=True)
+          )
+          (conv_2): ConvLayer(
+            (conv): Conv2d(128, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+        )
+        (pool): AvgPool2d(kernel_size=2, stride=2, padding=0)
+        (idconv): ConvLayer(
+          (conv): Conv2d(256, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+          (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+        (act_fn): ReLU(inplace=True)
+      )
+      (bl_1): ResBlockTwist(
+        (convs): Sequential(
+          (conv_0): ConvLayer(
+            (conv): Conv2d(512, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (act_fn): ReLU(inplace=True)
+          )
+          (conv_1_twist): ConvLayerTwist(
+            (conv): ConvTwist(
+              twist: False, permute: False, same: True, groups: 32
+              (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=32, bias=False)
+            )
+            (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (act_fn): ReLU(inplace=True)
+          )
+          (conv_2): ConvLayer(
+            (conv): Conv2d(128, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+        )
+        (act_fn): ReLU(inplace=True)
+      )
+      (bl_2): ResBlockTwist(
+        (convs): Sequential(
+          (conv_0): ConvLayer(
+            (conv): Conv2d(512, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (act_fn): ReLU(inplace=True)
+          )
+          (conv_1_twist): ConvLayerTwist(
+            (conv): ConvTwist(
+              twist: False, permute: False, same: True, groups: 32
+              (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=32, bias=False)
+            )
+            (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (act_fn): ReLU(inplace=True)
+          )
+          (conv_2): ConvLayer(
+            (conv): Conv2d(128, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+        )
+        (act_fn): ReLU(inplace=True)
+      )
+      (bl_3): ResBlockTwist(
+        (convs): Sequential(
+          (conv_0): ConvLayer(
+            (conv): Conv2d(512, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (act_fn): ReLU(inplace=True)
+          )
+          (conv_1_twist): ConvLayerTwist(
+            (conv): ConvTwist(
+              twist: False, permute: False, same: True, groups: 32
+              (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=32, bias=False)
+            )
+            (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (act_fn): ReLU(inplace=True)
+          )
+          (conv_2): ConvLayer(
+            (conv): Conv2d(128, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+        )
+        (act_fn): ReLU(inplace=True)
+      )
+    )
+    (l_2): Sequential(
+      (bl_0): ResBlockTwist(
+        (convs): Sequential(
+          (conv_0): ConvLayer(
+            (conv): Conv2d(512, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (act_fn): ReLU(inplace=True)
+          )
+          (conv_1_twist): ConvLayerTwist(
+            (conv): ConvTwist(
+              twist: False, permute: False, same: False, groups: 64
+              (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), groups=64, bias=False)
+            )
+            (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (act_fn): ReLU(inplace=True)
+          )
+          (conv_2): ConvLayer(
+            (conv): Conv2d(256, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+        )
+        (pool): AvgPool2d(kernel_size=2, stride=2, padding=0)
+        (idconv): ConvLayer(
+          (conv): Conv2d(512, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False)
+          (bn): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+        (act_fn): ReLU(inplace=True)
+      )
+      (bl_1): ResBlockTwist(
+        (convs): Sequential(
+          (conv_0): ConvLayer(
+            (conv): Conv2d(1024, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (act_fn): ReLU(inplace=True)
+          )
+          (conv_1_twist): ConvLayerTwist(
+            (conv): ConvTwist(
+              twist: False, permute: False, same: True, groups: 64
+              (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=64, bias=False)
+            )
+            (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (act_fn): ReLU(inplace=True)
+          )
+          (conv_2): ConvLayer(
+            (conv): Conv2d(256, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+        )
+        (act_fn): ReLU(inplace=True)
+      )
+      (bl_2): ResBlockTwist(
+        (convs): Sequential(
+          (conv_0): ConvLayer(
+            (conv): Conv2d(1024, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (act_fn): ReLU(inplace=True)
+          )
+          (conv_1_twist): ConvLayerTwist(
+            (conv): ConvTwist(
+              twist: False, permute: False, same: True, groups: 64
+              (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=64, bias=False)
+            )
+            (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (act_fn): ReLU(inplace=True)
+          )
+          (conv_2): ConvLayer(
+            (conv): Conv2d(256, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+        )
+        (act_fn): ReLU(inplace=True)
+      )
+      (bl_3): ResBlockTwist(
+        (convs): Sequential(
+          (conv_0): ConvLayer(
+            (conv): Conv2d(1024, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (act_fn): ReLU(inplace=True)
+          )
+          (conv_1_twist): ConvLayerTwist(
+            (conv): ConvTwist(
+              twist: False, permute: False, same: True, groups: 64
+              (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=64, bias=False)
+            )
+            (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (act_fn): ReLU(inplace=True)
+          )
+          (conv_2): ConvLayer(
+            (conv): Conv2d(256, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+        )
+        (act_fn): ReLU(inplace=True)
+      )
+      (bl_4): ResBlockTwist(
+        (convs): Sequential(
+          (conv_0): ConvLayer(
+            (conv): Conv2d(1024, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (act_fn): ReLU(inplace=True)
+          )
+          (conv_1_twist): ConvLayerTwist(
+            (conv): ConvTwist(
+              twist: False, permute: False, same: True, groups: 64
+              (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=64, bias=False)
+            )
+            (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (act_fn): ReLU(inplace=True)
+          )
+          (conv_2): ConvLayer(
+            (conv): Conv2d(256, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+        )
+        (act_fn): ReLU(inplace=True)
+      )
+      (bl_5): ResBlockTwist(
+        (convs): Sequential(
+          (conv_0): ConvLayer(
+            (conv): Conv2d(1024, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (act_fn): ReLU(inplace=True)
+          )
+          (conv_1_twist): ConvLayerTwist(
+            (conv): ConvTwist(
+              twist: False, permute: False, same: True, groups: 64
+              (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=64, bias=False)
+            )
+            (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (act_fn): ReLU(inplace=True)
+          )
+          (conv_2): ConvLayer(
+            (conv): Conv2d(256, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+        )
+        (act_fn): ReLU(inplace=True)
+      )
+    )
+    (l_3): Sequential(
+      (bl_0): ResBlockTwist(
+        (convs): Sequential(
+          (conv_0): ConvLayer(
+            (conv): Conv2d(1024, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (act_fn): ReLU(inplace=True)
+          )
+          (conv_1_twist): ConvLayerTwist(
+            (conv): ConvTwist(
+              twist: False, permute: False, same: False, groups: 128
+              (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), groups=128, bias=False)
+            )
+            (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (act_fn): ReLU(inplace=True)
+          )
+          (conv_2): ConvLayer(
+            (conv): Conv2d(512, 2048, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): BatchNorm2d(2048, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+        )
+        (pool): AvgPool2d(kernel_size=2, stride=2, padding=0)
+        (idconv): ConvLayer(
+          (conv): Conv2d(1024, 2048, kernel_size=(1, 1), stride=(1, 1), bias=False)
+          (bn): BatchNorm2d(2048, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+        (act_fn): ReLU(inplace=True)
+      )
+      (bl_1): ResBlockTwist(
+        (convs): Sequential(
+          (conv_0): ConvLayer(
+            (conv): Conv2d(2048, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (act_fn): ReLU(inplace=True)
+          )
+          (conv_1_twist): ConvLayerTwist(
+            (conv): ConvTwist(
+              twist: False, permute: False, same: True, groups: 128
+              (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=128, bias=False)
+            )
+            (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (act_fn): ReLU(inplace=True)
+          )
+          (conv_2): ConvLayer(
+            (conv): Conv2d(512, 2048, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): BatchNorm2d(2048, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+        )
+        (act_fn): ReLU(inplace=True)
+      )
+      (bl_2): ResBlockTwist(
+        (convs): Sequential(
+          (conv_0): ConvLayer(
+            (conv): Conv2d(2048, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (act_fn): ReLU(inplace=True)
+          )
+          (conv_1_twist): ConvLayerTwist(
+            (conv): ConvTwist(
+              twist: False, permute: False, same: True, groups: 128
+              (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=128, bias=False)
+            )
+            (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (act_fn): ReLU(inplace=True)
+          )
+          (conv_2): ConvLayer(
+            (conv): Conv2d(512, 2048, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): BatchNorm2d(2048, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+        )
+        (act_fn): ReLU(inplace=True)
+      )
+    )
+  )
+  (head): Sequential(
+    (pool): AdaptiveAvgPool2d(output_size=1)
+    (flat): Flatten()
+    (fc): Linear(in_features=2048, out_features=1000, bias=True)
+  )
+)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+    </details>
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">m</span><span class="o">.</span><span class="n">stem</span>
 </pre></div>
 
     </div>
 </div>
 </div>
-
+<details class="description">
+      <summary data-open="Hide Output" data-close="Show Output"></summary>
+        <summary></summary>
+        
 <div class="output_wrapper">
 <div class="output">
 
@@ -2190,6 +2675,7 @@ $('#toc').on('click', 'a', function() {
 </div>
 </div>
 
+    </details>
 </div>
     
 
@@ -2206,7 +2692,10 @@ $('#toc').on('click', 'a', function() {
     </div>
 </div>
 </div>
-
+<details class="description">
+      <summary data-open="Hide Output" data-close="Show Output"></summary>
+        <summary></summary>
+        
 <div class="output_wrapper">
 <div class="output">
 
@@ -2227,6 +2716,7 @@ $('#toc').on('click', 'a', function() {
 </div>
 </div>
 
+    </details>
 </div>
     
 
@@ -2243,7 +2733,10 @@ $('#toc').on('click', 'a', function() {
     </div>
 </div>
 </div>
-
+<details class="description">
+      <summary data-open="Hide Output" data-close="Show Output"></summary>
+        <summary></summary>
+        
 <div class="output_wrapper">
 <div class="output">
 
@@ -2331,6 +2824,7 @@ $('#toc').on('click', 'a', function() {
 </div>
 </div>
 
+    </details>
 </div>
     
 
@@ -2347,7 +2841,10 @@ $('#toc').on('click', 'a', function() {
     </div>
 </div>
 </div>
-
+<details class="description">
+      <summary data-open="Hide Output" data-close="Show Output"></summary>
+        <summary></summary>
+        
 <div class="output_wrapper">
 <div class="output">
 
@@ -2458,6 +2955,7 @@ $('#toc').on('click', 'a', function() {
 </div>
 </div>
 
+    </details>
 </div>
     
 
@@ -2474,7 +2972,10 @@ $('#toc').on('click', 'a', function() {
     </div>
 </div>
 </div>
-
+<details class="description">
+      <summary data-open="Hide Output" data-close="Show Output"></summary>
+        <summary></summary>
+        
 <div class="output_wrapper">
 <div class="output">
 
@@ -2629,6 +3130,7 @@ $('#toc').on('click', 'a', function() {
 </div>
 </div>
 
+    </details>
 </div>
     
 
@@ -2645,7 +3147,10 @@ $('#toc').on('click', 'a', function() {
     </div>
 </div>
 </div>
-
+<details class="description">
+      <summary data-open="Hide Output" data-close="Show Output"></summary>
+        <summary></summary>
+        
 <div class="output_wrapper">
 <div class="output">
 
@@ -2734,6 +3239,7 @@ $('#toc').on('click', 'a', function() {
 </div>
 </div>
 
+    </details>
 </div>
     
 
