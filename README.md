@@ -1,5 +1,5 @@
 # model_constructor
-> Constructor to create pytorch model.
+> Constructor to create pytorch model. 
 
 
 ## Install
