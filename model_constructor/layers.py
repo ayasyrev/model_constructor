@@ -106,15 +106,16 @@ class SEBlock(nn.Module):
     "se block"
     se_layer = nn.Linear
     act_fn = nn.ReLU(inplace=True)
+    use_bias = True
 
     def __init__(self, c, r=16):
         super().__init__()
         ch = c // r
         self.squeeze = nn.AdaptiveAvgPool2d(1)
         self.excitation = nn.Sequential(
-            OrderedDict([('fc_reduce', self.se_layer(c, ch, bias=False)),
+            OrderedDict([('fc_reduce', self.se_layer(c, ch, bias=self.use_bias)),
                          ('se_act', self.act_fn),
-                         ('fc_expand', self.se_layer(ch, c, bias=False)),
+                         ('fc_expand', self.se_layer(ch, c, bias=self.use_bias)),
                          ('sigmoid', nn.Sigmoid())
                          ]))
 
@@ -129,6 +130,7 @@ class SEBlockConv(nn.Module):
     "se block with conv on excitation"
     se_layer = nn.Conv2d
     act_fn = nn.ReLU(inplace=True)
+    use_bias = True
 
     def __init__(self, c, r=16):
         super().__init__()
@@ -137,9 +139,9 @@ class SEBlockConv(nn.Module):
         self.squeeze = nn.AdaptiveAvgPool2d(1)
         self.excitation = nn.Sequential(
             OrderedDict([
-                ('conv_reduce', self.se_layer(c, c_in, 1, bias=False)),
+                ('conv_reduce', self.se_layer(c, c_in, 1, bias=self.use_bias)),
                 ('se_act', self.act_fn),
-                ('conv_expand', self.se_layer(c_in, c, 1, bias=False)),
+                ('conv_expand', self.se_layer(c_in, c, 1, bias=self.use_bias)),
                 ('sigmoid', nn.Sigmoid())
             ]))
 
