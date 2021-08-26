@@ -29,11 +29,11 @@ class ResBlock(nn.Module):
     def __init__(self, expansion, ni, nh, stride=1,
                  conv_layer=ConvLayer, act_fn=act_fn, zero_bn=True, bn_1st=True,
                  pool=nn.AvgPool2d(2, ceil_mode=True), sa=False, sym=False, se=False, se_reduction=16,
-                 groups=1, dw=False):
+                 groups=1, dw=False, div_groups=None):
         super().__init__()
         nf, ni = nh * expansion, ni * expansion
-        # if groups != 1:
-        #     groups = int(nh / groups)
+        if div_groups is not None:  # check if grops != 1 and div_groups
+            groups = int(nh / div_groups)
         if expansion == 1:
             layers = [("conv_0", conv_layer(ni, nh, 3, stride=stride, act_fn=act_fn, bn_1st=bn_1st,
                                             groups=nh if dw else groups)),
@@ -68,11 +68,11 @@ class NewResBlock(nn.Module):
     def __init__(self, expansion, ni, nh, stride=1,
                  conv_layer=ConvLayer, act_fn=act_fn, zero_bn=True, bn_1st=True,
                  pool=nn.AvgPool2d(2, ceil_mode=True), sa=False, sym=False, se=False, se_reduction=16,
-                 groups=1, dw=False):
+                 groups=1, dw=False, div_groups=None):
         super().__init__()
         nf, ni = nh * expansion, ni * expansion
-        # if groups != 1:
-        #     groups = int(nh / groups)
+        if div_groups is not None:  # check if grops != 1 and div_groups
+            groups = int(nh / div_groups)
         self.reduce = noop if stride == 1 else pool
         if expansion == 1:
             layers = [("conv_0", conv_layer(ni, nh, 3, stride=1, act_fn=act_fn, bn_1st=bn_1st,
@@ -114,7 +114,7 @@ def _make_layer(self, expansion, ni, nf, blocks, stride, sa):
     layers = [(f"bl_{i}", self.block(expansion, ni if i == 0 else nf, nf,
                                      stride if i == 0 else 1, sa=sa if i == blocks - 1 else False,
                                      conv_layer=self.conv_layer, act_fn=self.act_fn, pool=self.pool,
-                                     zero_bn=self.zero_bn, bn_1st=self.bn_1st, groups=self.groups,
+                                     zero_bn=self.zero_bn, bn_1st=self.bn_1st, groups=self.groups, div_groups=self.div_groups,
                                      dw=self.dw, se=self.se))
               for i in range(blocks)]
     return nn.Sequential(OrderedDict(layers))
@@ -144,7 +144,7 @@ class Net():
                  norm=nn.BatchNorm2d,
                  act_fn=nn.ReLU(inplace=True),
                  pool=nn.AvgPool2d(2, ceil_mode=True),
-                 expansion=1, groups=1, dw=False,
+                 expansion=1, groups=1, dw=False, div_groups=None,
                  sa=False, se=False, se_reduction=16,
                  bn_1st=True,
                  zero_bn=True,
@@ -195,7 +195,7 @@ class Net():
     def __repr__(self):
         return (f"{self.name} constructor\n"
                 f"  c_in: {self.c_in}, c_out: {self.c_out}\n"
-                f"  expansion: {self.expansion}, groups: {self.groups}, dw: {self.dw}\n"
+                f"  expansion: {self.expansion}, groups: {self.groups}, dw: {self.dw}\n, div_groups: {self.div_groups}"
                 f"  sa: {self.sa}, se: {self.se}\n"
                 f"  stem sizes: {self.stem_sizes}, stide on {self.stem_stride_on}\n"
                 f"  body sizes {self._block_sizes}\n"
