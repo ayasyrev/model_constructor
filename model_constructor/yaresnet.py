@@ -6,7 +6,7 @@ from functools import partial
 from collections import OrderedDict
 from .layers import SEBlock, ConvLayer, act_fn, noop, SimpleSelfAttention
 from .net import Net
-from .activations import Mish
+from torch.nn import Mish
 
 
 __all__ = ['YaResBlock', 'yaresnet_parameters', 'yaresnet34', 'yaresnet50']

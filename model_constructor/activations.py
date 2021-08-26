@@ -2,6 +2,7 @@
 import torch
 from torch import nn as nn
 from torch.nn import functional as F
+from torch.nn import Mish
 
 
 __all__ = ['mish', 'Mish', 'mish_jit', 'MishJit', 'mish_jit_fwd', 'mish_jit_bwd', 'MishJitAutoFn', 'mish_me', 'MishMe',
@@ -16,14 +17,16 @@ def mish(x, inplace: bool = False):
     return x.mul(F.softplus(x).tanh())
 
 
-class Mish(nn.Module):
-    """Mish: A Self Regularized Non-Monotonic Neural Activation Function - https://arxiv.org/abs/1908.08681"""
-    def __init__(self, inplace: bool = False):
-        """NOTE: inplace variant not working """
-        super(Mish, self).__init__()
+# from torch v 1.9 Mish is in pytorch.
 
-    def forward(self, x):
-        return mish(x)
+# class Mish(nn.Module):
+#     """Mish: A Self Regularized Non-Monotonic Neural Activation Function - https://arxiv.org/abs/1908.08681"""
+#     def __init__(self, inplace: bool = False):
+#         """NOTE: inplace variant not working """
+#         super(Mish, self).__init__()
+
+#     def forward(self, x):
+#         return mish(x)
 
 
 @torch.jit.script
