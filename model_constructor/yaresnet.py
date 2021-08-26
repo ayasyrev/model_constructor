@@ -19,11 +19,11 @@ class YaResBlock(nn.Module):
     def __init__(self, expansion, ni, nh, stride=1,
                  conv_layer=ConvLayer, act_fn=act_fn, zero_bn=True, bn_1st=True,
                  pool=nn.AvgPool2d(2, ceil_mode=True), sa=False, sym=False, se=False,
-                 groups=1, dw=False):
+                 groups=1, dw=False, div_groups=None):
         super().__init__()
         nf, ni = nh * expansion, ni * expansion
-        # if groups != 1:
-        #     groups = int(nh / groups)
+        if div_groups is not None:  # check if grops != 1 and div_groups
+            groups = int(nh / div_groups)
         self.reduce = noop if stride == 1 else pool
         layers = [("conv_0", conv_layer(ni, nh, 3, stride=1, act_fn=act_fn, bn_1st=bn_1st,
                                         groups=nh if dw else groups)),
