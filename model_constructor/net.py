@@ -32,8 +32,8 @@ class ResBlock(nn.Module):
                  groups=1, dw=False):
         super().__init__()
         nf, ni = nh * expansion, ni * expansion
-        if groups != 1:
-            groups = int(nh / groups)
+        # if groups != 1:
+        #     groups = int(nh / groups)
         if expansion == 1:
             layers = [("conv_0", conv_layer(ni, nh, 3, stride=stride, act_fn=act_fn, bn_1st=bn_1st,
                                             groups=nh if dw else groups)),
@@ -71,8 +71,8 @@ class NewResBlock(nn.Module):
                  groups=1, dw=False):
         super().__init__()
         nf, ni = nh * expansion, ni * expansion
-        if groups != 1:
-            groups = int(nh / groups)
+        # if groups != 1:
+        #     groups = int(nh / groups)
         self.reduce = noop if stride == 1 else pool
         if expansion == 1:
             layers = [("conv_0", conv_layer(ni, nh, 3, stride=1, act_fn=act_fn, bn_1st=bn_1st,
