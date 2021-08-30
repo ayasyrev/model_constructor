@@ -197,7 +197,7 @@ class Net():
                 f"  c_in: {self.c_in}, c_out: {self.c_out}\n"
                 f"  expansion: {self.expansion}, groups: {self.groups}, dw: {self.dw}\n, div_groups: {self.div_groups}"
                 f"  sa: {self.sa}, se: {self.se}\n"
-                f"  stem sizes: {self.stem_sizes}, stide on {self.stem_stride_on}\n"
+                f"  stem sizes: {self.stem_sizes}, stride on {self.stem_stride_on}\n"
                 f"  body sizes {self._block_sizes}\n"
                 f"  layers: {self.layers}")
 
