@@ -46,15 +46,15 @@ class XResBlock(nn.Module):
 
 
 def xresnet18(**kwargs):
-    """Constructs a xresnet-18 model. """
+    """Constructs xresnet18 model. """
     return Net(stem_sizes=[32, 32], block=XResBlock, blocks=[2, 2, 2, 2], expansion=1, **kwargs)
 
 
 def xresnet34(**kwargs):
-    """Constructs axresnet-34 model. """
+    """Constructs xresnet34 model. """
     return Net(stem_sizes=[32, 32], block=XResBlock, blocks=[3, 4, 6, 3], expansion=1, **kwargs)
 
 
 def xresnet50(**kwargs):
-    """Constructs axresnet-34 model. """
+    """Constructs xresnet50 model. """
     return Net(stem_sizes=[32, 32], block=XResBlock, blocks=[3, 4, 6, 3], expansion=4, **kwargs)
