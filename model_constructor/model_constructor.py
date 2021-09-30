@@ -6,7 +6,7 @@ import torch.nn as nn
 from .layers import ConvLayer, Flatten, SEBlock, SimpleSelfAttention, noop
 
 
-__all__ = ['init_cnn', 'act_fn', 'ResBlock', 'NewResBlock', 'Net', 'xresnet34', 'xresnet50']
+__all__ = ['init_cnn', 'act_fn', 'ResBlock', 'ModelConstructor', 'xresnet34', 'xresnet50']
 
 
 act_fn = nn.ReLU(inplace=True)
@@ -58,48 +58,6 @@ class ResBlock(nn.Module):
         return self.act_fn(self.convs(x) + self.idconv(self.pool(x)))
 
 
-# NewResBlock now is YaResBlock - Yet Another ResNet Block! It is now at model_constructor.yaresnet.
-
-
-class NewResBlock(nn.Module):  # todo: deprecation worning.
-    '''YaResnet block.
-    This is first impl, deprecated, use yaresnet module.
-    '''
-    se_block = SEBlock
-
-    def __init__(self, expansion, ni, nh, stride=1,
-                 conv_layer=ConvLayer, act_fn=act_fn, zero_bn=True, bn_1st=True,
-                 pool=nn.AvgPool2d(2, ceil_mode=True), sa=False, sym=False, se=False, se_reduction=16,
-                 groups=1, dw=False, div_groups=None):
-        super().__init__()
-        nf, ni = nh * expansion, ni * expansion
-        if div_groups is not None:  # check if grops != 1 and div_groups
-            groups = int(nh / div_groups)
-        self.reduce = noop if stride == 1 else pool
-        if expansion == 1:
-            layers = [("conv_0", conv_layer(ni, nh, 3, stride=1, act_fn=act_fn, bn_1st=bn_1st,
-                                            groups=nh if dw else groups)),
-                      ("conv_1", conv_layer(nh, nf, 3, zero_bn=zero_bn, act=False, bn_1st=bn_1st))
-                      ]
-        else:
-            layers = [("conv_0", conv_layer(ni, nh, 1, act_fn=act_fn, bn_1st=bn_1st)),
-                      ("conv_1", conv_layer(nh, nh, 3, stride=1, act_fn=act_fn, bn_1st=bn_1st,
-                                            groups=nh if dw else groups)),
-                      ("conv_2", conv_layer(nh, nf, 1, zero_bn=zero_bn, act=False, bn_1st=bn_1st))
-                      ]
-        if se:
-            layers.append(('se', self.se_block(nf, se_reduction)))
-        if sa:
-            layers.append(('sa', SimpleSelfAttention(nf, ks=1, sym=sym)))
-        self.convs = nn.Sequential(OrderedDict(layers))
-        self.idconv = noop if ni == nf else conv_layer(ni, nf, 1, act=False)
-        self.merge = act_fn
-
-    def forward(self, x):
-        o = self.reduce(x)
-        return self.merge(self.convs(o) + self.idconv(o))
-
-
 def _make_stem(self):
     stem = [(f"conv_{i}", self.conv_layer(self.stem_sizes[i], self.stem_sizes[i + 1],
                                           stride=2 if i == self.stem_stride_on else 1,
@@ -139,11 +97,9 @@ def _make_head(self):
     return nn.Sequential(OrderedDict(head))
 
 
-class Net():  # todo: deprecation worning.
-    """Model constructor. As default - xresnet18.
-    First version, still here for compatibility. Use ModelConstructor instead.
-    """
-    def __init__(self, name='Net', c_in=3, c_out=1000,
+class ModelConstructor():
+    """Model constructor. As default - xresnet18"""
+    def __init__(self, name='MC', c_in=3, c_out=1000,
                  block=ResBlock, conv_layer=ConvLayer,
                  block_sizes=[64, 128, 256, 512], layers=[2, 2, 2, 2],
                  norm=nn.BatchNorm2d,
@@ -207,5 +163,5 @@ class Net():  # todo: deprecation worning.
                 f"  layers: {self.layers}")
 
 
-xresnet34 = partial(Net, name='xresnet34', expansion=1, layers=[3, 4, 6, 3])
-xresnet50 = partial(Net, name='xresnet34', expansion=4, layers=[3, 4, 6, 3])
+xresnet34 = partial(ModelConstructor, name='xresnet34', expansion=1, layers=[3, 4, 6, 3])
+xresnet50 = partial(ModelConstructor, name='xresnet34', expansion=4, layers=[3, 4, 6, 3])
