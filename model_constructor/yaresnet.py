@@ -4,7 +4,7 @@
 import torch.nn as nn
 from functools import partial
 from collections import OrderedDict
-from .layers import SEBlock, ConvLayer, act_fn, noop, SimpleSelfAttention
+from .layers import SEModule, ConvLayer, act_fn, noop, SimpleSelfAttention
 from .net import Net
 from torch.nn import Mish
 
@@ -14,12 +14,13 @@ __all__ = ['YaResBlock', 'yaresnet_parameters', 'yaresnet34', 'yaresnet50']
 
 class YaResBlock(nn.Module):
     '''YaResBlock. Reduce by pool instead of stride 2'''
-    se_block = SEBlock
 
     def __init__(self, expansion, ni, nh, stride=1,
                  conv_layer=ConvLayer, act_fn=act_fn, zero_bn=True, bn_1st=True,
-                 pool=nn.AvgPool2d(2, ceil_mode=True), sa=False, sym=False, se=False,
-                 groups=1, dw=False, div_groups=None):
+                 pool=nn.AvgPool2d(2, ceil_mode=True), sa=False, sym=False,
+                 groups=1, dw=False, div_groups=None,
+                 se_module=SEModule, se=False, se_reduction=16
+                 ):
         super().__init__()
         nf, ni = nh * expansion, ni * expansion
         if div_groups is not None:  # check if grops != 1 and div_groups
@@ -35,7 +36,7 @@ class YaResBlock(nn.Module):
                       ("conv_2", conv_layer(nh, nf, 1, zero_bn=zero_bn, act=False, bn_1st=bn_1st))
         ]
         if se:
-            layers.append(('se', self.se_block(nf)))
+            layers.append(('se', se_module(nf, se_reduction)))
         if sa:
             layers.append(('sa', SimpleSelfAttention(nf, ks=1, sym=sym)))
         self.convs = nn.Sequential(OrderedDict(layers))

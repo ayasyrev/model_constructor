@@ -102,7 +102,7 @@ class SimpleSelfAttention(nn.Module):
         return o.view(*size).contiguous()
 
 
-class SEBlock(nn.Module):
+class SEBlock(nn.Module):  # todo: deprecation worning.
     "se block"
     se_layer = nn.Linear
     act_fn = nn.ReLU(inplace=True)
@@ -126,7 +126,7 @@ class SEBlock(nn.Module):
         return x * y.expand_as(x)
 
 
-class SEBlockConv(nn.Module):
+class SEBlockConv(nn.Module):  # todo: deprecation worning.
     "se block with conv on excitation"
     se_layer = nn.Conv2d
     act_fn = nn.ReLU(inplace=True)
@@ -143,6 +143,63 @@ class SEBlockConv(nn.Module):
                 ('se_act', self.act_fn),
                 ('conv_expand', self.se_layer(c_in, c, 1, bias=self.use_bias)),
                 ('sigmoid', nn.Sigmoid())
+            ]))
+
+    def forward(self, x):
+        y = self.squeeze(x)
+        y = self.excitation(y)
+        return x * y.expand_as(x)
+
+
+class SEModule(nn.Module):
+    "se block"
+
+    def __init__(self,
+                 channels,
+                 reduction=16,
+                 se_layer=nn.Linear,
+                 act_fn=nn.ReLU(inplace=True),  # ? obj or class?
+                 use_bias=True,
+                 gate=nn.Sigmoid
+                 ):
+        super().__init__()
+        rd_channels = channels // reduction
+        self.squeeze = nn.AdaptiveAvgPool2d(1)
+        self.excitation = nn.Sequential(
+            OrderedDict([('fc_reduce', se_layer(channels, rd_channels, bias=use_bias)),
+                         ('se_act', act_fn),
+                         ('fc_expand', se_layer(rd_channels, channels, bias=use_bias)),
+                         ('se_gate', gate())
+                         ]))
+
+    def forward(self, x):
+        bs, c, _, _ = x.shape
+        y = self.squeeze(x).view(bs, c)
+        y = self.excitation(y).view(bs, c, 1, 1)
+        return x * y.expand_as(x)
+
+
+class SEModuleConv(nn.Module):
+    "se block with conv on excitation"
+
+    def __init__(self,
+                 channels,
+                 reduction=16,
+                 se_layer=nn.Conv2d,
+                 act_fn=nn.ReLU(inplace=True),
+                 use_bias=True,
+                 gate=nn.Sigmoid
+                 ):
+        super().__init__()
+#       rd_channels = math.ceil(channels//reduction/8)*8
+        rd_channels = channels // reduction
+        self.squeeze = nn.AdaptiveAvgPool2d(1)
+        self.excitation = nn.Sequential(
+            OrderedDict([
+                ('conv_reduce', se_layer(channels, rd_channels, 1, bias=use_bias)),
+                ('se_act', act_fn),
+                ('conv_expand', se_layer(rd_channels, channels, 1, bias=use_bias)),
+                ('gate', gate())
             ]))
 
     def forward(self, x):
