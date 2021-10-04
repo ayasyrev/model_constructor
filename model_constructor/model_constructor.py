@@ -3,7 +3,7 @@ from functools import partial
 
 import torch.nn as nn
 
-from .layers import ConvLayer, Flatten, SEBlock, SimpleSelfAttention, noop
+from .layers import ConvLayer, Flatten, SEModule, SimpleSelfAttention, noop
 
 
 __all__ = ['init_cnn', 'act_fn', 'ResBlock', 'ModelConstructor', 'xresnet34', 'xresnet50']
@@ -24,12 +24,13 @@ def init_cnn(module: nn.Module):
 
 class ResBlock(nn.Module):
     '''Resnet block'''
-    se_block = SEBlock
 
     def __init__(self, expansion, ni, nh, stride=1,
                  conv_layer=ConvLayer, act_fn=act_fn, zero_bn=True, bn_1st=True,
-                 pool=nn.AvgPool2d(2, ceil_mode=True), sa=False, sym=False, se=False, se_reduction=16,
-                 groups=1, dw=False, div_groups=None):
+                 pool=nn.AvgPool2d(2, ceil_mode=True), sa=False, sym=False,
+                 groups=1, dw=False, div_groups=None,
+                 se_module=SEModule, se=False, se_reduction=16
+                 ):
         super().__init__()
         nf, ni = nh * expansion, ni * expansion
         if div_groups is not None:  # check if grops != 1 and div_groups
@@ -46,7 +47,7 @@ class ResBlock(nn.Module):
                       ("conv_2", conv_layer(nh, nf, 1, zero_bn=zero_bn, act=False, bn_1st=bn_1st))
                       ]
         if se:
-            layers.append(('se', self.se_block(nf, se_reduction)))
+            layers.append(('se', se_module(nf, se_reduction)))
         if sa:
             layers.append(('sa', SimpleSelfAttention(nf, ks=1, sym=sym)))
         self.convs = nn.Sequential(OrderedDict(layers))
@@ -76,7 +77,7 @@ def _make_layer(self, expansion, ni, nf, blocks, stride, sa):
                                      conv_layer=self.conv_layer, act_fn=self.act_fn, pool=self.pool,
                                      zero_bn=self.zero_bn, bn_1st=self.bn_1st,
                                      groups=self.groups, div_groups=self.div_groups,
-                                     dw=self.dw, se=self.se))
+                                     dw=self.dw, se_module=self.se_module, se=self.se, se_reduction=self.se_reduction))
               for i in range(blocks)]
     return nn.Sequential(OrderedDict(layers))
 
@@ -106,7 +107,8 @@ class ModelConstructor():
                  act_fn=nn.ReLU(inplace=True),
                  pool=nn.AvgPool2d(2, ceil_mode=True),
                  expansion=1, groups=1, dw=False, div_groups=None,
-                 sa=False, se=False, se_reduction=16,
+                 sa=False,
+                 se=False, se_module=SEModule, se_reduction=16,
                  bn_1st=True,
                  zero_bn=True,
                  stem_stride_on=0,
@@ -150,7 +152,7 @@ class ModelConstructor():
             ('body', self.body),
             ('head', self.head)]))
         self._init_cnn(model)
-        model.extra_repr = lambda: f"model {self.name}"
+        model.extra_repr = lambda: f"{self.name}"
         return model
 
     def __repr__(self):
