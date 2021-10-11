@@ -114,7 +114,10 @@ For example - play with activation function, initialization etc.</p>
     </div>
 </div>
 </div>
-
+<details class="description">
+      <summary data-open="Hide Output" data-close="Show Output"></summary>
+        <summary></summary>
+        
 <div class="output_wrapper">
 <div class="output">
 
@@ -420,6 +423,7 @@ For example - play with activation function, initialization etc.</p>
 </div>
 </div>
 
+    </details>
 </div>
     {% endraw %}
 
@@ -460,13 +464,16 @@ For example - play with activation function, initialization etc.</p>
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">convmixer_1024_20</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">convmixer_1024_20</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">convmixer_1024_20</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 </pre></div>
 
     </div>
 </div>
 </div>
-
+<details class="description">
+      <summary data-open="Hide Output" data-close="Show Output"></summary>
+        <summary></summary>
+        
 <div class="output_wrapper">
 <div class="output">
 
@@ -475,25 +482,11 @@ For example - play with activation function, initialization etc.</p>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>(ConvLayer(
-   (conv): Conv2d(3, 1024, kernel_size=(7, 7), stride=(7, 7))
-   (act_fn): Mish()
-   (bn): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
- ),
- Sequential(
-   (0): Residual(
-     (fn): ConvLayer(
-       (conv): Conv2d(1024, 1024, kernel_size=(9, 9), stride=(1, 1), padding=same, groups=1024)
-       (act_fn): Mish()
-       (bn): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-     )
-   )
-   (1): ConvLayer(
-     (conv): Conv2d(1024, 1024, kernel_size=(1, 1), stride=(1, 1))
-     (act_fn): Mish()
-     (bn): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-   )
- ))</pre>
+<pre>ConvLayer(
+  (conv): Conv2d(3, 1024, kernel_size=(7, 7), stride=(7, 7))
+  (act_fn): Mish()
+  (bn): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+)</pre>
 </div>
 
 </div>
@@ -501,6 +494,57 @@ For example - play with activation function, initialization etc.</p>
 </div>
 </div>
 
+    </details>
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">convmixer_1024_20</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+<details class="description">
+      <summary data-open="Hide Output" data-close="Show Output"></summary>
+        <summary></summary>
+        
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>Sequential(
+  (0): Residual(
+    (fn): ConvLayer(
+      (conv): Conv2d(1024, 1024, kernel_size=(9, 9), stride=(1, 1), padding=same, groups=1024)
+      (act_fn): Mish()
+      (bn): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    )
+  )
+  (1): ConvLayer(
+    (conv): Conv2d(1024, 1024, kernel_size=(1, 1), stride=(1, 1))
+    (act_fn): Mish()
+    (bn): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+  )
+)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+    </details>
 </div>
     {% endraw %}
 
@@ -534,13 +578,16 @@ For example - play with activation function, initialization etc.</p>
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">convmixer_1024_20</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">convmixer_1024_20</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">convmixer_1024_20</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 </pre></div>
 
     </div>
 </div>
 </div>
-
+<details class="description">
+      <summary data-open="Hide Output" data-close="Show Output"></summary>
+        <summary></summary>
+        
 <div class="output_wrapper">
 <div class="output">
 
@@ -549,25 +596,11 @@ For example - play with activation function, initialization etc.</p>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>(ConvLayer(
-   (conv): Conv2d(3, 1024, kernel_size=(7, 7), stride=(7, 7))
-   (act_fn): Mish()
-   (bn): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
- ),
- Sequential(
-   (0): Residual(
-     (fn): ConvLayer(
-       (act_fn): Mish()
-       (conv): Conv2d(1024, 1024, kernel_size=(9, 9), stride=(1, 1), padding=same, groups=1024)
-       (bn): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-     )
-   )
-   (1): ConvLayer(
-     (act_fn): Mish()
-     (conv): Conv2d(1024, 1024, kernel_size=(1, 1), stride=(1, 1))
-     (bn): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-   )
- ))</pre>
+<pre>ConvLayer(
+  (conv): Conv2d(3, 1024, kernel_size=(7, 7), stride=(7, 7))
+  (act_fn): Mish()
+  (bn): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+)</pre>
 </div>
 
 </div>
@@ -575,6 +608,57 @@ For example - play with activation function, initialization etc.</p>
 </div>
 </div>
 
+    </details>
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">convmixer_1024_20</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+<details class="description">
+      <summary data-open="Hide Output" data-close="Show Output"></summary>
+        <summary></summary>
+        
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>Sequential(
+  (0): Residual(
+    (fn): ConvLayer(
+      (act_fn): Mish()
+      (conv): Conv2d(1024, 1024, kernel_size=(9, 9), stride=(1, 1), padding=same, groups=1024)
+      (bn): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    )
+  )
+  (1): ConvLayer(
+    (act_fn): Mish()
+    (conv): Conv2d(1024, 1024, kernel_size=(1, 1), stride=(1, 1))
+    (bn): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+  )
+)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+    </details>
 </div>
     {% endraw %}
 
@@ -608,13 +692,16 @@ For example - play with activation function, initialization etc.</p>
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">convmixer_1024_20</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">convmixer_1024_20</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">convmixer_1024_20</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 </pre></div>
 
     </div>
 </div>
 </div>
-
+<details class="description">
+      <summary data-open="Hide Output" data-close="Show Output"></summary>
+        <summary></summary>
+        
 <div class="output_wrapper">
 <div class="output">
 
@@ -623,25 +710,11 @@ For example - play with activation function, initialization etc.</p>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>(ConvLayer(
-   (conv): Conv2d(3, 1024, kernel_size=(7, 7), stride=(7, 7))
-   (bn): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-   (act_fn): Mish()
- ),
- Sequential(
-   (0): Residual(
-     (fn): ConvLayer(
-       (conv): Conv2d(1024, 1024, kernel_size=(9, 9), stride=(1, 1), padding=same, groups=1024)
-       (bn): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-       (act_fn): Mish()
-     )
-   )
-   (1): ConvLayer(
-     (conv): Conv2d(1024, 1024, kernel_size=(1, 1), stride=(1, 1))
-     (bn): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-     (act_fn): Mish()
-   )
- ))</pre>
+<pre>ConvLayer(
+  (conv): Conv2d(3, 1024, kernel_size=(7, 7), stride=(7, 7))
+  (bn): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+  (act_fn): Mish()
+)</pre>
 </div>
 
 </div>
@@ -649,6 +722,57 @@ For example - play with activation function, initialization etc.</p>
 </div>
 </div>
 
+    </details>
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">convmixer_1024_20</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+<details class="description">
+      <summary data-open="Hide Output" data-close="Show Output"></summary>
+        <summary></summary>
+        
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>Sequential(
+  (0): Residual(
+    (fn): ConvLayer(
+      (conv): Conv2d(1024, 1024, kernel_size=(9, 9), stride=(1, 1), padding=same, groups=1024)
+      (bn): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (act_fn): Mish()
+    )
+  )
+  (1): ConvLayer(
+    (conv): Conv2d(1024, 1024, kernel_size=(1, 1), stride=(1, 1))
+    (bn): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (act_fn): Mish()
+  )
+)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+    </details>
 </div>
     {% endraw %}
 
