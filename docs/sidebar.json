@@ -7,6 +7,7 @@
     "MXResNet.": "MXResNet.html",
     "YaResNet.": "YaResNet.html",
     "Twist.": "Twist.html",
+    "ConvMixer": "ConvMixer.html",
     "Base constructor": "base_constructor.html",
     "xresnet": "xresnet.html"
   }

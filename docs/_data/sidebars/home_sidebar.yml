@@ -28,6 +28,9 @@ entries:
       title: Twist.
       url: Twist.html
     - output: web,pdf
+      title: ConvMixer
+      url: ConvMixer.html
+    - output: web,pdf
       title: Base constructor
       url: base_constructor.html
     - output: web,pdf
