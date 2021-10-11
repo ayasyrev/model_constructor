@@ -10,8 +10,8 @@ entries:
       title: Overview
       url: /
     - output: web,pdf
-      title: Model constructor class.
-      url: Net.html
+      title: Model constructor.
+      url: ModelConstructor.html
     - output: web,pdf
       title: Activations functions.
       url: activations.html
@@ -30,6 +30,9 @@ entries:
     - output: web,pdf
       title: ConvMixer
       url: ConvMixer.html
+    - output: web,pdf
+      title: First version. Net.
+      url: Net.html
     - output: web,pdf
       title: Base constructor
       url: base_constructor.html
