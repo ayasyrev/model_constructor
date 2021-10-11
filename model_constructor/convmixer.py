@@ -96,7 +96,8 @@ class ConvMixer(nn.Sequential):
             stem,
             *[nn.Sequential(
                 Residual(
-                    ConvLayer(dim, dim, kernel_size, act_fn=act_fn, groups=dim, padding="same", bn_1st=bn_1st, pre_act=pre_act)),
+                    ConvLayer(dim, dim, kernel_size, act_fn=act_fn,
+                              groups=dim, padding="same", bn_1st=bn_1st, pre_act=pre_act)),
                 ConvLayer(dim, dim, kernel_size=1, act_fn=act_fn, bn_1st=bn_1st, pre_act=pre_act))
               for i in range(depth)],
             nn.AdaptiveAvgPool2d((1, 1)),
