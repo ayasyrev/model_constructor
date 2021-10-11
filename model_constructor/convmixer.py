@@ -1,6 +1,8 @@
 # Implementation of ConvMixer for the ICLR 2022 submission "Patches Are All You Need?".
+# https://openreview.net/forum?id=TVHS5Y4dNvM
 # Adopted from https://github.com/tmp-iclr/convmixer
 from collections import OrderedDict
+from typing import Callable
 import torch.nn as nn
 
 
@@ -60,42 +62,45 @@ class ConvLayer(nn.Sequential):
         super().__init__(OrderedDict(layers))
 
 
-def ConvMixer(dim: int, depth: int,
-              kernel_size: int = 9, patch_size: int = 7, n_classes: int = 1000,
-              act_fn: nn.Module = nn.GELU(),
-              stem_ch: int = 0, stem_ks: int = 1,
-              bn_1st: bool = False, pre_act: bool = False) -> nn.Sequential:
-    """ConvMixer constructor.
-    Adopted from https://github.com/tmp-iclr/convmixer
+class ConvMixer(nn.Sequential):
 
-    Args:
-        dim (int): Dimention of model.
-        depth (int): Depth of model.
-        kernel_size (int, optional): Kernel size. Defaults to 9.
-        patch_size (int, optional): Patch size. Defaults to 7.
-        n_classes (int, optional): Number of classes. Defaults to 1000.
-        act_fn (nn.Module, optional): Activation function. Defaults to nn.GELU().
-        stem_ch (int, optional): If not 0 - add additional 'stem' layer with atem_ch chennels. Defaults to 0.
-        stem_ks (int, optional): If stem_ch not 0 - kernel size for adittional layer. Defaults to 1.
-        bn_1st (bool, optional): If True - BatchNorm befor activation function. Defaults to False.
-        pre_act (bool, optional): If True - activatin function befor convolution layer. Defaults to False.
+    def __init__(self, dim: int, depth: int,
+                 kernel_size: int = 9, patch_size: int = 7, n_classes: int = 1000,
+                 act_fn: nn.Module = nn.GELU(),
+                 stem: nn.Module = None,
+                 bn_1st: bool = False, pre_act: bool = False,
+                 init_func: Callable = None):
+        """ConvMixer constructor.
+        Adopted from https://github.com/tmp-iclr/convmixer
 
-    Returns:
-        nn.Sequential: nn.Model as Sequential model.
-    """
-    if pre_act:
-        bn_1st = False
-    if stem_ch:
-        stem = [ConvLayer(3, stem_ch, kernel_size=patch_size, stride=patch_size, act_fn=act_fn, bn_1st=bn_1st),
-                ConvLayer(stem_ch, dim, kernel_size=stem_ks, act_fn=act_fn, bn_1st=bn_1st, pre_act=pre_act)]
-    else:
-        stem = [ConvLayer(3, dim, kernel_size=patch_size, stride=patch_size, act_fn=act_fn, bn_1st=bn_1st)]
-    return nn.Sequential(
-        *stem,
-        *[nn.Sequential(
-            Residual(ConvLayer(dim, dim, kernel_size, groups=dim, padding="same", bn_1st=bn_1st, pre_act=pre_act)),
-            ConvLayer(dim, dim, kernel_size=1, act_fn=act_fn, bn_1st=bn_1st, pre_act=pre_act)) for i in range(depth)],
-        nn.AdaptiveAvgPool2d((1, 1)),
-        nn.Flatten(),
-        nn.Linear(dim, n_classes)
-    )
+        Args:
+            dim (int): Dimention of model.
+            depth (int): Depth of model.
+            kernel_size (int, optional): Kernel size. Defaults to 9.
+            patch_size (int, optional): Patch size. Defaults to 7.
+            n_classes (int, optional): Number of classes. Defaults to 1000.
+            act_fn (nn.Module, optional): Activation function. Defaults to nn.GELU().
+            stem (nn.Module, optional): You can path different first layer..
+            stem_ks (int, optional): If stem_ch not 0 - kernel size for adittional layer. Defaults to 1.
+            bn_1st (bool, optional): If True - BatchNorm befor activation function. Defaults to False.
+            pre_act (bool, optional): If True - activatin function befor convolution layer. Defaults to False.
+            init_func (Callable, optional): External function for init model.
+
+        """
+        if pre_act:
+            bn_1st = False
+        if stem is None:
+            stem = ConvLayer(3, dim, kernel_size=patch_size, stride=patch_size, act_fn=act_fn, bn_1st=bn_1st)
+
+        super().__init__(
+            stem,
+            *[nn.Sequential(
+                Residual(
+                    ConvLayer(dim, dim, kernel_size, act_fn=act_fn, groups=dim, padding="same", bn_1st=bn_1st, pre_act=pre_act)),
+                ConvLayer(dim, dim, kernel_size=1, act_fn=act_fn, bn_1st=bn_1st, pre_act=pre_act))
+              for i in range(depth)],
+            nn.AdaptiveAvgPool2d((1, 1)),
+            nn.Flatten(),
+            nn.Linear(dim, n_classes))
+        if init_func is not None:
+            init_func(self)
