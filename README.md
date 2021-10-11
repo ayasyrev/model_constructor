@@ -12,30 +12,30 @@ Or install from repo:
 
 ## How to use
 
-First import constructor class, then create model constructor oject.
+First import constructor class, then create model constructor object.
 
 Now you can change every part of model.
 
 ```python
-from model_constructor.net import Net
+from model_constructor import ModelConstructor
 ```
 
 ```python
-model = Net()
+mc = ModelConstructor()
 ```
 
 ```python
-model
+mc
 ```
 
 
 
 
-    Net constructor
+    MC constructor
       c_in: 3, c_out: 1000
-      expansion: 1, groups: 1, dw: False
+      expansion: 1, groups: 1, dw: False, div_groups: None
       sa: False, se: False
-      stem sizes: [3, 32, 32, 64], stide on 0
+      stem sizes: [3, 32, 32, 64], stride on 0
       body sizes [64, 128, 256, 512]
       layers: [2, 2, 2, 2]
 
@@ -44,63 +44,9 @@ model
 Now we have model consructor, default setting as xresnet18. And we can get model after call it.
 
 ```python
-model.c_in
-```
-
-
-
-
-    3
-
-
-
-```python
-model.c_out
-```
-
-
-
-
-    1000
-
-
-
-```python
-model.stem_sizes
-```
-
-
-
-
-    [3, 32, 32, 64]
-
-
-
-```python
-model.layers
-```
-
-
-
-
-    [2, 2, 2, 2]
-
-
-
-```python
-model.expansion
-```
-
-
-
-
-    1
-
-
-
-```python
 #collapse_output
-model()
+model = mc()
+model
 ```
 <details class="description">
     <summary>Output details ...</summary>
@@ -109,7 +55,7 @@ model()
 
 
     Sequential(
-      model Net
+      MC
       (stem): Sequential(
         (conv_0): ConvLayer(
           (conv): Conv2d(3, 32, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
@@ -280,15 +226,15 @@ If you want to change model, just change constructor parameters.
 Lets create xresnet50.
 
 ```python
-model.expansion = 4
-model.layers = [3,4,6,3]
+mc.expansion = 4
+mc.layers = [3,4,6,3]
 ```
 
 Now we can look at model body and if we call constructor - we have pytorch model!
 
 ```python
 #collapse_output
-model.body
+mc.body
 ```
 <details class="description">
     <summary>Output details ...</summary>
@@ -301,60 +247,27 @@ model.body
         (bl_0): ResBlock(
           (convs): Sequential(
             (conv_0): ConvLayer(
-              (conv): Conv2d(64, 64, kernel_size=(1, 1), stride=(1, 1), bias=False)
+              (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
               (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
               (act_fn): ReLU(inplace=True)
             )
             (conv_1): ConvLayer(
               (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
               (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-              (act_fn): ReLU(inplace=True)
             )
-            (conv_2): ConvLayer(
-              (conv): Conv2d(64, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
-              (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-            )
-          )
-          (idconv): ConvLayer(
-            (conv): Conv2d(64, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
-            (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
           )
           (act_fn): ReLU(inplace=True)
         )
         (bl_1): ResBlock(
           (convs): Sequential(
             (conv_0): ConvLayer(
-              (conv): Conv2d(256, 64, kernel_size=(1, 1), stride=(1, 1), bias=False)
+              (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
               (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
               (act_fn): ReLU(inplace=True)
             )
             (conv_1): ConvLayer(
               (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
               (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-              (act_fn): ReLU(inplace=True)
-            )
-            (conv_2): ConvLayer(
-              (conv): Conv2d(64, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
-              (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-            )
-          )
-          (act_fn): ReLU(inplace=True)
-        )
-        (bl_2): ResBlock(
-          (convs): Sequential(
-            (conv_0): ConvLayer(
-              (conv): Conv2d(256, 64, kernel_size=(1, 1), stride=(1, 1), bias=False)
-              (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-              (act_fn): ReLU(inplace=True)
-            )
-            (conv_1): ConvLayer(
-              (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-              (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-              (act_fn): ReLU(inplace=True)
-            )
-            (conv_2): ConvLayer(
-              (conv): Conv2d(64, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
-              (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
             )
           )
           (act_fn): ReLU(inplace=True)
@@ -364,17 +277,82 @@ model.body
         (bl_0): ResBlock(
           (convs): Sequential(
             (conv_0): ConvLayer(
-              (conv): Conv2d(256, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
+              (conv): Conv2d(64, 128, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
               (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
               (act_fn): ReLU(inplace=True)
             )
             (conv_1): ConvLayer(
-              (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
+              (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+              (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+          )
+          (pool): AvgPool2d(kernel_size=2, stride=2, padding=0)
+          (idconv): ConvLayer(
+            (conv): Conv2d(64, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (act_fn): ReLU(inplace=True)
+        )
+        (bl_1): ResBlock(
+          (convs): Sequential(
+            (conv_0): ConvLayer(
+              (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
               (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
               (act_fn): ReLU(inplace=True)
             )
-            (conv_2): ConvLayer(
-              (conv): Conv2d(128, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (conv_1): ConvLayer(
+              (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+              (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+          )
+          (act_fn): ReLU(inplace=True)
+        )
+      )
+      (l_2): Sequential(
+        (bl_0): ResBlock(
+          (convs): Sequential(
+            (conv_0): ConvLayer(
+              (conv): Conv2d(128, 256, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
+              (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              (act_fn): ReLU(inplace=True)
+            )
+            (conv_1): ConvLayer(
+              (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+              (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+          )
+          (pool): AvgPool2d(kernel_size=2, stride=2, padding=0)
+          (idconv): ConvLayer(
+            (conv): Conv2d(128, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (act_fn): ReLU(inplace=True)
+        )
+        (bl_1): ResBlock(
+          (convs): Sequential(
+            (conv_0): ConvLayer(
+              (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+              (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              (act_fn): ReLU(inplace=True)
+            )
+            (conv_1): ConvLayer(
+              (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+              (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+          )
+          (act_fn): ReLU(inplace=True)
+        )
+      )
+      (l_3): Sequential(
+        (bl_0): ResBlock(
+          (convs): Sequential(
+            (conv_0): ConvLayer(
+              (conv): Conv2d(256, 512, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
+              (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              (act_fn): ReLU(inplace=True)
+            )
+            (conv_1): ConvLayer(
+              (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
               (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
             )
           )
@@ -388,241 +366,13 @@ model.body
         (bl_1): ResBlock(
           (convs): Sequential(
             (conv_0): ConvLayer(
-              (conv): Conv2d(512, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
-              (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-              (act_fn): ReLU(inplace=True)
-            )
-            (conv_1): ConvLayer(
-              (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-              (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-              (act_fn): ReLU(inplace=True)
-            )
-            (conv_2): ConvLayer(
-              (conv): Conv2d(128, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
-              (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-            )
-          )
-          (act_fn): ReLU(inplace=True)
-        )
-        (bl_2): ResBlock(
-          (convs): Sequential(
-            (conv_0): ConvLayer(
-              (conv): Conv2d(512, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
-              (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-              (act_fn): ReLU(inplace=True)
-            )
-            (conv_1): ConvLayer(
-              (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-              (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-              (act_fn): ReLU(inplace=True)
-            )
-            (conv_2): ConvLayer(
-              (conv): Conv2d(128, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
-              (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-            )
-          )
-          (act_fn): ReLU(inplace=True)
-        )
-        (bl_3): ResBlock(
-          (convs): Sequential(
-            (conv_0): ConvLayer(
-              (conv): Conv2d(512, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
-              (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-              (act_fn): ReLU(inplace=True)
-            )
-            (conv_1): ConvLayer(
-              (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-              (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-              (act_fn): ReLU(inplace=True)
-            )
-            (conv_2): ConvLayer(
-              (conv): Conv2d(128, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
-              (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-            )
-          )
-          (act_fn): ReLU(inplace=True)
-        )
-      )
-      (l_2): Sequential(
-        (bl_0): ResBlock(
-          (convs): Sequential(
-            (conv_0): ConvLayer(
-              (conv): Conv2d(512, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
-              (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-              (act_fn): ReLU(inplace=True)
-            )
-            (conv_1): ConvLayer(
-              (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
-              (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-              (act_fn): ReLU(inplace=True)
-            )
-            (conv_2): ConvLayer(
-              (conv): Conv2d(256, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False)
-              (bn): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-            )
-          )
-          (pool): AvgPool2d(kernel_size=2, stride=2, padding=0)
-          (idconv): ConvLayer(
-            (conv): Conv2d(512, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False)
-            (bn): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-          )
-          (act_fn): ReLU(inplace=True)
-        )
-        (bl_1): ResBlock(
-          (convs): Sequential(
-            (conv_0): ConvLayer(
-              (conv): Conv2d(1024, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
-              (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-              (act_fn): ReLU(inplace=True)
-            )
-            (conv_1): ConvLayer(
-              (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-              (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-              (act_fn): ReLU(inplace=True)
-            )
-            (conv_2): ConvLayer(
-              (conv): Conv2d(256, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False)
-              (bn): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-            )
-          )
-          (act_fn): ReLU(inplace=True)
-        )
-        (bl_2): ResBlock(
-          (convs): Sequential(
-            (conv_0): ConvLayer(
-              (conv): Conv2d(1024, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
-              (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-              (act_fn): ReLU(inplace=True)
-            )
-            (conv_1): ConvLayer(
-              (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-              (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-              (act_fn): ReLU(inplace=True)
-            )
-            (conv_2): ConvLayer(
-              (conv): Conv2d(256, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False)
-              (bn): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-            )
-          )
-          (act_fn): ReLU(inplace=True)
-        )
-        (bl_3): ResBlock(
-          (convs): Sequential(
-            (conv_0): ConvLayer(
-              (conv): Conv2d(1024, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
-              (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-              (act_fn): ReLU(inplace=True)
-            )
-            (conv_1): ConvLayer(
-              (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-              (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-              (act_fn): ReLU(inplace=True)
-            )
-            (conv_2): ConvLayer(
-              (conv): Conv2d(256, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False)
-              (bn): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-            )
-          )
-          (act_fn): ReLU(inplace=True)
-        )
-        (bl_4): ResBlock(
-          (convs): Sequential(
-            (conv_0): ConvLayer(
-              (conv): Conv2d(1024, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
-              (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-              (act_fn): ReLU(inplace=True)
-            )
-            (conv_1): ConvLayer(
-              (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-              (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-              (act_fn): ReLU(inplace=True)
-            )
-            (conv_2): ConvLayer(
-              (conv): Conv2d(256, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False)
-              (bn): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-            )
-          )
-          (act_fn): ReLU(inplace=True)
-        )
-        (bl_5): ResBlock(
-          (convs): Sequential(
-            (conv_0): ConvLayer(
-              (conv): Conv2d(1024, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
-              (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-              (act_fn): ReLU(inplace=True)
-            )
-            (conv_1): ConvLayer(
-              (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-              (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-              (act_fn): ReLU(inplace=True)
-            )
-            (conv_2): ConvLayer(
-              (conv): Conv2d(256, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False)
-              (bn): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-            )
-          )
-          (act_fn): ReLU(inplace=True)
-        )
-      )
-      (l_3): Sequential(
-        (bl_0): ResBlock(
-          (convs): Sequential(
-            (conv_0): ConvLayer(
-              (conv): Conv2d(1024, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
-              (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-              (act_fn): ReLU(inplace=True)
-            )
-            (conv_1): ConvLayer(
-              (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
-              (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-              (act_fn): ReLU(inplace=True)
-            )
-            (conv_2): ConvLayer(
-              (conv): Conv2d(512, 2048, kernel_size=(1, 1), stride=(1, 1), bias=False)
-              (bn): BatchNorm2d(2048, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-            )
-          )
-          (pool): AvgPool2d(kernel_size=2, stride=2, padding=0)
-          (idconv): ConvLayer(
-            (conv): Conv2d(1024, 2048, kernel_size=(1, 1), stride=(1, 1), bias=False)
-            (bn): BatchNorm2d(2048, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-          )
-          (act_fn): ReLU(inplace=True)
-        )
-        (bl_1): ResBlock(
-          (convs): Sequential(
-            (conv_0): ConvLayer(
-              (conv): Conv2d(2048, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+              (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
               (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
               (act_fn): ReLU(inplace=True)
             )
             (conv_1): ConvLayer(
               (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
               (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-              (act_fn): ReLU(inplace=True)
-            )
-            (conv_2): ConvLayer(
-              (conv): Conv2d(512, 2048, kernel_size=(1, 1), stride=(1, 1), bias=False)
-              (bn): BatchNorm2d(2048, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-            )
-          )
-          (act_fn): ReLU(inplace=True)
-        )
-        (bl_2): ResBlock(
-          (convs): Sequential(
-            (conv_0): ConvLayer(
-              (conv): Conv2d(2048, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
-              (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-              (act_fn): ReLU(inplace=True)
-            )
-            (conv_1): ConvLayer(
-              (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-              (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-              (act_fn): ReLU(inplace=True)
-            )
-            (conv_2): ConvLayer(
-              (conv): Conv2d(512, 2048, kernel_size=(1, 1), stride=(1, 1), bias=False)
-              (bn): BatchNorm2d(2048, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
             )
           )
           (act_fn): ReLU(inplace=True)
@@ -645,29 +395,30 @@ But now lets create model as mxresnet50 from fastai forums tread https://forums.
 Lets create mxresnet constructor.
 
 ```python
-model = Net(name='MxResNet')
+mc = ModelConstructor(name='MxResNet')
 ```
 
 Then lets modify stem.
 
 ```python
-model.stem_sizes = [3,32,64,64]
+mc.stem_sizes = [3,32,64,64]
 ```
 
 Now lets change activation function to Mish.
 Here is link to forum disscussion https://forums.fast.ai/t/meet-mish-new-activation-function-possible-successor-to-relu  
-Mish is in model_constructor.activations
+We'v got Mish is in model_constructor.activations, but from pytorch 1.9 take it from torch:
 
 ```python
-from model_constructor.activations import Mish
+# from model_constructor.activations import Mish
+from torch.nn import Mish
 ```
 
 ```python
-model.act_fn = Mish()
+mc.act_fn = Mish()
 ```
 
 ```python
-model
+mc
 ```
 
 
@@ -675,9 +426,9 @@ model
 
     MxResNet constructor
       c_in: 3, c_out: 1000
-      expansion: 1, groups: 1, dw: False
+      expansion: 1, groups: 1, dw: False, div_groups: None
       sa: False, se: False
-      stem sizes: [3, 32, 64, 64], stide on 0
+      stem sizes: [3, 32, 32, 64], stride on 0
       body sizes [64, 128, 256, 512]
       layers: [2, 2, 2, 2]
 
@@ -685,7 +436,7 @@ model
 
 ```python
 #collapse_output
-model()
+mc()
 ```
 <details class="description">
     <summary>Output details ...</summary>
@@ -694,7 +445,7 @@ model()
 
 
     Sequential(
-      model MxResNet
+      MxResNet
       (stem): Sequential(
         (conv_0): ConvLayer(
           (conv): Conv2d(3, 32, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
@@ -702,12 +453,12 @@ model()
           (act_fn): Mish()
         )
         (conv_1): ConvLayer(
-          (conv): Conv2d(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-          (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (conv): Conv2d(32, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+          (bn): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
           (act_fn): Mish()
         )
         (conv_2): ConvLayer(
-          (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+          (conv): Conv2d(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
           (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
           (act_fn): Mish()
         )
@@ -866,9 +617,9 @@ model()
 Now lets make MxResNet50
 
 ```python
-model.expansion = 4
-model.layers = [3,4,6,3]
-model.name = 'mxresnet50'
+mc.expansion = 4
+mc.layers = [3,4,6,3]
+mc.name = 'mxresnet50'
 ```
 
 Now we have mxresnet50 constructor.  
@@ -876,7 +627,7 @@ We can inspect every parts of it.
 And after call it we got model.
 
 ```python
-model
+mc
 ```
 
 
@@ -884,9 +635,9 @@ model
 
     mxresnet50 constructor
       c_in: 3, c_out: 1000
-      expansion: 4, groups: 1, dw: False
+      expansion: 4, groups: 1, dw: False, div_groups: None
       sa: False, se: False
-      stem sizes: [3, 32, 64, 64], stide on 0
+      stem sizes: [3, 32, 32, 64], stride on 0
       body sizes [64, 128, 256, 512]
       layers: [3, 4, 6, 3]
 
@@ -894,7 +645,7 @@ model
 
 ```python
 #collapse_output
-model.stem.conv_1
+mc.stem.conv_1
 ```
 <details class="description">
     <summary>Output details ...</summary>
@@ -903,8 +654,8 @@ model.stem.conv_1
 
 
     ConvLayer(
-      (conv): Conv2d(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-      (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (conv): Conv2d(32, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
       (act_fn): Mish()
     )
 
@@ -914,7 +665,7 @@ model.stem.conv_1
 
 ```python
 #collapse_output
-model.body.l_0.bl_0
+mc.body.l_0.bl_0
 ```
 <details class="description">
     <summary>Output details ...</summary>
@@ -959,15 +710,15 @@ from model_constructor.yaresnet import YaResBlock
 ```
 
 ```python
-model.block = YaResBlock
+mc.block = YaResBlock
 ```
 
 That all. Now we have YaResNet constructor
 
 ```python
 #collapse_output
-model.name = 'YaResNet'
-model
+mc.name = 'YaResNet'
+mc
 ```
 <details class="description">
     <summary>Output details ...</summary>
@@ -977,9 +728,9 @@ model
 
     YaResNet constructor
       c_in: 3, c_out: 1000
-      expansion: 4, groups: 1, dw: False
+      expansion: 4, groups: 1, dw: False, div_groups: None
       sa: False, se: False
-      stem sizes: [3, 32, 64, 64], stide on 0
+      stem sizes: [3, 32, 32, 64], stride on 0
       body sizes [64, 128, 256, 512]
       layers: [3, 4, 6, 3]
 
@@ -991,7 +742,7 @@ Let see what we have.
 
 ```python
 #collapse_output
-model.body.l_1.bl_0
+mc.body.l_1.bl_0
 ```
 <details class="description">
     <summary>Output details ...</summary>
@@ -1027,3 +778,32 @@ model.body.l_1.bl_0
 
 
 </details>
+
+## First version
+
+First version, it deprecated, but still here for compatability.
+
+```python
+from model_constructor.net import Net
+```
+
+```python
+mc = Net()
+```
+
+```python
+mc
+```
+
+
+
+
+    Net constructor
+      c_in: 3, c_out: 1000
+      expansion: 1, groups: 1, dw: False, div_groups: None
+      sa: False, se: False
+      stem sizes: [3, 32, 32, 64], stride on 0
+      body sizes [64, 128, 256, 512]
+      layers: [2, 2, 2, 2]
+
+

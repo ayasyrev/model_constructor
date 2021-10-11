@@ -1,13 +1,14 @@
 {
   "model_constructor": {
     "Overview": "/",
-    "Model constructor class.": "Net.html",
+    "Model constructor.": "ModelConstructor.html",
     "Activations functions.": "activations.html",
     "Layers": "layers.html",
     "MXResNet.": "MXResNet.html",
     "YaResNet.": "YaResNet.html",
     "Twist.": "Twist.html",
     "ConvMixer": "ConvMixer.html",
+    "First version. Net.": "Net.html",
     "Base constructor": "base_constructor.html",
     "xresnet": "xresnet.html"
   }
