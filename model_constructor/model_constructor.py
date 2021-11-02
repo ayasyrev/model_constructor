@@ -36,9 +36,10 @@ class ResBlock(nn.Module):
         if div_groups is not None:  # check if grops != 1 and div_groups
             groups = int(nh / div_groups)
         if expansion == 1:
-            layers = [("conv_0", conv_layer(ni, nh, 3, stride=stride, act_fn=act_fn, bn_1st=bn_1st,
-                                            groups=nh if dw else groups)),
-                      ("conv_1", conv_layer(nh, nf, 3, zero_bn=zero_bn, act=False, bn_1st=bn_1st))
+            layers = [("conv_0", conv_layer(ni, nh, 3, stride=stride,
+                                            act_fn=act_fn, bn_1st=bn_1st, groups=ni if dw else groups)),
+                      ("conv_1", conv_layer(nh, nf, 3, zero_bn=zero_bn,
+                                            act=False, bn_1st=bn_1st, groups=nh if dw else groups))
                       ]
         else:
             layers = [("conv_0", conv_layer(ni, nh, 1, act_fn=act_fn, bn_1st=bn_1st)),
@@ -132,7 +133,7 @@ class ModelConstructor():
 
     @property
     def block_sizes(self):
-        return [self.stem_sizes[-1] // self.expansion] + self._block_sizes + [256] * (len(self.layers) - 4)
+        return [self.stem_sizes[-1] // self.expansion] + self._block_sizes
 
     @property
     def stem(self):
