@@ -36,9 +36,10 @@ class ResBlock(nn.Module):
         if div_groups is not None:  # check if grops != 1 and div_groups
             groups = int(nh / div_groups)
         if expansion == 1:
-            layers = [("conv_0", conv_layer(ni, nh, 3, stride=stride, act_fn=act_fn, bn_1st=bn_1st,
-                                            groups=nh if dw else groups)),
-                      ("conv_1", conv_layer(nh, nf, 3, zero_bn=zero_bn, act=False, bn_1st=bn_1st))
+            layers = [("conv_0", conv_layer(ni, nh, 3, stride=stride,
+                                            act_fn=act_fn, bn_1st=bn_1st, groups=ni if dw else groups)),
+                      ("conv_1", conv_layer(nh, nf, 3, zero_bn=zero_bn,
+                                            act=False, bn_1st=bn_1st, groups=nh if dw else groups))
                       ]
         else:
             layers = [("conv_0", conv_layer(ni, nh, 1, act_fn=act_fn, bn_1st=bn_1st)),
@@ -65,7 +66,8 @@ def _make_stem(self):
                                           bn_layer=(not self.stem_bn_end) if i == (len(self.stem_sizes) - 2) else True,
                                           act_fn=self.act_fn, bn_1st=self.bn_1st))
             for i in range(len(self.stem_sizes) - 1)]
-    stem.append(('stem_pool', self.stem_pool))
+    if self.stem_pool is not None:
+        stem.append(('stem_pool', self.stem_pool))
     if self.stem_bn_end:
         stem.append(('norm', self.norm(self.stem_sizes[-1])))
     return nn.Sequential(OrderedDict(stem))
@@ -83,9 +85,10 @@ def _make_layer(self, expansion, ni, nf, blocks, stride, sa):
 
 
 def _make_body(self):
+    stride = 2 if self.stem_pool is None else 1  # if no pool on stem - stride = 2 for first block in body
     blocks = [(f"l_{i}", self._make_layer(self, self.expansion,
                                           ni=self.block_sizes[i], nf=self.block_sizes[i + 1],
-                                          blocks=l, stride=1 if i == 0 else 2,
+                                          blocks=l, stride=stride if i == 0 else 2,
                                           sa=self.sa if i == 0 else False))
               for i, l in enumerate(self.layers)]
     return nn.Sequential(OrderedDict(blocks))
@@ -113,7 +116,7 @@ class ModelConstructor():
                  zero_bn=True,
                  stem_stride_on=0,
                  stem_sizes=[32, 32, 64],
-                 stem_pool=nn.MaxPool2d(kernel_size=3, stride=2, padding=1),
+                 stem_pool=nn.MaxPool2d(kernel_size=3, stride=2, padding=1),  # if stem_pool is None - no pool at stem
                  stem_bn_end=False,
                  _init_cnn=init_cnn,
                  _make_stem=_make_stem,
@@ -127,12 +130,14 @@ class ModelConstructor():
         del params['self']
         self.__dict__ = params
         self._block_sizes = params['block_sizes']
+        if type(self.stem_pool) is str:  # Hydra pass string value
+            self.stem_pool = None
         if self.stem_sizes[0] != self.c_in:
             self.stem_sizes = [self.c_in] + self.stem_sizes
 
     @property
     def block_sizes(self):
-        return [self.stem_sizes[-1] // self.expansion] + self._block_sizes + [256] * (len(self.layers) - 4)
+        return [self.stem_sizes[-1] // self.expansion] + self._block_sizes
 
     @property
     def stem(self):

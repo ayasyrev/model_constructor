@@ -26,9 +26,10 @@ class YaResBlock(nn.Module):
         if div_groups is not None:  # check if grops != 1 and div_groups
             groups = int(nh / div_groups)
         self.reduce = noop if stride == 1 else pool
-        layers = [("conv_0", conv_layer(ni, nh, 3, stride=1, act_fn=act_fn, bn_1st=bn_1st,
-                                        groups=nh if dw else groups)),
-                  ("conv_1", conv_layer(nh, nf, 3, zero_bn=zero_bn, act=False, bn_1st=bn_1st))
+        layers = [("conv_0", conv_layer(ni, nh, 3, stride=1,
+                                        act_fn=act_fn, bn_1st=bn_1st, groups=ni if dw else groups)),
+                  ("conv_1", conv_layer(nh, nf, 3, zero_bn=zero_bn,
+                                        act=False, bn_1st=bn_1st, groups=nh if dw else groups))
                   ] if expansion == 1 else [
                       ("conv_0", conv_layer(ni, nh, 1, act_fn=act_fn, bn_1st=bn_1st)),
                       ("conv_1", conv_layer(nh, nh, 3, stride=1, act_fn=act_fn, bn_1st=bn_1st,
