@@ -157,13 +157,20 @@ class SEModule(nn.Module):
     def __init__(self,
                  channels,
                  reduction=16,
+                 rd_channels=None,
+                 rd_max=False,
                  se_layer=nn.Linear,
                  act_fn=nn.ReLU(inplace=True),  # ? obj or class?
                  use_bias=True,
                  gate=nn.Sigmoid
                  ):
         super().__init__()
-        rd_channels = channels // reduction
+        reducted = channels // reduction
+        if rd_channels is None:
+            rd_channels = reducted
+        else:
+            if rd_max:
+                rd_channels = max(rd_channels, reducted)
         self.squeeze = nn.AdaptiveAvgPool2d(1)
         self.excitation = nn.Sequential(
             OrderedDict([('fc_reduce', se_layer(channels, rd_channels, bias=use_bias)),
@@ -185,6 +192,8 @@ class SEModuleConv(nn.Module):
     def __init__(self,
                  channels,
                  reduction=16,
+                 rd_channels=None,
+                 rd_max=False,
                  se_layer=nn.Conv2d,
                  act_fn=nn.ReLU(inplace=True),
                  use_bias=True,
@@ -192,7 +201,12 @@ class SEModuleConv(nn.Module):
                  ):
         super().__init__()
 #       rd_channels = math.ceil(channels//reduction/8)*8
-        rd_channels = channels // reduction
+        reducted = channels // reduction
+        if rd_channels is None:
+            rd_channels = reducted
+        else:
+            if rd_max:
+                rd_channels = max(rd_channels, reducted)
         self.squeeze = nn.AdaptiveAvgPool2d(1)
         self.excitation = nn.Sequential(
             OrderedDict([
