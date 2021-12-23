@@ -15,33 +15,33 @@ __all__ = ['YaResBlock', 'yaresnet_parameters', 'yaresnet34', 'yaresnet50']
 class YaResBlock(nn.Module):
     '''YaResBlock. Reduce by pool instead of stride 2'''
 
-    def __init__(self, expansion, ni, nh, stride=1,
+    def __init__(self, expansion, in_channels, mid_channels, stride=1,
                  conv_layer=ConvLayer, act_fn=act_fn, zero_bn=True, bn_1st=True,
                  pool=nn.AvgPool2d(2, ceil_mode=True), sa=False, sym=False,
                  groups=1, dw=False, div_groups=None,
                  se_module=SEModule, se=False, se_reduction=16
                  ):
         super().__init__()
-        nf, ni = nh * expansion, ni * expansion
+        out_channels, in_channels = mid_channels * expansion, in_channels * expansion
         if div_groups is not None:  # check if grops != 1 and div_groups
-            groups = int(nh / div_groups)
+            groups = int(mid_channels / div_groups)
         self.reduce = noop if stride == 1 else pool
-        layers = [("conv_0", conv_layer(ni, nh, 3, stride=1,
-                                        act_fn=act_fn, bn_1st=bn_1st, groups=ni if dw else groups)),
-                  ("conv_1", conv_layer(nh, nf, 3, zero_bn=zero_bn,
-                                        act=False, bn_1st=bn_1st, groups=nh if dw else groups))
+        layers = [("conv_0", conv_layer(in_channels, mid_channels, 3, stride=1,
+                                        act_fn=act_fn, bn_1st=bn_1st, groups=in_channels if dw else groups)),
+                  ("conv_1", conv_layer(mid_channels, out_channels, 3, zero_bn=zero_bn,
+                                        act=False, bn_1st=bn_1st, groups=mid_channels if dw else groups))
                   ] if expansion == 1 else [
-                      ("conv_0", conv_layer(ni, nh, 1, act_fn=act_fn, bn_1st=bn_1st)),
-                      ("conv_1", conv_layer(nh, nh, 3, stride=1, act_fn=act_fn, bn_1st=bn_1st,
-                                            groups=nh if dw else groups)),
-                      ("conv_2", conv_layer(nh, nf, 1, zero_bn=zero_bn, act=False, bn_1st=bn_1st))
+                      ("conv_0", conv_layer(in_channels, mid_channels, 1, act_fn=act_fn, bn_1st=bn_1st)),
+                      ("conv_1", conv_layer(mid_channels, mid_channels, 3, stride=1, act_fn=act_fn, bn_1st=bn_1st,
+                                            groups=mid_channels if dw else groups)),
+                      ("conv_2", conv_layer(mid_channels, out_channels, 1, zero_bn=zero_bn, act=False, bn_1st=bn_1st))
         ]
         if se:
-            layers.append(('se', se_module(nf, se_reduction)))
+            layers.append(('se', se_module(out_channels, se_reduction)))
         if sa:
-            layers.append(('sa', SimpleSelfAttention(nf, ks=1, sym=sym)))
+            layers.append(('sa', SimpleSelfAttention(out_channels, ks=1, sym=sym)))
         self.convs = nn.Sequential(OrderedDict(layers))
-        self.idconv = noop if ni == nf else conv_layer(ni, nf, 1, act=False)
+        self.idconv = noop if in_channels == out_channels else conv_layer(in_channels, out_channels, 1, act=False)
         self.merge = act_fn
 
     def forward(self, x):

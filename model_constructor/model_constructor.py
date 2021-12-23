@@ -25,35 +25,35 @@ def init_cnn(module: nn.Module):
 class ResBlock(nn.Module):
     '''Resnet block'''
 
-    def __init__(self, expansion, ni, nh, stride=1,
+    def __init__(self, expansion, in_channels, mid_channels, stride=1,
                  conv_layer=ConvLayer, act_fn=act_fn, zero_bn=True, bn_1st=True,
                  pool=nn.AvgPool2d(2, ceil_mode=True), sa=False, sym=False,
                  groups=1, dw=False, div_groups=None,
                  se_module=SEModule, se=False, se_reduction=16
                  ):
         super().__init__()
-        nf, ni = nh * expansion, ni * expansion
+        out_channels, in_channels = mid_channels * expansion, in_channels * expansion
         if div_groups is not None:  # check if grops != 1 and div_groups
-            groups = int(nh / div_groups)
+            groups = int(mid_channels / div_groups)
         if expansion == 1:
-            layers = [("conv_0", conv_layer(ni, nh, 3, stride=stride,
-                                            act_fn=act_fn, bn_1st=bn_1st, groups=ni if dw else groups)),
-                      ("conv_1", conv_layer(nh, nf, 3, zero_bn=zero_bn,
-                                            act=False, bn_1st=bn_1st, groups=nh if dw else groups))
+            layers = [("conv_0", conv_layer(in_channels, mid_channels, 3, stride=stride,
+                                            act_fn=act_fn, bn_1st=bn_1st, groups=in_channels if dw else groups)),
+                      ("conv_1", conv_layer(mid_channels, out_channels, 3, zero_bn=zero_bn,
+                                            act=False, bn_1st=bn_1st, groups=mid_channels if dw else groups))
                       ]
         else:
-            layers = [("conv_0", conv_layer(ni, nh, 1, act_fn=act_fn, bn_1st=bn_1st)),
-                      ("conv_1", conv_layer(nh, nh, 3, stride=stride, act_fn=act_fn, bn_1st=bn_1st,
-                                            groups=nh if dw else groups)),
-                      ("conv_2", conv_layer(nh, nf, 1, zero_bn=zero_bn, act=False, bn_1st=bn_1st))
+            layers = [("conv_0", conv_layer(in_channels, mid_channels, 1, act_fn=act_fn, bn_1st=bn_1st)),
+                      ("conv_1", conv_layer(mid_channels, mid_channels, 3, stride=stride, act_fn=act_fn, bn_1st=bn_1st,
+                                            groups=mid_channels if dw else groups)),
+                      ("conv_2", conv_layer(mid_channels, out_channels, 1, zero_bn=zero_bn, act=False, bn_1st=bn_1st))
                       ]
         if se:
-            layers.append(('se', se_module(nf, se_reduction)))
+            layers.append(('se', se_module(out_channels, se_reduction)))
         if sa:
-            layers.append(('sa', SimpleSelfAttention(nf, ks=1, sym=sym)))
+            layers.append(('sa', SimpleSelfAttention(out_channels, ks=1, sym=sym)))
         self.convs = nn.Sequential(OrderedDict(layers))
         self.pool = noop if stride == 1 else pool
-        self.idconv = noop if ni == nf else conv_layer(ni, nf, 1, act=False)
+        self.idconv = noop if in_channels == out_channels else conv_layer(in_channels, out_channels, 1, act=False)
         self.act_fn = act_fn
 
     def forward(self, x):
@@ -73,8 +73,8 @@ def _make_stem(self):
     return nn.Sequential(OrderedDict(stem))
 
 
-def _make_layer(self, expansion, ni, nf, blocks, stride, sa):
-    layers = [(f"bl_{i}", self.block(expansion, ni if i == 0 else nf, nf,
+def _make_layer(self, expansion, in_channels, out_channels, blocks, stride, sa):
+    layers = [(f"bl_{i}", self.block(expansion, in_channels if i == 0 else out_channels, out_channels,
                                      stride if i == 0 else 1, sa=sa if i == blocks - 1 else False,
                                      conv_layer=self.conv_layer, act_fn=self.act_fn, pool=self.pool,
                                      zero_bn=self.zero_bn, bn_1st=self.bn_1st,
@@ -87,7 +87,7 @@ def _make_layer(self, expansion, ni, nf, blocks, stride, sa):
 def _make_body(self):
     stride = 2 if self.stem_pool is None else 1  # if no pool on stem - stride = 2 for first block in body
     blocks = [(f"l_{i}", self._make_layer(self, self.expansion,
-                                          ni=self.block_sizes[i], nf=self.block_sizes[i + 1],
+                                          in_channels=self.block_sizes[i], out_channels=self.block_sizes[i + 1],
                                           blocks=l, stride=stride if i == 0 else 2,
                                           sa=self.sa if i == 0 else False))
               for i, l in enumerate(self.layers)]
