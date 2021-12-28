@@ -33,8 +33,6 @@ class ResBlock(nn.Module):
                  se=None, sa=None
                  ):
         super().__init__()
-        # if pool is None:
-        #     raise Exception("pool not passed")
         out_channels, in_channels = mid_channels * expansion, in_channels * expansion
         if div_groups is not None:  # check if grops != 1 and div_groups
             groups = int(mid_channels / div_groups)
