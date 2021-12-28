@@ -34,6 +34,37 @@ class Noop(nn.Module):
 act_fn = nn.ReLU(inplace=True)
 
 
+class ConvBnAct(nn.Sequential):
+    """Basic Conv + Bn + ACt block"""
+    convolution_module = nn.Conv2d  # can be changed in models like twist.
+    batchnorm_module = nn.BatchNorm2d
+
+    def __init__(self, in_channels, out_channels, kernel_size=3, stride=1,
+                 padding=None, bias=False, groups=1,
+                 act_fn=act_fn, pre_act=False,
+                 bn_layer=True, bn_1st=True, zero_bn=False,
+                 ):
+
+        if padding is None:
+            padding = kernel_size // 2
+        layers = [('conv', self.convolution_module(in_channels, out_channels, kernel_size, stride=stride,
+                                                   padding=padding, bias=bias, groups=groups))]  # if no bn - bias True?
+        if bn_layer:
+            bn = self.batchnorm_module(out_channels)
+            nn.init.constant_(bn.weight, 0. if zero_bn else 1.)
+            layers.append(('bn', bn))
+        if act_fn:
+            if pre_act:
+                act_position = 0
+            elif not bn_1st:
+                act_position = 1
+            else:
+                act_position = len(layers)
+            layers.insert(act_position, ('act_fn', act_fn))
+        super().__init__(OrderedDict(layers))
+
+
+# NOTE First version. Leaved for backwards compatibility with old blocks, models.
 class ConvLayer(nn.Sequential):
     """Basic conv layers block"""
     Conv2d = nn.Conv2d

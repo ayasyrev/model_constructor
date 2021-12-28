@@ -3,7 +3,7 @@ from functools import partial
 
 import torch.nn as nn
 
-from .layers import ConvLayer, Flatten, SEModule, SimpleSelfAttention, noop
+from .layers import ConvLayer, SEModule, SimpleSelfAttention
 
 
 __all__ = ['init_cnn', 'act_fn', 'ResBlock', 'ModelConstructor', 'xresnet34', 'xresnet50']
@@ -52,12 +52,14 @@ class ResBlock(nn.Module):
         if sa:
             layers.append(('sa', SimpleSelfAttention(out_channels, ks=1, sym=sym)))
         self.convs = nn.Sequential(OrderedDict(layers))
-        self.pool = noop if stride == 1 else pool
-        self.idconv = noop if in_channels == out_channels else conv_layer(in_channels, out_channels, 1, act=False)
+        id_layers = [] if stride == 1 else [("pool", pool)]
+        id_layers += [] if in_channels == out_channels else [("id_conv", conv_layer(in_channels, out_channels, 1, act=False))]  # noqa E501
+        self.id_conv = None if id_layers == [] else nn.Sequential(OrderedDict(id_layers))
         self.act_fn = act_fn
 
     def forward(self, x):
-        return self.act_fn(self.convs(x) + self.idconv(self.pool(x)))
+        identity = self.id_conv(x) if self.id_conv is not None else x
+        return self.act_fn(self.convs(x) + identity)
 
 
 def _make_stem(self):
@@ -96,7 +98,7 @@ def _make_body(self):
 
 def _make_head(self):
     head = [('pool', nn.AdaptiveAvgPool2d(1)),
-            ('flat', Flatten()),
+            ('flat', nn.Flatten()),
             ('fc', nn.Linear(self.block_sizes[-1] * self.expansion, self.c_out))]
     return nn.Sequential(OrderedDict(head))
 
