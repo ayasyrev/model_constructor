@@ -32,7 +32,7 @@ mc
 
 
     MC constructor
-      c_in: 3, c_out: 1000
+      in_chans: 3, num_classes: 1000
       expansion: 1, groups: 1, dw: False, div_groups: None
       sa: False, se: False
       stem sizes: [3, 32, 32, 64], stride on 0
@@ -635,7 +635,7 @@ mc
 
 
     MxResNet constructor
-      c_in: 3, c_out: 1000
+      in_chans: 3, num_classes: 1000
       expansion: 1, groups: 1, dw: False, div_groups: None
       sa: False, se: False
       stem sizes: [3, 32, 64, 64], stride on 0
@@ -850,7 +850,7 @@ mc
 
 
     mxresnet50 constructor
-      c_in: 3, c_out: 1000
+      in_chans: 3, num_classes: 1000
       expansion: 4, groups: 1, dw: False, div_groups: None
       sa: False, se: False
       stem sizes: [3, 32, 64, 64], stride on 0
@@ -952,7 +952,7 @@ mc
 
 
     YaResNet constructor
-      c_in: 3, c_out: 1000
+      in_chans: 3, num_classes: 1000
       expansion: 4, groups: 1, dw: False, div_groups: None
       sa: False, se: False
       stem sizes: [3, 32, 64, 64], stride on 0
@@ -976,6 +976,7 @@ mc.body.l_1.bl_0
 
 
     YaResBlock(
+      (reduce): AvgPool2d(kernel_size=2, stride=2, padding=0)
       (convs): Sequential(
         (conv_0): ConvBnAct(
           (conv): Conv2d(256, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)

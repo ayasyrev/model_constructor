@@ -104,13 +104,13 @@ def _make_body(self):
 def _make_head(self):
     head = [('pool', nn.AdaptiveAvgPool2d(1)),
             ('flat', nn.Flatten()),
-            ('fc', nn.Linear(self.block_sizes[-1] * self.expansion, self.c_out))]
+            ('fc', nn.Linear(self.block_sizes[-1] * self.expansion, self.num_classes))]
     return nn.Sequential(OrderedDict(head))
 
 
 class ModelConstructor():
     """Model constructor. As default - xresnet18"""
-    def __init__(self, name='MC', c_in=3, c_out=1000,
+    def __init__(self, name='MC', in_chans=3, num_classes=1000,
                  block=ResBlock, conv_layer=ConvBnAct,
                  block_sizes=[64, 128, 256, 512], layers=[2, 2, 2, 2],
                  norm=nn.BatchNorm2d,
@@ -139,8 +139,8 @@ class ModelConstructor():
         self.__dict__ = params
 
         self._block_sizes = params['block_sizes']
-        if self.stem_sizes[0] != self.c_in:
-            self.stem_sizes = [self.c_in] + self.stem_sizes
+        if self.stem_sizes[0] != self.in_chans:
+            self.stem_sizes = [self.in_chans] + self.stem_sizes
         if self.se:  # TODO add check issubclass or isinstance of nn.Module
             if type(self.se) in (bool, int):  # if se=1 or se=True
                 self.se = SEModule
@@ -177,7 +177,7 @@ class ModelConstructor():
 
     def __repr__(self):
         return (f"{self.name} constructor\n"
-                f"  c_in: {self.c_in}, c_out: {self.c_out}\n"
+                f"  in_chans: {self.in_chans}, num_classes: {self.num_classes}\n"
                 f"  expansion: {self.expansion}, groups: {self.groups}, dw: {self.dw}, div_groups: {self.div_groups}\n"
                 f"  sa: {self.sa}, se: {self.se}\n"
                 f"  stem sizes: {self.stem_sizes}, stride on {self.stem_stride_on}\n"
