@@ -117,8 +117,8 @@ class ModelConstructor():
                  act_fn=nn.ReLU(inplace=True),
                  pool=nn.AvgPool2d(2, ceil_mode=True),
                  expansion=1, groups=1, dw=False, div_groups=None,
-                 sa=False,
-                 se: Union[bool, Callable] = False,  # se can be bool or nn.Module
+                 sa: Union[bool, int, Callable] = False,
+                 se: Union[bool, int, Callable] = False,  # se can be bool, int (0, 1) or nn.Module
                  se_module=None, se_reduction=None,  # deprecated. Leaved for worning and checks.
                  bn_1st=True,
                  zero_bn=True,
@@ -142,10 +142,10 @@ class ModelConstructor():
         if self.stem_sizes[0] != self.c_in:
             self.stem_sizes = [self.c_in] + self.stem_sizes
         if self.se:  # TODO add check issubclass or isinstance of nn.Module
-            if type(self.se) == bool:
-                self.se = SEModule  # if se=1
-        if self.sa:
-            if type(self.sa) == bool:
+            if type(self.se) in (bool, int):  # if se=1 or se=True
+                self.se = SEModule
+        if self.sa:  # if sa=1 or sa=True
+            if type(self.sa) in (bool, int):
                 self.sa = SimpleSelfAttention  # default: ks=1, sym=sym
         if self.se_module or se_reduction:
             print("Deprecated. Pass se_module as se argument, se_reduction as arg to se.")  # add deprecation worning.
