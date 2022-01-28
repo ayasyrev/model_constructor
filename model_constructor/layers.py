@@ -35,7 +35,7 @@ act_fn = nn.ReLU(inplace=True)
 
 
 class ConvBnAct(nn.Sequential):
-    """Basic Conv + Bn + ACt block"""
+    """Basic Conv + Bn + Act block"""
     convolution_module = nn.Conv2d  # can be changed in models like twist.
     batchnorm_module = nn.BatchNorm2d
 
@@ -124,7 +124,7 @@ class SimpleSelfAttention(nn.Module):
             self.conv.weight = c.view(self.n_in, self.n_in, 1)
         size = x.size()
         x = x.view(*size[:2], -1)   # (C,N)
-        # changed the order of mutiplication to avoid O(N^2) complexity
+        # changed the order of multiplication to avoid O(N^2) complexity
         # (x*xT)*(W*x) instead of (x*(xT*(W*x)))
         convx = self.conv(x)   # (C,C) * (C,N) = (C,N)   => O(NC^2)
         xxT = torch.bmm(x, x.permute(0, 2, 1).contiguous())   # (C,N) * (N,C) = (C,C)   => O(NC^2)

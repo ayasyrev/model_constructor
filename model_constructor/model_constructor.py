@@ -29,12 +29,12 @@ class ResBlock(nn.Module):
     def __init__(self, expansion, in_channels, mid_channels, stride=1,
                  conv_layer=ConvBnAct, act_fn=act_fn, zero_bn=True, bn_1st=True,
                  groups=1, dw=False, div_groups=None,
-                 pool=None,  # pool defined at ModelConstuctor.
+                 pool=None,  # pool defined at ModelConstructor.
                  se=None, sa=None
                  ):
         super().__init__()
         out_channels, in_channels = mid_channels * expansion, in_channels * expansion
-        if div_groups is not None:  # check if grops != 1 and div_groups
+        if div_groups is not None:  # check if groups != 1 and div_groups
             groups = int(mid_channels / div_groups)
         if expansion == 1:
             layers = [("conv_0", conv_layer(in_channels, mid_channels, 3, stride=stride,

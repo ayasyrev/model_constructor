@@ -46,7 +46,7 @@ nb_path: "Nbs/04_YaResNet.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="YaResBlock" class="doc_header"><code>class</code> <code>YaResBlock</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/yaresnet.py#L15" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>YaResBlock</code>(<strong><code>expansion</code></strong>, <strong><code>in_channels</code></strong>, <strong><code>mid_channels</code></strong>, <strong><code>stride</code></strong>=<em><code>1</code></em>, <strong><code>conv_layer</code></strong>=<em><code>ConvLayer</code></em>, <strong><code>act_fn</code></strong>=<em><code>ReLU(inplace=True)</code></em>, <strong><code>zero_bn</code></strong>=<em><code>True</code></em>, <strong><code>bn_1st</code></strong>=<em><code>True</code></em>, <strong><code>groups</code></strong>=<em><code>1</code></em>, <strong><code>dw</code></strong>=<em><code>False</code></em>, <strong><code>div_groups</code></strong>=<em><code>None</code></em>, <strong><code>pool</code></strong>=<em><code>None</code></em>, <strong><code>se</code></strong>=<em><code>None</code></em>, <strong><code>sa</code></strong>=<em><code>None</code></em>) :: <code>Module</code></p>
+<h4 id="YaResBlock" class="doc_header"><code>class</code> <code>YaResBlock</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/yaresnet.py#L18" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>YaResBlock</code>(<strong><code>expansion</code></strong>, <strong><code>in_channels</code></strong>, <strong><code>mid_channels</code></strong>, <strong><code>stride</code></strong>=<em><code>1</code></em>, <strong><code>conv_layer</code></strong>=<em><code>ConvBnAct</code></em>, <strong><code>act_fn</code></strong>=<em><code>ReLU(inplace=True)</code></em>, <strong><code>zero_bn</code></strong>=<em><code>True</code></em>, <strong><code>bn_1st</code></strong>=<em><code>True</code></em>, <strong><code>groups</code></strong>=<em><code>1</code></em>, <strong><code>dw</code></strong>=<em><code>False</code></em>, <strong><code>div_groups</code></strong>=<em><code>None</code></em>, <strong><code>pool</code></strong>=<em><code>None</code></em>, <strong><code>se</code></strong>=<em><code>None</code></em>, <strong><code>sa</code></strong>=<em><code>None</code></em>) :: <code>Module</code></p>
 </blockquote>
 <p>YaResBlock. Reduce by pool instead of stride 2</p>
 
@@ -706,7 +706,7 @@ nb_path: "Nbs/04_YaResNet.ipynb"
 
 <div class="output_text output_subarea output_execute_result">
 <pre>YaResNet constructor
-  c_in: 3, c_out: 1000
+  in_chans: 3, num_classes: 1000
   expansion: 1, groups: 1, dw: False, div_groups: None
   sa: False, se: False
   stem sizes: [3, 32, 64, 64], stride on 0

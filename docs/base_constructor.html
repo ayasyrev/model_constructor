@@ -29,23 +29,13 @@ nb_path: "Nbs/10_base_constructor.ipynb"
 </div>
     {% endraw %}
 
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">act_fn</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">(</span><span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>First, functional version. Obsoleted.</p>
 
 </div>
-    {% endraw %}
-
+</div>
+</div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Stem">Stem<a class="anchor-link" href="#Stem"> </a></h2>
@@ -59,33 +49,35 @@ nb_path: "Nbs/10_base_constructor.ipynb"
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Stem</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Base stem&quot;&quot;&quot;</span>
-
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">c_in</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">stem_sizes</span><span class="o">=</span><span class="p">[],</span> <span class="n">stem_out</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span>
-                 <span class="n">conv_layer</span><span class="o">=</span><span class="n">ConvLayer</span><span class="p">,</span> <span class="n">stride_on</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-                 <span class="n">stem_bn_last</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">bn_1st</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-                 <span class="n">stem_use_pool</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">stem_pool</span><span class="o">=</span><span class="n">nn</span><span class="o">.</span><span class="n">MaxPool2d</span><span class="p">(</span><span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
-                 <span class="o">**</span><span class="n">kwargs</span>
-                 <span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">sizes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c_in</span><span class="p">]</span> <span class="o">+</span> <span class="n">stem_sizes</span> <span class="o">+</span> <span class="p">[</span><span class="n">stem_out</span><span class="p">]</span>
-        <span class="n">num_layers</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sizes</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
-        <span class="n">stem</span> <span class="o">=</span> <span class="p">[(</span><span class="sa">f</span><span class="s2">&quot;conv_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">conv_layer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sizes</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">sizes</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">],</span>
-                <span class="n">stride</span><span class="o">=</span><span class="mi">2</span> <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="n">stride_on</span> <span class="k">else</span> <span class="mi">1</span><span class="p">,</span> <span class="n">act</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-                <span class="n">bn_layer</span><span class="o">=</span><span class="ow">not</span> <span class="n">stem_bn_last</span> <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="n">num_layers</span> <span class="o">-</span> <span class="mi">1</span> <span class="k">else</span> <span class="kc">True</span><span class="p">,</span>
-                <span class="n">bn_1st</span><span class="o">=</span><span class="n">bn_1st</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">))</span>
-                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_layers</span><span class="p">)]</span>
-        <span class="k">if</span> <span class="n">stem_use_pool</span><span class="p">:</span>
-            <span class="n">stem</span> <span class="o">+=</span> <span class="p">[(</span><span class="s1">&#39;pool&#39;</span><span class="p">,</span> <span class="n">stem_pool</span><span class="p">)]</span>
-        <span class="k">if</span> <span class="n">stem_bn_last</span><span class="p">:</span>
-            <span class="n">stem</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s1">&#39;bn&#39;</span><span class="p">,</span> <span class="n">nn</span><span class="o">.</span><span class="n">BatchNorm2d</span><span class="p">(</span><span class="n">stem_out</span><span class="p">)))</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">OrderedDict</span><span class="p">(</span><span class="n">stem</span><span class="p">))</span>
-
-    <span class="k">def</span> <span class="nf">extra_repr</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;sizes: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">sizes</span><span class="si">}</span><span class="s2">&quot;</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">model_constructor.base_constructor</span> <span class="kn">import</span> <span class="n">Stem</span>
 </pre></div>
 
     </div>
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h4 id="Stem" class="doc_header"><code>class</code> <code>Stem</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/base_constructor.py#L13" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>Stem</code>(<strong><code>c_in</code></strong>=<em><code>3</code></em>, <strong><code>stem_sizes</code></strong>=<em><code>[]</code></em>, <strong><code>stem_out</code></strong>=<em><code>64</code></em>, <strong><code>conv_layer</code></strong>=<em><code>ConvLayer</code></em>, <strong><code>stride_on</code></strong>=<em><code>0</code></em>, <strong><code>stem_bn_last</code></strong>=<em><code>False</code></em>, <strong><code>bn_1st</code></strong>=<em><code>True</code></em>, <strong><code>stem_use_pool</code></strong>=<em><code>True</code></em>, <strong><code>stem_pool</code></strong>=<em><code>MaxPool2d(kernel_size=3, stride=2, padding=1, dilation=1, ceil_mode=False)</code></em>, <strong>**<code>kwargs</code></strong>) :: <code>Sequential</code></p>
+</blockquote>
+<p>Base stem</p>
+
+</div>
+
+</div>
+
 </div>
 </div>
 
@@ -124,41 +116,6 @@ nb_path: "Nbs/10_base_constructor.ipynb"
   )
   (pool): MaxPool2d(kernel_size=3, stride=2, padding=1, dilation=1, ceil_mode=False)
 )</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">xb</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="mi">128</span><span class="p">)</span>
-<span class="n">y</span> <span class="o">=</span> <span class="n">stem</span><span class="p">(</span><span class="n">xb</span><span class="p">)</span>
-<span class="n">y</span><span class="o">.</span><span class="n">shape</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>torch.Size([8, 64, 32, 32])</pre>
 </div>
 
 </div>
@@ -218,41 +175,6 @@ nb_path: "Nbs/10_base_constructor.ipynb"
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">xb</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="mi">128</span><span class="p">)</span>
-<span class="n">y</span> <span class="o">=</span> <span class="n">stem</span><span class="p">(</span><span class="n">xb</span><span class="p">)</span>
-<span class="n">y</span><span class="o">.</span><span class="n">shape</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>torch.Size([8, 64, 32, 32])</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">stem</span> <span class="o">=</span> <span class="n">Stem</span><span class="p">(</span><span class="n">use_bn</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">stem_sizes</span><span class="o">=</span><span class="p">[</span><span class="mi">32</span><span class="p">],</span> <span class="n">stride_on</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 <span class="n">stem</span>
 </pre></div>
@@ -283,41 +205,6 @@ nb_path: "Nbs/10_base_constructor.ipynb"
   )
   (pool): MaxPool2d(kernel_size=3, stride=2, padding=1, dilation=1, ceil_mode=False)
 )</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">xb</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="mi">128</span><span class="p">)</span>
-<span class="n">y</span> <span class="o">=</span> <span class="n">stem</span><span class="p">(</span><span class="n">xb</span><span class="p">)</span>
-<span class="n">y</span><span class="o">.</span><span class="n">shape</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>torch.Size([8, 64, 32, 32])</pre>
 </div>
 
 </div>
@@ -394,9 +281,7 @@ nb_path: "Nbs/10_base_constructor.ipynb"
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">DownsampleBlock</span><span class="p">(</span><span class="n">conv_layer</span><span class="p">,</span> <span class="n">ni</span><span class="p">,</span> <span class="n">nf</span><span class="p">,</span> <span class="n">ks</span><span class="p">,</span> <span class="n">stride</span><span class="p">,</span> <span class="n">act</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;Base downsample for res-like blocks&#39;&#39;&#39;</span>
-    <span class="k">return</span> <span class="n">conv_layer</span><span class="p">(</span><span class="n">ni</span><span class="p">,</span> <span class="n">nf</span><span class="p">,</span> <span class="n">ks</span><span class="p">,</span> <span class="n">stride</span><span class="p">,</span> <span class="n">act</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">model_constructor.base_constructor</span> <span class="kn">import</span> <span class="n">DownsampleBlock</span><span class="p">,</span> <span class="n">BasicBlock</span><span class="p">,</span> <span class="n">BasicLayer</span><span class="p">,</span> <span class="n">Bottleneck</span>
 </pre></div>
 
     </div>
@@ -409,107 +294,58 @@ nb_path: "Nbs/10_base_constructor.ipynb"
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
-<div class="input">
 
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">BasicBlock</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Basic block (simplified) as in pytorch resnet&quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ni</span><span class="p">,</span> <span class="n">nf</span><span class="p">,</span> <span class="n">expansion</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">zero_bn</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-                 <span class="n">conv_layer</span><span class="o">=</span><span class="n">ConvLayer</span><span class="p">,</span> <span class="n">act_fn</span><span class="o">=</span><span class="n">act_fn</span><span class="p">,</span>
-                 <span class="n">downsample_block</span><span class="o">=</span><span class="n">DownsampleBlock</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">downsample</span> <span class="o">=</span> <span class="ow">not</span> <span class="n">ni</span> <span class="o">==</span> <span class="n">nf</span> <span class="ow">or</span> <span class="n">stride</span> <span class="o">==</span> <span class="mi">2</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">conv</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span><span class="n">OrderedDict</span><span class="p">([</span>
-            <span class="p">(</span><span class="s1">&#39;conv_0&#39;</span><span class="p">,</span> <span class="n">conv_layer</span><span class="p">(</span><span class="n">ni</span><span class="p">,</span> <span class="n">nf</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="n">stride</span><span class="p">,</span> <span class="n">act_fn</span><span class="o">=</span><span class="n">act_fn</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)),</span>
-            <span class="p">(</span><span class="s1">&#39;conv_1&#39;</span><span class="p">,</span> <span class="n">conv_layer</span><span class="p">(</span><span class="n">nf</span><span class="p">,</span> <span class="n">nf</span><span class="p">,</span> <span class="n">zero_bn</span><span class="o">=</span><span class="n">zero_bn</span><span class="p">,</span> <span class="n">act</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">act_fn</span><span class="o">=</span><span class="n">act_fn</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">))]))</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">downsample</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">downsample</span> <span class="o">=</span> <span class="n">downsample_block</span><span class="p">(</span><span class="n">conv_layer</span><span class="p">,</span> <span class="n">ni</span><span class="p">,</span> <span class="n">nf</span><span class="p">,</span> <span class="n">ks</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="n">stride</span><span class="p">,</span> <span class="n">act</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">merge</span> <span class="o">=</span> <span class="n">Noop</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">act_conn</span> <span class="o">=</span> <span class="n">act_fn</span>
+<div class="output_wrapper">
+<div class="output">
 
-    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
-        <span class="n">identity</span> <span class="o">=</span> <span class="n">x</span>
-        <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conv</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">downsample</span><span class="p">:</span>
-            <span class="n">identity</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">downsample</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">act_conn</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">out</span> <span class="o">+</span> <span class="n">identity</span><span class="p">))</span>
-</pre></div>
+<div class="output_area">
 
-    </div>
-</div>
+
+<div class="output_markdown rendered_html output_subarea ">
+<h4 id="DownsampleBlock" class="doc_header"><code>DownsampleBlock</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/base_constructor.py#L39" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>DownsampleBlock</code>(<strong><code>conv_layer</code></strong>, <strong><code>ni</code></strong>, <strong><code>nf</code></strong>, <strong><code>ks</code></strong>, <strong><code>stride</code></strong>, <strong><code>act</code></strong>=<em><code>False</code></em>, <strong>**<code>kwargs</code></strong>)</p>
+</blockquote>
+<p>Base downsample for res-like blocks</p>
+
 </div>
 
 </div>
-    {% endraw %}
 
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
+<div class="output_area">
 
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Bottleneck</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;Bottlneck block for resnet models&#39;&#39;&#39;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ni</span><span class="p">,</span> <span class="n">nh</span><span class="p">,</span> <span class="n">expansion</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">zero_bn</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-                 <span class="n">conv_layer</span><span class="o">=</span><span class="n">ConvLayer</span><span class="p">,</span> <span class="n">act_fn</span><span class="o">=</span><span class="n">act_fn</span><span class="p">,</span>
-                 <span class="n">downsample_block</span><span class="o">=</span><span class="n">DownsampleBlock</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">downsample</span> <span class="o">=</span> <span class="ow">not</span> <span class="n">ni</span> <span class="o">==</span> <span class="n">nh</span> <span class="ow">or</span> <span class="n">stride</span> <span class="o">==</span> <span class="mi">2</span>
-        <span class="n">ni</span> <span class="o">=</span> <span class="n">ni</span> <span class="o">*</span> <span class="n">expansion</span>
-        <span class="n">nf</span> <span class="o">=</span> <span class="n">nh</span> <span class="o">*</span> <span class="n">expansion</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">conv</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span><span class="n">OrderedDict</span><span class="p">([</span>
-            <span class="p">(</span><span class="s1">&#39;conv_0&#39;</span><span class="p">,</span> <span class="n">conv_layer</span><span class="p">(</span><span class="n">ni</span><span class="p">,</span> <span class="n">nh</span><span class="p">,</span> <span class="n">ks</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>            <span class="n">act_fn</span><span class="o">=</span><span class="n">act_fn</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)),</span>   <span class="c1"># noqa: E241</span>
-            <span class="p">(</span><span class="s1">&#39;conv_1&#39;</span><span class="p">,</span> <span class="n">conv_layer</span><span class="p">(</span><span class="n">nh</span><span class="p">,</span> <span class="n">nh</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="n">stride</span><span class="p">,</span>   <span class="n">act_fn</span><span class="o">=</span><span class="n">act_fn</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)),</span>   <span class="c1"># noqa: E241</span>
-            <span class="p">(</span><span class="s1">&#39;conv_2&#39;</span><span class="p">,</span> <span class="n">conv_layer</span><span class="p">(</span><span class="n">nh</span><span class="p">,</span> <span class="n">nf</span><span class="p">,</span> <span class="n">ks</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">zero_bn</span><span class="o">=</span><span class="n">zero_bn</span><span class="p">,</span> <span class="n">act</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">act_fn</span><span class="o">=</span><span class="n">act_fn</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">))]))</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">downsample</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">downsample</span> <span class="o">=</span> <span class="n">downsample_block</span><span class="p">(</span><span class="n">conv_layer</span><span class="p">,</span> <span class="n">ni</span><span class="p">,</span> <span class="n">nf</span><span class="p">,</span> <span class="n">ks</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-                                               <span class="n">stride</span><span class="o">=</span><span class="n">stride</span><span class="p">,</span> <span class="n">act</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">act_fn</span><span class="o">=</span><span class="n">act_fn</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">merge</span> <span class="o">=</span> <span class="n">Noop</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">act_conn</span> <span class="o">=</span> <span class="n">act_fn</span>
 
-    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
-        <span class="n">identity</span> <span class="o">=</span> <span class="n">x</span>
-        <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conv</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">downsample</span><span class="p">:</span>
-            <span class="n">identity</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">downsample</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">act_conn</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">out</span> <span class="o">+</span> <span class="n">identity</span><span class="p">))</span>
-</pre></div>
+<div class="output_markdown rendered_html output_subarea ">
+<h4 id="BasicBlock" class="doc_header"><code>class</code> <code>BasicBlock</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/base_constructor.py#L44" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>BasicBlock</code>(<strong><code>ni</code></strong>, <strong><code>nf</code></strong>, <strong><code>expansion</code></strong>=<em><code>1</code></em>, <strong><code>stride</code></strong>=<em><code>1</code></em>, <strong><code>zero_bn</code></strong>=<em><code>False</code></em>, <strong><code>conv_layer</code></strong>=<em><code>ConvLayer</code></em>, <strong><code>act_fn</code></strong>=<em><code>ReLU(inplace=True)</code></em>, <strong><code>downsample_block</code></strong>=<em><code>DownsampleBlock</code></em>, <strong>**<code>kwargs</code></strong>) :: <code>Module</code></p>
+</blockquote>
+<p>Basic block (simplified) as in pytorch resnet</p>
 
-    </div>
-</div>
 </div>
 
 </div>
-    {% endraw %}
 
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
+<div class="output_area">
 
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">BasicLayer</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;Layer from blocks&#39;&#39;&#39;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block</span><span class="p">,</span> <span class="n">blocks</span><span class="p">,</span> <span class="n">ni</span><span class="p">,</span> <span class="n">nf</span><span class="p">,</span> <span class="n">expansion</span><span class="p">,</span> <span class="n">stride</span><span class="p">,</span> <span class="n">sa</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">ni</span> <span class="o">=</span> <span class="n">ni</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">nf</span> <span class="o">=</span> <span class="n">nf</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">blocks</span> <span class="o">=</span> <span class="n">blocks</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">expansion</span> <span class="o">=</span> <span class="n">expansion</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">OrderedDict</span><span class="p">(</span>
-            <span class="p">[(</span><span class="sa">f</span><span class="s1">&#39;block_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">block</span><span class="p">(</span><span class="n">ni</span> <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">nf</span><span class="p">,</span> <span class="n">nf</span><span class="p">,</span> <span class="n">expansion</span><span class="p">,</span>
-                                  <span class="n">stride</span> <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">1</span><span class="p">,</span>
-                                  <span class="n">sa</span><span class="o">=</span><span class="n">sa</span> <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="n">blocks</span> <span class="o">-</span> <span class="mi">1</span> <span class="k">else</span> <span class="kc">False</span><span class="p">,</span>
-                                  <span class="o">**</span><span class="n">kwargs</span><span class="p">))</span>
-             <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">blocks</span><span class="p">)]))</span>
 
-    <span class="k">def</span> <span class="nf">extra_repr</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;from </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">ni</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">expansion</span><span class="si">}</span><span class="s1"> to </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">nf</span><span class="si">}</span><span class="s1">, </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">blocks</span><span class="si">}</span><span class="s1"> blocks, expansion </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">expansion</span><span class="si">}</span><span class="s1">.&#39;</span>
-</pre></div>
+<div class="output_markdown rendered_html output_subarea ">
+<h4 id="Bottleneck" class="doc_header"><code>class</code> <code>Bottleneck</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/base_constructor.py#L67" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>Bottleneck</code>(<strong><code>ni</code></strong>, <strong><code>nh</code></strong>, <strong><code>expansion</code></strong>=<em><code>4</code></em>, <strong><code>stride</code></strong>=<em><code>1</code></em>, <strong><code>zero_bn</code></strong>=<em><code>False</code></em>, <strong><code>conv_layer</code></strong>=<em><code>ConvLayer</code></em>, <strong><code>act_fn</code></strong>=<em><code>ReLU(inplace=True)</code></em>, <strong><code>downsample_block</code></strong>=<em><code>DownsampleBlock</code></em>, <strong>**<code>kwargs</code></strong>) :: <code>Module</code></p>
+</blockquote>
+<p>Bottleneck block for resnet models</p>
 
-    </div>
+</div>
+
+</div>
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h4 id="BasicLayer" class="doc_header"><code>class</code> <code>BasicLayer</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/base_constructor.py#L94" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>BasicLayer</code>(<strong><code>block</code></strong>, <strong><code>blocks</code></strong>, <strong><code>ni</code></strong>, <strong><code>nf</code></strong>, <strong><code>expansion</code></strong>, <strong><code>stride</code></strong>, <strong><code>sa</code></strong>=<em><code>False</code></em>, <strong>**<code>kwargs</code></strong>) :: <code>Sequential</code></p>
+</blockquote>
+<p>Layer from blocks</p>
+
+</div>
+
+</div>
+
 </div>
 </div>
 
@@ -529,25 +365,35 @@ nb_path: "Nbs/10_base_constructor.ipynb"
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Body</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;Constructor for body&#39;&#39;&#39;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block</span><span class="p">,</span>
-                 <span class="n">body_in</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">body_out</span><span class="o">=</span><span class="mi">512</span><span class="p">,</span>
-                 <span class="n">bodylayer</span><span class="o">=</span><span class="n">BasicLayer</span><span class="p">,</span> <span class="n">expansion</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-                 <span class="n">layer_szs</span><span class="o">=</span><span class="p">[</span><span class="mi">64</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="mi">256</span><span class="p">,</span> <span class="p">],</span> <span class="n">blocks</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>
-                 <span class="n">sa</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="n">layer_szs</span> <span class="o">=</span> <span class="p">[</span><span class="n">body_in</span> <span class="o">//</span> <span class="n">expansion</span><span class="p">]</span> <span class="o">+</span> <span class="n">layer_szs</span> <span class="o">+</span> <span class="p">[</span><span class="n">body_out</span><span class="p">]</span>
-        <span class="n">num_layers</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">layer_szs</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
-        <span class="n">layers</span> <span class="o">=</span> <span class="p">[(</span><span class="sa">f</span><span class="s2">&quot;layer_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">bodylayer</span><span class="p">(</span><span class="n">block</span><span class="p">,</span> <span class="n">blocks</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
-                                           <span class="n">layer_szs</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">layer_szs</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">],</span> <span class="n">expansion</span><span class="p">,</span>
-                                           <span class="n">stride</span><span class="o">=</span><span class="mi">1</span> <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">2</span><span class="p">,</span>
-                                           <span class="n">sa</span><span class="o">=</span><span class="n">sa</span> <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="kc">False</span><span class="p">,</span>
-                                           <span class="o">**</span><span class="n">kwargs</span><span class="p">))</span>
-                  <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_layers</span><span class="p">)]</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">OrderedDict</span><span class="p">(</span><span class="n">layers</span><span class="p">))</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">model_constructor.base_constructor</span> <span class="kn">import</span> <span class="n">Body</span>
 </pre></div>
 
     </div>
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h4 id="Body" class="doc_header"><code>class</code> <code>Body</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/base_constructor.py#L112" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>Body</code>(<strong><code>block</code></strong>, <strong><code>body_in</code></strong>=<em><code>64</code></em>, <strong><code>body_out</code></strong>=<em><code>512</code></em>, <strong><code>bodylayer</code></strong>=<em><code>BasicLayer</code></em>, <strong><code>expansion</code></strong>=<em><code>1</code></em>, <strong><code>layer_szs</code></strong>=<em><code>[64, 128, 256]</code></em>, <strong><code>blocks</code></strong>=<em><code>[2, 2, 2, 2]</code></em>, <strong><code>sa</code></strong>=<em><code>False</code></em>, <strong>**<code>kwargs</code></strong>) :: <code>Sequential</code></p>
+</blockquote>
+<p>Constructor for body</p>
+
+</div>
+
+</div>
+
 </div>
 </div>
 
@@ -1003,17 +849,35 @@ nb_path: "Nbs/10_base_constructor.ipynb"
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Head</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;base head&#39;&#39;&#39;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ni</span><span class="p">,</span> <span class="n">nf</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">OrderedDict</span><span class="p">(</span>
-            <span class="p">[(</span><span class="s1">&#39;pool&#39;</span><span class="p">,</span> <span class="n">nn</span><span class="o">.</span><span class="n">AdaptiveAvgPool2d</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))),</span>
-             <span class="p">(</span><span class="s1">&#39;flat&#39;</span><span class="p">,</span> <span class="n">Flatten</span><span class="p">()),</span>
-             <span class="p">(</span><span class="s1">&#39;fc&#39;</span><span class="p">,</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">ni</span><span class="p">,</span> <span class="n">nf</span><span class="p">)),</span>
-             <span class="p">]))</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">model_constructor.base_constructor</span> <span class="kn">import</span> <span class="n">Head</span>
 </pre></div>
 
     </div>
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h4 id="Head" class="doc_header"><code>class</code> <code>Head</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/base_constructor.py#L130" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>Head</code>(<strong><code>ni</code></strong>, <strong><code>nf</code></strong>, <strong>**<code>kwargs</code></strong>) :: <code>Sequential</code></p>
+</blockquote>
+<p>base head</p>
+
+</div>
+
+</div>
+
 </div>
 </div>
 
@@ -1033,11 +897,7 @@ nb_path: "Nbs/10_base_constructor.ipynb"
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">init_model</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">nonlinearity</span><span class="o">=</span><span class="s1">&#39;leaky_relu&#39;</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;Init model&#39;&#39;&#39;</span>
-    <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">modules</span><span class="p">():</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">,</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">)):</span>
-            <span class="n">nn</span><span class="o">.</span><span class="n">init</span><span class="o">.</span><span class="n">kaiming_normal_</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;fan_in&#39;</span><span class="p">,</span> <span class="n">nonlinearity</span><span class="o">=</span><span class="n">nonlinearity</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">model_constructor.base_constructor</span> <span class="kn">import</span> <span class="n">init_model</span><span class="p">,</span> <span class="n">Net</span>
 </pre></div>
 
     </div>
@@ -1050,31 +910,34 @@ nb_path: "Nbs/10_base_constructor.ipynb"
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
-<div class="input">
 
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Net</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;Constructor for model&#39;&#39;&#39;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stem</span><span class="o">=</span><span class="n">Stem</span><span class="p">,</span>
-                 <span class="n">body</span><span class="o">=</span><span class="n">Body</span><span class="p">,</span> <span class="n">block</span><span class="o">=</span><span class="n">BasicBlock</span><span class="p">,</span> <span class="n">sa</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-                 <span class="n">layer_szs</span><span class="o">=</span><span class="p">[</span><span class="mi">64</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="mi">256</span><span class="p">,</span> <span class="p">],</span> <span class="n">blocks</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>
-                 <span class="n">head</span><span class="o">=</span><span class="n">Head</span><span class="p">,</span>
-                 <span class="n">c_in</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">num_classes</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
-                 <span class="n">body_in</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">body_out</span><span class="o">=</span><span class="mi">512</span><span class="p">,</span> <span class="n">expansion</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-                 <span class="n">init_fn</span><span class="o">=</span><span class="n">init_model</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">init_model</span> <span class="o">=</span> <span class="n">init_fn</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">OrderedDict</span><span class="p">(</span>
-            <span class="p">[(</span><span class="s1">&#39;stem&#39;</span><span class="p">,</span> <span class="n">stem</span><span class="p">(</span><span class="n">c_in</span><span class="o">=</span><span class="n">c_in</span><span class="p">,</span> <span class="n">stem_out</span><span class="o">=</span><span class="n">body_in</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)),</span>
-             <span class="p">(</span><span class="s1">&#39;body&#39;</span><span class="p">,</span> <span class="n">body</span><span class="p">(</span><span class="n">block</span><span class="p">,</span> <span class="n">body_in</span><span class="p">,</span> <span class="n">body_out</span><span class="p">,</span>
-                           <span class="n">layer_szs</span><span class="o">=</span><span class="n">layer_szs</span><span class="p">,</span> <span class="n">blocks</span><span class="o">=</span><span class="n">blocks</span><span class="p">,</span> <span class="n">expansion</span><span class="o">=</span><span class="n">expansion</span><span class="p">,</span>
-                           <span class="n">sa</span><span class="o">=</span><span class="n">sa</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)),</span>
-             <span class="p">(</span><span class="s1">&#39;head&#39;</span><span class="p">,</span> <span class="n">head</span><span class="p">(</span><span class="n">body_out</span> <span class="o">*</span> <span class="n">expansion</span><span class="p">,</span> <span class="n">num_classes</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">))</span>
-             <span class="p">]))</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">init_model</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
-</pre></div>
+<div class="output_wrapper">
+<div class="output">
 
-    </div>
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h4 id="init_model" class="doc_header"><code>init_model</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/base_constructor.py#L140" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>init_model</code>(<strong><code>model</code></strong>, <strong><code>nonlinearity</code></strong>=<em><code>'leaky_relu'</code></em>)</p>
+</blockquote>
+<p>Init model</p>
+
+</div>
+
+</div>
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h4 id="Net" class="doc_header"><code>class</code> <code>Net</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/base_constructor.py#L147" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>Net</code>(<strong><code>stem</code></strong>=<em><code>Stem</code></em>, <strong><code>body</code></strong>=<em><code>Body</code></em>, <strong><code>block</code></strong>=<em><code>BasicBlock</code></em>, <strong><code>sa</code></strong>=<em><code>False</code></em>, <strong><code>layer_szs</code></strong>=<em><code>[64, 128, 256]</code></em>, <strong><code>blocks</code></strong>=<em><code>[2, 2, 2, 2]</code></em>, <strong><code>head</code></strong>=<em><code>Head</code></em>, <strong><code>c_in</code></strong>=<em><code>3</code></em>, <strong><code>num_classes</code></strong>=<em><code>1000</code></em>, <strong><code>body_in</code></strong>=<em><code>64</code></em>, <strong><code>body_out</code></strong>=<em><code>512</code></em>, <strong><code>expansion</code></strong>=<em><code>1</code></em>, <strong><code>init_fn</code></strong>=<em><code>init_model</code></em>, <strong>**<code>kwargs</code></strong>) :: <code>Sequential</code></p>
+</blockquote>
+<p>Constructor for model</p>
+
+</div>
+
+</div>
+
 </div>
 </div>
 

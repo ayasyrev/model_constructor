@@ -1,6 +1,7 @@
 # Implementation of ConvMixer for the ICLR 2022 submission "Patches Are All You Need?".
 # https://openreview.net/forum?id=TVHS5Y4dNvM
 # Adopted from https://github.com/tmp-iclr/convmixer
+# Home for convmixer: https://github.com/locuslab/convmixer
 from collections import OrderedDict
 from typing import Callable
 import torch.nn as nn

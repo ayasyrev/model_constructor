@@ -41,7 +41,7 @@ mc
 
 
 
-Now we have model consructor, default setting as xresnet18. And we can get model after call it.
+Now we have model constructor, default setting as xresnet18. And we can get model after call it.
 
 ```python
 #collapse_output
@@ -615,7 +615,7 @@ mc.stem_sizes = [3,32,64,64]
 ```
 
 Now lets change activation function to Mish.
-Here is link to forum disscussion https://forums.fast.ai/t/meet-mish-new-activation-function-possible-successor-to-relu  
+Here is link to forum discussion https://forums.fast.ai/t/meet-mish-new-activation-function-possible-successor-to-relu  
 We'v got Mish is in model_constructor.activations, but from pytorch 1.9 take it from torch:
 
 ```python
@@ -1006,7 +1006,7 @@ mc.body.l_1.bl_0
 
 ## First version
 
-First version, it deprecated, but still here for compatability.
+First version, it deprecated, but still here for compatibility.
 
 ```python
 from model_constructor.net import Net

@@ -26,7 +26,7 @@ class YaResBlock(nn.Module):
                  ):
         super().__init__()
         out_channels, in_channels = mid_channels * expansion, in_channels * expansion
-        if div_groups is not None:  # check if grops != 1 and div_groups
+        if div_groups is not None:  # check if groups != 1 and div_groups
             groups = int(mid_channels / div_groups)
         if stride != 1:
             if pool is None:

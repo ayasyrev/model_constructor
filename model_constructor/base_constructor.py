@@ -65,7 +65,7 @@ class BasicBlock(nn.Module):
 
 
 class Bottleneck(nn.Module):
-    '''Bottlneck block for resnet models'''
+    '''Bottleneck block for resnet models'''
     def __init__(self, ni, nh, expansion=4, stride=1, zero_bn=False,
                  conv_layer=ConvLayer, act_fn=act_fn,
                  downsample_block=DownsampleBlock, **kwargs):

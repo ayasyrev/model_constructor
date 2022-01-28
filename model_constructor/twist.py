@@ -19,7 +19,7 @@ class ConvTwist(nn.Module):
 
     def __init__(self, ni, nf,
                  ks=3, stride=1, padding=1, bias=False,
-                 groups=1, iters=1, init_max=0.7, **kvargs):
+                 groups=1, iters=1, init_max=0.7, **kwargs):
         super().__init__()
         self.same = ni == nf and stride == 1
         self.groups = ni // self.groups_ch if self.use_groups else 1
@@ -107,11 +107,13 @@ class ConvLayerTwist(ConvLayer):  # replace Conv2d by Twist
 
 
 class NewResBlockTwist(nn.Module):
-    '''Resnet block with ConvTwist'''
+    '''Resnet block with ConvTwist.
+    Reduce by pool instead of stride 2.
+    Now YaResBlock.'''
 
     def __init__(self, expansion, ni, nh, stride=1,
                  conv_layer=ConvLayer, act_fn=act_fn, bn_1st=True,
-                 pool=nn.AvgPool2d(2, ceil_mode=True), sa=False, sym=False, zero_bn=True, **kvargs):
+                 pool=nn.AvgPool2d(2, ceil_mode=True), sa=False, sym=False, zero_bn=True, **kwargs):
         super().__init__()
         nf, ni = nh * expansion, ni * expansion
         self.reduce = noop if stride == 1 else pool
@@ -138,7 +140,7 @@ class ResBlockTwist(nn.Module):
 
     def __init__(self, expansion, ni, nh, stride=1,
                  conv_layer=ConvLayer, act_fn=act_fn, zero_bn=True, bn_1st=True,
-                 pool=nn.AvgPool2d(2, ceil_mode=True), sa=False, sym=False, **kvargs):
+                 pool=nn.AvgPool2d(2, ceil_mode=True), sa=False, sym=False, **kwargs):
         super().__init__()
         nf, ni = nh * expansion, ni * expansion
         layers = [("conv_0", conv_layer(ni, nh, 3, stride=stride, act_fn=act_fn, bn_1st=bn_1st)),
