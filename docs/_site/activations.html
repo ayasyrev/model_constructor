@@ -379,7 +379,7 @@ fastai forum discussion <a href="https://forums.fast.ai/t/meet-mish-new-activati
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Mish">Mish<a class="anchor-link" href="#Mish"> </a></h2>
+<h2 id="Mish,-MishJit,-MishJitMe---memory-efficient.">Mish, MishJit, MishJitMe - memory-efficient.<a class="anchor-link" href="#Mish,-MishJit,-MishJitMe---memory-efficient."> </a></h2>
 </div>
 </div>
 </div>
@@ -390,24 +390,113 @@ fastai forum discussion <a href="https://forums.fast.ai/t/meet-mish-new-activati
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">mish</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">inplace</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Mish: A Self Regularized Non-Monotonic Neural Activation Function - https://arxiv.org/abs/1908.08681</span>
-<span class="sd">    NOTE: I don&#39;t have a working inplace variant</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">x</span><span class="o">.</span><span class="n">mul</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">softplus</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">tanh</span><span class="p">())</span>
-
-
-<span class="k">class</span> <span class="nc">Mish</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Mish: A Self Regularized Non-Monotonic Neural Activation Function - https://arxiv.org/abs/1908.08681&quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inplace</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;NOTE: inplace variant not working &quot;&quot;&quot;</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">Mish</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
-
-    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">mish</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">model_constructor.activations</span> <span class="kn">import</span> <span class="n">mish</span><span class="p">,</span> <span class="n">Mish</span><span class="p">,</span> <span class="n">MishJit</span><span class="p">,</span> <span class="n">MishMe</span>
 </pre></div>
 
     </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h4 id="mish" class="doc_header"><code>mish</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/activations.py#L13" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>mish</code>(<strong><code>x</code></strong>, <strong><code>inplace</code></strong>:<code>bool</code>=<em><code>False</code></em>)</p>
+</blockquote>
+<p>Mish: A Self Regularized Non-Monotonic Neural Activation Function - <a href="https://arxiv.org/abs/1908.08681">https://arxiv.org/abs/1908.08681</a>
+NOTE: I don't have a working inplace variant</p>
+
+</div>
+
+</div>
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h4 id="Mish" class="doc_header"><code>class</code> <code>Mish</code><a href="torch/nn/modules/activation.py#L401" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>Mish</code>(<strong><code>inplace</code></strong>:<code>bool</code>=<em><code>False</code></em>) :: <code>Module</code></p>
+</blockquote>
+<p>Applies the Mish function, element-wise.
+Mish: A Self Regularized Non-Monotonic Neural Activation Function.</p>
+<p>.. math::
+    \text{Mish}(x) = x * \text{Tanh}(\text{Softplus}(x))</p>
+<p>.. note::
+    See <code>Mish: A Self Regularized Non-Monotonic Neural Activation Function &lt;https://arxiv.org/abs/1908.08681&gt;</code>_</p>
+<p>Shape:</p>
+
+<pre><code>- Input: :math:`(N, *)` where `*` means, any number of additional
+  dimensions
+- Output: :math:`(N, *)`, same shape as the input
+
+</code></pre>
+<p>Examples::</p>
+
+<pre><code>&gt;&gt;&gt; m = nn.Mish()
+&gt;&gt;&gt; input = torch.randn(2)
+&gt;&gt;&gt; output = m(input)</code></pre>
+
+</div>
+
+</div>
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h4 id="MishJit" class="doc_header"><code>class</code> <code>MishJit</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/activations.py#L40" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>MishJit</code>(<strong><code>inplace</code></strong>:<code>bool</code>=<em><code>False</code></em>) :: <code>Module</code></p>
+</blockquote>
+<p>Base class for all neural network modules.</p>
+<p>Your models should also subclass this class.</p>
+<p>Modules can also contain other Modules, allowing to nest them in
+a tree structure. You can assign the submodules as regular attributes::</p>
+
+<pre><code>import torch.nn as nn
+import torch.nn.functional as F
+
+class Model(nn.Module):
+    def __init__(self):
+        super(Model, self).__init__()
+        self.conv1 = nn.Conv2d(1, 20, 5)
+        self.conv2 = nn.Conv2d(20, 20, 5)
+
+    def forward(self, x):
+        x = F.relu(self.conv1(x))
+        return F.relu(self.conv2(x))
+
+</code></pre>
+<p>Submodules assigned in this way will be registered, and will have their
+parameters converted too when you call :meth:<code>to</code>, etc.</p>
+<p>:ivar training: Boolean represents whether this module is in training or
+                evaluation mode.
+:vartype training: bool</p>
+
+</div>
+
+</div>
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h4 id="MishMe" class="doc_header"><code>class</code> <code>MishMe</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/activations.py#L81" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>MishMe</code>(<strong><code>inplace</code></strong>:<code>bool</code>=<em><code>False</code></em>) :: <code>Module</code></p>
+</blockquote>
+<p>Mish: A Self Regularized Non-Monotonic Neural Activation Function - <a href="https://arxiv.org/abs/1908.08681">https://arxiv.org/abs/1908.08681</a>
+A memory efficient, jit scripted variant of Mish</p>
+
+</div>
+
+</div>
+
 </div>
 </div>
 
@@ -416,7 +505,7 @@ fastai forum discussion <a href="https://forums.fast.ai/t/meet-mish-new-activati
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="MishJit">MishJit<a class="anchor-link" href="#MishJit"> </a></h2>
+<h2 id="HardMishJit,-HardMishJitMe---memory-efficient.">HardMishJit, HardMishJitMe - memory efficient.<a class="anchor-link" href="#HardMishJit,-HardMishJitMe---memory-efficient."> </a></h2>
 </div>
 </div>
 </div>
@@ -427,22 +516,7 @@ fastai forum discussion <a href="https://forums.fast.ai/t/meet-mish-new-activati
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nd">@torch</span><span class="o">.</span><span class="n">jit</span><span class="o">.</span><span class="n">script</span>
-<span class="k">def</span> <span class="nf">mish_jit</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">_inplace</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Jit version of Mish.</span>
-<span class="sd">    Mish: A Self Regularized Non-Monotonic Neural Activation Function - https://arxiv.org/abs/1908.08681</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">x</span><span class="o">.</span><span class="n">mul</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">softplus</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">tanh</span><span class="p">())</span>
-
-
-<span class="k">class</span> <span class="nc">MishJit</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inplace</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Jit version of Mish.</span>
-<span class="sd">        Mish: A Self Regularized Non-Monotonic Neural Activation Function - https://arxiv.org/abs/1908.08681&quot;&quot;&quot;</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">MishJit</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
-
-    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">mish_jit</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">model_constructor.activations</span> <span class="kn">import</span> <span class="n">HardMishJit</span><span class="p">,</span> <span class="n">HardMishMe</span>
 </pre></div>
 
     </div>
@@ -452,166 +526,41 @@ fastai forum discussion <a href="https://forums.fast.ai/t/meet-mish-new-activati
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="MishJitMe---memory-efficient.">MishJitMe - memory-efficient.<a class="anchor-link" href="#MishJitMe---memory-efficient."> </a></h2>
-</div>
-</div>
-</div>
     
     
 <div class="cell border-box-sizing code_cell rendered">
-<div class="input">
 
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nd">@torch</span><span class="o">.</span><span class="n">jit</span><span class="o">.</span><span class="n">script</span>
-<span class="k">def</span> <span class="nf">mish_jit_fwd</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
-    <span class="c1"># return x.mul(torch.tanh(F.softplus(x)))</span>
-    <span class="k">return</span> <span class="n">x</span><span class="o">.</span><span class="n">mul</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">softplus</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">tanh</span><span class="p">())</span>
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
 
 
-<span class="nd">@torch</span><span class="o">.</span><span class="n">jit</span><span class="o">.</span><span class="n">script</span>
-<span class="k">def</span> <span class="nf">mish_jit_bwd</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">grad_output</span><span class="p">):</span>
-    <span class="n">x_sigmoid</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sigmoid</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-    <span class="n">x_tanh_sp</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">softplus</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">tanh</span><span class="p">()</span>
-    <span class="k">return</span> <span class="n">grad_output</span><span class="o">.</span><span class="n">mul</span><span class="p">(</span><span class="n">x_tanh_sp</span> <span class="o">+</span> <span class="n">x</span> <span class="o">*</span> <span class="n">x_sigmoid</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">x_tanh_sp</span> <span class="o">*</span> <span class="n">x_tanh_sp</span><span class="p">))</span>
+<div class="output_markdown rendered_html output_subarea ">
+<h4 id="HardMishJit" class="doc_header"><code>class</code> <code>HardMishJit</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/activations.py#L100" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>HardMishJit</code>(<strong><code>inplace</code></strong>:<code>bool</code>=<em><code>False</code></em>) :: <code>Module</code></p>
+</blockquote>
+<p>Hard Mish
+Experimental, based on notes by Mish author Diganta Misra at
+  <a href="https://github.com/digantamisra98/H-Mish/blob/0da20d4bc58e696b6803f2523c58d3c8a82782d0/README.md">https://github.com/digantamisra98/H-Mish/blob/0da20d4bc58e696b6803f2523c58d3c8a82782d0/README.md</a></p>
 
-
-<span class="k">class</span> <span class="nc">MishJitAutoFn</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">autograd</span><span class="o">.</span><span class="n">Function</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Mish: A Self Regularized Non-Monotonic Neural Activation Function - https://arxiv.org/abs/1908.08681</span>
-<span class="sd">    A memory efficient, jit scripted variant of Mish&quot;&quot;&quot;</span>
-    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
-        <span class="n">ctx</span><span class="o">.</span><span class="n">save_for_backward</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">mish_jit_fwd</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-
-    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">backward</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">grad_output</span><span class="p">):</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">saved_tensors</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="k">return</span> <span class="n">mish_jit_bwd</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">grad_output</span><span class="p">)</span>
-
-
-<span class="k">def</span> <span class="nf">mish_me</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">MishJitAutoFn</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-
-
-<span class="k">class</span> <span class="nc">MishMe</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Mish: A Self Regularized Non-Monotonic Neural Activation Function - https://arxiv.org/abs/1908.08681</span>
-<span class="sd">    A memory efficient, jit scripted variant of Mish&quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inplace</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">MishMe</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
-
-    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">MishJitAutoFn</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
 </div>
 
 </div>
-    
 
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="HardMishJit">HardMishJit<a class="anchor-link" href="#HardMishJit"> </a></h2>
-</div>
-</div>
-</div>
-    
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nd">@torch</span><span class="o">.</span><span class="n">jit</span><span class="o">.</span><span class="n">script</span>
-<span class="k">def</span> <span class="nf">hard_mish_jit</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">inplace</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Hard Mish</span>
-<span class="sd">    Experimental, based on notes by Mish author Diganta Misra at</span>
-<span class="sd">      https://github.com/digantamisra98/H-Mish/blob/0da20d4bc58e696b6803f2523c58d3c8a82782d0/README.md</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">x</span> <span class="o">*</span> <span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">clamp</span><span class="p">(</span><span class="nb">min</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<div class="output_area">
 
 
-<span class="k">class</span> <span class="nc">HardMishJit</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Hard Mish</span>
-<span class="sd">    Experimental, based on notes by Mish author Diganta Misra at</span>
-<span class="sd">      https://github.com/digantamisra98/H-Mish/blob/0da20d4bc58e696b6803f2523c58d3c8a82782d0/README.md</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inplace</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">HardMishJit</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+<div class="output_markdown rendered_html output_subarea ">
+<h4 id="HardMishMe" class="doc_header"><code>class</code> <code>HardMishMe</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/activations.py#L144" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>HardMishMe</code>(<strong><code>inplace</code></strong>:<code>bool</code>=<em><code>False</code></em>) :: <code>Module</code></p>
+</blockquote>
+<p>A memory efficient, jit scripted variant of Hard Mish
+Experimental, based on notes by Mish author Diganta Misra at
+  <a href="https://github.com/digantamisra98/H-Mish/blob/0da20d4bc58e696b6803f2523c58d3c8a82782d0/README.md">https://github.com/digantamisra98/H-Mish/blob/0da20d4bc58e696b6803f2523c58d3c8a82782d0/README.md</a></p>
 
-    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">hard_mish_jit</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
 </div>
 
 </div>
-    
 
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="HardMishJitMe---memory-efficient.">HardMishJitMe - memory efficient.<a class="anchor-link" href="#HardMishJitMe---memory-efficient."> </a></h2>
-</div>
-</div>
-</div>
-    
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nd">@torch</span><span class="o">.</span><span class="n">jit</span><span class="o">.</span><span class="n">script</span>
-<span class="k">def</span> <span class="nf">hard_mish_jit_fwd</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
-    <span class="k">return</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">x</span> <span class="o">*</span> <span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">clamp</span><span class="p">(</span><span class="nb">min</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-
-
-<span class="nd">@torch</span><span class="o">.</span><span class="n">jit</span><span class="o">.</span><span class="n">script</span>
-<span class="k">def</span> <span class="nf">hard_mish_jit_bwd</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">grad_output</span><span class="p">):</span>
-    <span class="n">m</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">x</span> <span class="o">&gt;=</span> <span class="o">-</span><span class="mf">2.</span><span class="p">)</span>
-    <span class="n">m</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">where</span><span class="p">((</span><span class="n">x</span> <span class="o">&gt;=</span> <span class="o">-</span><span class="mf">2.</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">x</span> <span class="o">&lt;=</span> <span class="mf">0.</span><span class="p">),</span> <span class="n">x</span> <span class="o">+</span> <span class="mf">1.</span><span class="p">,</span> <span class="n">m</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">grad_output</span> <span class="o">*</span> <span class="n">m</span>
-
-
-<span class="k">class</span> <span class="nc">HardMishJitAutoFn</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">autograd</span><span class="o">.</span><span class="n">Function</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; A memory efficient, jit scripted variant of Hard Mish</span>
-<span class="sd">    Experimental, based on notes by Mish author Diganta Misra at</span>
-<span class="sd">      https://github.com/digantamisra98/H-Mish/blob/0da20d4bc58e696b6803f2523c58d3c8a82782d0/README.md</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
-        <span class="n">ctx</span><span class="o">.</span><span class="n">save_for_backward</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">hard_mish_jit_fwd</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-
-    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">backward</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">grad_output</span><span class="p">):</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">saved_tensors</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="k">return</span> <span class="n">hard_mish_jit_bwd</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">grad_output</span><span class="p">)</span>
-
-
-<span class="k">def</span> <span class="nf">hard_mish_me</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">inplace</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">HardMishJitAutoFn</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-
-
-<span class="k">class</span> <span class="nc">HardMishMe</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; A memory efficient, jit scripted variant of Hard Mish</span>
-<span class="sd">    Experimental, based on notes by Mish author Diganta Misra at</span>
-<span class="sd">      https://github.com/digantamisra98/H-Mish/blob/0da20d4bc58e696b6803f2523c58d3c8a82782d0/README.md</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inplace</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">HardMishMe</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
-
-    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">HardMishJitAutoFn</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-</pre></div>
-
-    </div>
 </div>
 </div>
 
