@@ -127,7 +127,7 @@ nb_path: "Nbs/index.ipynb"
 
 <div class="output_text output_subarea output_execute_result">
 <pre>MC constructor
-  c_in: 3, c_out: 1000
+  in_chans: 3, num_classes: 1000
   expansion: 1, groups: 1, dw: False, div_groups: None
   sa: False, se: False
   stem sizes: [3, 32, 32, 64], stride on 0
@@ -145,7 +145,7 @@ nb_path: "Nbs/index.ipynb"
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Now we have model consructor, default setting as xresnet18. And we can get model after call it.</p>
+<p>Now we have model constructor, default setting as xresnet18. And we can get model after call it.</p>
 
 </div>
 </div>
@@ -179,17 +179,17 @@ nb_path: "Nbs/index.ipynb"
 <pre>Sequential(
   MC
   (stem): Sequential(
-    (conv_0): ConvLayer(
+    (conv_0): ConvBnAct(
       (conv): Conv2d(3, 32, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
       (bn): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
       (act_fn): ReLU(inplace=True)
     )
-    (conv_1): ConvLayer(
+    (conv_1): ConvBnAct(
       (conv): Conv2d(32, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
       (bn): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
       (act_fn): ReLU(inplace=True)
     )
-    (conv_2): ConvLayer(
+    (conv_2): ConvBnAct(
       (conv): Conv2d(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
       (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
       (act_fn): ReLU(inplace=True)
@@ -200,12 +200,12 @@ nb_path: "Nbs/index.ipynb"
     (l_0): Sequential(
       (bl_0): ResBlock(
         (convs): Sequential(
-          (conv_0): ConvLayer(
+          (conv_0): ConvBnAct(
             (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
             (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
             (act_fn): ReLU(inplace=True)
           )
-          (conv_1): ConvLayer(
+          (conv_1): ConvBnAct(
             (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
             (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
           )
@@ -214,12 +214,12 @@ nb_path: "Nbs/index.ipynb"
       )
       (bl_1): ResBlock(
         (convs): Sequential(
-          (conv_0): ConvLayer(
+          (conv_0): ConvBnAct(
             (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
             (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
             (act_fn): ReLU(inplace=True)
           )
-          (conv_1): ConvLayer(
+          (conv_1): ConvBnAct(
             (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
             (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
           )
@@ -230,31 +230,33 @@ nb_path: "Nbs/index.ipynb"
     (l_1): Sequential(
       (bl_0): ResBlock(
         (convs): Sequential(
-          (conv_0): ConvLayer(
+          (conv_0): ConvBnAct(
             (conv): Conv2d(64, 128, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
             (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
             (act_fn): ReLU(inplace=True)
           )
-          (conv_1): ConvLayer(
+          (conv_1): ConvBnAct(
             (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
             (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
           )
         )
-        (pool): AvgPool2d(kernel_size=2, stride=2, padding=0)
-        (idconv): ConvLayer(
-          (conv): Conv2d(64, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
-          (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (id_conv): Sequential(
+          (pool): AvgPool2d(kernel_size=2, stride=2, padding=0)
+          (id_conv): ConvBnAct(
+            (conv): Conv2d(64, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
         )
         (act_fn): ReLU(inplace=True)
       )
       (bl_1): ResBlock(
         (convs): Sequential(
-          (conv_0): ConvLayer(
+          (conv_0): ConvBnAct(
             (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
             (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
             (act_fn): ReLU(inplace=True)
           )
-          (conv_1): ConvLayer(
+          (conv_1): ConvBnAct(
             (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
             (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
           )
@@ -265,31 +267,33 @@ nb_path: "Nbs/index.ipynb"
     (l_2): Sequential(
       (bl_0): ResBlock(
         (convs): Sequential(
-          (conv_0): ConvLayer(
+          (conv_0): ConvBnAct(
             (conv): Conv2d(128, 256, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
             (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
             (act_fn): ReLU(inplace=True)
           )
-          (conv_1): ConvLayer(
+          (conv_1): ConvBnAct(
             (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
             (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
           )
         )
-        (pool): AvgPool2d(kernel_size=2, stride=2, padding=0)
-        (idconv): ConvLayer(
-          (conv): Conv2d(128, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
-          (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (id_conv): Sequential(
+          (pool): AvgPool2d(kernel_size=2, stride=2, padding=0)
+          (id_conv): ConvBnAct(
+            (conv): Conv2d(128, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
         )
         (act_fn): ReLU(inplace=True)
       )
       (bl_1): ResBlock(
         (convs): Sequential(
-          (conv_0): ConvLayer(
+          (conv_0): ConvBnAct(
             (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
             (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
             (act_fn): ReLU(inplace=True)
           )
-          (conv_1): ConvLayer(
+          (conv_1): ConvBnAct(
             (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
             (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
           )
@@ -300,31 +304,33 @@ nb_path: "Nbs/index.ipynb"
     (l_3): Sequential(
       (bl_0): ResBlock(
         (convs): Sequential(
-          (conv_0): ConvLayer(
+          (conv_0): ConvBnAct(
             (conv): Conv2d(256, 512, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
             (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
             (act_fn): ReLU(inplace=True)
           )
-          (conv_1): ConvLayer(
+          (conv_1): ConvBnAct(
             (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
             (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
           )
         )
-        (pool): AvgPool2d(kernel_size=2, stride=2, padding=0)
-        (idconv): ConvLayer(
-          (conv): Conv2d(256, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
-          (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (id_conv): Sequential(
+          (pool): AvgPool2d(kernel_size=2, stride=2, padding=0)
+          (id_conv): ConvBnAct(
+            (conv): Conv2d(256, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
         )
         (act_fn): ReLU(inplace=True)
       )
       (bl_1): ResBlock(
         (convs): Sequential(
-          (conv_0): ConvLayer(
+          (conv_0): ConvBnAct(
             (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
             (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
             (act_fn): ReLU(inplace=True)
           )
-          (conv_1): ConvLayer(
+          (conv_1): ConvBnAct(
             (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
             (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
           )
@@ -335,7 +341,7 @@ nb_path: "Nbs/index.ipynb"
   )
   (head): Sequential(
     (pool): AdaptiveAvgPool2d(output_size=1)
-    (flat): Flatten()
+    (flat): Flatten(start_dim=1, end_dim=-1)
     (fc): Linear(in_features=512, out_features=1000, bias=True)
   )
 )</pre>
@@ -412,40 +418,42 @@ Lets create xresnet50.</p>
   (l_0): Sequential(
     (bl_0): ResBlock(
       (convs): Sequential(
-        (conv_0): ConvLayer(
+        (conv_0): ConvBnAct(
           (conv): Conv2d(64, 64, kernel_size=(1, 1), stride=(1, 1), bias=False)
           (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
           (act_fn): ReLU(inplace=True)
         )
-        (conv_1): ConvLayer(
+        (conv_1): ConvBnAct(
           (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
           (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
           (act_fn): ReLU(inplace=True)
         )
-        (conv_2): ConvLayer(
+        (conv_2): ConvBnAct(
           (conv): Conv2d(64, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
           (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
         )
       )
-      (idconv): ConvLayer(
-        (conv): Conv2d(64, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
-        (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (id_conv): Sequential(
+        (id_conv): ConvBnAct(
+          (conv): Conv2d(64, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+          (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
       )
       (act_fn): ReLU(inplace=True)
     )
     (bl_1): ResBlock(
       (convs): Sequential(
-        (conv_0): ConvLayer(
+        (conv_0): ConvBnAct(
           (conv): Conv2d(256, 64, kernel_size=(1, 1), stride=(1, 1), bias=False)
           (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
           (act_fn): ReLU(inplace=True)
         )
-        (conv_1): ConvLayer(
+        (conv_1): ConvBnAct(
           (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
           (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
           (act_fn): ReLU(inplace=True)
         )
-        (conv_2): ConvLayer(
+        (conv_2): ConvBnAct(
           (conv): Conv2d(64, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
           (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
         )
@@ -454,17 +462,17 @@ Lets create xresnet50.</p>
     )
     (bl_2): ResBlock(
       (convs): Sequential(
-        (conv_0): ConvLayer(
+        (conv_0): ConvBnAct(
           (conv): Conv2d(256, 64, kernel_size=(1, 1), stride=(1, 1), bias=False)
           (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
           (act_fn): ReLU(inplace=True)
         )
-        (conv_1): ConvLayer(
+        (conv_1): ConvBnAct(
           (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
           (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
           (act_fn): ReLU(inplace=True)
         )
-        (conv_2): ConvLayer(
+        (conv_2): ConvBnAct(
           (conv): Conv2d(64, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
           (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
         )
@@ -475,41 +483,43 @@ Lets create xresnet50.</p>
   (l_1): Sequential(
     (bl_0): ResBlock(
       (convs): Sequential(
-        (conv_0): ConvLayer(
+        (conv_0): ConvBnAct(
           (conv): Conv2d(256, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
           (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
           (act_fn): ReLU(inplace=True)
         )
-        (conv_1): ConvLayer(
+        (conv_1): ConvBnAct(
           (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
           (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
           (act_fn): ReLU(inplace=True)
         )
-        (conv_2): ConvLayer(
+        (conv_2): ConvBnAct(
           (conv): Conv2d(128, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
           (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
         )
       )
-      (pool): AvgPool2d(kernel_size=2, stride=2, padding=0)
-      (idconv): ConvLayer(
-        (conv): Conv2d(256, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
-        (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (id_conv): Sequential(
+        (pool): AvgPool2d(kernel_size=2, stride=2, padding=0)
+        (id_conv): ConvBnAct(
+          (conv): Conv2d(256, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+          (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
       )
       (act_fn): ReLU(inplace=True)
     )
     (bl_1): ResBlock(
       (convs): Sequential(
-        (conv_0): ConvLayer(
+        (conv_0): ConvBnAct(
           (conv): Conv2d(512, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
           (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
           (act_fn): ReLU(inplace=True)
         )
-        (conv_1): ConvLayer(
+        (conv_1): ConvBnAct(
           (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
           (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
           (act_fn): ReLU(inplace=True)
         )
-        (conv_2): ConvLayer(
+        (conv_2): ConvBnAct(
           (conv): Conv2d(128, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
           (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
         )
@@ -518,17 +528,17 @@ Lets create xresnet50.</p>
     )
     (bl_2): ResBlock(
       (convs): Sequential(
-        (conv_0): ConvLayer(
+        (conv_0): ConvBnAct(
           (conv): Conv2d(512, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
           (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
           (act_fn): ReLU(inplace=True)
         )
-        (conv_1): ConvLayer(
+        (conv_1): ConvBnAct(
           (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
           (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
           (act_fn): ReLU(inplace=True)
         )
-        (conv_2): ConvLayer(
+        (conv_2): ConvBnAct(
           (conv): Conv2d(128, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
           (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
         )
@@ -537,17 +547,17 @@ Lets create xresnet50.</p>
     )
     (bl_3): ResBlock(
       (convs): Sequential(
-        (conv_0): ConvLayer(
+        (conv_0): ConvBnAct(
           (conv): Conv2d(512, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
           (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
           (act_fn): ReLU(inplace=True)
         )
-        (conv_1): ConvLayer(
+        (conv_1): ConvBnAct(
           (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
           (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
           (act_fn): ReLU(inplace=True)
         )
-        (conv_2): ConvLayer(
+        (conv_2): ConvBnAct(
           (conv): Conv2d(128, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
           (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
         )
@@ -558,41 +568,43 @@ Lets create xresnet50.</p>
   (l_2): Sequential(
     (bl_0): ResBlock(
       (convs): Sequential(
-        (conv_0): ConvLayer(
+        (conv_0): ConvBnAct(
           (conv): Conv2d(512, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
           (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
           (act_fn): ReLU(inplace=True)
         )
-        (conv_1): ConvLayer(
+        (conv_1): ConvBnAct(
           (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
           (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
           (act_fn): ReLU(inplace=True)
         )
-        (conv_2): ConvLayer(
+        (conv_2): ConvBnAct(
           (conv): Conv2d(256, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False)
           (bn): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
         )
       )
-      (pool): AvgPool2d(kernel_size=2, stride=2, padding=0)
-      (idconv): ConvLayer(
-        (conv): Conv2d(512, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False)
-        (bn): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (id_conv): Sequential(
+        (pool): AvgPool2d(kernel_size=2, stride=2, padding=0)
+        (id_conv): ConvBnAct(
+          (conv): Conv2d(512, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False)
+          (bn): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
       )
       (act_fn): ReLU(inplace=True)
     )
     (bl_1): ResBlock(
       (convs): Sequential(
-        (conv_0): ConvLayer(
+        (conv_0): ConvBnAct(
           (conv): Conv2d(1024, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
           (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
           (act_fn): ReLU(inplace=True)
         )
-        (conv_1): ConvLayer(
+        (conv_1): ConvBnAct(
           (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
           (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
           (act_fn): ReLU(inplace=True)
         )
-        (conv_2): ConvLayer(
+        (conv_2): ConvBnAct(
           (conv): Conv2d(256, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False)
           (bn): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
         )
@@ -601,17 +613,17 @@ Lets create xresnet50.</p>
     )
     (bl_2): ResBlock(
       (convs): Sequential(
-        (conv_0): ConvLayer(
+        (conv_0): ConvBnAct(
           (conv): Conv2d(1024, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
           (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
           (act_fn): ReLU(inplace=True)
         )
-        (conv_1): ConvLayer(
+        (conv_1): ConvBnAct(
           (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
           (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
           (act_fn): ReLU(inplace=True)
         )
-        (conv_2): ConvLayer(
+        (conv_2): ConvBnAct(
           (conv): Conv2d(256, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False)
           (bn): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
         )
@@ -620,17 +632,17 @@ Lets create xresnet50.</p>
     )
     (bl_3): ResBlock(
       (convs): Sequential(
-        (conv_0): ConvLayer(
+        (conv_0): ConvBnAct(
           (conv): Conv2d(1024, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
           (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
           (act_fn): ReLU(inplace=True)
         )
-        (conv_1): ConvLayer(
+        (conv_1): ConvBnAct(
           (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
           (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
           (act_fn): ReLU(inplace=True)
         )
-        (conv_2): ConvLayer(
+        (conv_2): ConvBnAct(
           (conv): Conv2d(256, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False)
           (bn): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
         )
@@ -639,17 +651,17 @@ Lets create xresnet50.</p>
     )
     (bl_4): ResBlock(
       (convs): Sequential(
-        (conv_0): ConvLayer(
+        (conv_0): ConvBnAct(
           (conv): Conv2d(1024, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
           (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
           (act_fn): ReLU(inplace=True)
         )
-        (conv_1): ConvLayer(
+        (conv_1): ConvBnAct(
           (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
           (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
           (act_fn): ReLU(inplace=True)
         )
-        (conv_2): ConvLayer(
+        (conv_2): ConvBnAct(
           (conv): Conv2d(256, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False)
           (bn): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
         )
@@ -658,17 +670,17 @@ Lets create xresnet50.</p>
     )
     (bl_5): ResBlock(
       (convs): Sequential(
-        (conv_0): ConvLayer(
+        (conv_0): ConvBnAct(
           (conv): Conv2d(1024, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
           (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
           (act_fn): ReLU(inplace=True)
         )
-        (conv_1): ConvLayer(
+        (conv_1): ConvBnAct(
           (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
           (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
           (act_fn): ReLU(inplace=True)
         )
-        (conv_2): ConvLayer(
+        (conv_2): ConvBnAct(
           (conv): Conv2d(256, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False)
           (bn): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
         )
@@ -679,41 +691,43 @@ Lets create xresnet50.</p>
   (l_3): Sequential(
     (bl_0): ResBlock(
       (convs): Sequential(
-        (conv_0): ConvLayer(
+        (conv_0): ConvBnAct(
           (conv): Conv2d(1024, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
           (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
           (act_fn): ReLU(inplace=True)
         )
-        (conv_1): ConvLayer(
+        (conv_1): ConvBnAct(
           (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
           (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
           (act_fn): ReLU(inplace=True)
         )
-        (conv_2): ConvLayer(
+        (conv_2): ConvBnAct(
           (conv): Conv2d(512, 2048, kernel_size=(1, 1), stride=(1, 1), bias=False)
           (bn): BatchNorm2d(2048, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
         )
       )
-      (pool): AvgPool2d(kernel_size=2, stride=2, padding=0)
-      (idconv): ConvLayer(
-        (conv): Conv2d(1024, 2048, kernel_size=(1, 1), stride=(1, 1), bias=False)
-        (bn): BatchNorm2d(2048, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (id_conv): Sequential(
+        (pool): AvgPool2d(kernel_size=2, stride=2, padding=0)
+        (id_conv): ConvBnAct(
+          (conv): Conv2d(1024, 2048, kernel_size=(1, 1), stride=(1, 1), bias=False)
+          (bn): BatchNorm2d(2048, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
       )
       (act_fn): ReLU(inplace=True)
     )
     (bl_1): ResBlock(
       (convs): Sequential(
-        (conv_0): ConvLayer(
+        (conv_0): ConvBnAct(
           (conv): Conv2d(2048, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
           (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
           (act_fn): ReLU(inplace=True)
         )
-        (conv_1): ConvLayer(
+        (conv_1): ConvBnAct(
           (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
           (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
           (act_fn): ReLU(inplace=True)
         )
-        (conv_2): ConvLayer(
+        (conv_2): ConvBnAct(
           (conv): Conv2d(512, 2048, kernel_size=(1, 1), stride=(1, 1), bias=False)
           (bn): BatchNorm2d(2048, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
         )
@@ -722,17 +736,17 @@ Lets create xresnet50.</p>
     )
     (bl_2): ResBlock(
       (convs): Sequential(
-        (conv_0): ConvLayer(
+        (conv_0): ConvBnAct(
           (conv): Conv2d(2048, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
           (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
           (act_fn): ReLU(inplace=True)
         )
-        (conv_1): ConvLayer(
+        (conv_1): ConvBnAct(
           (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
           (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
           (act_fn): ReLU(inplace=True)
         )
-        (conv_2): ConvLayer(
+        (conv_2): ConvBnAct(
           (conv): Conv2d(512, 2048, kernel_size=(1, 1), stride=(1, 1), bias=False)
           (bn): BatchNorm2d(2048, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
         )
@@ -818,7 +832,7 @@ And here is the link to more modification to beat Imagenette leaderboard with ad
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Now lets change activation function to Mish.
-Here is link to forum disscussion <a href="https://forums.fast.ai/t/meet-mish-new-activation-function-possible-successor-to-relu">https://forums.fast.ai/t/meet-mish-new-activation-function-possible-successor-to-relu</a><br>
+Here is link to forum discussion <a href="https://forums.fast.ai/t/meet-mish-new-activation-function-possible-successor-to-relu">https://forums.fast.ai/t/meet-mish-new-activation-function-possible-successor-to-relu</a><br>
 We'v got Mish is in model_constructor.activations, but from pytorch 1.9 take it from torch:</p>
 
 </div>
@@ -881,7 +895,7 @@ We'v got Mish is in model_constructor.activations, but from pytorch 1.9 take it 
 
 <div class="output_text output_subarea output_execute_result">
 <pre>MxResNet constructor
-  c_in: 3, c_out: 1000
+  in_chans: 3, num_classes: 1000
   expansion: 1, groups: 1, dw: False, div_groups: None
   sa: False, se: False
   stem sizes: [3, 32, 64, 64], stride on 0
@@ -925,17 +939,17 @@ We'v got Mish is in model_constructor.activations, but from pytorch 1.9 take it 
 <pre>Sequential(
   MxResNet
   (stem): Sequential(
-    (conv_0): ConvLayer(
+    (conv_0): ConvBnAct(
       (conv): Conv2d(3, 32, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
       (bn): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
       (act_fn): Mish()
     )
-    (conv_1): ConvLayer(
+    (conv_1): ConvBnAct(
       (conv): Conv2d(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
       (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
       (act_fn): Mish()
     )
-    (conv_2): ConvLayer(
+    (conv_2): ConvBnAct(
       (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
       (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
       (act_fn): Mish()
@@ -946,12 +960,12 @@ We'v got Mish is in model_constructor.activations, but from pytorch 1.9 take it 
     (l_0): Sequential(
       (bl_0): ResBlock(
         (convs): Sequential(
-          (conv_0): ConvLayer(
+          (conv_0): ConvBnAct(
             (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
             (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
             (act_fn): Mish()
           )
-          (conv_1): ConvLayer(
+          (conv_1): ConvBnAct(
             (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
             (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
           )
@@ -960,12 +974,12 @@ We'v got Mish is in model_constructor.activations, but from pytorch 1.9 take it 
       )
       (bl_1): ResBlock(
         (convs): Sequential(
-          (conv_0): ConvLayer(
+          (conv_0): ConvBnAct(
             (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
             (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
             (act_fn): Mish()
           )
-          (conv_1): ConvLayer(
+          (conv_1): ConvBnAct(
             (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
             (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
           )
@@ -976,31 +990,33 @@ We'v got Mish is in model_constructor.activations, but from pytorch 1.9 take it 
     (l_1): Sequential(
       (bl_0): ResBlock(
         (convs): Sequential(
-          (conv_0): ConvLayer(
+          (conv_0): ConvBnAct(
             (conv): Conv2d(64, 128, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
             (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
             (act_fn): Mish()
           )
-          (conv_1): ConvLayer(
+          (conv_1): ConvBnAct(
             (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
             (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
           )
         )
-        (pool): AvgPool2d(kernel_size=2, stride=2, padding=0)
-        (idconv): ConvLayer(
-          (conv): Conv2d(64, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
-          (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (id_conv): Sequential(
+          (pool): AvgPool2d(kernel_size=2, stride=2, padding=0)
+          (id_conv): ConvBnAct(
+            (conv): Conv2d(64, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
         )
         (act_fn): Mish()
       )
       (bl_1): ResBlock(
         (convs): Sequential(
-          (conv_0): ConvLayer(
+          (conv_0): ConvBnAct(
             (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
             (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
             (act_fn): Mish()
           )
-          (conv_1): ConvLayer(
+          (conv_1): ConvBnAct(
             (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
             (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
           )
@@ -1011,31 +1027,33 @@ We'v got Mish is in model_constructor.activations, but from pytorch 1.9 take it 
     (l_2): Sequential(
       (bl_0): ResBlock(
         (convs): Sequential(
-          (conv_0): ConvLayer(
+          (conv_0): ConvBnAct(
             (conv): Conv2d(128, 256, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
             (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
             (act_fn): Mish()
           )
-          (conv_1): ConvLayer(
+          (conv_1): ConvBnAct(
             (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
             (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
           )
         )
-        (pool): AvgPool2d(kernel_size=2, stride=2, padding=0)
-        (idconv): ConvLayer(
-          (conv): Conv2d(128, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
-          (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (id_conv): Sequential(
+          (pool): AvgPool2d(kernel_size=2, stride=2, padding=0)
+          (id_conv): ConvBnAct(
+            (conv): Conv2d(128, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
         )
         (act_fn): Mish()
       )
       (bl_1): ResBlock(
         (convs): Sequential(
-          (conv_0): ConvLayer(
+          (conv_0): ConvBnAct(
             (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
             (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
             (act_fn): Mish()
           )
-          (conv_1): ConvLayer(
+          (conv_1): ConvBnAct(
             (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
             (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
           )
@@ -1046,31 +1064,33 @@ We'v got Mish is in model_constructor.activations, but from pytorch 1.9 take it 
     (l_3): Sequential(
       (bl_0): ResBlock(
         (convs): Sequential(
-          (conv_0): ConvLayer(
+          (conv_0): ConvBnAct(
             (conv): Conv2d(256, 512, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
             (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
             (act_fn): Mish()
           )
-          (conv_1): ConvLayer(
+          (conv_1): ConvBnAct(
             (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
             (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
           )
         )
-        (pool): AvgPool2d(kernel_size=2, stride=2, padding=0)
-        (idconv): ConvLayer(
-          (conv): Conv2d(256, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
-          (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (id_conv): Sequential(
+          (pool): AvgPool2d(kernel_size=2, stride=2, padding=0)
+          (id_conv): ConvBnAct(
+            (conv): Conv2d(256, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
         )
         (act_fn): Mish()
       )
       (bl_1): ResBlock(
         (convs): Sequential(
-          (conv_0): ConvLayer(
+          (conv_0): ConvBnAct(
             (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
             (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
             (act_fn): Mish()
           )
-          (conv_1): ConvLayer(
+          (conv_1): ConvBnAct(
             (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
             (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
           )
@@ -1081,7 +1101,7 @@ We'v got Mish is in model_constructor.activations, but from pytorch 1.9 take it 
   )
   (head): Sequential(
     (pool): AdaptiveAvgPool2d(output_size=1)
-    (flat): Flatten()
+    (flat): Flatten(start_dim=1, end_dim=-1)
     (fc): Linear(in_features=512, out_features=1000, bias=True)
   )
 )</pre>
@@ -1098,7 +1118,7 @@ We'v got Mish is in model_constructor.activations, but from pytorch 1.9 take it 
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="MXResNet">MXResNet<a class="anchor-link" href="#MXResNet"> </a></h2>
+<h3 id="MXResNet50">MXResNet50<a class="anchor-link" href="#MXResNet50"> </a></h3>
 </div>
 </div>
 </div>
@@ -1160,7 +1180,7 @@ And after call it we got model.</p>
 
 <div class="output_text output_subarea output_execute_result">
 <pre>mxresnet50 constructor
-  c_in: 3, c_out: 1000
+  in_chans: 3, num_classes: 1000
   expansion: 4, groups: 1, dw: False, div_groups: None
   sa: False, se: False
   stem sizes: [3, 32, 64, 64], stride on 0
@@ -1201,7 +1221,7 @@ And after call it we got model.</p>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>ConvLayer(
+<pre>ConvBnAct(
   (conv): Conv2d(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
   (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
   (act_fn): Mish()
@@ -1244,24 +1264,26 @@ And after call it we got model.</p>
 <div class="output_text output_subarea output_execute_result">
 <pre>ResBlock(
   (convs): Sequential(
-    (conv_0): ConvLayer(
+    (conv_0): ConvBnAct(
       (conv): Conv2d(64, 64, kernel_size=(1, 1), stride=(1, 1), bias=False)
       (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
       (act_fn): Mish()
     )
-    (conv_1): ConvLayer(
+    (conv_1): ConvBnAct(
       (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
       (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
       (act_fn): Mish()
     )
-    (conv_2): ConvLayer(
+    (conv_2): ConvBnAct(
       (conv): Conv2d(64, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
       (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
     )
   )
-  (idconv): ConvLayer(
-    (conv): Conv2d(64, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
-    (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+  (id_conv): Sequential(
+    (id_conv): ConvBnAct(
+      (conv): Conv2d(64, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    )
   )
   (act_fn): Mish()
 )</pre>
@@ -1382,10 +1404,10 @@ And after call it we got model.</p>
 
 <div class="output_text output_subarea output_execute_result">
 <pre>YaResNet constructor
-  c_in: 3, c_out: 1000
+  in_chans: 3, num_classes: 1000
   expansion: 4, groups: 1, dw: False, div_groups: None
   sa: False, se: False
-  stem sizes: [3, 32, 32, 64], stride on 0
+  stem sizes: [3, 32, 64, 64], stride on 0
   body sizes [64, 128, 256, 512]
   layers: [3, 4, 6, 3]</pre>
 </div>
@@ -1434,22 +1456,22 @@ And after call it we got model.</p>
 <pre>YaResBlock(
   (reduce): AvgPool2d(kernel_size=2, stride=2, padding=0)
   (convs): Sequential(
-    (conv_0): ConvLayer(
+    (conv_0): ConvBnAct(
       (conv): Conv2d(256, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
       (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
       (act_fn): Mish()
     )
-    (conv_1): ConvLayer(
+    (conv_1): ConvBnAct(
       (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
       (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
       (act_fn): Mish()
     )
-    (conv_2): ConvLayer(
+    (conv_2): ConvBnAct(
       (conv): Conv2d(128, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
       (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
     )
   )
-  (idconv): ConvLayer(
+  (id_conv): ConvBnAct(
     (conv): Conv2d(256, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
     (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
   )
@@ -1474,7 +1496,7 @@ And after call it we got model.</p>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>First version, it deprecated, but still here for compatability.</p>
+<p>First version, it deprecated, but still here for compatibility.</p>
 
 </div>
 </div>

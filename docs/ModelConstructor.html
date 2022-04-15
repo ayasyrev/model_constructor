@@ -46,7 +46,7 @@ nb_path: "Nbs/00_ModelConstructor.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="ResBlock" class="doc_header"><code>class</code> <code>ResBlock</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/model_constructor.py#L25" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>ResBlock</code>(<strong><code>expansion</code></strong>, <strong><code>ni</code></strong>, <strong><code>nh</code></strong>, <strong><code>stride</code></strong>=<em><code>1</code></em>, <strong><code>conv_layer</code></strong>=<em><code>ConvLayer</code></em>, <strong><code>act_fn</code></strong>=<em><code>ReLU(inplace=True)</code></em>, <strong><code>zero_bn</code></strong>=<em><code>True</code></em>, <strong><code>bn_1st</code></strong>=<em><code>True</code></em>, <strong><code>pool</code></strong>=<em><code>AvgPool2d(kernel_size=2, stride=2, padding=0)</code></em>, <strong><code>sa</code></strong>=<em><code>False</code></em>, <strong><code>sym</code></strong>=<em><code>False</code></em>, <strong><code>groups</code></strong>=<em><code>1</code></em>, <strong><code>dw</code></strong>=<em><code>False</code></em>, <strong><code>div_groups</code></strong>=<em><code>None</code></em>, <strong><code>se_module</code></strong>=<em><code>SEModule</code></em>, <strong><code>se</code></strong>=<em><code>False</code></em>, <strong><code>se_reduction</code></strong>=<em><code>16</code></em>) :: <code>Module</code></p>
+<h4 id="ResBlock" class="doc_header"><code>class</code> <code>ResBlock</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/model_constructor.py#L26" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>ResBlock</code>(<strong><code>expansion</code></strong>, <strong><code>in_channels</code></strong>, <strong><code>mid_channels</code></strong>, <strong><code>stride</code></strong>=<em><code>1</code></em>, <strong><code>conv_layer</code></strong>=<em><code>ConvBnAct</code></em>, <strong><code>act_fn</code></strong>=<em><code>ReLU(inplace=True)</code></em>, <strong><code>zero_bn</code></strong>=<em><code>True</code></em>, <strong><code>bn_1st</code></strong>=<em><code>True</code></em>, <strong><code>groups</code></strong>=<em><code>1</code></em>, <strong><code>dw</code></strong>=<em><code>False</code></em>, <strong><code>div_groups</code></strong>=<em><code>None</code></em>, <strong><code>pool</code></strong>=<em><code>None</code></em>, <strong><code>se</code></strong>=<em><code>None</code></em>, <strong><code>sa</code></strong>=<em><code>None</code></em>) :: <code>Module</code></p>
 </blockquote>
 <p>Resnet block</p>
 
@@ -67,7 +67,7 @@ nb_path: "Nbs/00_ModelConstructor.ipynb"
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">block</span> <span class="o">=</span> <span class="n">ResBlock</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="n">sa</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">block</span> <span class="o">=</span> <span class="n">ResBlock</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="mi">64</span><span class="p">)</span>
 <span class="n">block</span>
 </pre></div>
 
@@ -85,17 +85,14 @@ nb_path: "Nbs/00_ModelConstructor.ipynb"
 <div class="output_text output_subarea output_execute_result">
 <pre>ResBlock(
   (convs): Sequential(
-    (conv_0): ConvLayer(
+    (conv_0): ConvBnAct(
       (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
       (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
       (act_fn): ReLU(inplace=True)
     )
-    (conv_1): ConvLayer(
+    (conv_1): ConvBnAct(
       (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
       (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-    )
-    (sa): SimpleSelfAttention(
-      (conv): Conv1d(64, 64, kernel_size=(1,), stride=(1,), bias=False)
     )
   )
   (act_fn): ReLU(inplace=True)
@@ -117,7 +114,7 @@ nb_path: "Nbs/00_ModelConstructor.ipynb"
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">block</span> <span class="o">=</span> <span class="n">ResBlock</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="n">sa</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">dw</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">block</span> <span class="o">=</span> <span class="n">ResBlock</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="n">dw</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">block</span>
 </pre></div>
 
@@ -135,22 +132,19 @@ nb_path: "Nbs/00_ModelConstructor.ipynb"
 <div class="output_text output_subarea output_execute_result">
 <pre>ResBlock(
   (convs): Sequential(
-    (conv_0): ConvLayer(
+    (conv_0): ConvBnAct(
       (conv): Conv2d(256, 64, kernel_size=(1, 1), stride=(1, 1), bias=False)
       (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
       (act_fn): ReLU(inplace=True)
     )
-    (conv_1): ConvLayer(
+    (conv_1): ConvBnAct(
       (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=64, bias=False)
       (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
       (act_fn): ReLU(inplace=True)
     )
-    (conv_2): ConvLayer(
+    (conv_2): ConvBnAct(
       (conv): Conv2d(64, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
       (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-    )
-    (sa): SimpleSelfAttention(
-      (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
     )
   )
   (act_fn): ReLU(inplace=True)
@@ -172,7 +166,7 @@ nb_path: "Nbs/00_ModelConstructor.ipynb"
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">block</span> <span class="o">=</span> <span class="n">ResBlock</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="n">sa</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">groups</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">block</span> <span class="o">=</span> <span class="n">ResBlock</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="n">groups</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
 <span class="n">block</span>
 </pre></div>
 
@@ -190,22 +184,19 @@ nb_path: "Nbs/00_ModelConstructor.ipynb"
 <div class="output_text output_subarea output_execute_result">
 <pre>ResBlock(
   (convs): Sequential(
-    (conv_0): ConvLayer(
+    (conv_0): ConvBnAct(
       (conv): Conv2d(256, 64, kernel_size=(1, 1), stride=(1, 1), bias=False)
       (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
       (act_fn): ReLU(inplace=True)
     )
-    (conv_1): ConvLayer(
+    (conv_1): ConvBnAct(
       (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=4, bias=False)
       (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
       (act_fn): ReLU(inplace=True)
     )
-    (conv_2): ConvLayer(
+    (conv_2): ConvBnAct(
       (conv): Conv2d(64, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
       (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-    )
-    (sa): SimpleSelfAttention(
-      (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
     )
   )
   (act_fn): ReLU(inplace=True)
@@ -245,17 +236,17 @@ nb_path: "Nbs/00_ModelConstructor.ipynb"
 <div class="output_text output_subarea output_execute_result">
 <pre>ResBlock(
   (convs): Sequential(
-    (conv_0): ConvLayer(
+    (conv_0): ConvBnAct(
       (conv): Conv2d(128, 64, kernel_size=(1, 1), stride=(1, 1), bias=False)
       (act_fn): LeakyReLU(negative_slope=0.01)
       (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
     )
-    (conv_1): ConvLayer(
+    (conv_1): ConvBnAct(
       (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
       (act_fn): LeakyReLU(negative_slope=0.01)
       (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
     )
-    (conv_2): ConvLayer(
+    (conv_2): ConvBnAct(
       (conv): Conv2d(64, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
       (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
     )
@@ -279,7 +270,7 @@ nb_path: "Nbs/00_ModelConstructor.ipynb"
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">block</span> <span class="o">=</span> <span class="n">ResBlock</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="n">sa</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">se</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">block</span> <span class="o">=</span> <span class="n">ResBlock</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="n">dw</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">block</span>
 </pre></div>
 
@@ -297,17 +288,347 @@ nb_path: "Nbs/00_ModelConstructor.ipynb"
 <div class="output_text output_subarea output_execute_result">
 <pre>ResBlock(
   (convs): Sequential(
-    (conv_0): ConvLayer(
-      (conv): Conv2d(128, 64, kernel_size=(1, 1), stride=(1, 1), bias=False)
+    (conv_0): ConvBnAct(
+      (conv): Conv2d(64, 64, kernel_size=(1, 1), stride=(1, 1), bias=False)
       (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
       (act_fn): ReLU(inplace=True)
     )
-    (conv_1): ConvLayer(
-      (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+    (conv_1): ConvBnAct(
+      (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=64, bias=False)
       (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
       (act_fn): ReLU(inplace=True)
     )
-    (conv_2): ConvLayer(
+    (conv_2): ConvBnAct(
+      (conv): Conv2d(64, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    )
+  )
+  (id_conv): Sequential(
+    (id_conv): ConvBnAct(
+      (conv): Conv2d(64, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    )
+  )
+  (act_fn): ReLU(inplace=True)
+)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">block</span> <span class="o">=</span> <span class="n">ResBlock</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="n">dw</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">block</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>ResBlock(
+  (convs): Sequential(
+    (conv_0): ConvBnAct(
+      (conv): Conv2d(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=32, bias=False)
+      (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (act_fn): ReLU(inplace=True)
+    )
+    (conv_1): ConvBnAct(
+      (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=64, bias=False)
+      (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    )
+  )
+  (id_conv): Sequential(
+    (id_conv): ConvBnAct(
+      (conv): Conv2d(32, 64, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    )
+  )
+  (act_fn): ReLU(inplace=True)
+)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">block</span> <span class="o">=</span> <span class="n">ResBlock</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">dw</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">block</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>ResBlock(
+  (convs): Sequential(
+    (conv_0): ConvBnAct(
+      (conv): Conv2d(64, 64, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (act_fn): ReLU(inplace=True)
+    )
+    (conv_1): ConvBnAct(
+      (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), groups=64, bias=False)
+      (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (act_fn): ReLU(inplace=True)
+    )
+    (conv_2): ConvBnAct(
+      (conv): Conv2d(64, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    )
+  )
+  (id_conv): Sequential(
+    (id_conv): ConvBnAct(
+      (conv): Conv2d(64, 128, kernel_size=(1, 1), stride=(2, 2), bias=False)
+      (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    )
+  )
+  (act_fn): ReLU(inplace=True)
+)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pool</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">AvgPool2d</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">ceil_mode</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">block</span> <span class="o">=</span> <span class="n">ResBlock</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">dw</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">pool</span><span class="o">=</span><span class="n">pool</span><span class="p">)</span>
+<span class="n">block</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>ResBlock(
+  (convs): Sequential(
+    (conv_0): ConvBnAct(
+      (conv): Conv2d(64, 64, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (act_fn): ReLU(inplace=True)
+    )
+    (conv_1): ConvBnAct(
+      (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), groups=64, bias=False)
+      (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (act_fn): ReLU(inplace=True)
+    )
+    (conv_2): ConvBnAct(
+      (conv): Conv2d(64, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    )
+  )
+  (id_conv): Sequential(
+    (pool): AvgPool2d(kernel_size=2, stride=2, padding=0)
+    (id_conv): ConvBnAct(
+      (conv): Conv2d(64, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    )
+  )
+  (act_fn): ReLU(inplace=True)
+)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">model_constructor.layers</span> <span class="kn">import</span> <span class="n">SEModule</span><span class="p">,</span> <span class="n">SimpleSelfAttention</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">block</span> <span class="o">=</span> <span class="n">ResBlock</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">dw</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">pool</span><span class="o">=</span><span class="n">pool</span><span class="p">,</span> <span class="n">se</span><span class="o">=</span><span class="n">SEModule</span><span class="p">)</span>
+<span class="n">block</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>ResBlock(
+  (convs): Sequential(
+    (conv_0): ConvBnAct(
+      (conv): Conv2d(64, 64, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (act_fn): ReLU(inplace=True)
+    )
+    (conv_1): ConvBnAct(
+      (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), groups=64, bias=False)
+      (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (act_fn): ReLU(inplace=True)
+    )
+    (conv_2): ConvBnAct(
+      (conv): Conv2d(64, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    )
+    (se): SEModule(
+      (squeeze): AdaptiveAvgPool2d(output_size=1)
+      (excitation): Sequential(
+        (fc_reduce): Linear(in_features=128, out_features=8, bias=True)
+        (se_act): ReLU(inplace=True)
+        (fc_expand): Linear(in_features=8, out_features=128, bias=True)
+        (se_gate): Sigmoid()
+      )
+    )
+  )
+  (id_conv): Sequential(
+    (pool): AvgPool2d(kernel_size=2, stride=2, padding=0)
+    (id_conv): ConvBnAct(
+      (conv): Conv2d(64, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    )
+  )
+  (act_fn): ReLU(inplace=True)
+)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">block</span> <span class="o">=</span> <span class="n">ResBlock</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">dw</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">pool</span><span class="o">=</span><span class="n">pool</span><span class="p">,</span> <span class="n">se</span><span class="o">=</span><span class="n">SEModule</span><span class="p">,</span> <span class="n">sa</span><span class="o">=</span><span class="n">SimpleSelfAttention</span><span class="p">)</span>
+<span class="n">block</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>ResBlock(
+  (convs): Sequential(
+    (conv_0): ConvBnAct(
+      (conv): Conv2d(64, 64, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (act_fn): ReLU(inplace=True)
+    )
+    (conv_1): ConvBnAct(
+      (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), groups=64, bias=False)
+      (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (act_fn): ReLU(inplace=True)
+    )
+    (conv_2): ConvBnAct(
       (conv): Conv2d(64, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
       (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
     )
@@ -322,6 +643,13 @@ nb_path: "Nbs/00_ModelConstructor.ipynb"
     )
     (sa): SimpleSelfAttention(
       (conv): Conv1d(128, 128, kernel_size=(1,), stride=(1,), bias=False)
+    )
+  )
+  (id_conv): Sequential(
+    (pool): AvgPool2d(kernel_size=2, stride=2, padding=0)
+    (id_conv): ConvBnAct(
+      (conv): Conv2d(64, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
     )
   )
   (act_fn): ReLU(inplace=True)
@@ -353,7 +681,7 @@ nb_path: "Nbs/00_ModelConstructor.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="_make_layer" class="doc_header"><code>_make_layer</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/model_constructor.py#L74" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>_make_layer</code>(<strong><code>expansion</code></strong>, <strong><code>ni</code></strong>, <strong><code>nf</code></strong>, <strong><code>blocks</code></strong>, <strong><code>stride</code></strong>, <strong><code>sa</code></strong>)</p>
+<h4 id="_make_layer" class="doc_header"><code>_make_layer</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/model_constructor.py#L83" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>_make_layer</code>(<strong><code>expansion</code></strong>, <strong><code>in_channels</code></strong>, <strong><code>out_channels</code></strong>, <strong><code>blocks</code></strong>, <strong><code>stride</code></strong>, <strong><code>sa</code></strong>)</p>
 </blockquote>
 
 </div>
@@ -377,7 +705,7 @@ nb_path: "Nbs/00_ModelConstructor.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="_make_stem" class="doc_header"><code>_make_stem</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/model_constructor.py#L62" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>_make_stem</code>()</p>
+<h4 id="_make_stem" class="doc_header"><code>_make_stem</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/model_constructor.py#L70" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>_make_stem</code>()</p>
 </blockquote>
 
 </div>
@@ -401,7 +729,7 @@ nb_path: "Nbs/00_ModelConstructor.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="_make_body" class="doc_header"><code>_make_body</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/model_constructor.py#L85" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>_make_body</code>()</p>
+<h4 id="_make_body" class="doc_header"><code>_make_body</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/model_constructor.py#L94" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>_make_body</code>()</p>
 </blockquote>
 
 </div>
@@ -425,7 +753,7 @@ nb_path: "Nbs/00_ModelConstructor.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="_make_head" class="doc_header"><code>_make_head</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/model_constructor.py#L94" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>_make_head</code>()</p>
+<h4 id="_make_head" class="doc_header"><code>_make_head</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/model_constructor.py#L104" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>_make_head</code>()</p>
 </blockquote>
 
 </div>
@@ -455,7 +783,7 @@ nb_path: "Nbs/00_ModelConstructor.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="ModelConstructor" class="doc_header"><code>class</code> <code>ModelConstructor</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/model_constructor.py#L101" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>ModelConstructor</code>(<strong><code>name</code></strong>=<em><code>'MC'</code></em>, <strong><code>c_in</code></strong>=<em><code>3</code></em>, <strong><code>c_out</code></strong>=<em><code>1000</code></em>, <strong><code>block</code></strong>=<em><code>ResBlock</code></em>, <strong><code>conv_layer</code></strong>=<em><code>ConvLayer</code></em>, <strong><code>block_sizes</code></strong>=<em><code>[64, 128, 256, 512]</code></em>, <strong><code>layers</code></strong>=<em><code>[2, 2, 2, 2]</code></em>, <strong><code>norm</code></strong>=<em><code>BatchNorm2d</code></em>, <strong><code>act_fn</code></strong>=<em><code>ReLU(inplace=True)</code></em>, <strong><code>pool</code></strong>=<em><code>AvgPool2d(kernel_size=2, stride=2, padding=0)</code></em>, <strong><code>expansion</code></strong>=<em><code>1</code></em>, <strong><code>groups</code></strong>=<em><code>1</code></em>, <strong><code>dw</code></strong>=<em><code>False</code></em>, <strong><code>div_groups</code></strong>=<em><code>None</code></em>, <strong><code>sa</code></strong>=<em><code>False</code></em>, <strong><code>se</code></strong>=<em><code>False</code></em>, <strong><code>se_module</code></strong>=<em><code>SEModule</code></em>, <strong><code>se_reduction</code></strong>=<em><code>16</code></em>, <strong><code>bn_1st</code></strong>=<em><code>True</code></em>, <strong><code>zero_bn</code></strong>=<em><code>True</code></em>, <strong><code>stem_stride_on</code></strong>=<em><code>0</code></em>, <strong><code>stem_sizes</code></strong>=<em><code>[32, 32, 64]</code></em>, <strong><code>stem_pool</code></strong>=<em><code>MaxPool2d(kernel_size=3, stride=2, padding=1, dilation=1, ceil_mode=False)</code></em>, <strong><code>stem_bn_end</code></strong>=<em><code>False</code></em>, <strong><code>_init_cnn</code></strong>=<em><code>init_cnn</code></em>, <strong><code>_make_stem</code></strong>=<em><code>_make_stem</code></em>, <strong><code>_make_layer</code></strong>=<em><code>_make_layer</code></em>, <strong><code>_make_body</code></strong>=<em><code>_make_body</code></em>, <strong><code>_make_head</code></strong>=<em><code>_make_head</code></em>)</p>
+<h4 id="ModelConstructor" class="doc_header"><code>class</code> <code>ModelConstructor</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/model_constructor.py#L111" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>ModelConstructor</code>(<strong><code>name</code></strong>=<em><code>'MC'</code></em>, <strong><code>in_chans</code></strong>=<em><code>3</code></em>, <strong><code>num_classes</code></strong>=<em><code>1000</code></em>, <strong><code>block</code></strong>=<em><code>ResBlock</code></em>, <strong><code>conv_layer</code></strong>=<em><code>ConvBnAct</code></em>, <strong><code>block_sizes</code></strong>=<em><code>[64, 128, 256, 512]</code></em>, <strong><code>layers</code></strong>=<em><code>[2, 2, 2, 2]</code></em>, <strong><code>norm</code></strong>=<em><code>BatchNorm2d</code></em>, <strong><code>act_fn</code></strong>=<em><code>ReLU(inplace=True)</code></em>, <strong><code>pool</code></strong>=<em><code>AvgPool2d(kernel_size=2, stride=2, padding=0)</code></em>, <strong><code>expansion</code></strong>=<em><code>1</code></em>, <strong><code>groups</code></strong>=<em><code>1</code></em>, <strong><code>dw</code></strong>=<em><code>False</code></em>, <strong><code>div_groups</code></strong>=<em><code>None</code></em>, <strong><code>sa</code></strong>:<code>Union</code>[<code>bool</code>, <code>int</code>, <code>Callable</code>]=<em><code>False</code></em>, <strong><code>se</code></strong>:<code>Union</code>[<code>bool</code>, <code>int</code>, <code>Callable</code>]=<em><code>False</code></em>, <strong><code>se_module</code></strong>=<em><code>None</code></em>, <strong><code>se_reduction</code></strong>=<em><code>None</code></em>, <strong><code>bn_1st</code></strong>=<em><code>True</code></em>, <strong><code>zero_bn</code></strong>=<em><code>True</code></em>, <strong><code>stem_stride_on</code></strong>=<em><code>0</code></em>, <strong><code>stem_sizes</code></strong>=<em><code>[32, 32, 64]</code></em>, <strong><code>stem_pool</code></strong>=<em><code>MaxPool2d(kernel_size=3, stride=2, padding=1, dilation=1, ceil_mode=False)</code></em>, <strong><code>stem_bn_end</code></strong>=<em><code>False</code></em>, <strong><code>_init_cnn</code></strong>=<em><code>init_cnn</code></em>, <strong><code>_make_stem</code></strong>=<em><code>_make_stem</code></em>, <strong><code>_make_layer</code></strong>=<em><code>_make_layer</code></em>, <strong><code>_make_body</code></strong>=<em><code>_make_body</code></em>, <strong><code>_make_head</code></strong>=<em><code>_make_head</code></em>)</p>
 </blockquote>
 <p>Model constructor. As default - xresnet18</p>
 
@@ -493,7 +821,7 @@ nb_path: "Nbs/00_ModelConstructor.ipynb"
 
 <div class="output_text output_subarea output_execute_result">
 <pre>MC constructor
-  c_in: 3, c_out: 1000
+  in_chans: 3, num_classes: 1000
   expansion: 1, groups: 1, dw: False, div_groups: None
   sa: False, se: False
   stem sizes: [3, 32, 32, 64], stride on 0
@@ -599,7 +927,7 @@ nb_path: "Nbs/00_ModelConstructor.ipynb"
 
 <div class="output_text output_subarea output_execute_result">
 <pre>MC constructor
-  c_in: 3, c_out: 1000
+  in_chans: 3, num_classes: 1000
   expansion: 1, groups: 1, dw: False, div_groups: None
   sa: False, se: False
   stem sizes: [3, 32, 32, 64], stride on 0
@@ -655,56 +983,6 @@ nb_path: "Nbs/00_ModelConstructor.ipynb"
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">mc</span><span class="o">.</span><span class="n">block_sizes</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>[64, 64, 128, 256, 512]</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">ModelConstructor</span><span class="p">()</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">mc</span><span class="o">.</span><span class="n">stem</span>
 </pre></div>
 
@@ -724,17 +1002,17 @@ nb_path: "Nbs/00_ModelConstructor.ipynb"
 
 <div class="output_text output_subarea output_execute_result">
 <pre>Sequential(
-  (conv_0): ConvLayer(
+  (conv_0): ConvBnAct(
     (conv): Conv2d(3, 32, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
     (bn): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
     (act_fn): ReLU(inplace=True)
   )
-  (conv_1): ConvLayer(
+  (conv_1): ConvBnAct(
     (conv): Conv2d(32, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
     (bn): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
     (act_fn): ReLU(inplace=True)
   )
-  (conv_2): ConvLayer(
+  (conv_2): ConvBnAct(
     (conv): Conv2d(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
     (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
     (act_fn): ReLU(inplace=True)
@@ -779,17 +1057,17 @@ nb_path: "Nbs/00_ModelConstructor.ipynb"
 
 <div class="output_text output_subarea output_execute_result">
 <pre>Sequential(
-  (conv_0): ConvLayer(
+  (conv_0): ConvBnAct(
     (conv): Conv2d(3, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
     (bn): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
     (act_fn): ReLU(inplace=True)
   )
-  (conv_1): ConvLayer(
+  (conv_1): ConvBnAct(
     (conv): Conv2d(32, 32, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
     (bn): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
     (act_fn): ReLU(inplace=True)
   )
-  (conv_2): ConvLayer(
+  (conv_2): ConvBnAct(
     (conv): Conv2d(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
     (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
     (act_fn): ReLU(inplace=True)
@@ -848,8 +1126,8 @@ nb_path: "Nbs/00_ModelConstructor.ipynb"
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">mc</span><span class="o">.</span><span class="n">sa</span> <span class="o">=</span> <span class="kc">True</span>
-<span class="n">mc</span><span class="o">.</span><span class="n">se</span> <span class="o">=</span> <span class="kc">True</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">mc</span><span class="o">.</span><span class="n">sa</span> <span class="o">=</span> <span class="n">SimpleSelfAttention</span>
+<span class="n">mc</span><span class="o">.</span><span class="n">se</span> <span class="o">=</span> <span class="n">SEModule</span>
 </pre></div>
 
     </div>
@@ -866,7 +1144,7 @@ nb_path: "Nbs/00_ModelConstructor.ipynb"
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">mc</span><span class="o">.</span><span class="n">body</span><span class="o">.</span><span class="n">l_1</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">mc</span><span class="o">.</span><span class="n">body</span><span class="o">.</span><span class="n">l_0</span>
 </pre></div>
 
     </div>
@@ -887,51 +1165,49 @@ nb_path: "Nbs/00_ModelConstructor.ipynb"
 <pre>Sequential(
   (bl_0): ResBlock(
     (convs): Sequential(
-      (conv_0): ConvLayer(
-        (conv): Conv2d(64, 128, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
+      (conv_0): ConvBnAct(
+        (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
         (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-        (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
       )
-      (conv_1): ConvLayer(
-        (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-        (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (conv_1): ConvBnAct(
+        (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
       )
       (se): SEModule(
         (squeeze): AdaptiveAvgPool2d(output_size=1)
         (excitation): Sequential(
-          (fc_reduce): Linear(in_features=128, out_features=8, bias=True)
+          (fc_reduce): Linear(in_features=64, out_features=4, bias=True)
           (se_act): ReLU(inplace=True)
-          (fc_expand): Linear(in_features=8, out_features=128, bias=True)
+          (fc_expand): Linear(in_features=4, out_features=64, bias=True)
           (se_gate): Sigmoid()
         )
       )
-    )
-    (pool): AvgPool2d(kernel_size=2, stride=2, padding=0)
-    (idconv): ConvLayer(
-      (conv): Conv2d(64, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
-      (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
     )
     (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
   )
   (bl_1): ResBlock(
     (convs): Sequential(
-      (conv_0): ConvLayer(
-        (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (conv_0): ConvBnAct(
+        (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
         (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-        (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
       )
-      (conv_1): ConvLayer(
-        (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-        (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (conv_1): ConvBnAct(
+        (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
       )
       (se): SEModule(
         (squeeze): AdaptiveAvgPool2d(output_size=1)
         (excitation): Sequential(
-          (fc_reduce): Linear(in_features=128, out_features=8, bias=True)
+          (fc_reduce): Linear(in_features=64, out_features=4, bias=True)
           (se_act): ReLU(inplace=True)
-          (fc_expand): Linear(in_features=8, out_features=128, bias=True)
+          (fc_expand): Linear(in_features=4, out_features=64, bias=True)
           (se_gate): Sigmoid()
         )
+      )
+      (sa): SimpleSelfAttention(
+        (conv): Conv1d(64, 64, kernel_size=(1,), stride=(1,), bias=False)
       )
     )
     (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)

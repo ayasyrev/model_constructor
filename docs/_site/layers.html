@@ -202,7 +202,7 @@ document.addEventListener("DOMContentLoaded", function() {
           
           
           
-          <li><a href="/model_constructor/Net.html">Model constructor class.</a></li>
+          <li><a href="/model_constructor/ModelConstructor.html">Model constructor.</a></li>
           
           
           
@@ -238,6 +238,20 @@ document.addEventListener("DOMContentLoaded", function() {
           
           
           <li><a href="/model_constructor/Twist.html">Twist.</a></li>
+          
+          
+          
+          
+          
+          
+          <li><a href="/model_constructor/ConvMixer.html">ConvMixer</a></li>
+          
+          
+          
+          
+          
+          
+          <li><a href="/model_constructor/Net.html">First version. Net.</a></li>
           
           
           
@@ -428,6 +442,488 @@ $('#toc').on('click', 'a', function() {
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="ConvBnAct---nn.module">ConvBnAct - nn.module<a class="anchor-link" href="#ConvBnAct---nn.module"> </a></h2>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h4 id="ConvBnAct" class="doc_header"><code>class</code> <code>ConvBnAct</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/layers.py#L37" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>ConvBnAct</code>(<strong><code>in_channels</code></strong>, <strong><code>out_channels</code></strong>, <strong><code>kernel_size</code></strong>=<em><code>3</code></em>, <strong><code>stride</code></strong>=<em><code>1</code></em>, <strong><code>padding</code></strong>=<em><code>None</code></em>, <strong><code>bias</code></strong>=<em><code>False</code></em>, <strong><code>groups</code></strong>=<em><code>1</code></em>, <strong><code>act_fn</code></strong>=<em><code>ReLU(inplace=True)</code></em>, <strong><code>pre_act</code></strong>=<em><code>False</code></em>, <strong><code>bn_layer</code></strong>=<em><code>True</code></em>, <strong><code>bn_1st</code></strong>=<em><code>True</code></em>, <strong><code>zero_bn</code></strong>=<em><code>False</code></em>) :: <code>Sequential</code></p>
+</blockquote>
+<p>Basic Conv + Bn + Act block</p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">conv_layer</span> <span class="o">=</span> <span class="n">ConvBnAct</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="mi">32</span><span class="p">)</span>
+<span class="n">conv_layer</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+<details class="description">
+      <summary data-open="Hide Output" data-close="Show Output"></summary>
+        <summary></summary>
+        
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>ConvBnAct(
+  (conv): Conv2d(32, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+  (bn): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+  (act_fn): ReLU(inplace=True)
+)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+    </details>
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">conv_layer</span> <span class="o">=</span> <span class="n">ConvBnAct</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">conv_layer</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+<details class="description">
+      <summary data-open="Hide Output" data-close="Show Output"></summary>
+        <summary></summary>
+        
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>ConvBnAct(
+  (conv): Conv2d(32, 32, kernel_size=(1, 1), stride=(1, 1), bias=False)
+  (bn): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+  (act_fn): ReLU(inplace=True)
+)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+    </details>
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">conv_layer</span> <span class="o">=</span> <span class="n">ConvBnAct</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">conv_layer</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+<details class="description">
+      <summary data-open="Hide Output" data-close="Show Output"></summary>
+        <summary></summary>
+        
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>ConvBnAct(
+  (conv): Conv2d(32, 32, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
+  (bn): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+  (act_fn): ReLU(inplace=True)
+)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+    </details>
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">conv_layer</span> <span class="o">=</span> <span class="n">ConvBnAct</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="n">groups</span><span class="o">=</span><span class="mi">32</span><span class="p">)</span>
+<span class="n">conv_layer</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+<details class="description">
+      <summary data-open="Hide Output" data-close="Show Output"></summary>
+        <summary></summary>
+        
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>ConvBnAct(
+  (conv): Conv2d(32, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=32, bias=False)
+  (bn): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+  (act_fn): ReLU(inplace=True)
+)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+    </details>
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">conv_layer</span> <span class="o">=</span> <span class="n">ConvBnAct</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="n">act_fn</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">conv_layer</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+<details class="description">
+      <summary data-open="Hide Output" data-close="Show Output"></summary>
+        <summary></summary>
+        
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>ConvBnAct(
+  (conv): Conv2d(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+  (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+    </details>
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">conv_layer</span> <span class="o">=</span> <span class="n">ConvBnAct</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="n">bn_layer</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">conv_layer</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+<details class="description">
+      <summary data-open="Hide Output" data-close="Show Output"></summary>
+        <summary></summary>
+        
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>ConvBnAct(
+  (conv): Conv2d(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+  (act_fn): ReLU(inplace=True)
+)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+    </details>
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">conv_layer</span> <span class="o">=</span> <span class="n">ConvBnAct</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="n">pre_act</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">conv_layer</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+<details class="description">
+      <summary data-open="Hide Output" data-close="Show Output"></summary>
+        <summary></summary>
+        
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>ConvBnAct(
+  (act_fn): ReLU(inplace=True)
+  (conv): Conv2d(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+  (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+    </details>
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">conv_layer</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>ReLU(inplace=True)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">conv_layer</span> <span class="o">=</span> <span class="n">ConvBnAct</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="n">bn_1st</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">pre_act</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">conv_layer</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+<details class="description">
+      <summary data-open="Hide Output" data-close="Show Output"></summary>
+        <summary></summary>
+        
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>ConvBnAct(
+  (act_fn): ReLU(inplace=True)
+  (conv): Conv2d(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+  (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+    </details>
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">conv_layer</span> <span class="o">=</span> <span class="n">ConvBnAct</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="n">bn_1st</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">conv_layer</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+<details class="description">
+      <summary data-open="Hide Output" data-close="Show Output"></summary>
+        <summary></summary>
+        
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>ConvBnAct(
+  (conv): Conv2d(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+  (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+  (act_fn): ReLU(inplace=True)
+)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+    </details>
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">conv_layer</span> <span class="o">=</span> <span class="n">ConvBnAct</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="n">bn_1st</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">act_fn</span><span class="o">=</span><span class="n">nn</span><span class="o">.</span><span class="n">LeakyReLU</span><span class="p">())</span>
+<span class="n">conv_layer</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+<details class="description">
+      <summary data-open="Hide Output" data-close="Show Output"></summary>
+        <summary></summary>
+        
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>ConvBnAct(
+  (conv): Conv2d(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+  (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+  (act_fn): LeakyReLU(negative_slope=0.01)
+)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+    </details>
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="ConvLayer---nn.module">ConvLayer - nn.module<a class="anchor-link" href="#ConvLayer---nn.module"> </a></h2>
 </div>
 </div>
@@ -443,7 +939,7 @@ $('#toc').on('click', 'a', function() {
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="ConvLayer" class="doc_header"><code>class</code> <code>ConvLayer</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/layers.py#L37" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>ConvLayer</code>(<strong><code>ni</code></strong>, <strong><code>nf</code></strong>, <strong><code>ks</code></strong>=<em><code>3</code></em>, <strong><code>stride</code></strong>=<em><code>1</code></em>, <strong><code>act</code></strong>=<em><code>True</code></em>, <strong><code>act_fn</code></strong>=<em><code>ReLU(inplace=True)</code></em>, <strong><code>bn_layer</code></strong>=<em><code>True</code></em>, <strong><code>bn_1st</code></strong>=<em><code>True</code></em>, <strong><code>zero_bn</code></strong>=<em><code>False</code></em>, <strong><code>padding</code></strong>=<em><code>None</code></em>, <strong><code>bias</code></strong>=<em><code>False</code></em>, <strong><code>groups</code></strong>=<em><code>1</code></em>, <strong>**<code>kwargs</code></strong>) :: <code>Sequential</code></p>
+<h4 id="ConvLayer" class="doc_header"><code>class</code> <code>ConvLayer</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/layers.py#L68" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>ConvLayer</code>(<strong><code>ni</code></strong>, <strong><code>nf</code></strong>, <strong><code>ks</code></strong>=<em><code>3</code></em>, <strong><code>stride</code></strong>=<em><code>1</code></em>, <strong><code>act</code></strong>=<em><code>True</code></em>, <strong><code>act_fn</code></strong>=<em><code>ReLU(inplace=True)</code></em>, <strong><code>bn_layer</code></strong>=<em><code>True</code></em>, <strong><code>bn_1st</code></strong>=<em><code>True</code></em>, <strong><code>zero_bn</code></strong>=<em><code>False</code></em>, <strong><code>padding</code></strong>=<em><code>None</code></em>, <strong><code>bias</code></strong>=<em><code>False</code></em>, <strong><code>groups</code></strong>=<em><code>1</code></em>, <strong>**<code>kwargs</code></strong>) :: <code>Sequential</code></p>
 </blockquote>
 <p>Basic conv layers block</p>
 
@@ -647,7 +1143,7 @@ $('#toc').on('click', 'a', function() {
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="conv1d" class="doc_header"><code>conv1d</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/layers.py#L65" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>conv1d</code>(<strong><code>ni</code></strong>:<code>int</code>, <strong><code>no</code></strong>:<code>int</code>, <strong><code>ks</code></strong>:<code>int</code>=<em><code>1</code></em>, <strong><code>stride</code></strong>:<code>int</code>=<em><code>1</code></em>, <strong><code>padding</code></strong>:<code>int</code>=<em><code>0</code></em>, <strong><code>bias</code></strong>:<code>bool</code>=<em><code>False</code></em>)</p>
+<h4 id="conv1d" class="doc_header"><code>conv1d</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/layers.py#L96" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>conv1d</code>(<strong><code>ni</code></strong>:<code>int</code>, <strong><code>no</code></strong>:<code>int</code>, <strong><code>ks</code></strong>:<code>int</code>=<em><code>1</code></em>, <strong><code>stride</code></strong>:<code>int</code>=<em><code>1</code></em>, <strong><code>padding</code></strong>:<code>int</code>=<em><code>0</code></em>, <strong><code>bias</code></strong>:<code>bool</code>=<em><code>False</code></em>)</p>
 </blockquote>
 <p>Create and initialize a <code>nn.Conv1d</code> layer with spectral normalization.</p>
 
@@ -668,8 +1164,7 @@ $('#toc').on('click', 'a', function() {
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Markdown(doc)</span>
-<span class="n">print_doc</span><span class="p">(</span><span class="n">SimpleSelfAttention</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">print_doc</span><span class="p">(</span><span class="n">SimpleSelfAttention</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -683,9 +1178,9 @@ $('#toc').on('click', 'a', function() {
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="SimpleSelfAttention" class="doc_header"><code>class</code> <code>SimpleSelfAttention</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/layers.py#L74" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>SimpleSelfAttention</code>(<strong><code>n_in</code></strong>:<code>int</code>, <strong><code>ks</code></strong>=<em><code>1</code></em>, <strong><code>sym</code></strong>=<em><code>False</code></em>) :: <code>Module</code></p>
+<h4 id="SimpleSelfAttention" class="doc_header"><code>class</code> <code>SimpleSelfAttention</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/layers.py#L105" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>SimpleSelfAttention</code>(<strong><code>n_in</code></strong>:<code>int</code>, <strong><code>ks</code></strong>=<em><code>1</code></em>, <strong><code>sym</code></strong>=<em><code>False</code></em>) :: <code>Module</code></p>
 </blockquote>
-<p>SimpleSelfAttention module.<br>
+<p>SimpleSelfAttention module.  # noqa W291
 Adapted from SelfAttention layer at<br>
 <a href="https://github.com/fastai/fastai/blob/5c51f9eabf76853a89a9bc5741804d2ed4407e49/fastai/layers.py">https://github.com/fastai/fastai/blob/5c51f9eabf76853a89a9bc5741804d2ed4407e49/fastai/layers.py</a><br>
 Inspired by <a href="https://arxiv.org/pdf/1805.08318.pdf">https://arxiv.org/pdf/1805.08318.pdf</a></p>
@@ -702,7 +1197,7 @@ Inspired by <a href="https://arxiv.org/pdf/1805.08318.pdf">https://arxiv.org/pdf
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="SE-Block">SE Block<a class="anchor-link" href="#SE-Block"> </a></h2>
+<h2 id="SEModule">SEModule<a class="anchor-link" href="#SEModule"> </a></h2>
 </div>
 </div>
 </div>
@@ -717,7 +1212,444 @@ Inspired by <a href="https://arxiv.org/pdf/1805.08318.pdf">https://arxiv.org/pdf
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="SEBlock" class="doc_header"><code>class</code> <code>SEBlock</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/layers.py#L105" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>SEBlock</code>(<strong><code>c</code></strong>, <strong><code>r</code></strong>=<em><code>16</code></em>) :: <code>Module</code></p>
+<h4 id="SEModule" class="doc_header"><code>class</code> <code>SEModule</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/layers.py#L185" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>SEModule</code>(<strong><code>channels</code></strong>, <strong><code>reduction</code></strong>=<em><code>16</code></em>, <strong><code>rd_channels</code></strong>=<em><code>None</code></em>, <strong><code>rd_max</code></strong>=<em><code>False</code></em>, <strong><code>se_layer</code></strong>=<em><code>Linear</code></em>, <strong><code>act_fn</code></strong>=<em><code>ReLU(inplace=True)</code></em>, <strong><code>use_bias</code></strong>=<em><code>True</code></em>, <strong><code>gate</code></strong>=<em><code>Sigmoid</code></em>) :: <code>Module</code></p>
+</blockquote>
+<p>se block</p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">se_block</span> <span class="o">=</span> <span class="n">SEModule</span><span class="p">(</span><span class="mi">128</span><span class="p">)</span>
+<span class="n">se_block</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+<details class="description">
+      <summary data-open="Hide Output" data-close="Show Output"></summary>
+        <summary></summary>
+        
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>SEModule(
+  (squeeze): AdaptiveAvgPool2d(output_size=1)
+  (excitation): Sequential(
+    (fc_reduce): Linear(in_features=128, out_features=8, bias=True)
+    (se_act): ReLU(inplace=True)
+    (fc_expand): Linear(in_features=8, out_features=128, bias=True)
+    (se_gate): Sigmoid()
+  )
+)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+    </details>
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">se_block</span> <span class="o">=</span> <span class="n">SEModule</span><span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="n">reduction</span><span class="o">=</span><span class="mi">32</span><span class="p">)</span>
+<span class="n">se_block</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+<details class="description">
+      <summary data-open="Hide Output" data-close="Show Output"></summary>
+        <summary></summary>
+        
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>SEModule(
+  (squeeze): AdaptiveAvgPool2d(output_size=1)
+  (excitation): Sequential(
+    (fc_reduce): Linear(in_features=128, out_features=4, bias=True)
+    (se_act): ReLU(inplace=True)
+    (fc_expand): Linear(in_features=4, out_features=128, bias=True)
+    (se_gate): Sigmoid()
+  )
+)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+    </details>
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">se_block</span> <span class="o">=</span> <span class="n">SEModule</span><span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="n">rd_channels</span><span class="o">=</span><span class="mi">32</span><span class="p">)</span>
+<span class="n">se_block</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+<details class="description">
+      <summary data-open="Hide Output" data-close="Show Output"></summary>
+        <summary></summary>
+        
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>SEModule(
+  (squeeze): AdaptiveAvgPool2d(output_size=1)
+  (excitation): Sequential(
+    (fc_reduce): Linear(in_features=128, out_features=32, bias=True)
+    (se_act): ReLU(inplace=True)
+    (fc_expand): Linear(in_features=32, out_features=128, bias=True)
+    (se_gate): Sigmoid()
+  )
+)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+    </details>
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">se_block</span> <span class="o">=</span> <span class="n">SEModule</span><span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="n">reduction</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">rd_channels</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">rd_max</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">se_block</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+<details class="description">
+      <summary data-open="Hide Output" data-close="Show Output"></summary>
+        <summary></summary>
+        
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>SEModule(
+  (squeeze): AdaptiveAvgPool2d(output_size=1)
+  (excitation): Sequential(
+    (fc_reduce): Linear(in_features=128, out_features=32, bias=True)
+    (se_act): ReLU(inplace=True)
+    (fc_expand): Linear(in_features=32, out_features=128, bias=True)
+    (se_gate): Sigmoid()
+  )
+)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+    </details>
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="SEModuleConv">SEModuleConv<a class="anchor-link" href="#SEModuleConv"> </a></h2>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h4 id="SEModuleConv" class="doc_header"><code>class</code> <code>SEModuleConv</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/layers.py#L220" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>SEModuleConv</code>(<strong><code>channels</code></strong>, <strong><code>reduction</code></strong>=<em><code>16</code></em>, <strong><code>rd_channels</code></strong>=<em><code>None</code></em>, <strong><code>rd_max</code></strong>=<em><code>False</code></em>, <strong><code>se_layer</code></strong>=<em><code>Conv2d</code></em>, <strong><code>act_fn</code></strong>=<em><code>ReLU(inplace=True)</code></em>, <strong><code>use_bias</code></strong>=<em><code>True</code></em>, <strong><code>gate</code></strong>=<em><code>Sigmoid</code></em>) :: <code>Module</code></p>
+</blockquote>
+<p>se block with conv on excitation</p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">se_block</span> <span class="o">=</span> <span class="n">SEModuleConv</span><span class="p">(</span><span class="mi">128</span><span class="p">)</span>
+<span class="n">se_block</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+<details class="description">
+      <summary data-open="Hide Output" data-close="Show Output"></summary>
+        <summary></summary>
+        
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>SEModuleConv(
+  (squeeze): AdaptiveAvgPool2d(output_size=1)
+  (excitation): Sequential(
+    (conv_reduce): Conv2d(128, 8, kernel_size=(1, 1), stride=(1, 1))
+    (se_act): ReLU(inplace=True)
+    (conv_expand): Conv2d(8, 128, kernel_size=(1, 1), stride=(1, 1))
+    (gate): Sigmoid()
+  )
+)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+    </details>
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">se_block</span> <span class="o">=</span> <span class="n">SEModuleConv</span><span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="n">reduction</span><span class="o">=</span><span class="mi">32</span><span class="p">)</span>
+<span class="n">se_block</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+<details class="description">
+      <summary data-open="Hide Output" data-close="Show Output"></summary>
+        <summary></summary>
+        
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>SEModuleConv(
+  (squeeze): AdaptiveAvgPool2d(output_size=1)
+  (excitation): Sequential(
+    (conv_reduce): Conv2d(128, 4, kernel_size=(1, 1), stride=(1, 1))
+    (se_act): ReLU(inplace=True)
+    (conv_expand): Conv2d(4, 128, kernel_size=(1, 1), stride=(1, 1))
+    (gate): Sigmoid()
+  )
+)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+    </details>
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">se_block</span> <span class="o">=</span> <span class="n">SEModuleConv</span><span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="n">rd_channels</span><span class="o">=</span><span class="mi">32</span><span class="p">)</span>
+<span class="n">se_block</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+<details class="description">
+      <summary data-open="Hide Output" data-close="Show Output"></summary>
+        <summary></summary>
+        
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>SEModuleConv(
+  (squeeze): AdaptiveAvgPool2d(output_size=1)
+  (excitation): Sequential(
+    (conv_reduce): Conv2d(128, 32, kernel_size=(1, 1), stride=(1, 1))
+    (se_act): ReLU(inplace=True)
+    (conv_expand): Conv2d(32, 128, kernel_size=(1, 1), stride=(1, 1))
+    (gate): Sigmoid()
+  )
+)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+    </details>
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">se_block</span> <span class="o">=</span> <span class="n">SEModuleConv</span><span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="n">reduction</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">rd_channels</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">rd_max</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">se_block</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+<details class="description">
+      <summary data-open="Hide Output" data-close="Show Output"></summary>
+        <summary></summary>
+        
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>SEModuleConv(
+  (squeeze): AdaptiveAvgPool2d(output_size=1)
+  (excitation): Sequential(
+    (conv_reduce): Conv2d(128, 32, kernel_size=(1, 1), stride=(1, 1))
+    (se_act): ReLU(inplace=True)
+    (conv_expand): Conv2d(32, 128, kernel_size=(1, 1), stride=(1, 1))
+    (gate): Sigmoid()
+  )
+)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+    </details>
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="SEBlock">SEBlock<a class="anchor-link" href="#SEBlock"> </a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>First version of SE block, leaved for compatibility.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h4 id="SEBlock" class="doc_header"><code>class</code> <code>SEBlock</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/layers.py#L136" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>SEBlock</code>(<strong><code>c</code></strong>, <strong><code>r</code></strong>=<em><code>16</code></em>) :: <code>Module</code></p>
 </blockquote>
 <p>se block</p>
 
@@ -760,9 +1692,9 @@ Inspired by <a href="https://arxiv.org/pdf/1805.08318.pdf">https://arxiv.org/pdf
 <pre>SEBlock(
   (squeeze): AdaptiveAvgPool2d(output_size=1)
   (excitation): Sequential(
-    (fc_reduce): Linear(in_features=128, out_features=8, bias=False)
+    (fc_reduce): Linear(in_features=128, out_features=8, bias=True)
     (se_act): ReLU(inplace=True)
-    (fc_expand): Linear(in_features=8, out_features=128, bias=False)
+    (fc_expand): Linear(in_features=8, out_features=128, bias=True)
     (sigmoid): Sigmoid()
   )
 )</pre>
@@ -783,6 +1715,13 @@ Inspired by <a href="https://arxiv.org/pdf/1805.08318.pdf">https://arxiv.org/pdf
 </div>
 </div>
 </div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>First version of SEBlockConv, leaved for compatibility.</p>
+
+</div>
+</div>
+</div>
     
     
 <div class="cell border-box-sizing code_cell rendered">
@@ -794,7 +1733,7 @@ Inspired by <a href="https://arxiv.org/pdf/1805.08318.pdf">https://arxiv.org/pdf
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="SEBlockConv" class="doc_header"><code>class</code> <code>SEBlockConv</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/layers.py#L128" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>SEBlockConv</code>(<strong><code>c</code></strong>, <strong><code>r</code></strong>=<em><code>16</code></em>) :: <code>Module</code></p>
+<h4 id="SEBlockConv" class="doc_header"><code>class</code> <code>SEBlockConv</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/layers.py#L160" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>SEBlockConv</code>(<strong><code>c</code></strong>, <strong><code>r</code></strong>=<em><code>16</code></em>) :: <code>Module</code></p>
 </blockquote>
 <p>se block with conv on excitation</p>
 
@@ -837,9 +1776,9 @@ Inspired by <a href="https://arxiv.org/pdf/1805.08318.pdf">https://arxiv.org/pdf
 <pre>SEBlockConv(
   (squeeze): AdaptiveAvgPool2d(output_size=1)
   (excitation): Sequential(
-    (conv_reduce): Conv2d(128, 8, kernel_size=(1, 1), stride=(1, 1), bias=False)
+    (conv_reduce): Conv2d(128, 8, kernel_size=(1, 1), stride=(1, 1))
     (se_act): ReLU(inplace=True)
-    (conv_expand): Conv2d(8, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
+    (conv_expand): Conv2d(8, 128, kernel_size=(1, 1), stride=(1, 1))
     (sigmoid): Sigmoid()
   )
 )</pre>
@@ -879,8 +1818,8 @@ by ayasyrev</p>
             <div class="row">
                 <div class="col-lg-12 footer">
                   <p><img src="/model_constructor/assets/images/company_logo.png" alt="Company logo"/></p>
-               &copy;2021 A. Yasyrev. All rights reserved. <br />
- Site last generated: Aug 12, 2021 <br />
+               &copy;2022 A. Yasyrev. All rights reserved. <br />
+ Site last generated: Jan 28, 2022 <br />
                 </div>
             </div>
 </footer>

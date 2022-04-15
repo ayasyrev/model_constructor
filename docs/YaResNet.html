@@ -46,7 +46,7 @@ nb_path: "Nbs/04_YaResNet.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="YaResBlock" class="doc_header"><code>class</code> <code>YaResBlock</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/yaresnet.py#L15" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>YaResBlock</code>(<strong><code>expansion</code></strong>, <strong><code>ni</code></strong>, <strong><code>nh</code></strong>, <strong><code>stride</code></strong>=<em><code>1</code></em>, <strong><code>conv_layer</code></strong>=<em><code>ConvLayer</code></em>, <strong><code>act_fn</code></strong>=<em><code>ReLU(inplace=True)</code></em>, <strong><code>zero_bn</code></strong>=<em><code>True</code></em>, <strong><code>bn_1st</code></strong>=<em><code>True</code></em>, <strong><code>pool</code></strong>=<em><code>AvgPool2d(kernel_size=2, stride=2, padding=0)</code></em>, <strong><code>sa</code></strong>=<em><code>False</code></em>, <strong><code>sym</code></strong>=<em><code>False</code></em>, <strong><code>groups</code></strong>=<em><code>1</code></em>, <strong><code>dw</code></strong>=<em><code>False</code></em>, <strong><code>div_groups</code></strong>=<em><code>None</code></em>, <strong><code>se_module</code></strong>=<em><code>SEModule</code></em>, <strong><code>se</code></strong>=<em><code>False</code></em>, <strong><code>se_reduction</code></strong>=<em><code>16</code></em>) :: <code>Module</code></p>
+<h4 id="YaResBlock" class="doc_header"><code>class</code> <code>YaResBlock</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/yaresnet.py#L18" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>YaResBlock</code>(<strong><code>expansion</code></strong>, <strong><code>in_channels</code></strong>, <strong><code>mid_channels</code></strong>, <strong><code>stride</code></strong>=<em><code>1</code></em>, <strong><code>conv_layer</code></strong>=<em><code>ConvBnAct</code></em>, <strong><code>act_fn</code></strong>=<em><code>ReLU(inplace=True)</code></em>, <strong><code>zero_bn</code></strong>=<em><code>True</code></em>, <strong><code>bn_1st</code></strong>=<em><code>True</code></em>, <strong><code>groups</code></strong>=<em><code>1</code></em>, <strong><code>dw</code></strong>=<em><code>False</code></em>, <strong><code>div_groups</code></strong>=<em><code>None</code></em>, <strong><code>pool</code></strong>=<em><code>None</code></em>, <strong><code>se</code></strong>=<em><code>None</code></em>, <strong><code>sa</code></strong>=<em><code>None</code></em>) :: <code>Module</code></p>
 </blockquote>
 <p>YaResBlock. Reduce by pool instead of stride 2</p>
 
@@ -67,7 +67,7 @@ nb_path: "Nbs/04_YaResNet.ipynb"
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">bl</span> <span class="o">=</span> <span class="n">YaResBlock</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="n">sa</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">bl</span> <span class="o">=</span> <span class="n">YaResBlock</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="mi">64</span><span class="p">)</span>
 <span class="n">bl</span>
 </pre></div>
 
@@ -88,17 +88,14 @@ nb_path: "Nbs/04_YaResNet.ipynb"
 <div class="output_text output_subarea output_execute_result">
 <pre>YaResBlock(
   (convs): Sequential(
-    (conv_0): ConvLayer(
+    (conv_0): ConvBnAct(
       (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
       (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
       (act_fn): ReLU(inplace=True)
     )
-    (conv_1): ConvLayer(
+    (conv_1): ConvBnAct(
       (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
       (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-    )
-    (sa): SimpleSelfAttention(
-      (conv): Conv1d(64, 64, kernel_size=(1,), stride=(1,), bias=False)
     )
   )
   (merge): ReLU(inplace=True)
@@ -121,56 +118,13 @@ nb_path: "Nbs/04_YaResNet.ipynb"
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">bl</span> <span class="o">=</span> <span class="n">YaResBlock</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="n">se</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">bl</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pool</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">AvgPool2d</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">ceil_mode</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 
     </div>
 </div>
 </div>
-<details class="description">
-      <summary data-open="Hide Output" data-close="Show Output"></summary>
-        <summary></summary>
-        
-<div class="output_wrapper">
-<div class="output">
 
-<div class="output_area">
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>YaResBlock(
-  (convs): Sequential(
-    (conv_0): ConvLayer(
-      (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-      (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-      (act_fn): ReLU(inplace=True)
-    )
-    (conv_1): ConvLayer(
-      (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-      (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-    )
-    (se): SEModule(
-      (squeeze): AdaptiveAvgPool2d(output_size=1)
-      (excitation): Sequential(
-        (fc_reduce): Linear(in_features=64, out_features=4, bias=True)
-        (se_act): ReLU(inplace=True)
-        (fc_expand): Linear(in_features=4, out_features=64, bias=True)
-        (se_gate): Sigmoid()
-      )
-    )
-  )
-  (merge): ReLU(inplace=True)
-)</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-    </details>
 </div>
     {% endraw %}
 
@@ -181,7 +135,7 @@ nb_path: "Nbs/04_YaResNet.ipynb"
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">bl</span> <span class="o">=</span> <span class="n">YaResBlock</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="mi">128</span><span class="p">,</span><span class="n">stride</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="n">act_fn</span><span class="o">=</span><span class="n">nn</span><span class="o">.</span><span class="n">LeakyReLU</span><span class="p">(),</span> <span class="n">bn_1st</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">bl</span> <span class="o">=</span> <span class="n">YaResBlock</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">pool</span><span class="o">=</span><span class="n">pool</span><span class="p">,</span> <span class="n">act_fn</span><span class="o">=</span><span class="n">nn</span><span class="o">.</span><span class="n">LeakyReLU</span><span class="p">(),</span> <span class="n">bn_1st</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="n">bl</span>
 </pre></div>
 
@@ -203,22 +157,22 @@ nb_path: "Nbs/04_YaResNet.ipynb"
 <pre>YaResBlock(
   (reduce): AvgPool2d(kernel_size=2, stride=2, padding=0)
   (convs): Sequential(
-    (conv_0): ConvLayer(
+    (conv_0): ConvBnAct(
       (conv): Conv2d(256, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
       (act_fn): LeakyReLU(negative_slope=0.01)
       (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
     )
-    (conv_1): ConvLayer(
+    (conv_1): ConvBnAct(
       (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
       (act_fn): LeakyReLU(negative_slope=0.01)
       (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
     )
-    (conv_2): ConvLayer(
+    (conv_2): ConvBnAct(
       (conv): Conv2d(128, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
       (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
     )
   )
-  (idconv): ConvLayer(
+  (id_conv): ConvBnAct(
     (conv): Conv2d(256, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
     (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
   )
@@ -242,7 +196,7 @@ nb_path: "Nbs/04_YaResNet.ipynb"
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">bl</span> <span class="o">=</span> <span class="n">YaResBlock</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="mi">128</span><span class="p">,</span><span class="n">stride</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="n">act_fn</span><span class="o">=</span><span class="n">nn</span><span class="o">.</span><span class="n">LeakyReLU</span><span class="p">(),</span> <span class="n">bn_1st</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">groups</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">bl</span> <span class="o">=</span> <span class="n">YaResBlock</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">pool</span><span class="o">=</span><span class="n">pool</span><span class="p">,</span> <span class="n">act_fn</span><span class="o">=</span><span class="n">nn</span><span class="o">.</span><span class="n">LeakyReLU</span><span class="p">(),</span> <span class="n">bn_1st</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">groups</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
 <span class="n">bl</span>
 </pre></div>
 
@@ -264,22 +218,22 @@ nb_path: "Nbs/04_YaResNet.ipynb"
 <pre>YaResBlock(
   (reduce): AvgPool2d(kernel_size=2, stride=2, padding=0)
   (convs): Sequential(
-    (conv_0): ConvLayer(
+    (conv_0): ConvBnAct(
       (conv): Conv2d(256, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
       (act_fn): LeakyReLU(negative_slope=0.01)
       (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
     )
-    (conv_1): ConvLayer(
+    (conv_1): ConvBnAct(
       (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=4, bias=False)
       (act_fn): LeakyReLU(negative_slope=0.01)
       (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
     )
-    (conv_2): ConvLayer(
+    (conv_2): ConvBnAct(
       (conv): Conv2d(128, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
       (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
     )
   )
-  (idconv): ConvLayer(
+  (id_conv): ConvBnAct(
     (conv): Conv2d(256, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
     (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
   )
@@ -303,7 +257,7 @@ nb_path: "Nbs/04_YaResNet.ipynb"
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">bl</span> <span class="o">=</span> <span class="n">YaResBlock</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="mi">128</span><span class="p">,</span><span class="n">stride</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="n">act_fn</span><span class="o">=</span><span class="n">nn</span><span class="o">.</span><span class="n">LeakyReLU</span><span class="p">(),</span> <span class="n">bn_1st</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">div_groups</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">bl</span> <span class="o">=</span> <span class="n">YaResBlock</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">pool</span><span class="o">=</span><span class="n">pool</span><span class="p">,</span> <span class="n">act_fn</span><span class="o">=</span><span class="n">nn</span><span class="o">.</span><span class="n">LeakyReLU</span><span class="p">(),</span> <span class="n">bn_1st</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">div_groups</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
 <span class="n">bl</span>
 </pre></div>
 
@@ -325,22 +279,22 @@ nb_path: "Nbs/04_YaResNet.ipynb"
 <pre>YaResBlock(
   (reduce): AvgPool2d(kernel_size=2, stride=2, padding=0)
   (convs): Sequential(
-    (conv_0): ConvLayer(
+    (conv_0): ConvBnAct(
       (conv): Conv2d(256, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
       (act_fn): LeakyReLU(negative_slope=0.01)
       (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
     )
-    (conv_1): ConvLayer(
+    (conv_1): ConvBnAct(
       (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=32, bias=False)
       (act_fn): LeakyReLU(negative_slope=0.01)
       (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
     )
-    (conv_2): ConvLayer(
+    (conv_2): ConvBnAct(
       (conv): Conv2d(128, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
       (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
     )
   )
-  (idconv): ConvLayer(
+  (id_conv): ConvBnAct(
     (conv): Conv2d(256, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
     (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
   )
@@ -364,7 +318,7 @@ nb_path: "Nbs/04_YaResNet.ipynb"
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">bl</span> <span class="o">=</span> <span class="n">YaResBlock</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="mi">128</span><span class="p">,</span><span class="n">stride</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="n">act_fn</span><span class="o">=</span><span class="n">nn</span><span class="o">.</span><span class="n">LeakyReLU</span><span class="p">(),</span> <span class="n">bn_1st</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">dw</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">bl</span> <span class="o">=</span> <span class="n">YaResBlock</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">pool</span><span class="o">=</span><span class="n">pool</span><span class="p">,</span> <span class="n">act_fn</span><span class="o">=</span><span class="n">nn</span><span class="o">.</span><span class="n">LeakyReLU</span><span class="p">(),</span> <span class="n">bn_1st</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">dw</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">bl</span>
 </pre></div>
 
@@ -386,22 +340,309 @@ nb_path: "Nbs/04_YaResNet.ipynb"
 <pre>YaResBlock(
   (reduce): AvgPool2d(kernel_size=2, stride=2, padding=0)
   (convs): Sequential(
-    (conv_0): ConvLayer(
+    (conv_0): ConvBnAct(
       (conv): Conv2d(256, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
       (act_fn): LeakyReLU(negative_slope=0.01)
       (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
     )
-    (conv_1): ConvLayer(
+    (conv_1): ConvBnAct(
       (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=128, bias=False)
       (act_fn): LeakyReLU(negative_slope=0.01)
       (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
     )
-    (conv_2): ConvLayer(
+    (conv_2): ConvBnAct(
       (conv): Conv2d(128, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
       (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
     )
   )
-  (idconv): ConvLayer(
+  (id_conv): ConvBnAct(
+    (conv): Conv2d(256, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+    (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+  )
+  (merge): LeakyReLU(negative_slope=0.01)
+)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+    </details>
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">bl</span> <span class="o">=</span> <span class="n">YaResBlock</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">pool</span><span class="o">=</span><span class="n">pool</span><span class="p">,</span> <span class="n">act_fn</span><span class="o">=</span><span class="n">nn</span><span class="o">.</span><span class="n">LeakyReLU</span><span class="p">(),</span> <span class="n">bn_1st</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">dw</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">bl</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+<details class="description">
+      <summary data-open="Hide Output" data-close="Show Output"></summary>
+        <summary></summary>
+        
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>YaResBlock(
+  (reduce): AvgPool2d(kernel_size=2, stride=2, padding=0)
+  (convs): Sequential(
+    (conv_0): ConvBnAct(
+      (conv): Conv2d(64, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=64, bias=False)
+      (act_fn): LeakyReLU(negative_slope=0.01)
+      (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    )
+    (conv_1): ConvBnAct(
+      (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=128, bias=False)
+      (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    )
+  )
+  (id_conv): ConvBnAct(
+    (conv): Conv2d(64, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
+    (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+  )
+  (merge): LeakyReLU(negative_slope=0.01)
+)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+    </details>
+</div>
+    {% endraw %}
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Se,-Sa">Se, Sa<a class="anchor-link" href="#Se,-Sa"> </a></h3>
+</div>
+</div>
+</div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">model_constructor.layers</span> <span class="kn">import</span> <span class="n">SimpleSelfAttention</span><span class="p">,</span> <span class="n">SEModule</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">bl</span> <span class="o">=</span> <span class="n">YaResBlock</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">pool</span><span class="o">=</span><span class="n">pool</span><span class="p">,</span> <span class="n">act_fn</span><span class="o">=</span><span class="n">nn</span><span class="o">.</span><span class="n">LeakyReLU</span><span class="p">(),</span> <span class="n">dw</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">se</span><span class="o">=</span><span class="n">SEModule</span><span class="p">)</span>
+<span class="n">bl</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+<details class="description">
+      <summary data-open="Hide Output" data-close="Show Output"></summary>
+        <summary></summary>
+        
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>YaResBlock(
+  (reduce): AvgPool2d(kernel_size=2, stride=2, padding=0)
+  (convs): Sequential(
+    (conv_0): ConvBnAct(
+      (conv): Conv2d(256, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (act_fn): LeakyReLU(negative_slope=0.01)
+    )
+    (conv_1): ConvBnAct(
+      (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=128, bias=False)
+      (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (act_fn): LeakyReLU(negative_slope=0.01)
+    )
+    (conv_2): ConvBnAct(
+      (conv): Conv2d(128, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    )
+    (se): SEModule(
+      (squeeze): AdaptiveAvgPool2d(output_size=1)
+      (excitation): Sequential(
+        (fc_reduce): Linear(in_features=512, out_features=32, bias=True)
+        (se_act): ReLU(inplace=True)
+        (fc_expand): Linear(in_features=32, out_features=512, bias=True)
+        (se_gate): Sigmoid()
+      )
+    )
+  )
+  (id_conv): ConvBnAct(
+    (conv): Conv2d(256, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+    (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+  )
+  (merge): LeakyReLU(negative_slope=0.01)
+)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+    </details>
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">bl</span> <span class="o">=</span> <span class="n">YaResBlock</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">pool</span><span class="o">=</span><span class="n">pool</span><span class="p">,</span> <span class="n">act_fn</span><span class="o">=</span><span class="n">nn</span><span class="o">.</span><span class="n">LeakyReLU</span><span class="p">(),</span> <span class="n">dw</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">sa</span><span class="o">=</span><span class="n">SimpleSelfAttention</span><span class="p">)</span>
+<span class="n">bl</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+<details class="description">
+      <summary data-open="Hide Output" data-close="Show Output"></summary>
+        <summary></summary>
+        
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>YaResBlock(
+  (reduce): AvgPool2d(kernel_size=2, stride=2, padding=0)
+  (convs): Sequential(
+    (conv_0): ConvBnAct(
+      (conv): Conv2d(256, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (act_fn): LeakyReLU(negative_slope=0.01)
+    )
+    (conv_1): ConvBnAct(
+      (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=128, bias=False)
+      (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (act_fn): LeakyReLU(negative_slope=0.01)
+    )
+    (conv_2): ConvBnAct(
+      (conv): Conv2d(128, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    )
+    (sa): SimpleSelfAttention(
+      (conv): Conv1d(512, 512, kernel_size=(1,), stride=(1,), bias=False)
+    )
+  )
+  (id_conv): ConvBnAct(
+    (conv): Conv2d(256, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+    (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+  )
+  (merge): LeakyReLU(negative_slope=0.01)
+)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+    </details>
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">bl</span> <span class="o">=</span> <span class="n">YaResBlock</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">pool</span><span class="o">=</span><span class="n">pool</span><span class="p">,</span> <span class="n">act_fn</span><span class="o">=</span><span class="n">nn</span><span class="o">.</span><span class="n">LeakyReLU</span><span class="p">(),</span> <span class="n">dw</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="n">se</span><span class="o">=</span><span class="n">SEModule</span><span class="p">,</span> <span class="n">sa</span><span class="o">=</span><span class="n">SimpleSelfAttention</span><span class="p">)</span>
+<span class="n">bl</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+<details class="description">
+      <summary data-open="Hide Output" data-close="Show Output"></summary>
+        <summary></summary>
+        
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>YaResBlock(
+  (reduce): AvgPool2d(kernel_size=2, stride=2, padding=0)
+  (convs): Sequential(
+    (conv_0): ConvBnAct(
+      (conv): Conv2d(256, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (act_fn): LeakyReLU(negative_slope=0.01)
+    )
+    (conv_1): ConvBnAct(
+      (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=128, bias=False)
+      (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (act_fn): LeakyReLU(negative_slope=0.01)
+    )
+    (conv_2): ConvBnAct(
+      (conv): Conv2d(128, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    )
+    (se): SEModule(
+      (squeeze): AdaptiveAvgPool2d(output_size=1)
+      (excitation): Sequential(
+        (fc_reduce): Linear(in_features=512, out_features=32, bias=True)
+        (se_act): ReLU(inplace=True)
+        (fc_expand): Linear(in_features=32, out_features=512, bias=True)
+        (se_gate): Sigmoid()
+      )
+    )
+    (sa): SimpleSelfAttention(
+      (conv): Conv1d(512, 512, kernel_size=(1,), stride=(1,), bias=False)
+    )
+  )
+  (id_conv): ConvBnAct(
     (conv): Conv2d(256, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
     (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
   )
@@ -465,7 +706,7 @@ nb_path: "Nbs/04_YaResNet.ipynb"
 
 <div class="output_text output_subarea output_execute_result">
 <pre>YaResNet constructor
-  c_in: 3, c_out: 1000
+  in_chans: 3, num_classes: 1000
   expansion: 1, groups: 1, dw: False, div_groups: None
   sa: False, se: False
   stem sizes: [3, 32, 64, 64], stride on 0
@@ -540,17 +781,17 @@ nb_path: "Nbs/04_YaResNet.ipynb"
 
 <div class="output_text output_subarea output_execute_result">
 <pre>Sequential(
-  (conv_0): ConvLayer(
+  (conv_0): ConvBnAct(
     (conv): Conv2d(3, 32, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
     (bn): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
     (act_fn): ReLU(inplace=True)
   )
-  (conv_1): ConvLayer(
+  (conv_1): ConvBnAct(
     (conv): Conv2d(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
     (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
     (act_fn): ReLU(inplace=True)
   )
-  (conv_2): ConvLayer(
+  (conv_2): ConvBnAct(
     (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
     (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
     (act_fn): ReLU(inplace=True)
@@ -597,12 +838,12 @@ nb_path: "Nbs/04_YaResNet.ipynb"
   (l_0): Sequential(
     (bl_0): YaResBlock(
       (convs): Sequential(
-        (conv_0): ConvLayer(
+        (conv_0): ConvBnAct(
           (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
           (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
           (act_fn): ReLU(inplace=True)
         )
-        (conv_1): ConvLayer(
+        (conv_1): ConvBnAct(
           (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
           (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
         )
@@ -611,12 +852,12 @@ nb_path: "Nbs/04_YaResNet.ipynb"
     )
     (bl_1): YaResBlock(
       (convs): Sequential(
-        (conv_0): ConvLayer(
+        (conv_0): ConvBnAct(
           (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
           (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
           (act_fn): ReLU(inplace=True)
         )
-        (conv_1): ConvLayer(
+        (conv_1): ConvBnAct(
           (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
           (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
         )
@@ -628,17 +869,17 @@ nb_path: "Nbs/04_YaResNet.ipynb"
     (bl_0): YaResBlock(
       (reduce): AvgPool2d(kernel_size=2, stride=2, padding=0)
       (convs): Sequential(
-        (conv_0): ConvLayer(
+        (conv_0): ConvBnAct(
           (conv): Conv2d(64, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
           (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
           (act_fn): ReLU(inplace=True)
         )
-        (conv_1): ConvLayer(
+        (conv_1): ConvBnAct(
           (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
           (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
         )
       )
-      (idconv): ConvLayer(
+      (id_conv): ConvBnAct(
         (conv): Conv2d(64, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
         (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
       )
@@ -646,12 +887,12 @@ nb_path: "Nbs/04_YaResNet.ipynb"
     )
     (bl_1): YaResBlock(
       (convs): Sequential(
-        (conv_0): ConvLayer(
+        (conv_0): ConvBnAct(
           (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
           (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
           (act_fn): ReLU(inplace=True)
         )
-        (conv_1): ConvLayer(
+        (conv_1): ConvBnAct(
           (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
           (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
         )
@@ -663,17 +904,17 @@ nb_path: "Nbs/04_YaResNet.ipynb"
     (bl_0): YaResBlock(
       (reduce): AvgPool2d(kernel_size=2, stride=2, padding=0)
       (convs): Sequential(
-        (conv_0): ConvLayer(
+        (conv_0): ConvBnAct(
           (conv): Conv2d(128, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
           (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
           (act_fn): ReLU(inplace=True)
         )
-        (conv_1): ConvLayer(
+        (conv_1): ConvBnAct(
           (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
           (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
         )
       )
-      (idconv): ConvLayer(
+      (id_conv): ConvBnAct(
         (conv): Conv2d(128, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
         (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
       )
@@ -681,12 +922,12 @@ nb_path: "Nbs/04_YaResNet.ipynb"
     )
     (bl_1): YaResBlock(
       (convs): Sequential(
-        (conv_0): ConvLayer(
+        (conv_0): ConvBnAct(
           (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
           (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
           (act_fn): ReLU(inplace=True)
         )
-        (conv_1): ConvLayer(
+        (conv_1): ConvBnAct(
           (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
           (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
         )
@@ -698,17 +939,17 @@ nb_path: "Nbs/04_YaResNet.ipynb"
     (bl_0): YaResBlock(
       (reduce): AvgPool2d(kernel_size=2, stride=2, padding=0)
       (convs): Sequential(
-        (conv_0): ConvLayer(
+        (conv_0): ConvBnAct(
           (conv): Conv2d(256, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
           (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
           (act_fn): ReLU(inplace=True)
         )
-        (conv_1): ConvLayer(
+        (conv_1): ConvBnAct(
           (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
           (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
         )
       )
-      (idconv): ConvLayer(
+      (id_conv): ConvBnAct(
         (conv): Conv2d(256, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
         (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
       )
@@ -716,12 +957,12 @@ nb_path: "Nbs/04_YaResNet.ipynb"
     )
     (bl_1): YaResBlock(
       (convs): Sequential(
-        (conv_0): ConvLayer(
+        (conv_0): ConvBnAct(
           (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
           (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
           (act_fn): ReLU(inplace=True)
         )
-        (conv_1): ConvLayer(
+        (conv_1): ConvBnAct(
           (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
           (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
         )
@@ -768,7 +1009,7 @@ nb_path: "Nbs/04_YaResNet.ipynb"
 <div class="output_text output_subarea output_execute_result">
 <pre>Sequential(
   (pool): AdaptiveAvgPool2d(output_size=1)
-  (flat): Flatten()
+  (flat): Flatten(start_dim=1, end_dim=-1)
   (fc): Linear(in_features=512, out_features=1000, bias=True)
 )</pre>
 </div>
@@ -818,17 +1059,17 @@ nb_path: "Nbs/04_YaResNet.ipynb"
 <pre>Sequential(
   YaResNet
   (stem): Sequential(
-    (conv_0): ConvLayer(
+    (conv_0): ConvBnAct(
       (conv): Conv2d(3, 32, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
       (bn): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
       (act_fn): Mish()
     )
-    (conv_1): ConvLayer(
+    (conv_1): ConvBnAct(
       (conv): Conv2d(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
       (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
       (act_fn): Mish()
     )
-    (conv_2): ConvLayer(
+    (conv_2): ConvBnAct(
       (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
       (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
       (act_fn): Mish()
@@ -839,12 +1080,12 @@ nb_path: "Nbs/04_YaResNet.ipynb"
     (l_0): Sequential(
       (bl_0): YaResBlock(
         (convs): Sequential(
-          (conv_0): ConvLayer(
+          (conv_0): ConvBnAct(
             (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
             (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
             (act_fn): Mish()
           )
-          (conv_1): ConvLayer(
+          (conv_1): ConvBnAct(
             (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
             (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
           )
@@ -853,12 +1094,12 @@ nb_path: "Nbs/04_YaResNet.ipynb"
       )
       (bl_1): YaResBlock(
         (convs): Sequential(
-          (conv_0): ConvLayer(
+          (conv_0): ConvBnAct(
             (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
             (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
             (act_fn): Mish()
           )
-          (conv_1): ConvLayer(
+          (conv_1): ConvBnAct(
             (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
             (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
           )
@@ -870,17 +1111,17 @@ nb_path: "Nbs/04_YaResNet.ipynb"
       (bl_0): YaResBlock(
         (reduce): AvgPool2d(kernel_size=2, stride=2, padding=0)
         (convs): Sequential(
-          (conv_0): ConvLayer(
+          (conv_0): ConvBnAct(
             (conv): Conv2d(64, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
             (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
             (act_fn): Mish()
           )
-          (conv_1): ConvLayer(
+          (conv_1): ConvBnAct(
             (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
             (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
           )
         )
-        (idconv): ConvLayer(
+        (id_conv): ConvBnAct(
           (conv): Conv2d(64, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
           (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
         )
@@ -888,12 +1129,12 @@ nb_path: "Nbs/04_YaResNet.ipynb"
       )
       (bl_1): YaResBlock(
         (convs): Sequential(
-          (conv_0): ConvLayer(
+          (conv_0): ConvBnAct(
             (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
             (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
             (act_fn): Mish()
           )
-          (conv_1): ConvLayer(
+          (conv_1): ConvBnAct(
             (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
             (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
           )
@@ -905,17 +1146,17 @@ nb_path: "Nbs/04_YaResNet.ipynb"
       (bl_0): YaResBlock(
         (reduce): AvgPool2d(kernel_size=2, stride=2, padding=0)
         (convs): Sequential(
-          (conv_0): ConvLayer(
+          (conv_0): ConvBnAct(
             (conv): Conv2d(128, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
             (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
             (act_fn): Mish()
           )
-          (conv_1): ConvLayer(
+          (conv_1): ConvBnAct(
             (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
             (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
           )
         )
-        (idconv): ConvLayer(
+        (id_conv): ConvBnAct(
           (conv): Conv2d(128, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
           (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
         )
@@ -923,12 +1164,12 @@ nb_path: "Nbs/04_YaResNet.ipynb"
       )
       (bl_1): YaResBlock(
         (convs): Sequential(
-          (conv_0): ConvLayer(
+          (conv_0): ConvBnAct(
             (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
             (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
             (act_fn): Mish()
           )
-          (conv_1): ConvLayer(
+          (conv_1): ConvBnAct(
             (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
             (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
           )
@@ -940,17 +1181,17 @@ nb_path: "Nbs/04_YaResNet.ipynb"
       (bl_0): YaResBlock(
         (reduce): AvgPool2d(kernel_size=2, stride=2, padding=0)
         (convs): Sequential(
-          (conv_0): ConvLayer(
+          (conv_0): ConvBnAct(
             (conv): Conv2d(256, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
             (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
             (act_fn): Mish()
           )
-          (conv_1): ConvLayer(
+          (conv_1): ConvBnAct(
             (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
             (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
           )
         )
-        (idconv): ConvLayer(
+        (id_conv): ConvBnAct(
           (conv): Conv2d(256, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
           (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
         )
@@ -958,12 +1199,12 @@ nb_path: "Nbs/04_YaResNet.ipynb"
       )
       (bl_1): YaResBlock(
         (convs): Sequential(
-          (conv_0): ConvLayer(
+          (conv_0): ConvBnAct(
             (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
             (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
             (act_fn): Mish()
           )
-          (conv_1): ConvLayer(
+          (conv_1): ConvBnAct(
             (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
             (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
           )
@@ -974,7 +1215,7 @@ nb_path: "Nbs/04_YaResNet.ipynb"
   )
   (head): Sequential(
     (pool): AdaptiveAvgPool2d(output_size=1)
-    (flat): Flatten()
+    (flat): Flatten(start_dim=1, end_dim=-1)
     (fc): Linear(in_features=512, out_features=1000, bias=True)
   )
 )</pre>
@@ -986,6 +1227,40 @@ nb_path: "Nbs/04_YaResNet.ipynb"
 </div>
 
     </details>
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">yaresnet</span><span class="o">.</span><span class="n">se</span> <span class="o">=</span> <span class="n">SEModule</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">yaresnet</span><span class="o">.</span><span class="n">body</span><span class="o">.</span><span class="n">l_0</span><span class="o">.</span><span class="n">bl_0</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
 </div>
     {% endraw %}
 

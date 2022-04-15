@@ -4,7 +4,7 @@
 import torch.nn as nn
 from functools import partial
 from collections import OrderedDict
-from .layers import SEModule, ConvLayer, act_fn, noop, SimpleSelfAttention
+from .layers import ConvBnAct
 from .net import Net
 from torch.nn import Mish
 
@@ -12,41 +12,51 @@ from torch.nn import Mish
 __all__ = ['YaResBlock', 'yaresnet_parameters', 'yaresnet34', 'yaresnet50']
 
 
+act_fn = nn.ReLU(inplace=True)
+
+
 class YaResBlock(nn.Module):
     '''YaResBlock. Reduce by pool instead of stride 2'''
 
-    def __init__(self, expansion, ni, nh, stride=1,
-                 conv_layer=ConvLayer, act_fn=act_fn, zero_bn=True, bn_1st=True,
-                 pool=nn.AvgPool2d(2, ceil_mode=True), sa=False, sym=False,
+    def __init__(self, expansion, in_channels, mid_channels, stride=1,
+                 conv_layer=ConvBnAct, act_fn=act_fn, zero_bn=True, bn_1st=True,
                  groups=1, dw=False, div_groups=None,
-                 se_module=SEModule, se=False, se_reduction=16
+                 pool=None,
+                 se=None, sa=None,
                  ):
         super().__init__()
-        nf, ni = nh * expansion, ni * expansion
-        if div_groups is not None:  # check if grops != 1 and div_groups
-            groups = int(nh / div_groups)
-        self.reduce = noop if stride == 1 else pool
-        layers = [("conv_0", conv_layer(ni, nh, 3, stride=1,
-                                        act_fn=act_fn, bn_1st=bn_1st, groups=ni if dw else groups)),
-                  ("conv_1", conv_layer(nh, nf, 3, zero_bn=zero_bn,
-                                        act=False, bn_1st=bn_1st, groups=nh if dw else groups))
+        out_channels, in_channels = mid_channels * expansion, in_channels * expansion
+        if div_groups is not None:  # check if groups != 1 and div_groups
+            groups = int(mid_channels / div_groups)
+        if stride != 1:
+            if pool is None:
+                raise Exception("pool not passed")
+            self.reduce = pool
+        else:
+            self.reduce = None
+        layers = [("conv_0", conv_layer(in_channels, mid_channels, 3, stride=1,
+                                        act_fn=act_fn, bn_1st=bn_1st, groups=in_channels if dw else groups)),
+                  ("conv_1", conv_layer(mid_channels, out_channels, 3, zero_bn=zero_bn,
+                                        act_fn=False, bn_1st=bn_1st, groups=mid_channels if dw else groups))
                   ] if expansion == 1 else [
-                      ("conv_0", conv_layer(ni, nh, 1, act_fn=act_fn, bn_1st=bn_1st)),
-                      ("conv_1", conv_layer(nh, nh, 3, stride=1, act_fn=act_fn, bn_1st=bn_1st,
-                                            groups=nh if dw else groups)),
-                      ("conv_2", conv_layer(nh, nf, 1, zero_bn=zero_bn, act=False, bn_1st=bn_1st))
+                      ("conv_0", conv_layer(in_channels, mid_channels, 1, act_fn=act_fn, bn_1st=bn_1st)),
+                      ("conv_1", conv_layer(mid_channels, mid_channels, 3, stride=1, act_fn=act_fn, bn_1st=bn_1st,
+                                            groups=mid_channels if dw else groups)),
+                      ("conv_2", conv_layer(mid_channels, out_channels, 1, zero_bn=zero_bn, act_fn=False, bn_1st=bn_1st))
         ]
         if se:
-            layers.append(('se', se_module(nf, se_reduction)))
+            layers.append(('se', se(out_channels)))
         if sa:
-            layers.append(('sa', SimpleSelfAttention(nf, ks=1, sym=sym)))
+            layers.append(('sa', sa(out_channels)))
         self.convs = nn.Sequential(OrderedDict(layers))
-        self.idconv = noop if ni == nf else conv_layer(ni, nf, 1, act=False)
+        self.id_conv = None if in_channels == out_channels else conv_layer(in_channels, out_channels, 1, act_fn=False)
         self.merge = act_fn
 
     def forward(self, x):
-        o = self.reduce(x)
-        return self.merge(self.convs(o) + self.idconv(o))
+        if self.reduce:
+            x = self.reduce(x)
+        identity = self.id_conv(x) if self.id_conv is not None else x
+        return self.merge(self.convs(x) + identity)
 
 
 yaresnet_parameters = {'block': YaResBlock, 'stem_sizes': [3, 32, 64, 64], 'act_fn': Mish(), 'stem_stride_on': 1}

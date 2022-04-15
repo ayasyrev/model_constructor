@@ -1,6 +1,7 @@
 # Implementation of ConvMixer for the ICLR 2022 submission "Patches Are All You Need?".
 # https://openreview.net/forum?id=TVHS5Y4dNvM
 # Adopted from https://github.com/tmp-iclr/convmixer
+# Home for convmixer: https://github.com/locuslab/convmixer
 from collections import OrderedDict
 from typing import Callable
 import torch.nn as nn
@@ -42,15 +43,15 @@ def ConvMixerOriginal(dim, depth,
 class ConvLayer(nn.Sequential):
     """Basic conv layers block"""
 
-    def __init__(self, ch_in, ch_out, kernel_size, stride=1,
+    def __init__(self, in_channels, out_channels, kernel_size, stride=1,
                  act_fn=nn.GELU(), padding=0, groups=1,
                  bn_1st=False, pre_act=False):
 
-        conv_layer = [('conv', nn.Conv2d(ch_in, ch_out, kernel_size, stride=stride,
+        conv_layer = [('conv', nn.Conv2d(in_channels, out_channels, kernel_size, stride=stride,
                                          padding=padding, groups=groups))]
         act_bn = [
             ('act_fn', act_fn),
-            ('bn', nn.BatchNorm2d(ch_out))
+            ('bn', nn.BatchNorm2d(out_channels))
         ]
         if bn_1st:
             act_bn.reverse()
