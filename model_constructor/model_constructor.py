@@ -53,13 +53,18 @@ class ResBlock(nn.Module):
         if sa:
             layers.append(('sa', sa(out_channels)))
         self.convs = nn.Sequential(OrderedDict(layers))
-        id_layers = []
-        if stride != 1 and pool:
-            id_layers.append(("pool", pool))
-        id_layers += [] if in_channels == out_channels else [("id_conv", conv_layer(in_channels, out_channels, 1,
-                                                                                    stride=1 if pool else stride,
-                                                                                    act_fn=False))]
-        self.id_conv = None if id_layers == [] else nn.Sequential(OrderedDict(id_layers))
+        if stride != 1 or in_channels != out_channels:
+            id_layers = []
+            if stride != 1 and pool is not None:
+                id_layers.append(("pool", pool))
+            if in_channels != out_channels or (stride != 1 and pool is None):
+                id_layers += [("id_conv", conv_layer(
+                    in_channels, out_channels, 1,
+                    stride=1 if pool else stride,
+                    act_fn=False))]
+            self.id_conv = nn.Sequential(OrderedDict(id_layers))
+        else:
+            self.id_conv = None
         self.act_fn = act_fn
 
     def forward(self, x):

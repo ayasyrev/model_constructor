@@ -196,7 +196,7 @@ class SEModule(nn.Module):
                  gate=nn.Sigmoid
                  ):
         super().__init__()
-        reducted = channels // reduction
+        reducted = max(channels // reduction, 1)  # preserve zero-element tensors
         if rd_channels is None:
             rd_channels = reducted
         else:
