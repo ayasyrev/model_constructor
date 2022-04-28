@@ -10,15 +10,16 @@ bs_test = 4
 img_size = 16
 
 
-params = {
-    "Block": [ResBlock, YaResBlock],
-    "expansion": [1, 2],
-    "mid_channels": [8, 16],
-    "stride": [1, 2],
-    "pool": [None, nn.AvgPool2d(2, ceil_mode=True)],
-    "se": [None, SEModule],
-    "sa": [None, SimpleSelfAttention],
-}
+params = dict(
+    Block=[ResBlock, YaResBlock],
+    expansion=[1, 2],
+    mid_channels=[8, 16],
+    stride=[1, 2],
+    div_groups=[None, 2],
+    pool=[None, nn.AvgPool2d(2, ceil_mode=True)],
+    se=[None, SEModule],
+    sa=[None, SimpleSelfAttention],
+)
 
 
 def value_name(value) -> str:
@@ -41,11 +42,14 @@ def pytest_generate_tests(metafunc):
             metafunc.parametrize(key, value, ids=ids_fn(key, value))
 
 
-def test_block(Block, expansion, mid_channels, stride, pool, se, sa):
+def test_block(Block, expansion, mid_channels, stride, div_groups, pool, se, sa):
     """test block"""
     in_channels = 8
     out_channels = mid_channels * expansion
-    block = Block(expansion, in_channels, mid_channels, stride, pool=pool, se=se, sa=sa)
+    block = Block(
+        expansion, in_channels, mid_channels,
+        stride, div_groups=div_groups,
+        pool=pool, se=se, sa=sa)
     xb = torch.randn(bs_test, in_channels * expansion, img_size, img_size)
     y = block(xb)
     out_size = img_size if stride == 1 else img_size // stride

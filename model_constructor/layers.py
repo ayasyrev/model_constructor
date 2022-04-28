@@ -117,7 +117,7 @@ class SimpleSelfAttention(nn.Module):
         self.n_in = n_in
 
     def forward(self, x):
-        if self.sym:
+        if self.sym:  # check ks=3
             # symmetry hack by https://github.com/mgrankin
             c = self.conv.weight.view(self.n_in, self.n_in)
             c = (c + c.t()) / 2
@@ -232,7 +232,7 @@ class SEModuleConv(nn.Module):
                  ):
         super().__init__()
 #       rd_channels = math.ceil(channels//reduction/8)*8
-        reducted = channels // reduction
+        reducted = max(channels // reduction, 1)  # preserve zero-element tensors
         if rd_channels is None:
             rd_channels = reducted
         else:
