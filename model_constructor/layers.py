@@ -141,7 +141,7 @@ class SEBlock(nn.Module):  # todo: deprecation worning.
 
     def __init__(self, c, r=16):
         super().__init__()
-        ch = c // r
+        ch = max(c // r, 1)
         self.squeeze = nn.AdaptiveAvgPool2d(1)
         self.excitation = nn.Sequential(
             OrderedDict([('fc_reduce', self.se_layer(c, ch, bias=self.use_bias)),
@@ -166,7 +166,7 @@ class SEBlockConv(nn.Module):  # todo: deprecation worning.
     def __init__(self, c, r=16):
         super().__init__()
 #         c_in = math.ceil(c//r/8)*8
-        c_in = c // r
+        c_in = max(c // r, 1)
         self.squeeze = nn.AdaptiveAvgPool2d(1)
         self.excitation = nn.Sequential(
             OrderedDict([
