@@ -2,7 +2,7 @@
 import torch
 import torch.nn as nn
 
-from model_constructor.layers import SEBlock, SEBlockConv
+from model_constructor.layers import ConvLayer, SEBlock, SEBlockConv
 
 
 bs_test = 4
@@ -15,6 +15,16 @@ params = dict(
     rd_channels=[None, 2],
     rd_max=[False, True],
     use_bias=[True, False],
+    # ConvLayer
+    nf=[8, 16],
+    ks=[3, 1],
+    stride=[1, 2],
+    act=[True, False],
+    bn_layer=[True, False],
+    bn_1st=[True, False],
+    zero_bn=[False, True],
+    bias=[False, True],
+    groups=[1, 2]
 )
 
 
@@ -23,7 +33,7 @@ def value_name(value) -> str:
     if name is not None:
         return name
     if isinstance(value, nn.Module):
-        return value._get_name()
+        return value._get_name()  # pragma: no cover
     else:
         return value
 
@@ -47,3 +57,20 @@ def test_SE(se_module, reduction, use_bias):
     xb = torch.randn(bs_test, in_channels, channel_size, channel_size)
     out = se(xb)
     assert out.shape == torch.Size([bs_test, in_channels, channel_size, channel_size])
+
+
+def test_ConvLayer(nf, ks, stride, bn_layer, bn_1st, zero_bn, bias, groups):
+    """test ConvLayer"""
+    ni = 8
+    channel_size = 4
+    block = ConvLayer(
+        ni, nf, ks, stride,
+        bn_layer=bn_layer, bn_1st=bn_1st, zero_bn=zero_bn,
+        bias=bias, groups=groups)
+    xb = torch.randn(bs_test, ni, channel_size, channel_size)
+    out = block(xb)
+    # out_ch = nf
+    out_size = channel_size
+    if stride == 2:
+        out_size = channel_size // stride
+    assert out.shape == torch.Size([bs_test, nf, out_size, out_size])

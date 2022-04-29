@@ -152,7 +152,7 @@ class ModelConstructor():
         if self.sa:  # if sa=1 or sa=True
             if type(self.sa) in (bool, int):
                 self.sa = SimpleSelfAttention  # default: ks=1, sym=sym
-        if self.se_module or se_reduction:
+        if self.se_module or se_reduction:  # pragma: no cover
             print("Deprecated. Pass se_module as se argument, se_reduction as arg to se.")  # add deprecation worning.
 
     @property

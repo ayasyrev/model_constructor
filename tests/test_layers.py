@@ -33,7 +33,7 @@ def value_name(value) -> str:
     name = getattr(value, "__name__", None)
     if name is not None:
         return name
-    if isinstance(value, nn.Module):
+    if isinstance(value, nn.Module):  # pragma: no cover
         return value._get_name()
     else:
         return value
@@ -87,12 +87,12 @@ def test_ConvBnAct(kernel_size, stride, bias, groups, pre_act, bn_layer, bn_1st,
     assert out.shape == torch.Size([bs_test, out_channels, out_size, out_size])
 
 
-def test_SimpleSelfAttention(sym):
+def test_SimpleSelfAttention(sym, use_bias):
     """test SimpleSelfAttention"""
     in_channels = 4
     kernel_size = 1  # ? can be 3? if so check sym hack.
     channel_size = 4
-    sa = SimpleSelfAttention(in_channels, kernel_size, sym)
+    sa = SimpleSelfAttention(in_channels, kernel_size, sym, use_bias)
     xb = torch.randn(bs_test, in_channels, channel_size, channel_size)
     out = sa(xb)
     assert out.shape == torch.Size([bs_test, in_channels, channel_size, channel_size])

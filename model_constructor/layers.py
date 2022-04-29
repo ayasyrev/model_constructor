@@ -109,9 +109,9 @@ class SimpleSelfAttention(nn.Module):
     Inspired by https://arxiv.org/pdf/1805.08318.pdf  
     '''
 
-    def __init__(self, n_in: int, ks=1, sym=False):
+    def __init__(self, n_in: int, ks=1, sym=False, use_bias=False):
         super().__init__()
-        self.conv = conv1d(n_in, n_in, ks, padding=ks // 2, bias=False)
+        self.conv = conv1d(n_in, n_in, ks, padding=ks // 2, bias=use_bias)
         self.gamma = nn.Parameter(torch.tensor([0.]))
         self.sym = sym
         self.n_in = n_in
