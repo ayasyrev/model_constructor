@@ -46,7 +46,6 @@ def pytest_generate_tests(metafunc):
 def test_Net(
     block, expansion,
     groups,
-    # dw, div_groups,
 ):
     """test Net"""
     c_in = 3
@@ -64,6 +63,30 @@ def test_Net(
         # div_groups=div_groups,
         # bn_1st=bn_1st, zero_bn=zero_bn,
         # stem_bn_end=stem_bn_end,
+    )
+    assert f"{name} constructor" in str(mc)
+    model = mc()
+    xb = torch.randn(bs_test, c_in, img_size, img_size)
+    pred = model(xb)
+    assert pred.shape == torch.Size([bs_test, c_out])
+
+
+def test_Net_SE_SA(
+    block, expansion,
+    se, sa
+):
+    """test Net"""
+    c_in = 3
+    img_size = 16
+    c_out = 8
+    name = "Test name"
+
+    mc = Net(
+        name, c_in, c_out, block,
+        expansion=expansion,
+        stem_sizes=[8, 16],
+        block_sizes=[16, 32, 64, 128],
+        se=se, sa=sa
     )
     assert f"{name} constructor" in str(mc)
     model = mc()
