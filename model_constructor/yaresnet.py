@@ -30,8 +30,10 @@ class YaResBlock(nn.Module):
             groups = int(mid_channels / div_groups)
         if stride != 1:
             if pool is None:
-                raise Exception("pool not passed")
-            self.reduce = pool
+                self.reduce = conv_layer(in_channels, in_channels, 1, stride=2)
+                # warnings.warn("pool not passed")  # need to warn?
+            else:
+                self.reduce = pool
         else:
             self.reduce = None
         layers = [("conv_0", conv_layer(in_channels, mid_channels, 3, stride=1,
@@ -42,7 +44,8 @@ class YaResBlock(nn.Module):
                       ("conv_0", conv_layer(in_channels, mid_channels, 1, act_fn=act_fn, bn_1st=bn_1st)),
                       ("conv_1", conv_layer(mid_channels, mid_channels, 3, stride=1, act_fn=act_fn, bn_1st=bn_1st,
                                             groups=mid_channels if dw else groups)),
-                      ("conv_2", conv_layer(mid_channels, out_channels, 1, zero_bn=zero_bn, act_fn=False, bn_1st=bn_1st))
+                      ("conv_2", conv_layer(
+                          mid_channels, out_channels, 1, zero_bn=zero_bn, act_fn=False, bn_1st=bn_1st))
         ]
         if se:
             layers.append(('se', se(out_channels)))
