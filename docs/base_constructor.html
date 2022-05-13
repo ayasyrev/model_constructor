@@ -3,7 +3,7 @@
 title: Base constructor
 
 
-keywords: fastai
+keywords:  model constructor
 sidebar: home_sidebar
 
 summary: "Create pytorch model."
@@ -70,7 +70,7 @@ nb_path: "Nbs/10_base_constructor.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="Stem" class="doc_header"><code>class</code> <code>Stem</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/base_constructor.py#L13" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>Stem</code>(<strong><code>c_in</code></strong>=<em><code>3</code></em>, <strong><code>stem_sizes</code></strong>=<em><code>[]</code></em>, <strong><code>stem_out</code></strong>=<em><code>64</code></em>, <strong><code>conv_layer</code></strong>=<em><code>ConvLayer</code></em>, <strong><code>stride_on</code></strong>=<em><code>0</code></em>, <strong><code>stem_bn_last</code></strong>=<em><code>False</code></em>, <strong><code>bn_1st</code></strong>=<em><code>True</code></em>, <strong><code>stem_use_pool</code></strong>=<em><code>True</code></em>, <strong><code>stem_pool</code></strong>=<em><code>MaxPool2d(kernel_size=3, stride=2, padding=1, dilation=1, ceil_mode=False)</code></em>, <strong>**<code>kwargs</code></strong>) :: <code>Sequential</code></p>
+<h4 id="Stem" class="doc_header"><code>class</code> <code>Stem</code><a href="model_constructor/base_constructor.py#L13" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>Stem</code>(<strong><code>c_in</code></strong>=<em><code>3</code></em>, <strong><code>stem_sizes</code></strong>=<em><code>[]</code></em>, <strong><code>stem_out</code></strong>=<em><code>64</code></em>, <strong><code>conv_layer</code></strong>=<em><code>ConvLayer</code></em>, <strong><code>stride_on</code></strong>=<em><code>0</code></em>, <strong><code>stem_bn_last</code></strong>=<em><code>False</code></em>, <strong><code>bn_1st</code></strong>=<em><code>True</code></em>, <strong><code>stem_use_pool</code></strong>=<em><code>True</code></em>, <strong><code>stem_pool</code></strong>=<em><code>MaxPool2d(kernel_size=3, stride=2, padding=1, dilation=1, ceil_mode=False)</code></em>, <strong>**<code>kwargs</code></strong>) :: <code>Sequential</code></p>
 </blockquote>
 <p>Base stem</p>
 
@@ -302,7 +302,7 @@ nb_path: "Nbs/10_base_constructor.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="DownsampleBlock" class="doc_header"><code>DownsampleBlock</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/base_constructor.py#L39" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>DownsampleBlock</code>(<strong><code>conv_layer</code></strong>, <strong><code>ni</code></strong>, <strong><code>nf</code></strong>, <strong><code>ks</code></strong>, <strong><code>stride</code></strong>, <strong><code>act</code></strong>=<em><code>False</code></em>, <strong>**<code>kwargs</code></strong>)</p>
+<h4 id="DownsampleBlock" class="doc_header"><code>DownsampleBlock</code><a href="model_constructor/base_constructor.py#L39" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>DownsampleBlock</code>(<strong><code>conv_layer</code></strong>, <strong><code>ni</code></strong>, <strong><code>nf</code></strong>, <strong><code>ks</code></strong>, <strong><code>stride</code></strong>, <strong><code>act</code></strong>=<em><code>False</code></em>, <strong>**<code>kwargs</code></strong>)</p>
 </blockquote>
 <p>Base downsample for res-like blocks</p>
 
@@ -314,7 +314,7 @@ nb_path: "Nbs/10_base_constructor.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="BasicBlock" class="doc_header"><code>class</code> <code>BasicBlock</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/base_constructor.py#L44" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>BasicBlock</code>(<strong><code>ni</code></strong>, <strong><code>nf</code></strong>, <strong><code>expansion</code></strong>=<em><code>1</code></em>, <strong><code>stride</code></strong>=<em><code>1</code></em>, <strong><code>zero_bn</code></strong>=<em><code>False</code></em>, <strong><code>conv_layer</code></strong>=<em><code>ConvLayer</code></em>, <strong><code>act_fn</code></strong>=<em><code>ReLU(inplace=True)</code></em>, <strong><code>downsample_block</code></strong>=<em><code>DownsampleBlock</code></em>, <strong>**<code>kwargs</code></strong>) :: <code>Module</code></p>
+<h4 id="BasicBlock" class="doc_header"><code>class</code> <code>BasicBlock</code><a href="model_constructor/base_constructor.py#L44" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>BasicBlock</code>(<strong><code>ni</code></strong>, <strong><code>nf</code></strong>, <strong><code>expansion</code></strong>=<em><code>1</code></em>, <strong><code>stride</code></strong>=<em><code>1</code></em>, <strong><code>zero_bn</code></strong>=<em><code>False</code></em>, <strong><code>conv_layer</code></strong>=<em><code>ConvLayer</code></em>, <strong><code>act_fn</code></strong>=<em><code>ReLU(inplace=True)</code></em>, <strong><code>downsample_block</code></strong>=<em><code>DownsampleBlock</code></em>, <strong>**<code>kwargs</code></strong>) :: <code>Module</code></p>
 </blockquote>
 <p>Basic block (simplified) as in pytorch resnet</p>
 
@@ -326,7 +326,7 @@ nb_path: "Nbs/10_base_constructor.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="Bottleneck" class="doc_header"><code>class</code> <code>Bottleneck</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/base_constructor.py#L67" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>Bottleneck</code>(<strong><code>ni</code></strong>, <strong><code>nh</code></strong>, <strong><code>expansion</code></strong>=<em><code>4</code></em>, <strong><code>stride</code></strong>=<em><code>1</code></em>, <strong><code>zero_bn</code></strong>=<em><code>False</code></em>, <strong><code>conv_layer</code></strong>=<em><code>ConvLayer</code></em>, <strong><code>act_fn</code></strong>=<em><code>ReLU(inplace=True)</code></em>, <strong><code>downsample_block</code></strong>=<em><code>DownsampleBlock</code></em>, <strong>**<code>kwargs</code></strong>) :: <code>Module</code></p>
+<h4 id="Bottleneck" class="doc_header"><code>class</code> <code>Bottleneck</code><a href="model_constructor/base_constructor.py#L67" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>Bottleneck</code>(<strong><code>ni</code></strong>, <strong><code>nh</code></strong>, <strong><code>expansion</code></strong>=<em><code>4</code></em>, <strong><code>stride</code></strong>=<em><code>1</code></em>, <strong><code>zero_bn</code></strong>=<em><code>False</code></em>, <strong><code>conv_layer</code></strong>=<em><code>ConvLayer</code></em>, <strong><code>act_fn</code></strong>=<em><code>ReLU(inplace=True)</code></em>, <strong><code>downsample_block</code></strong>=<em><code>DownsampleBlock</code></em>, <strong>**<code>kwargs</code></strong>) :: <code>Module</code></p>
 </blockquote>
 <p>Bottleneck block for resnet models</p>
 
@@ -338,7 +338,7 @@ nb_path: "Nbs/10_base_constructor.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="BasicLayer" class="doc_header"><code>class</code> <code>BasicLayer</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/base_constructor.py#L94" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>BasicLayer</code>(<strong><code>block</code></strong>, <strong><code>blocks</code></strong>, <strong><code>ni</code></strong>, <strong><code>nf</code></strong>, <strong><code>expansion</code></strong>, <strong><code>stride</code></strong>, <strong><code>sa</code></strong>=<em><code>False</code></em>, <strong>**<code>kwargs</code></strong>) :: <code>Sequential</code></p>
+<h4 id="BasicLayer" class="doc_header"><code>class</code> <code>BasicLayer</code><a href="model_constructor/base_constructor.py#L94" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>BasicLayer</code>(<strong><code>block</code></strong>, <strong><code>blocks</code></strong>, <strong><code>ni</code></strong>, <strong><code>nf</code></strong>, <strong><code>expansion</code></strong>, <strong><code>stride</code></strong>, <strong><code>sa</code></strong>=<em><code>False</code></em>, <strong>**<code>kwargs</code></strong>) :: <code>Sequential</code></p>
 </blockquote>
 <p>Layer from blocks</p>
 
@@ -386,7 +386,7 @@ nb_path: "Nbs/10_base_constructor.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="Body" class="doc_header"><code>class</code> <code>Body</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/base_constructor.py#L112" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>Body</code>(<strong><code>block</code></strong>, <strong><code>body_in</code></strong>=<em><code>64</code></em>, <strong><code>body_out</code></strong>=<em><code>512</code></em>, <strong><code>bodylayer</code></strong>=<em><code>BasicLayer</code></em>, <strong><code>expansion</code></strong>=<em><code>1</code></em>, <strong><code>layer_szs</code></strong>=<em><code>[64, 128, 256]</code></em>, <strong><code>blocks</code></strong>=<em><code>[2, 2, 2, 2]</code></em>, <strong><code>sa</code></strong>=<em><code>False</code></em>, <strong>**<code>kwargs</code></strong>) :: <code>Sequential</code></p>
+<h4 id="Body" class="doc_header"><code>class</code> <code>Body</code><a href="model_constructor/base_constructor.py#L112" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>Body</code>(<strong><code>block</code></strong>, <strong><code>body_in</code></strong>=<em><code>64</code></em>, <strong><code>body_out</code></strong>=<em><code>512</code></em>, <strong><code>bodylayer</code></strong>=<em><code>BasicLayer</code></em>, <strong><code>expansion</code></strong>=<em><code>1</code></em>, <strong><code>layer_szs</code></strong>=<em><code>[64, 128, 256]</code></em>, <strong><code>blocks</code></strong>=<em><code>[2, 2, 2, 2]</code></em>, <strong><code>sa</code></strong>=<em><code>False</code></em>, <strong>**<code>kwargs</code></strong>) :: <code>Sequential</code></p>
 </blockquote>
 <p>Constructor for body</p>
 
@@ -870,7 +870,7 @@ nb_path: "Nbs/10_base_constructor.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="Head" class="doc_header"><code>class</code> <code>Head</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/base_constructor.py#L130" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>Head</code>(<strong><code>ni</code></strong>, <strong><code>nf</code></strong>, <strong>**<code>kwargs</code></strong>) :: <code>Sequential</code></p>
+<h4 id="Head" class="doc_header"><code>class</code> <code>Head</code><a href="model_constructor/base_constructor.py#L130" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>Head</code>(<strong><code>ni</code></strong>, <strong><code>nf</code></strong>, <strong>**<code>kwargs</code></strong>) :: <code>Sequential</code></p>
 </blockquote>
 <p>base head</p>
 
@@ -918,7 +918,7 @@ nb_path: "Nbs/10_base_constructor.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="init_model" class="doc_header"><code>init_model</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/base_constructor.py#L140" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>init_model</code>(<strong><code>model</code></strong>, <strong><code>nonlinearity</code></strong>=<em><code>'leaky_relu'</code></em>)</p>
+<h4 id="init_model" class="doc_header"><code>init_model</code><a href="model_constructor/base_constructor.py#L140" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>init_model</code>(<strong><code>model</code></strong>, <strong><code>nonlinearity</code></strong>=<em><code>'leaky_relu'</code></em>)</p>
 </blockquote>
 <p>Init model</p>
 
@@ -930,7 +930,7 @@ nb_path: "Nbs/10_base_constructor.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="Net" class="doc_header"><code>class</code> <code>Net</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/base_constructor.py#L147" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>Net</code>(<strong><code>stem</code></strong>=<em><code>Stem</code></em>, <strong><code>body</code></strong>=<em><code>Body</code></em>, <strong><code>block</code></strong>=<em><code>BasicBlock</code></em>, <strong><code>sa</code></strong>=<em><code>False</code></em>, <strong><code>layer_szs</code></strong>=<em><code>[64, 128, 256]</code></em>, <strong><code>blocks</code></strong>=<em><code>[2, 2, 2, 2]</code></em>, <strong><code>head</code></strong>=<em><code>Head</code></em>, <strong><code>c_in</code></strong>=<em><code>3</code></em>, <strong><code>num_classes</code></strong>=<em><code>1000</code></em>, <strong><code>body_in</code></strong>=<em><code>64</code></em>, <strong><code>body_out</code></strong>=<em><code>512</code></em>, <strong><code>expansion</code></strong>=<em><code>1</code></em>, <strong><code>init_fn</code></strong>=<em><code>init_model</code></em>, <strong>**<code>kwargs</code></strong>) :: <code>Sequential</code></p>
+<h4 id="Net" class="doc_header"><code>class</code> <code>Net</code><a href="model_constructor/base_constructor.py#L147" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>Net</code>(<strong><code>stem</code></strong>=<em><code>Stem</code></em>, <strong><code>body</code></strong>=<em><code>Body</code></em>, <strong><code>block</code></strong>=<em><code>BasicBlock</code></em>, <strong><code>sa</code></strong>=<em><code>False</code></em>, <strong><code>layer_szs</code></strong>=<em><code>[64, 128, 256]</code></em>, <strong><code>blocks</code></strong>=<em><code>[2, 2, 2, 2]</code></em>, <strong><code>head</code></strong>=<em><code>Head</code></em>, <strong><code>c_in</code></strong>=<em><code>3</code></em>, <strong><code>num_classes</code></strong>=<em><code>1000</code></em>, <strong><code>body_in</code></strong>=<em><code>64</code></em>, <strong><code>body_out</code></strong>=<em><code>512</code></em>, <strong><code>expansion</code></strong>=<em><code>1</code></em>, <strong><code>init_fn</code></strong>=<em><code>init_model</code></em>, <strong>**<code>kwargs</code></strong>) :: <code>Sequential</code></p>
 </blockquote>
 <p>Constructor for model</p>
 
@@ -1436,5 +1436,5 @@ nb_path: "Nbs/10_base_constructor.ipynb"
 </div>
 </div>
 </div>
- 
+
 

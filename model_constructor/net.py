@@ -36,7 +36,7 @@ class ResBlock(nn.Module):
             groups = int(nh / div_groups)
         if expansion == 1:
             layers = [("conv_0", conv_layer(ni, nh, 3, stride=stride, act_fn=act_fn, bn_1st=bn_1st,
-                                            groups=nh if dw else groups)),
+                                            groups=ni if dw else groups)),
                       ("conv_1", conv_layer(nh, nf, 3, zero_bn=zero_bn, act=False, bn_1st=bn_1st))
                       ]
         else:
@@ -78,7 +78,7 @@ class NewResBlock(nn.Module):  # todo: deprecation worning.
         self.reduce = noop if stride == 1 else pool
         if expansion == 1:
             layers = [("conv_0", conv_layer(ni, nh, 3, stride=1, act_fn=act_fn, bn_1st=bn_1st,
-                                            groups=nh if dw else groups)),
+                                            groups=ni if dw else groups)),
                       ("conv_1", conv_layer(nh, nf, 3, zero_bn=zero_bn, act=False, bn_1st=bn_1st))
                       ]
         else:

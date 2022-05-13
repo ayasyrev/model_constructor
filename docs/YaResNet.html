@@ -3,7 +3,7 @@
 title: YaResNet.
 
 
-keywords: fastai
+keywords:  model constructor
 sidebar: home_sidebar
 
 summary: "Yet Another ResNet model."
@@ -46,7 +46,7 @@ nb_path: "Nbs/04_YaResNet.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="YaResBlock" class="doc_header"><code>class</code> <code>YaResBlock</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/yaresnet.py#L18" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>YaResBlock</code>(<strong><code>expansion</code></strong>, <strong><code>in_channels</code></strong>, <strong><code>mid_channels</code></strong>, <strong><code>stride</code></strong>=<em><code>1</code></em>, <strong><code>conv_layer</code></strong>=<em><code>ConvBnAct</code></em>, <strong><code>act_fn</code></strong>=<em><code>ReLU(inplace=True)</code></em>, <strong><code>zero_bn</code></strong>=<em><code>True</code></em>, <strong><code>bn_1st</code></strong>=<em><code>True</code></em>, <strong><code>groups</code></strong>=<em><code>1</code></em>, <strong><code>dw</code></strong>=<em><code>False</code></em>, <strong><code>div_groups</code></strong>=<em><code>None</code></em>, <strong><code>pool</code></strong>=<em><code>None</code></em>, <strong><code>se</code></strong>=<em><code>None</code></em>, <strong><code>sa</code></strong>=<em><code>None</code></em>) :: <code>Module</code></p>
+<h4 id="YaResBlock" class="doc_header"><code>class</code> <code>YaResBlock</code><a href="model_constructor/yaresnet.py#L18" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>YaResBlock</code>(<strong><code>expansion</code></strong>, <strong><code>in_channels</code></strong>, <strong><code>mid_channels</code></strong>, <strong><code>stride</code></strong>=<em><code>1</code></em>, <strong><code>conv_layer</code></strong>=<em><code>ConvBnAct</code></em>, <strong><code>act_fn</code></strong>=<em><code>ReLU(inplace=True)</code></em>, <strong><code>zero_bn</code></strong>=<em><code>True</code></em>, <strong><code>bn_1st</code></strong>=<em><code>True</code></em>, <strong><code>groups</code></strong>=<em><code>1</code></em>, <strong><code>dw</code></strong>=<em><code>False</code></em>, <strong><code>div_groups</code></strong>=<em><code>None</code></em>, <strong><code>pool</code></strong>=<em><code>None</code></em>, <strong><code>se</code></strong>=<em><code>None</code></em>, <strong><code>sa</code></strong>=<em><code>None</code></em>) :: <code>Module</code></p>
 </blockquote>
 <p>YaResBlock. Reduce by pool instead of stride 2</p>
 
@@ -286,67 +286,6 @@ nb_path: "Nbs/04_YaResNet.ipynb"
     )
     (conv_1): ConvBnAct(
       (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=32, bias=False)
-      (act_fn): LeakyReLU(negative_slope=0.01)
-      (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-    )
-    (conv_2): ConvBnAct(
-      (conv): Conv2d(128, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
-      (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-    )
-  )
-  (id_conv): ConvBnAct(
-    (conv): Conv2d(256, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
-    (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-  )
-  (merge): LeakyReLU(negative_slope=0.01)
-)</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-    </details>
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">bl</span> <span class="o">=</span> <span class="n">YaResBlock</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">pool</span><span class="o">=</span><span class="n">pool</span><span class="p">,</span> <span class="n">act_fn</span><span class="o">=</span><span class="n">nn</span><span class="o">.</span><span class="n">LeakyReLU</span><span class="p">(),</span> <span class="n">bn_1st</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">dw</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">bl</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-<details class="description">
-      <summary data-open="Hide Output" data-close="Show Output"></summary>
-        <summary></summary>
-        
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>YaResBlock(
-  (reduce): AvgPool2d(kernel_size=2, stride=2, padding=0)
-  (convs): Sequential(
-    (conv_0): ConvBnAct(
-      (conv): Conv2d(256, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
-      (act_fn): LeakyReLU(negative_slope=0.01)
-      (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-    )
-    (conv_1): ConvBnAct(
-      (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=128, bias=False)
       (act_fn): LeakyReLU(negative_slope=0.01)
       (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
     )
@@ -1273,5 +1212,5 @@ by ayasyrev</p>
 </div>
 </div>
 </div>
- 
+
 

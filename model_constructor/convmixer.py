@@ -104,5 +104,5 @@ class ConvMixer(nn.Sequential):
             nn.AdaptiveAvgPool2d((1, 1)),
             nn.Flatten(),
             nn.Linear(dim, n_classes))
-        if init_func is not None:
+        if init_func is not None:  # pragma: no cover
             init_func(self)

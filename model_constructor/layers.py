@@ -109,15 +109,15 @@ class SimpleSelfAttention(nn.Module):
     Inspired by https://arxiv.org/pdf/1805.08318.pdf  
     '''
 
-    def __init__(self, n_in: int, ks=1, sym=False):
+    def __init__(self, n_in: int, ks=1, sym=False, use_bias=False):
         super().__init__()
-        self.conv = conv1d(n_in, n_in, ks, padding=ks // 2, bias=False)
+        self.conv = conv1d(n_in, n_in, ks, padding=ks // 2, bias=use_bias)
         self.gamma = nn.Parameter(torch.tensor([0.]))
         self.sym = sym
         self.n_in = n_in
 
     def forward(self, x):
-        if self.sym:
+        if self.sym:  # check ks=3
             # symmetry hack by https://github.com/mgrankin
             c = self.conv.weight.view(self.n_in, self.n_in)
             c = (c + c.t()) / 2
@@ -141,7 +141,7 @@ class SEBlock(nn.Module):  # todo: deprecation worning.
 
     def __init__(self, c, r=16):
         super().__init__()
-        ch = c // r
+        ch = max(c // r, 1)
         self.squeeze = nn.AdaptiveAvgPool2d(1)
         self.excitation = nn.Sequential(
             OrderedDict([('fc_reduce', self.se_layer(c, ch, bias=self.use_bias)),
@@ -166,7 +166,7 @@ class SEBlockConv(nn.Module):  # todo: deprecation worning.
     def __init__(self, c, r=16):
         super().__init__()
 #         c_in = math.ceil(c//r/8)*8
-        c_in = c // r
+        c_in = max(c // r, 1)
         self.squeeze = nn.AdaptiveAvgPool2d(1)
         self.excitation = nn.Sequential(
             OrderedDict([
@@ -191,12 +191,12 @@ class SEModule(nn.Module):
                  rd_channels=None,
                  rd_max=False,
                  se_layer=nn.Linear,
-                 act_fn=nn.ReLU(inplace=True),  # ? obj or class?
+                 act_fn=nn.ReLU(inplace=True),
                  use_bias=True,
                  gate=nn.Sigmoid
                  ):
         super().__init__()
-        reducted = channels // reduction
+        reducted = max(channels // reduction, 1)  # preserve zero-element tensors
         if rd_channels is None:
             rd_channels = reducted
         else:
@@ -232,7 +232,7 @@ class SEModuleConv(nn.Module):
                  ):
         super().__init__()
 #       rd_channels = math.ceil(channels//reduction/8)*8
-        reducted = channels // reduction
+        reducted = max(channels // reduction, 1)  # preserve zero-element tensors
         if rd_channels is None:
             rd_channels = reducted
         else:
