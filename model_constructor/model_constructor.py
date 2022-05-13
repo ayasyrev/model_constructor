@@ -29,10 +29,11 @@ class ResBlock(nn.Module):
     def __init__(self, expansion, in_channels, mid_channels, stride=1,
                  conv_layer=ConvBnAct, act_fn=act_fn, zero_bn=True, bn_1st=True,
                  groups=1, dw=False, div_groups=None,
-                 pool=None,  # pool defined at ModelConstructor.
+                 pool=None,
                  se=None, sa=None
                  ):
         super().__init__()
+        # pool defined at ModelConstructor.
         out_channels, in_channels = mid_channels * expansion, in_channels * expansion
         if div_groups is not None:  # check if groups != 1 and div_groups
             groups = int(mid_channels / div_groups)
@@ -123,13 +124,13 @@ class ModelConstructor():
                  pool=nn.AvgPool2d(2, ceil_mode=True),
                  expansion=1, groups=1, dw=False, div_groups=None,
                  sa: Union[bool, int, Callable] = False,
-                 se: Union[bool, int, Callable] = False,  # se can be bool, int (0, 1) or nn.Module
-                 se_module=None, se_reduction=None,  # deprecated. Leaved for worning and checks.
+                 se: Union[bool, int, Callable] = False,
+                 se_module=None, se_reduction=None,
                  bn_1st=True,
                  zero_bn=True,
                  stem_stride_on=0,
                  stem_sizes=[32, 32, 64],
-                 stem_pool=nn.MaxPool2d(kernel_size=3, stride=2, padding=1),  # if stem_pool is False - no pool at stem
+                 stem_pool=nn.MaxPool2d(kernel_size=3, stride=2, padding=1),
                  stem_bn_end=False,
                  _init_cnn=init_cnn,
                  _make_stem=_make_stem,
@@ -138,6 +139,9 @@ class ModelConstructor():
                  _make_head=_make_head,
                  ):
         super().__init__()
+        # se can be bool, int (0, 1) or nn.Module
+        # se_module - deprecated. Leaved for worning and checks.
+        # if stem_pool is False - no pool at stem
 
         params = locals()
         del params['self']

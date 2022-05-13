@@ -191,7 +191,7 @@ class SEModule(nn.Module):
                  rd_channels=None,
                  rd_max=False,
                  se_layer=nn.Linear,
-                 act_fn=nn.ReLU(inplace=True),  # ? obj or class?
+                 act_fn=nn.ReLU(inplace=True),
                  use_bias=True,
                  gate=nn.Sigmoid
                  ):

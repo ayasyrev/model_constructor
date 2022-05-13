@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="First version of constructor.">
-<meta name="keywords" content=" fastai">
+<meta name="keywords" content=" model constructor">
 <title>First version. Net. | model_constructor</title>
 <link rel="stylesheet" href="/model_constructor/assets/css/syntax.css">
 
@@ -263,13 +263,6 @@ document.addEventListener("DOMContentLoaded", function() {
           
           
           
-          
-          
-          <li><a href="/model_constructor/xresnet.html">xresnet</a></li>
-          
-          
-          
-          
       </ul>
    </li>
      
@@ -387,7 +380,7 @@ $('#toc').on('click', 'a', function() {
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="ResBlock" class="doc_header"><code>class</code> <code>ResBlock</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/net.py#L25" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>ResBlock</code>(<strong><code>expansion</code></strong>, <strong><code>ni</code></strong>, <strong><code>nh</code></strong>, <strong><code>stride</code></strong>=<em><code>1</code></em>, <strong><code>conv_layer</code></strong>=<em><code>ConvLayer</code></em>, <strong><code>act_fn</code></strong>=<em><code>ReLU(inplace=True)</code></em>, <strong><code>zero_bn</code></strong>=<em><code>True</code></em>, <strong><code>bn_1st</code></strong>=<em><code>True</code></em>, <strong><code>pool</code></strong>=<em><code>AvgPool2d(kernel_size=2, stride=2, padding=0)</code></em>, <strong><code>sa</code></strong>=<em><code>False</code></em>, <strong><code>sym</code></strong>=<em><code>False</code></em>, <strong><code>se</code></strong>=<em><code>False</code></em>, <strong><code>se_reduction</code></strong>=<em><code>16</code></em>, <strong><code>groups</code></strong>=<em><code>1</code></em>, <strong><code>dw</code></strong>=<em><code>False</code></em>, <strong><code>div_groups</code></strong>=<em><code>None</code></em>) :: <code>Module</code></p>
+<h4 id="ResBlock" class="doc_header"><code>class</code> <code>ResBlock</code><a href="model_constructor/net.py#L25" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>ResBlock</code>(<strong><code>expansion</code></strong>, <strong><code>ni</code></strong>, <strong><code>nh</code></strong>, <strong><code>stride</code></strong>=<em><code>1</code></em>, <strong><code>conv_layer</code></strong>=<em><code>ConvLayer</code></em>, <strong><code>act_fn</code></strong>=<em><code>ReLU(inplace=True)</code></em>, <strong><code>zero_bn</code></strong>=<em><code>True</code></em>, <strong><code>bn_1st</code></strong>=<em><code>True</code></em>, <strong><code>pool</code></strong>=<em><code>AvgPool2d(kernel_size=2, stride=2, padding=0)</code></em>, <strong><code>sa</code></strong>=<em><code>False</code></em>, <strong><code>sym</code></strong>=<em><code>False</code></em>, <strong><code>se</code></strong>=<em><code>False</code></em>, <strong><code>se_reduction</code></strong>=<em><code>16</code></em>, <strong><code>groups</code></strong>=<em><code>1</code></em>, <strong><code>dw</code></strong>=<em><code>False</code></em>, <strong><code>div_groups</code></strong>=<em><code>None</code></em>) :: <code>Module</code></p>
 </blockquote>
 <p>Resnet block</p>
 
@@ -622,7 +615,10 @@ $('#toc').on('click', 'a', function() {
     </div>
 </div>
 </div>
-
+<details class="description">
+      <summary data-open="Hide Output" data-close="Show Output"></summary>
+        <summary></summary>
+        
 <div class="output_wrapper">
 <div class="output">
 
@@ -669,6 +665,7 @@ $('#toc').on('click', 'a', function() {
 </div>
 </div>
 
+    </details>
 </div>
     
 
@@ -714,7 +711,7 @@ Here i left old name for compatibility with existing Notebooks.</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="NewResBlock" class="doc_header"><code>class</code> <code>NewResBlock</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/net.py#L64" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>NewResBlock</code>(<strong><code>expansion</code></strong>, <strong><code>ni</code></strong>, <strong><code>nh</code></strong>, <strong><code>stride</code></strong>=<em><code>1</code></em>, <strong><code>conv_layer</code></strong>=<em><code>ConvLayer</code></em>, <strong><code>act_fn</code></strong>=<em><code>ReLU(inplace=True)</code></em>, <strong><code>zero_bn</code></strong>=<em><code>True</code></em>, <strong><code>bn_1st</code></strong>=<em><code>True</code></em>, <strong><code>pool</code></strong>=<em><code>AvgPool2d(kernel_size=2, stride=2, padding=0)</code></em>, <strong><code>sa</code></strong>=<em><code>False</code></em>, <strong><code>sym</code></strong>=<em><code>False</code></em>, <strong><code>se</code></strong>=<em><code>False</code></em>, <strong><code>se_reduction</code></strong>=<em><code>16</code></em>, <strong><code>groups</code></strong>=<em><code>1</code></em>, <strong><code>dw</code></strong>=<em><code>False</code></em>, <strong><code>div_groups</code></strong>=<em><code>None</code></em>) :: <code>Module</code></p>
+<h4 id="NewResBlock" class="doc_header"><code>class</code> <code>NewResBlock</code><a href="model_constructor/net.py#L64" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>NewResBlock</code>(<strong><code>expansion</code></strong>, <strong><code>ni</code></strong>, <strong><code>nh</code></strong>, <strong><code>stride</code></strong>=<em><code>1</code></em>, <strong><code>conv_layer</code></strong>=<em><code>ConvLayer</code></em>, <strong><code>act_fn</code></strong>=<em><code>ReLU(inplace=True)</code></em>, <strong><code>zero_bn</code></strong>=<em><code>True</code></em>, <strong><code>bn_1st</code></strong>=<em><code>True</code></em>, <strong><code>pool</code></strong>=<em><code>AvgPool2d(kernel_size=2, stride=2, padding=0)</code></em>, <strong><code>sa</code></strong>=<em><code>False</code></em>, <strong><code>sym</code></strong>=<em><code>False</code></em>, <strong><code>se</code></strong>=<em><code>False</code></em>, <strong><code>se_reduction</code></strong>=<em><code>16</code></em>, <strong><code>groups</code></strong>=<em><code>1</code></em>, <strong><code>dw</code></strong>=<em><code>False</code></em>, <strong><code>div_groups</code></strong>=<em><code>None</code></em>) :: <code>Module</code></p>
 </blockquote>
 <p>YaResnet block.
 This is first impl, deprecated, use yaresnet module.</p>
@@ -818,7 +815,7 @@ This is first impl, deprecated, use yaresnet module.</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="_make_stem" class="doc_header"><code>_make_stem</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/net.py#L103" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>_make_stem</code>()</p>
+<h4 id="_make_stem" class="doc_header"><code>_make_stem</code><a href="model_constructor/net.py#L103" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>_make_stem</code>()</p>
 </blockquote>
 
 </div>
@@ -829,7 +826,7 @@ This is first impl, deprecated, use yaresnet module.</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="_make_layer" class="doc_header"><code>_make_layer</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/net.py#L115" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>_make_layer</code>(<strong><code>expansion</code></strong>, <strong><code>ni</code></strong>, <strong><code>nf</code></strong>, <strong><code>blocks</code></strong>, <strong><code>stride</code></strong>, <strong><code>sa</code></strong>)</p>
+<h4 id="_make_layer" class="doc_header"><code>_make_layer</code><a href="model_constructor/net.py#L115" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>_make_layer</code>(<strong><code>expansion</code></strong>, <strong><code>ni</code></strong>, <strong><code>nf</code></strong>, <strong><code>blocks</code></strong>, <strong><code>stride</code></strong>, <strong><code>sa</code></strong>)</p>
 </blockquote>
 
 </div>
@@ -840,7 +837,7 @@ This is first impl, deprecated, use yaresnet module.</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="_make_body" class="doc_header"><code>_make_body</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/net.py#L126" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>_make_body</code>()</p>
+<h4 id="_make_body" class="doc_header"><code>_make_body</code><a href="model_constructor/net.py#L126" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>_make_body</code>()</p>
 </blockquote>
 
 </div>
@@ -851,7 +848,7 @@ This is first impl, deprecated, use yaresnet module.</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="_make_head" class="doc_header"><code>_make_head</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/net.py#L135" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>_make_head</code>()</p>
+<h4 id="_make_head" class="doc_header"><code>_make_head</code><a href="model_constructor/net.py#L135" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>_make_head</code>()</p>
 </blockquote>
 
 </div>
@@ -898,7 +895,7 @@ This is first impl, deprecated, use yaresnet module.</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="Net" class="doc_header"><code>class</code> <code>Net</code><a href="https://github.com/ayasyrev/model_constructor/tree/master/model_constructor/net.py#L142" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>Net</code>(<strong><code>name</code></strong>=<em><code>'Net'</code></em>, <strong><code>c_in</code></strong>=<em><code>3</code></em>, <strong><code>c_out</code></strong>=<em><code>1000</code></em>, <strong><code>block</code></strong>=<em><code>ResBlock</code></em>, <strong><code>conv_layer</code></strong>=<em><code>ConvLayer</code></em>, <strong><code>block_sizes</code></strong>=<em><code>[64, 128, 256, 512]</code></em>, <strong><code>layers</code></strong>=<em><code>[2, 2, 2, 2]</code></em>, <strong><code>norm</code></strong>=<em><code>BatchNorm2d</code></em>, <strong><code>act_fn</code></strong>=<em><code>ReLU(inplace=True)</code></em>, <strong><code>pool</code></strong>=<em><code>AvgPool2d(kernel_size=2, stride=2, padding=0)</code></em>, <strong><code>expansion</code></strong>=<em><code>1</code></em>, <strong><code>groups</code></strong>=<em><code>1</code></em>, <strong><code>dw</code></strong>=<em><code>False</code></em>, <strong><code>div_groups</code></strong>=<em><code>None</code></em>, <strong><code>sa</code></strong>=<em><code>False</code></em>, <strong><code>se</code></strong>=<em><code>False</code></em>, <strong><code>se_reduction</code></strong>=<em><code>16</code></em>, <strong><code>bn_1st</code></strong>=<em><code>True</code></em>, <strong><code>zero_bn</code></strong>=<em><code>True</code></em>, <strong><code>stem_stride_on</code></strong>=<em><code>0</code></em>, <strong><code>stem_sizes</code></strong>=<em><code>[32, 32, 64]</code></em>, <strong><code>stem_pool</code></strong>=<em><code>MaxPool2d(kernel_size=3, stride=2, padding=1, dilation=1, ceil_mode=False)</code></em>, <strong><code>stem_bn_end</code></strong>=<em><code>False</code></em>, <strong><code>_init_cnn</code></strong>=<em><code>init_cnn</code></em>, <strong><code>_make_stem</code></strong>=<em><code>_make_stem</code></em>, <strong><code>_make_layer</code></strong>=<em><code>_make_layer</code></em>, <strong><code>_make_body</code></strong>=<em><code>_make_body</code></em>, <strong><code>_make_head</code></strong>=<em><code>_make_head</code></em>)</p>
+<h4 id="Net" class="doc_header"><code>class</code> <code>Net</code><a href="model_constructor/net.py#L142" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>Net</code>(<strong><code>name</code></strong>=<em><code>'Net'</code></em>, <strong><code>c_in</code></strong>=<em><code>3</code></em>, <strong><code>c_out</code></strong>=<em><code>1000</code></em>, <strong><code>block</code></strong>=<em><code>ResBlock</code></em>, <strong><code>conv_layer</code></strong>=<em><code>ConvLayer</code></em>, <strong><code>block_sizes</code></strong>=<em><code>[64, 128, 256, 512]</code></em>, <strong><code>layers</code></strong>=<em><code>[2, 2, 2, 2]</code></em>, <strong><code>norm</code></strong>=<em><code>BatchNorm2d</code></em>, <strong><code>act_fn</code></strong>=<em><code>ReLU(inplace=True)</code></em>, <strong><code>pool</code></strong>=<em><code>AvgPool2d(kernel_size=2, stride=2, padding=0)</code></em>, <strong><code>expansion</code></strong>=<em><code>1</code></em>, <strong><code>groups</code></strong>=<em><code>1</code></em>, <strong><code>dw</code></strong>=<em><code>False</code></em>, <strong><code>div_groups</code></strong>=<em><code>None</code></em>, <strong><code>sa</code></strong>=<em><code>False</code></em>, <strong><code>se</code></strong>=<em><code>False</code></em>, <strong><code>se_reduction</code></strong>=<em><code>16</code></em>, <strong><code>bn_1st</code></strong>=<em><code>True</code></em>, <strong><code>zero_bn</code></strong>=<em><code>True</code></em>, <strong><code>stem_stride_on</code></strong>=<em><code>0</code></em>, <strong><code>stem_sizes</code></strong>=<em><code>[32, 32, 64]</code></em>, <strong><code>stem_pool</code></strong>=<em><code>MaxPool2d(kernel_size=3, stride=2, padding=1, dilation=1, ceil_mode=False)</code></em>, <strong><code>stem_bn_end</code></strong>=<em><code>False</code></em>, <strong><code>_init_cnn</code></strong>=<em><code>init_cnn</code></em>, <strong><code>_make_stem</code></strong>=<em><code>_make_stem</code></em>, <strong><code>_make_layer</code></strong>=<em><code>_make_layer</code></em>, <strong><code>_make_body</code></strong>=<em><code>_make_body</code></em>, <strong><code>_make_head</code></strong>=<em><code>_make_head</code></em>)</p>
 </blockquote>
 <p>Model constructor. As default - xresnet18.
 First version, still here for compatibility. Use ModelConstructor instead.</p>
@@ -1114,7 +1111,7 @@ First version, still here for compatibility. Use ModelConstructor instead.</p>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>[64, 64, 128, 256, 512]</pre>
+<pre>[64, 128, 256, 512, 1024]</pre>
 </div>
 
 </div>
@@ -1392,349 +1389,6 @@ First version, still here for compatibility. Use ModelConstructor instead.</p>
 </div>
     
 
-    
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">block</span> <span class="o">=</span> <span class="n">NewResBlock</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-    
-
-    
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">expansion</span> <span class="o">=</span> <span class="mi">4</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-    
-
-    
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">m</span> <span class="o">=</span> <span class="n">model</span><span class="p">()</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-    
-
-    
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">m</span><span class="o">.</span><span class="n">body</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-<details class="description">
-      <summary data-open="Hide Output" data-close="Show Output"></summary>
-        <summary></summary>
-        
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>Sequential(
-  (l_0): Sequential(
-    (bl_0): NewResBlock(
-      (convs): Sequential(
-        (conv_0): ConvLayer(
-          (conv): Conv2d(64, 64, kernel_size=(1, 1), stride=(1, 1), bias=False)
-          (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-          (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-        )
-        (conv_1): ConvLayer(
-          (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-          (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-          (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-        )
-        (conv_2): ConvLayer(
-          (conv): Conv2d(64, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
-          (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-        )
-        (se): SEBlock(
-          (squeeze): AdaptiveAvgPool2d(output_size=1)
-          (excitation): Sequential(
-            (fc_reduce): Linear(in_features=256, out_features=16, bias=True)
-            (se_act): ReLU(inplace=True)
-            (fc_expand): Linear(in_features=16, out_features=256, bias=True)
-            (sigmoid): Sigmoid()
-          )
-        )
-      )
-      (idconv): ConvLayer(
-        (conv): Conv2d(64, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
-        (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-      )
-      (merge): LeakyReLU(negative_slope=0.01, inplace=True)
-    )
-    (bl_1): NewResBlock(
-      (convs): Sequential(
-        (conv_0): ConvLayer(
-          (conv): Conv2d(256, 64, kernel_size=(1, 1), stride=(1, 1), bias=False)
-          (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-          (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-        )
-        (conv_1): ConvLayer(
-          (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-          (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-          (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-        )
-        (conv_2): ConvLayer(
-          (conv): Conv2d(64, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
-          (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-        )
-        (se): SEBlock(
-          (squeeze): AdaptiveAvgPool2d(output_size=1)
-          (excitation): Sequential(
-            (fc_reduce): Linear(in_features=256, out_features=16, bias=True)
-            (se_act): ReLU(inplace=True)
-            (fc_expand): Linear(in_features=16, out_features=256, bias=True)
-            (sigmoid): Sigmoid()
-          )
-        )
-        (sa): SimpleSelfAttention(
-          (conv): Conv1d(256, 256, kernel_size=(1,), stride=(1,), bias=False)
-        )
-      )
-      (merge): LeakyReLU(negative_slope=0.01, inplace=True)
-    )
-  )
-  (l_1): Sequential(
-    (bl_0): NewResBlock(
-      (reduce): AvgPool2d(kernel_size=2, stride=2, padding=0)
-      (convs): Sequential(
-        (conv_0): ConvLayer(
-          (conv): Conv2d(256, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
-          (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-          (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-        )
-        (conv_1): ConvLayer(
-          (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-          (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-          (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-        )
-        (conv_2): ConvLayer(
-          (conv): Conv2d(128, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
-          (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-        )
-        (se): SEBlock(
-          (squeeze): AdaptiveAvgPool2d(output_size=1)
-          (excitation): Sequential(
-            (fc_reduce): Linear(in_features=512, out_features=32, bias=True)
-            (se_act): ReLU(inplace=True)
-            (fc_expand): Linear(in_features=32, out_features=512, bias=True)
-            (sigmoid): Sigmoid()
-          )
-        )
-      )
-      (idconv): ConvLayer(
-        (conv): Conv2d(256, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
-        (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-      )
-      (merge): LeakyReLU(negative_slope=0.01, inplace=True)
-    )
-    (bl_1): NewResBlock(
-      (convs): Sequential(
-        (conv_0): ConvLayer(
-          (conv): Conv2d(512, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
-          (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-          (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-        )
-        (conv_1): ConvLayer(
-          (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-          (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-          (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-        )
-        (conv_2): ConvLayer(
-          (conv): Conv2d(128, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
-          (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-        )
-        (se): SEBlock(
-          (squeeze): AdaptiveAvgPool2d(output_size=1)
-          (excitation): Sequential(
-            (fc_reduce): Linear(in_features=512, out_features=32, bias=True)
-            (se_act): ReLU(inplace=True)
-            (fc_expand): Linear(in_features=32, out_features=512, bias=True)
-            (sigmoid): Sigmoid()
-          )
-        )
-      )
-      (merge): LeakyReLU(negative_slope=0.01, inplace=True)
-    )
-  )
-  (l_2): Sequential(
-    (bl_0): NewResBlock(
-      (reduce): AvgPool2d(kernel_size=2, stride=2, padding=0)
-      (convs): Sequential(
-        (conv_0): ConvLayer(
-          (conv): Conv2d(512, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
-          (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-          (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-        )
-        (conv_1): ConvLayer(
-          (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-          (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-          (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-        )
-        (conv_2): ConvLayer(
-          (conv): Conv2d(256, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False)
-          (bn): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-        )
-        (se): SEBlock(
-          (squeeze): AdaptiveAvgPool2d(output_size=1)
-          (excitation): Sequential(
-            (fc_reduce): Linear(in_features=1024, out_features=64, bias=True)
-            (se_act): ReLU(inplace=True)
-            (fc_expand): Linear(in_features=64, out_features=1024, bias=True)
-            (sigmoid): Sigmoid()
-          )
-        )
-      )
-      (idconv): ConvLayer(
-        (conv): Conv2d(512, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False)
-        (bn): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-      )
-      (merge): LeakyReLU(negative_slope=0.01, inplace=True)
-    )
-    (bl_1): NewResBlock(
-      (convs): Sequential(
-        (conv_0): ConvLayer(
-          (conv): Conv2d(1024, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
-          (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-          (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-        )
-        (conv_1): ConvLayer(
-          (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-          (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-          (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-        )
-        (conv_2): ConvLayer(
-          (conv): Conv2d(256, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False)
-          (bn): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-        )
-        (se): SEBlock(
-          (squeeze): AdaptiveAvgPool2d(output_size=1)
-          (excitation): Sequential(
-            (fc_reduce): Linear(in_features=1024, out_features=64, bias=True)
-            (se_act): ReLU(inplace=True)
-            (fc_expand): Linear(in_features=64, out_features=1024, bias=True)
-            (sigmoid): Sigmoid()
-          )
-        )
-      )
-      (merge): LeakyReLU(negative_slope=0.01, inplace=True)
-    )
-  )
-  (l_3): Sequential(
-    (bl_0): NewResBlock(
-      (reduce): AvgPool2d(kernel_size=2, stride=2, padding=0)
-      (convs): Sequential(
-        (conv_0): ConvLayer(
-          (conv): Conv2d(1024, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
-          (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-          (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-        )
-        (conv_1): ConvLayer(
-          (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-          (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-          (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-        )
-        (conv_2): ConvLayer(
-          (conv): Conv2d(512, 2048, kernel_size=(1, 1), stride=(1, 1), bias=False)
-          (bn): BatchNorm2d(2048, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-        )
-        (se): SEBlock(
-          (squeeze): AdaptiveAvgPool2d(output_size=1)
-          (excitation): Sequential(
-            (fc_reduce): Linear(in_features=2048, out_features=128, bias=True)
-            (se_act): ReLU(inplace=True)
-            (fc_expand): Linear(in_features=128, out_features=2048, bias=True)
-            (sigmoid): Sigmoid()
-          )
-        )
-      )
-      (idconv): ConvLayer(
-        (conv): Conv2d(1024, 2048, kernel_size=(1, 1), stride=(1, 1), bias=False)
-        (bn): BatchNorm2d(2048, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-      )
-      (merge): LeakyReLU(negative_slope=0.01, inplace=True)
-    )
-    (bl_1): NewResBlock(
-      (convs): Sequential(
-        (conv_0): ConvLayer(
-          (conv): Conv2d(2048, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
-          (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-          (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-        )
-        (conv_1): ConvLayer(
-          (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-          (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
-          (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-        )
-        (conv_2): ConvLayer(
-          (conv): Conv2d(512, 2048, kernel_size=(1, 1), stride=(1, 1), bias=False)
-          (bn): BatchNorm2d(2048, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-        )
-        (se): SEBlock(
-          (squeeze): AdaptiveAvgPool2d(output_size=1)
-          (excitation): Sequential(
-            (fc_reduce): Linear(in_features=2048, out_features=128, bias=True)
-            (se_act): ReLU(inplace=True)
-            (fc_expand): Linear(in_features=128, out_features=2048, bias=True)
-            (sigmoid): Sigmoid()
-          )
-        )
-      )
-      (merge): LeakyReLU(negative_slope=0.01, inplace=True)
-    )
-  )
-)</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-    </details>
-</div>
-    
-
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="end">end<a class="anchor-link" href="#end"> </a></h1><p>model_constructor
@@ -1744,7 +1398,7 @@ by ayasyrev</p>
 </div>
 </div>
 </div>
- 
+
 
 
 
@@ -1761,7 +1415,7 @@ by ayasyrev</p>
                 <div class="col-lg-12 footer">
                   <p><img src="/model_constructor/assets/images/company_logo.png" alt="Company logo"/></p>
                &copy;2022 A. Yasyrev. All rights reserved. <br />
- Site last generated: Jan 28, 2022 <br />
+ Site last generated: May 13, 2022 <br />
                 </div>
             </div>
 </footer>
