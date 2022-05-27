@@ -1,7 +1,7 @@
 import torch
 
 from model_constructor import ModelConstructor
-from model_constructor.layers import SEModule, SimpleSelfAttention
+from model_constructor.layers import SEModule, SEModuleConv, SimpleSelfAttention
 
 
 bs_test = 4
@@ -26,6 +26,12 @@ def test_MC():
     assert pred.shape == torch.Size([bs_test, num_classes])
     mc = ModelConstructor(sa=1, se=1, num_classes=num_classes)
     assert mc.se is SEModule
+    assert mc.sa is SimpleSelfAttention
+    model = mc()
+    pred = model(xb)
+    assert pred.shape == torch.Size([bs_test, num_classes])
+    mc = ModelConstructor(sa=SimpleSelfAttention, se=SEModuleConv, num_classes=num_classes)
+    assert mc.se is SEModuleConv
     assert mc.sa is SimpleSelfAttention
     model = mc()
     pred = model(xb)
