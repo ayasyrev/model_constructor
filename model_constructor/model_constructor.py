@@ -150,12 +150,16 @@ class ModelConstructor():
         self._block_sizes = params['block_sizes']
         if self.stem_sizes[0] != self.in_chans:
             self.stem_sizes = [self.in_chans] + self.stem_sizes
-        if self.se:  # TODO add check issubclass or isinstance of nn.Module
+        if self.se:
             if type(self.se) in (bool, int):  # if se=1 or se=True
                 self.se = SEModule
+            else:
+                self.se = se  # TODO add check issubclass or isinstance of nn.Module
         if self.sa:  # if sa=1 or sa=True
             if type(self.sa) in (bool, int):
                 self.sa = SimpleSelfAttention  # default: ks=1, sym=sym
+            else:
+                self.sa = sa
         if self.se_module or se_reduction:  # pragma: no cover
             print("Deprecated. Pass se_module as se argument, se_reduction as arg to se.")  # add deprecation worning.
 
