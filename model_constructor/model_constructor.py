@@ -56,7 +56,7 @@ class ResBlock(nn.Module):
         self.convs = nn.Sequential(OrderedDict(layers))
         if stride != 1 or in_channels != out_channels:
             id_layers = []
-            if stride != 1 and pool is not None:
+            if stride != 1 and pool is not None:  # if pool - reduce by pool else stride 2 art id_conv
                 id_layers.append(("pool", pool))
             if in_channels != out_channels or (stride != 1 and pool is None):
                 id_layers += [("id_conv", conv_layer(
@@ -86,25 +86,33 @@ def _make_stem(self):
     return nn.Sequential(OrderedDict(stem))
 
 
-def _make_layer(self, expansion, in_channels, out_channels, blocks, stride, sa):
-    layers = [(f"bl_{i}", self.block(expansion, in_channels if i == 0 else out_channels, out_channels,
-                                     stride if i == 0 else 1, sa=sa if i == blocks - 1 else None,
-                                     conv_layer=self.conv_layer, act_fn=self.act_fn, pool=self.pool,
-                                     zero_bn=self.zero_bn, bn_1st=self.bn_1st,
-                                     groups=self.groups, div_groups=self.div_groups,
-                                     dw=self.dw, se=self.se))
-              for i in range(blocks)]
-    return nn.Sequential(OrderedDict(layers))
+def _make_layer(self, layer_id: int) -> nn.Module:
+    #  expansion, in_channels, out_channels, blocks, stride, sa):
+    stride = 1 if self.stem_pool and layer_id == 0 else 2  # if no pool on stem - stride = 2 for first layer block in body
+    num_blocks = self.layers[layer_id]
+    return nn.Sequential(OrderedDict([
+        (f"bl_{block_num}", self.block(
+            self.expansion,
+            self.block_sizes[layer_id] if block_num == 0 else self.block_sizes[layer_id + 1],
+            self.block_sizes[layer_id + 1],
+            stride if block_num == 0 else 1,
+            sa=self.sa if block_num == num_blocks - 1 else None,
+            conv_layer=self.conv_layer,
+            act_fn=self.act_fn,
+            pool=self.pool,
+            zero_bn=self.zero_bn, bn_1st=self.bn_1st,
+            groups=self.groups, div_groups=self.div_groups,
+            dw=self.dw, se=self.se
+        ))
+        for block_num in range(num_blocks)
+    ]))
 
 
 def _make_body(self):
-    stride = 1 if self.stem_pool else 1  # if no pool on stem - stride = 2 for first block in body
-    blocks = [(f"l_{i}", self._make_layer(self, self.expansion,
-                                          in_channels=self.block_sizes[i], out_channels=self.block_sizes[i + 1],
-                                          blocks=l, stride=stride if i == 0 else 2,
-                                          sa=self.sa if i == 0 else None))
-              for i, l in enumerate(self.layers)]
-    return nn.Sequential(OrderedDict(blocks))
+    return nn.Sequential(OrderedDict([
+        (f"l_{layer_num}", self._make_layer(self, layer_num))
+        for layer_num in range(len(self.layers))
+    ]))
 
 
 def _make_head(self):
@@ -140,7 +148,7 @@ class ModelConstructor():
                  ):
         super().__init__()
         # se can be bool, int (0, 1) or nn.Module
-        # se_module - deprecated. Leaved for worning and checks.
+        # se_module - deprecated. Leaved for warning and checks.
         # if stem_pool is False - no pool at stem
 
         params = locals()
