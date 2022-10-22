@@ -1,6 +1,6 @@
 from collections import OrderedDict
 from functools import partial
-from typing import Callable, Union
+from typing import Callable, List, Sequence, Union
 
 import torch.nn as nn
 
@@ -24,14 +24,25 @@ def init_cnn(module: nn.Module):
 
 
 class ResBlock(nn.Module):
-    '''Resnet block'''
+    '''Universal Resnet block. Basic block if expansion is 1, otherwise is Bottleneck.'''
 
-    def __init__(self, expansion, in_channels, mid_channels, stride=1,
-                 conv_layer=ConvBnAct, act_fn=act_fn, zero_bn=True, bn_1st=True,
-                 groups=1, dw=False, div_groups=None,
-                 pool=None,
-                 se=None, sa=None
-                 ):
+    def __init__(
+        self,
+        expansion: int,
+        in_channels: int,
+        mid_channels: int,
+        stride: int = 1,
+        conv_layer: Union[nn.Module, nn.Sequential] = ConvBnAct,
+        act_fn: nn.Module = act_fn,
+        zero_bn: bool = True,
+        bn_1st: bool = True,
+        groups: int = 1,
+        dw: bool = False,
+        div_groups: Union[None, int] = None,
+        pool: Union[nn.Module, None] = None,
+        se: Union[nn.Module, None] = None,
+        sa: Union[nn.Module, None] = None,
+    ):
         super().__init__()
         # pool defined at ModelConstructor.
         out_channels, in_channels = mid_channels * expansion, in_channels * expansion
@@ -124,28 +135,38 @@ def _make_head(self):
 
 class ModelConstructor():
     """Model constructor. As default - xresnet18"""
-    def __init__(self, name='MC', in_chans=3, num_classes=1000,
-                 block=ResBlock, conv_layer=ConvBnAct,
-                 block_sizes=[64, 128, 256, 512], layers=[2, 2, 2, 2],
-                 norm=nn.BatchNorm2d,
-                 act_fn=nn.ReLU(inplace=True),
-                 pool=nn.AvgPool2d(2, ceil_mode=True),
-                 expansion=1, groups=1, dw=False, div_groups=None,
-                 sa: Union[bool, int, Callable] = False,
-                 se: Union[bool, int, Callable] = False,
-                 se_module=None, se_reduction=None,
-                 bn_1st=True,
-                 zero_bn=True,
-                 stem_stride_on=0,
-                 stem_sizes=[32, 32, 64],
-                 stem_pool=nn.MaxPool2d(kernel_size=3, stride=2, padding=1),
-                 stem_bn_end=False,
-                 _init_cnn=init_cnn,
-                 _make_stem=_make_stem,
-                 _make_layer=_make_layer,
-                 _make_body=_make_body,
-                 _make_head=_make_head,
-                 ):
+    def __init__(
+        self,
+        name: str = 'MC',
+        in_chans: int = 3,
+        num_classes: int = 1000,
+        block=ResBlock,
+        conv_layer=ConvBnAct,
+        block_sizes: List[int] = [64, 128, 256, 512],
+        layers: List[int] = [2, 2, 2, 2],
+        norm: nn.Module = nn.BatchNorm2d,
+        act_fn: nn.Module = nn.ReLU(inplace=True),
+        pool: nn.Module = nn.AvgPool2d(2, ceil_mode=True),
+        expansion: int = 1,
+        groups: int = 1,
+        dw: bool = False,
+        div_groups=None,
+        sa: Union[bool, int, Callable] = False,
+        se: Union[bool, int, Callable] = False,
+        se_module=None,
+        se_reduction=None,
+        bn_1st=True,
+        zero_bn=True,
+        stem_stride_on=0,
+        stem_sizes=[32, 32, 64],
+        stem_pool=nn.MaxPool2d(kernel_size=3, stride=2, padding=1),
+        stem_bn_end=False,
+        _init_cnn=init_cnn,
+        _make_stem=_make_stem,
+        _make_layer=_make_layer,
+        _make_body=_make_body,
+        _make_head=_make_head,
+    ):
         super().__init__()
         # se can be bool, int (0, 1) or nn.Module
         # se_module - deprecated. Leaved for warning and checks.

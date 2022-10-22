@@ -1,9 +1,9 @@
-from typing import List, Optional
-import torch.nn as nn
-import torch
-from torch.nn.utils.spectral_norm import spectral_norm
 from collections import OrderedDict
+from typing import List, Optional, Union
 
+import torch
+import torch.nn as nn
+from torch.nn.utils.spectral_norm import spectral_norm
 
 __all__ = ['Flatten', 'noop', 'Noop', 'ConvLayer', 'act_fn',
            'conv1d', 'SimpleSelfAttention', 'SEBlock', 'SEBlockConv']
@@ -49,7 +49,7 @@ class ConvBnAct(nn.Sequential):
         padding: Optional[int] = None,
         bias: bool = False,
         groups: int = 1,
-        act_fn: Optional[nn.Module] = act_fn,
+        act_fn: Union[nn.Module, bool] = act_fn,
         pre_act: bool = False,
         bn_layer: bool = True,
         bn_1st: bool = True,
