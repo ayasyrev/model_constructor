@@ -1,6 +1,7 @@
+from typing import List, Optional
 import torch.nn as nn
 import torch
-from torch.nn.utils import spectral_norm
+from torch.nn.utils.spectral_norm import spectral_norm
 from collections import OrderedDict
 
 
@@ -39,16 +40,28 @@ class ConvBnAct(nn.Sequential):
     convolution_module = nn.Conv2d  # can be changed in models like twist.
     batchnorm_module = nn.BatchNorm2d
 
-    def __init__(self, in_channels, out_channels, kernel_size=3, stride=1,
-                 padding=None, bias=False, groups=1,
-                 act_fn=act_fn, pre_act=False,
-                 bn_layer=True, bn_1st=True, zero_bn=False,
-                 ):
+    def __init__(
+        self,
+        in_channels: int,
+        out_channels: int,
+        kernel_size: int = 3,
+        stride: int = 1,
+        padding: Optional[int] = None,
+        bias: bool = False,
+        groups: int = 1,
+        act_fn: Optional[nn.Module] = act_fn,
+        pre_act: bool = False,
+        bn_layer: bool = True,
+        bn_1st: bool = True,
+        zero_bn: bool = False,
+    ):
 
         if padding is None:
             padding = kernel_size // 2
-        layers = [('conv', self.convolution_module(in_channels, out_channels, kernel_size, stride=stride,
-                                                   padding=padding, bias=bias, groups=groups))]  # if no bn - bias True?
+        layers: List[tuple[str, nn.Module]] = [
+            ('conv', self.convolution_module(
+                in_channels, out_channels, kernel_size, stride=stride, padding=padding, bias=bias, groups=groups))
+        ]  # if no bn - bias True?
         if bn_layer:
             bn = self.batchnorm_module(out_channels)
             nn.init.constant_(bn.weight, 0. if zero_bn else 1.)
@@ -133,7 +146,7 @@ class SimpleSelfAttention(nn.Module):
         return o.view(*size).contiguous()
 
 
-class SEBlock(nn.Module):  # todo: deprecation worning.
+class SEBlock(nn.Module):  # todo: deprecation warning.
     "se block"
     se_layer = nn.Linear
     act_fn = nn.ReLU(inplace=True)
@@ -157,7 +170,7 @@ class SEBlock(nn.Module):  # todo: deprecation worning.
         return x * y.expand_as(x)
 
 
-class SEBlockConv(nn.Module):  # todo: deprecation worning.
+class SEBlockConv(nn.Module):  # todo: deprecation warning.
     "se block with conv on excitation"
     se_layer = nn.Conv2d
     act_fn = nn.ReLU(inplace=True)
