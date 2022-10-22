@@ -204,9 +204,9 @@ class SEModule(nn.Module):
                 rd_channels = max(rd_channels, reducted)
         self.squeeze = nn.AdaptiveAvgPool2d(1)
         self.excitation = nn.Sequential(
-            OrderedDict([('fc_reduce', se_layer(channels, rd_channels, bias=use_bias)),
+            OrderedDict([('reduce', se_layer(channels, rd_channels, bias=use_bias)),
                          ('se_act', act_fn),
-                         ('fc_expand', se_layer(rd_channels, channels, bias=use_bias)),
+                         ('expand', se_layer(rd_channels, channels, bias=use_bias)),
                          ('se_gate', gate())
                          ]))
 
@@ -241,9 +241,9 @@ class SEModuleConv(nn.Module):
         self.squeeze = nn.AdaptiveAvgPool2d(1)
         self.excitation = nn.Sequential(
             OrderedDict([
-                ('conv_reduce', se_layer(channels, rd_channels, 1, bias=use_bias)),
+                ('reduce', se_layer(channels, rd_channels, 1, bias=use_bias)),
                 ('se_act', act_fn),
-                ('conv_expand', se_layer(rd_channels, channels, 1, bias=use_bias)),
+                ('expand', se_layer(rd_channels, channels, 1, bias=use_bias)),
                 ('gate', gate())
             ]))
 

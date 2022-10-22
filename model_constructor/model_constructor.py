@@ -86,17 +86,17 @@ def _make_stem(self):
     return nn.Sequential(OrderedDict(stem))
 
 
-def _make_layer(self, layer_id: int) -> nn.Module:
+def _make_layer(self, layer_num: int) -> nn.Module:
     #  expansion, in_channels, out_channels, blocks, stride, sa):
-    stride = 1 if self.stem_pool and layer_id == 0 else 2  # if no pool on stem - stride = 2 for first layer block in body
-    num_blocks = self.layers[layer_id]
+    stride = 1 if self.stem_pool and layer_num == 0 else 2  # if no pool on stem - stride = 2 for first layer block in body
+    num_blocks = self.layers[layer_num]
     return nn.Sequential(OrderedDict([
         (f"bl_{block_num}", self.block(
             self.expansion,
-            self.block_sizes[layer_id] if block_num == 0 else self.block_sizes[layer_id + 1],
-            self.block_sizes[layer_id + 1],
+            self.block_sizes[layer_num] if block_num == 0 else self.block_sizes[layer_num + 1],
+            self.block_sizes[layer_num + 1],
             stride if block_num == 0 else 1,
-            sa=self.sa if block_num == num_blocks - 1 else None,
+            sa=self.sa if (block_num == num_blocks - 1) and layer_num == 0 else None,
             conv_layer=self.conv_layer,
             act_fn=self.act_fn,
             pool=self.pool,
@@ -169,7 +169,7 @@ class ModelConstructor():
             else:
                 self.sa = sa
         if self.se_module or se_reduction:  # pragma: no cover
-            print("Deprecated. Pass se_module as se argument, se_reduction as arg to se.")  # add deprecation worning.
+            print("Deprecated. Pass se_module as se argument, se_reduction as arg to se.")  # add deprecation warning.
 
     @property
     def block_sizes(self):
