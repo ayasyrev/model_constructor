@@ -7,7 +7,14 @@ import torch.nn as nn
 from .layers import ConvBnAct, SEModule, SimpleSelfAttention
 
 
-__all__ = ['init_cnn', 'act_fn', 'ResBlock', 'ModelConstructor', 'xresnet34', 'xresnet50']
+__all__ = [
+    "init_cnn",
+    "act_fn",
+    "ResBlock",
+    "ModelConstructor",
+    "xresnet34",
+    "xresnet50",
+]
 
 
 act_fn = nn.ReLU(inplace=True)
@@ -15,7 +22,7 @@ act_fn = nn.ReLU(inplace=True)
 
 def init_cnn(module: nn.Module):
     "Init module - kaiming_normal for Conv2d and 0 for biases."
-    if getattr(module, 'bias', None) is not None:
+    if getattr(module, "bias", None) is not None:
         nn.init.constant_(module.bias, 0)  # type: ignore
     if isinstance(module, (nn.Conv2d, nn.Linear)):
         nn.init.kaiming_normal_(module.weight)
@@ -24,7 +31,7 @@ def init_cnn(module: nn.Module):
 
 
 class ResBlock(nn.Module):
-    '''Universal Resnet block. Basic block if expansion is 1, otherwise is Bottleneck.'''
+    """Universal Resnet block. Basic block if expansion is 1, otherwise is Bottleneck."""
 
     def __init__(
         self,
@@ -49,21 +56,57 @@ class ResBlock(nn.Module):
         if div_groups is not None:  # check if groups != 1 and div_groups
             groups = int(mid_channels / div_groups)
         if expansion == 1:
-            layers = [("conv_0", conv_layer(in_channels, mid_channels, 3, stride=stride,  # type: ignore
-                                            act_fn=act_fn, bn_1st=bn_1st, groups=in_channels if dw else groups)),
-                      ("conv_1", conv_layer(mid_channels, out_channels, 3, zero_bn=zero_bn,
-                                            act_fn=False, bn_1st=bn_1st, groups=mid_channels if dw else groups))
-                      ]
+            layers = [
+                ("conv_0", conv_layer(
+                    in_channels,
+                    mid_channels,
+                    3,
+                    stride=stride,  # type: ignore
+                    act_fn=act_fn,
+                    bn_1st=bn_1st,
+                    groups=in_channels if dw else groups,
+                ),),
+                ("conv_1", conv_layer(
+                    mid_channels,
+                    out_channels,
+                    3,
+                    zero_bn=zero_bn,
+                    act_fn=False,
+                    bn_1st=bn_1st,
+                    groups=mid_channels if dw else groups,
+                ),),
+            ]
         else:
-            layers = [("conv_0", conv_layer(in_channels, mid_channels, 1, act_fn=act_fn, bn_1st=bn_1st)),
-                      ("conv_1", conv_layer(mid_channels, mid_channels, 3, stride=stride, act_fn=act_fn, bn_1st=bn_1st,
-                                            groups=mid_channels if dw else groups)),
-                      ("conv_2", conv_layer(mid_channels, out_channels, 1, zero_bn=zero_bn, act_fn=False, bn_1st=bn_1st))  # noqa E501
-                      ]
+            layers = [
+                ("conv_0", conv_layer(
+                    in_channels,
+                    mid_channels,
+                    1,
+                    act_fn=act_fn,
+                    bn_1st=bn_1st,
+                ),),
+                ("conv_1", conv_layer(
+                    mid_channels,
+                    mid_channels,
+                    3,
+                    stride=stride,
+                    act_fn=act_fn,
+                    bn_1st=bn_1st,
+                    groups=mid_channels if dw else groups,
+                ),),
+                ("conv_2", conv_layer(
+                    mid_channels,
+                    out_channels,
+                    1,
+                    zero_bn=zero_bn,
+                    act_fn=False,
+                    bn_1st=bn_1st,
+                ),),  # noqa E501
+            ]
         if se:
-            layers.append(('se', se(out_channels)))
+            layers.append(("se", se(out_channels)))
         if sa:
-            layers.append(('sa', sa(out_channels)))
+            layers.append(("sa", sa(out_channels)))
         self.convs = nn.Sequential(OrderedDict(layers))
         if stride != 1 or in_channels != out_channels:
             id_layers = []
@@ -71,9 +114,12 @@ class ResBlock(nn.Module):
                 id_layers.append(("pool", pool))
             if in_channels != out_channels or (stride != 1 and pool is None):
                 id_layers += [("id_conv", conv_layer(
-                    in_channels, out_channels, 1,
+                    in_channels,
+                    out_channels,
+                    1,
                     stride=1 if pool else stride,
-                    act_fn=False))]
+                    act_fn=False,
+                ),)]
             self.id_conv = nn.Sequential(OrderedDict(id_layers))
         else:
             self.id_conv = None
@@ -85,15 +131,23 @@ class ResBlock(nn.Module):
 
 
 def _make_stem(self):
-    stem = [(f"conv_{i}", self.conv_layer(self.stem_sizes[i], self.stem_sizes[i + 1],
-                                          stride=2 if i == self.stem_stride_on else 1,
-                                          bn_layer=(not self.stem_bn_end) if i == (len(self.stem_sizes) - 2) else True,
-                                          act_fn=self.act_fn, bn_1st=self.bn_1st))
-            for i in range(len(self.stem_sizes) - 1)]
+    stem = [
+        (f"conv_{i}", self.conv_layer(
+            self.stem_sizes[i],
+            self.stem_sizes[i + 1],
+            stride=2 if i == self.stem_stride_on else 1,
+            bn_layer=(not self.stem_bn_end)
+            if i == (len(self.stem_sizes) - 2)
+            else True,
+            act_fn=self.act_fn,
+            bn_1st=self.bn_1st,
+        ),)
+        for i in range(len(self.stem_sizes) - 1)
+    ]
     if self.stem_pool:
-        stem.append(('stem_pool', self.stem_pool))
+        stem.append(("stem_pool", self.stem_pool))
     if self.stem_bn_end:
-        stem.append(('norm', self.norm(self.stem_sizes[-1])))
+        stem.append(("norm", self.norm(self.stem_sizes[-1])))
     return nn.Sequential(OrderedDict(stem))
 
 
@@ -102,43 +156,67 @@ def _make_layer(self, layer_num: int) -> nn.Module:
     # if no pool on stem - stride = 2 for first layer block in body
     stride = 1 if self.stem_pool and layer_num == 0 else 2
     num_blocks = self.layers[layer_num]
-    return nn.Sequential(OrderedDict([
-        (f"bl_{block_num}", self.block(
-            self.expansion,
-            self.block_sizes[layer_num] if block_num == 0 else self.block_sizes[layer_num + 1],
-            self.block_sizes[layer_num + 1],
-            stride if block_num == 0 else 1,
-            sa=self.sa if (block_num == num_blocks - 1) and layer_num == 0 else None,
-            conv_layer=self.conv_layer,
-            act_fn=self.act_fn,
-            pool=self.pool,
-            zero_bn=self.zero_bn, bn_1st=self.bn_1st,
-            groups=self.groups, div_groups=self.div_groups,
-            dw=self.dw, se=self.se
-        ))
-        for block_num in range(num_blocks)
-    ]))
+    return nn.Sequential(
+        OrderedDict(
+            [
+                (
+                    f"bl_{block_num}",
+                    self.block(
+                        self.expansion,
+                        self.block_sizes[layer_num]
+                        if block_num == 0
+                        else self.block_sizes[layer_num + 1],
+                        self.block_sizes[layer_num + 1],
+                        stride if block_num == 0 else 1,
+                        sa=self.sa
+                        if (block_num == num_blocks - 1) and layer_num == 0
+                        else None,
+                        conv_layer=self.conv_layer,
+                        act_fn=self.act_fn,
+                        pool=self.pool,
+                        zero_bn=self.zero_bn,
+                        bn_1st=self.bn_1st,
+                        groups=self.groups,
+                        div_groups=self.div_groups,
+                        dw=self.dw,
+                        se=self.se,
+                    ),
+                )
+                for block_num in range(num_blocks)
+            ]
+        )
+    )
 
 
 def _make_body(self):
-    return nn.Sequential(OrderedDict([
-        (f"l_{layer_num}", self._make_layer(self, layer_num))
-        for layer_num in range(len(self.layers))
-    ]))
+    return nn.Sequential(
+        OrderedDict(
+            [
+                (
+                    f"l_{layer_num}",
+                    self._make_layer(self, layer_num)
+                )
+                for layer_num in range(len(self.layers))
+            ]
+        )
+    )
 
 
 def _make_head(self):
-    head = [('pool', nn.AdaptiveAvgPool2d(1)),
-            ('flat', nn.Flatten()),
-            ('fc', nn.Linear(self.block_sizes[-1] * self.expansion, self.num_classes))]
+    head = [
+        ("pool", nn.AdaptiveAvgPool2d(1)),
+        ("flat", nn.Flatten()),
+        ("fc", nn.Linear(self.block_sizes[-1] * self.expansion, self.num_classes)),
+    ]
     return nn.Sequential(OrderedDict(head))
 
 
-class ModelConstructor():
+class ModelConstructor:
     """Model constructor. As default - xresnet18"""
+
     def __init__(
         self,
-        name: str = 'MC',
+        name: str = "MC",
         in_chans: int = 3,
         num_classes: int = 1000,
         block=ResBlock,
@@ -221,7 +299,9 @@ class ModelConstructor():
             else:
                 self.sa = sa
         if se_module or se_reduction:  # pragma: no cover
-            print("Deprecated. Pass se_module as se argument, se_reduction as arg to se.")  # add deprecation warning.
+            print(
+                "Deprecated. Pass se_module as se argument, se_reduction as arg to se."
+            )  # add deprecation warning.
 
     @property
     def block_sizes(self):
@@ -240,23 +320,28 @@ class ModelConstructor():
         return self._make_body(self)
 
     def __call__(self):
-        model = nn.Sequential(OrderedDict([
-            ('stem', self.stem),
-            ('body', self.body),
-            ('head', self.head)]))
+        model = nn.Sequential(
+            OrderedDict([("stem", self.stem), ("body", self.body), ("head", self.head)])
+        )
         self._init_cnn(model)
         model.extra_repr = lambda: f"{self.name}"
         return model
 
     def __repr__(self):
-        return (f"{self.name} constructor\n"
-                f"  in_chans: {self.in_chans}, num_classes: {self.num_classes}\n"
-                f"  expansion: {self.expansion}, groups: {self.groups}, dw: {self.dw}, div_groups: {self.div_groups}\n"
-                f"  sa: {self.sa}, se: {self.se}\n"
-                f"  stem sizes: {self.stem_sizes}, stride on {self.stem_stride_on}\n"
-                f"  body sizes {self._block_sizes}\n"
-                f"  layers: {self.layers}")
+        return (
+            f"{self.name} constructor\n"
+            f"  in_chans: {self.in_chans}, num_classes: {self.num_classes}\n"
+            f"  expansion: {self.expansion}, groups: {self.groups}, dw: {self.dw}, div_groups: {self.div_groups}\n"
+            f"  sa: {self.sa}, se: {self.se}\n"
+            f"  stem sizes: {self.stem_sizes}, stride on {self.stem_stride_on}\n"
+            f"  body sizes {self._block_sizes}\n"
+            f"  layers: {self.layers}"
+        )
 
 
-xresnet34 = partial(ModelConstructor, name='xresnet34', expansion=1, layers=[3, 4, 6, 3])
-xresnet50 = partial(ModelConstructor, name='xresnet34', expansion=4, layers=[3, 4, 6, 3])
+xresnet34 = partial(
+    ModelConstructor, name="xresnet34", expansion=1, layers=[3, 4, 6, 3]
+)
+xresnet50 = partial(
+    ModelConstructor, name="xresnet34", expansion=4, layers=[3, 4, 6, 3]
+)
