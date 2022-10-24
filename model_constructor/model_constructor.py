@@ -1,6 +1,6 @@
 from collections import OrderedDict
 from functools import partial
-from typing import Callable, List, Sequence, Union
+from typing import Callable, List, Type, Union
 
 import torch.nn as nn
 
@@ -16,7 +16,7 @@ act_fn = nn.ReLU(inplace=True)
 def init_cnn(module: nn.Module):
     "Init module - kaiming_normal for Conv2d and 0 for biases."
     if getattr(module, 'bias', None) is not None:
-        nn.init.constant_(module.bias, 0)
+        nn.init.constant_(module.bias, 0)  # type: ignore
     if isinstance(module, (nn.Conv2d, nn.Linear)):
         nn.init.kaiming_normal_(module.weight)
     for layer in module.children():
@@ -32,7 +32,7 @@ class ResBlock(nn.Module):
         in_channels: int,
         mid_channels: int,
         stride: int = 1,
-        conv_layer: Union[nn.Module, nn.Sequential] = ConvBnAct,
+        conv_layer=ConvBnAct,
         act_fn: nn.Module = act_fn,
         zero_bn: bool = True,
         bn_1st: bool = True,
@@ -49,7 +49,7 @@ class ResBlock(nn.Module):
         if div_groups is not None:  # check if groups != 1 and div_groups
             groups = int(mid_channels / div_groups)
         if expansion == 1:
-            layers = [("conv_0", conv_layer(in_channels, mid_channels, 3, stride=stride,
+            layers = [("conv_0", conv_layer(in_channels, mid_channels, 3, stride=stride,  # type: ignore
                                             act_fn=act_fn, bn_1st=bn_1st, groups=in_channels if dw else groups)),
                       ("conv_1", conv_layer(mid_channels, out_channels, 3, zero_bn=zero_bn,
                                             act_fn=False, bn_1st=bn_1st, groups=mid_channels if dw else groups))
@@ -99,7 +99,8 @@ def _make_stem(self):
 
 def _make_layer(self, layer_num: int) -> nn.Module:
     #  expansion, in_channels, out_channels, blocks, stride, sa):
-    stride = 1 if self.stem_pool and layer_num == 0 else 2  # if no pool on stem - stride = 2 for first layer block in body
+    # if no pool on stem - stride = 2 for first layer block in body
+    stride = 1 if self.stem_pool and layer_num == 0 else 2
     num_blocks = self.layers[layer_num]
     return nn.Sequential(OrderedDict([
         (f"bl_{block_num}", self.block(
@@ -144,22 +145,22 @@ class ModelConstructor():
         conv_layer=ConvBnAct,
         block_sizes: List[int] = [64, 128, 256, 512],
         layers: List[int] = [2, 2, 2, 2],
-        norm: nn.Module = nn.BatchNorm2d,
+        norm: Type[nn.Module] = nn.BatchNorm2d,
         act_fn: nn.Module = nn.ReLU(inplace=True),
         pool: nn.Module = nn.AvgPool2d(2, ceil_mode=True),
         expansion: int = 1,
         groups: int = 1,
         dw: bool = False,
-        div_groups: Union[int, None]=None,
-        sa: Union[bool, int, Callable] = False,
-        se: Union[bool, int, Callable] = False,
+        div_groups: Union[int, None] = None,
+        sa: Union[bool, int, Type[nn.Module]] = False,
+        se: Union[bool, int, Type[nn.Module]] = False,
         se_module=None,
         se_reduction=None,
         bn_1st: bool = True,
         zero_bn: bool = True,
         stem_stride_on: int = 0,
         stem_sizes: List[int] = [32, 32, 64],
-        stem_pool: Union[nn.Module, None] =nn.MaxPool2d(kernel_size=3, stride=2, padding=1),
+        stem_pool: Union[Type[nn.Module], None] = nn.MaxPool2d(kernel_size=3, stride=2, padding=1),  # type: ignore
         stem_bn_end: bool = False,
         _init_cnn: Callable = init_cnn,
         _make_stem: Callable = _make_stem,
@@ -172,24 +173,54 @@ class ModelConstructor():
         # se_module - deprecated. Leaved for warning and checks.
         # if stem_pool is False - no pool at stem
 
-        params = locals()
-        del params['self']
-        self.__dict__ = params
+        self.name = name
+        self.in_chans = in_chans
+        self.num_classes = num_classes
+        self.block = block
+        self.conv_layer = conv_layer
+        self._block_sizes = block_sizes
+        self.layers = layers
+        self.norm = norm
+        self.act_fn = act_fn
+        self.pool = pool
+        self.expansion = expansion
+        self.groups = groups
+        self.dw = dw
+        self.div_groups = div_groups
+        # se_module
+        # se_reduction
+        self.bn_1st = bn_1st
+        self.zero_bn = zero_bn
+        self.stem_stride_on = stem_stride_on
+        self.stem_pool = stem_pool
+        self.stem_bn_end = stem_bn_end
+        self._init_cnn = _init_cnn
+        self._make_stem = _make_stem
+        self._make_layer = _make_layer
+        self._make_body = _make_body
+        self._make_head = _make_head
 
-        self._block_sizes = params['block_sizes']
+        # params = locals()
+        # del params['self']
+        # self.__dict__ = params
+
+        # self._block_sizes = params['block_sizes']
+        self.stem_sizes = stem_sizes
         if self.stem_sizes[0] != self.in_chans:
             self.stem_sizes = [self.in_chans] + self.stem_sizes
+        self.se = se
         if self.se:
             if type(self.se) in (bool, int):  # if se=1 or se=True
                 self.se = SEModule
             else:
                 self.se = se  # TODO add check issubclass or isinstance of nn.Module
+        self.sa = sa
         if self.sa:  # if sa=1 or sa=True
             if type(self.sa) in (bool, int):
                 self.sa = SimpleSelfAttention  # default: ks=1, sym=sym
             else:
                 self.sa = sa
-        if self.se_module or se_reduction:  # pragma: no cover
+        if se_module or se_reduction:  # pragma: no cover
             print("Deprecated. Pass se_module as se argument, se_reduction as arg to se.")  # add deprecation warning.
 
     @property

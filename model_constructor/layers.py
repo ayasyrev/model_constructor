@@ -66,7 +66,7 @@ class ConvBnAct(nn.Sequential):
             bn = self.batchnorm_module(out_channels)
             nn.init.constant_(bn.weight, 0. if zero_bn else 1.)
             layers.append(('bn', bn))
-        if act_fn:
+        if isinstance(act_fn, nn.Module):  # act_fn either nn.Module or False
             if pre_act:
                 act_position = 0
             elif not bn_1st:
@@ -111,7 +111,7 @@ def conv1d(ni: int, no: int, ks: int = 1, stride: int = 1, padding: int = 0, bia
     conv = nn.Conv1d(ni, no, ks, stride=stride, padding=padding, bias=bias)
     nn.init.kaiming_normal_(conv.weight)
     if bias:
-        conv.bias.data.zero_()
+        conv.bias.data.zero_()  # type: ignore
     return spectral_norm(conv)
 
 
@@ -125,7 +125,7 @@ class SimpleSelfAttention(nn.Module):
     def __init__(self, n_in: int, ks=1, sym=False, use_bias=False):
         super().__init__()
         self.conv = conv1d(n_in, n_in, ks, padding=ks // 2, bias=use_bias)
-        self.gamma = nn.Parameter(torch.tensor([0.]))
+        self.gamma = torch.nn.Parameter(torch.tensor([0.]))  # type: ignore
         self.sym = sym
         self.n_in = n_in
 
