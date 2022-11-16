@@ -1,0 +1,26 @@
+site_name: Model Constructor.
+repo_url: https://github.com/ayasyrev/model_constructor
+repo_name: model_constructor
+docs_dir: docs
+
+theme:
+  name: material
+  custom_dir: docs/overrides
+
+  palette: 
+    - scheme: default
+      toggle:
+        icon: material/toggle-switch-off-outline 
+        name: Switch to dark mode
+    - scheme: slate 
+      toggle:
+        icon: material/toggle-switch
+        name: Switch to light mode
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+extra:
+  analytics:
+    provider: google
+    property: G-0F3FK713C2
