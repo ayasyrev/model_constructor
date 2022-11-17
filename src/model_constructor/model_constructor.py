@@ -230,7 +230,7 @@ def _make_body(self: ModelConstructorCfg) -> nn.Sequential:
             [
                 (
                     f"l_{layer_num}",
-                    self._make_layer(self, layer_num)
+                    self._make_layer(self, layer_num)  # type: ignore
                 )
                 for layer_num in range(len(self.layers))
             ]
@@ -280,15 +280,15 @@ class ModelConstructor(ModelConstructorCfg):
 
     @property
     def stem(self):
-        return self._make_stem(self)
+        return self._make_stem(self)  # type: ignore
 
     @property
     def head(self):
-        return self._make_head(self)
+        return self._make_head(self)  # type: ignore
 
     @property
     def body(self):
-        return self._make_body(self)
+        return self._make_body(self)  # type: ignore
 
     @classmethod
     def from_cfg(cls, cfg: ModelConstructorCfg):
@@ -298,11 +298,11 @@ class ModelConstructor(ModelConstructorCfg):
         model = nn.Sequential(
             OrderedDict([("stem", self.stem), ("body", self.body), ("head", self.head)])
         )
-        self._init_cnn(model)
+        self._init_cnn(model)  # type: ignore
         model.extra_repr = lambda: f"{self.name}"
         return model
 
-    def simple_cfg(self):
+    def print_cfg(self):
         print(
             f"{self.name} constructor\n"
             f"  in_chans: {self.in_chans}, num_classes: {self.num_classes}\n"
