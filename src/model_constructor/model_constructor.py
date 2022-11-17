@@ -131,7 +131,7 @@ class ModelConstructorCfg:
     num_classes: int = 1000
     block: Type[nn.Module] = ResBlock
     conv_layer: Type[nn.Module] = ConvBnAct
-    _block_sizes: List[int] = field(default_factory=lambda: [64, 128, 256, 512])
+    block_sizes: List[int] = field(default_factory=lambda: [64, 128, 256, 512])
     layers: List[int] = field(default_factory=lambda: [2, 2, 2, 2])
     norm: Type[nn.Module] = nn.BatchNorm2d
     act_fn: nn.Module = nn.ReLU(inplace=True)
@@ -150,11 +150,11 @@ class ModelConstructorCfg:
     stem_sizes: List[int] = field(default_factory=lambda: [32, 32, 64])
     stem_pool: Union[nn.Module, None] = nn.MaxPool2d(kernel_size=3, stride=2, padding=1)  # type: ignore
     stem_bn_end: bool = False
-    _init_cnn: Optional[Callable[[nn.Module], None]] = None
-    _make_stem: Optional[Callable] = None
-    _make_layer: Optional[Callable] = None
-    _make_body: Optional[Callable] = None
-    _make_head: Optional[Callable] = None
+    _init_cnn: Optional[Callable[[nn.Module], None]] = field(repr=False, default=None)
+    _make_stem: Optional[Callable] = field(repr=False, default=None)
+    _make_layer: Optional[Callable] = field(repr=False, default=None)
+    _make_body: Optional[Callable] = field(repr=False, default=None)
+    _make_head: Optional[Callable] = field(repr=False, default=None)
 
 
 def init_cnn(module: nn.Module):
@@ -188,22 +188,21 @@ def _make_stem(self: ModelConstructorCfg) -> nn.Sequential:
     return nn.Sequential(OrderedDict(stem))
 
 
-def _make_layer(self, layer_num: int) -> nn.Module:
+def _make_layer(self: ModelConstructorCfg, layer_num: int) -> nn.Sequential:
     #  expansion, in_channels, out_channels, blocks, stride, sa):
     # if no pool on stem - stride = 2 for first layer block in body
     stride = 1 if self.stem_pool and layer_num == 0 else 2
     num_blocks = self.layers[layer_num]
+    block_chs = [self.stem_sizes[-1] // self.expansion] + self.block_sizes
     return nn.Sequential(
         OrderedDict(
             [
                 (
                     f"bl_{block_num}",
                     self.block(
-                        self.expansion,
-                        self.block_sizes[layer_num]
-                        if block_num == 0
-                        else self.block_sizes[layer_num + 1],
-                        self.block_sizes[layer_num + 1],
+                        self.expansion,  # type: ignore
+                        block_chs[layer_num] if block_num == 0 else block_chs[layer_num + 1],
+                        block_chs[layer_num + 1],
                         stride if block_num == 0 else 1,
                         sa=self.sa
                         if (block_num == num_blocks - 1) and layer_num == 0
@@ -225,7 +224,7 @@ def _make_layer(self, layer_num: int) -> nn.Module:
     )
 
 
-def _make_body(self):
+def _make_body(self: ModelConstructorCfg) -> nn.Sequential:
     return nn.Sequential(
         OrderedDict(
             [
@@ -275,9 +274,9 @@ class ModelConstructor(ModelConstructorCfg):
                 "Deprecated. Pass se_module as se argument, se_reduction as arg to se."
             )  # add deprecation warning.
 
-    @property
-    def block_sizes(self):
-        return [self.stem_sizes[-1] // self.expansion] + self._block_sizes
+    # @property
+    # def block_sizes(self):
+    #     return [self.stem_sizes[-1] // self.expansion] + self._block_sizes
 
     @property
     def stem(self):
@@ -303,17 +302,16 @@ class ModelConstructor(ModelConstructorCfg):
         model.extra_repr = lambda: f"{self.name}"
         return model
 
-    def __repr__(self):
-        return (
+    def simple_cfg(self):
+        print(
             f"{self.name} constructor\n"
             f"  in_chans: {self.in_chans}, num_classes: {self.num_classes}\n"
             f"  expansion: {self.expansion}, groups: {self.groups}, dw: {self.dw}, div_groups: {self.div_groups}\n"
             f"  sa: {self.sa}, se: {self.se}\n"
             f"  stem sizes: {self.stem_sizes}, stride on {self.stem_stride_on}\n"
-            f"  body sizes {self._block_sizes}\n"
+            f"  body sizes {self.block_sizes}\n"
             f"  layers: {self.layers}"
         )
-
 
 # xresnet34 = partial(
 #     ModelConstructor, name="xresnet34", expansion=1, layers=[3, 4, 6, 3]
