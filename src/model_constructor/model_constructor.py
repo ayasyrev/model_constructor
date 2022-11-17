@@ -1,6 +1,8 @@
+from dataclasses import dataclass, field, asdict
+
 from collections import OrderedDict
-from functools import partial
-from typing import Callable, List, Type, Union
+# from functools import partial
+from typing import Callable, List, Optional, Type, Union
 
 import torch.nn as nn
 
@@ -12,22 +14,12 @@ __all__ = [
     "act_fn",
     "ResBlock",
     "ModelConstructor",
-    "xresnet34",
-    "xresnet50",
+    # "xresnet34",
+    # "xresnet50",
 ]
 
 
 act_fn = nn.ReLU(inplace=True)
-
-
-def init_cnn(module: nn.Module):
-    "Init module - kaiming_normal for Conv2d and 0 for biases."
-    if getattr(module, "bias", None) is not None:
-        nn.init.constant_(module.bias, 0)  # type: ignore
-    if isinstance(module, (nn.Conv2d, nn.Linear)):
-        nn.init.kaiming_normal_(module.weight)
-    for layer in module.children():
-        init_cnn(layer)
 
 
 class ResBlock(nn.Module):
@@ -130,10 +122,55 @@ class ResBlock(nn.Module):
         return self.act_fn(self.convs(x) + identity)
 
 
-def _make_stem(self):
-    stem = [
+@dataclass
+class ModelConstructorCfg:
+    """Model constructor. As default - xresnet18"""
+
+    name: str = "MC"
+    in_chans: int = 3
+    num_classes: int = 1000
+    block: Type[nn.Module] = ResBlock
+    conv_layer: Type[nn.Module] = ConvBnAct
+    _block_sizes: List[int] = field(default_factory=lambda: [64, 128, 256, 512])
+    layers: List[int] = field(default_factory=lambda: [2, 2, 2, 2])
+    norm: Type[nn.Module] = nn.BatchNorm2d
+    act_fn: nn.Module = nn.ReLU(inplace=True)
+    pool: nn.Module = nn.AvgPool2d(2, ceil_mode=True)
+    expansion: int = 1
+    groups: int = 1
+    dw: bool = False
+    div_groups: Union[int, None] = None
+    sa: Union[bool, int, Type[nn.Module]] = False
+    se: Union[bool, int, Type[nn.Module]] = False
+    se_module = None
+    se_reduction = None
+    bn_1st: bool = True
+    zero_bn: bool = True
+    stem_stride_on: int = 0
+    stem_sizes: List[int] = field(default_factory=lambda: [32, 32, 64])
+    stem_pool: Union[nn.Module, None] = nn.MaxPool2d(kernel_size=3, stride=2, padding=1)  # type: ignore
+    stem_bn_end: bool = False
+    _init_cnn: Optional[Callable[[nn.Module], None]] = None
+    _make_stem: Optional[Callable] = None
+    _make_layer: Optional[Callable] = None
+    _make_body: Optional[Callable] = None
+    _make_head: Optional[Callable] = None
+
+
+def init_cnn(module: nn.Module):
+    "Init module - kaiming_normal for Conv2d and 0 for biases."
+    if getattr(module, "bias", None) is not None:
+        nn.init.constant_(module.bias, 0)  # type: ignore
+    if isinstance(module, (nn.Conv2d, nn.Linear)):
+        nn.init.kaiming_normal_(module.weight)
+    for layer in module.children():
+        init_cnn(layer)
+
+
+def _make_stem(self: ModelConstructorCfg) -> nn.Sequential:
+    stem: List[tuple[str, nn.Module]] = [
         (f"conv_{i}", self.conv_layer(
-            self.stem_sizes[i],
+            self.stem_sizes[i],  # type: ignore
             self.stem_sizes[i + 1],
             stride=2 if i == self.stem_stride_on else 1,
             bn_layer=(not self.stem_bn_end)
@@ -147,7 +184,7 @@ def _make_stem(self):
     if self.stem_pool:
         stem.append(("stem_pool", self.stem_pool))
     if self.stem_bn_end:
-        stem.append(("norm", self.norm(self.stem_sizes[-1])))
+        stem.append(("norm", self.norm(self.stem_sizes[-1])))  # type: ignore
     return nn.Sequential(OrderedDict(stem))
 
 
@@ -202,7 +239,7 @@ def _make_body(self):
     )
 
 
-def _make_head(self):
+def _make_head(self: ModelConstructorCfg) -> nn.Sequential:
     head = [
         ("pool", nn.AdaptiveAvgPool2d(1)),
         ("flat", nn.Flatten()),
@@ -211,94 +248,29 @@ def _make_head(self):
     return nn.Sequential(OrderedDict(head))
 
 
-class ModelConstructor:
+@dataclass
+class ModelConstructor(ModelConstructorCfg):
     """Model constructor. As default - xresnet18"""
 
-    def __init__(
-        self,
-        name: str = "MC",
-        in_chans: int = 3,
-        num_classes: int = 1000,
-        block=ResBlock,
-        conv_layer=ConvBnAct,
-        block_sizes: List[int] = [64, 128, 256, 512],
-        layers: List[int] = [2, 2, 2, 2],
-        norm: Type[nn.Module] = nn.BatchNorm2d,
-        act_fn: nn.Module = nn.ReLU(inplace=True),
-        pool: nn.Module = nn.AvgPool2d(2, ceil_mode=True),
-        expansion: int = 1,
-        groups: int = 1,
-        dw: bool = False,
-        div_groups: Union[int, None] = None,
-        sa: Union[bool, int, Type[nn.Module]] = False,
-        se: Union[bool, int, Type[nn.Module]] = False,
-        se_module=None,
-        se_reduction=None,
-        bn_1st: bool = True,
-        zero_bn: bool = True,
-        stem_stride_on: int = 0,
-        stem_sizes: List[int] = [32, 32, 64],
-        stem_pool: Union[Type[nn.Module], None] = nn.MaxPool2d(kernel_size=3, stride=2, padding=1),  # type: ignore
-        stem_bn_end: bool = False,
-        _init_cnn: Callable = init_cnn,
-        _make_stem: Callable = _make_stem,
-        _make_layer: Callable = _make_layer,
-        _make_body: Callable = _make_body,
-        _make_head: Callable = _make_head,
-    ):
-        super().__init__()
-        # se can be bool, int (0, 1) or nn.Module
-        # se_module - deprecated. Leaved for warning and checks.
-        # if stem_pool is False - no pool at stem
+    def __post_init__(self):
+        if self._init_cnn is None:
+            self._init_cnn = init_cnn
+        if self._make_stem is None:
+            self._make_stem = _make_stem
+        if self._make_layer is None:
+            self._make_layer = _make_layer
+        if self._make_body is None:
+            self._make_body = _make_body
+        if self._make_head is None:
+            self._make_head = _make_head
 
-        self.name = name
-        self.in_chans = in_chans
-        self.num_classes = num_classes
-        self.block = block
-        self.conv_layer = conv_layer
-        self._block_sizes = block_sizes
-        self.layers = layers
-        self.norm = norm
-        self.act_fn = act_fn
-        self.pool = pool
-        self.expansion = expansion
-        self.groups = groups
-        self.dw = dw
-        self.div_groups = div_groups
-        # se_module
-        # se_reduction
-        self.bn_1st = bn_1st
-        self.zero_bn = zero_bn
-        self.stem_stride_on = stem_stride_on
-        self.stem_pool = stem_pool
-        self.stem_bn_end = stem_bn_end
-        self._init_cnn = _init_cnn
-        self._make_stem = _make_stem
-        self._make_layer = _make_layer
-        self._make_body = _make_body
-        self._make_head = _make_head
-
-        # params = locals()
-        # del params['self']
-        # self.__dict__ = params
-
-        # self._block_sizes = params['block_sizes']
-        self.stem_sizes = stem_sizes
         if self.stem_sizes[0] != self.in_chans:
             self.stem_sizes = [self.in_chans] + self.stem_sizes
-        self.se = se
-        if self.se:
-            if type(self.se) in (bool, int):  # if se=1 or se=True
-                self.se = SEModule
-            else:
-                self.se = se  # TODO add check issubclass or isinstance of nn.Module
-        self.sa = sa
-        if self.sa:  # if sa=1 or sa=True
-            if type(self.sa) in (bool, int):
-                self.sa = SimpleSelfAttention  # default: ks=1, sym=sym
-            else:
-                self.sa = sa
-        if se_module or se_reduction:  # pragma: no cover
+        if self.se and isinstance(self.se, (bool, int)):  # if se=1 or se=True
+            self.se = SEModule
+        if self.sa and isinstance(self.sa, (bool, int)):  # if sa=1 or sa=True
+            self.sa = SimpleSelfAttention  # default: ks=1, sym=sym
+        if self.se_module or self.se_reduction:  # pragma: no cover
             print(
                 "Deprecated. Pass se_module as se argument, se_reduction as arg to se."
             )  # add deprecation warning.
@@ -318,6 +290,10 @@ class ModelConstructor:
     @property
     def body(self):
         return self._make_body(self)
+
+    @classmethod
+    def from_cfg(cls, cfg: ModelConstructorCfg):
+        return cls(**asdict(cfg))
 
     def __call__(self):
         model = nn.Sequential(
@@ -339,9 +315,9 @@ class ModelConstructor:
         )
 
 
-xresnet34 = partial(
-    ModelConstructor, name="xresnet34", expansion=1, layers=[3, 4, 6, 3]
-)
-xresnet50 = partial(
-    ModelConstructor, name="xresnet34", expansion=4, layers=[3, 4, 6, 3]
-)
+# xresnet34 = partial(
+#     ModelConstructor, name="xresnet34", expansion=1, layers=[3, 4, 6, 3]
+# )
+# xresnet50 = partial(
+#     ModelConstructor, name="xresnet34", expansion=4, layers=[3, 4, 6, 3]
+# )
