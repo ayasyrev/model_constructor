@@ -123,8 +123,8 @@ class ResBlock(nn.Module):
 
 
 @dataclass
-class ModelConstructorCfg:
-    """Model constructor. As default - xresnet18"""
+class CfgMC:
+    """Model constructor Config. As default - xresnet18"""
 
     name: str = "MC"
     in_chans: int = 3
@@ -167,7 +167,7 @@ def init_cnn(module: nn.Module):
         init_cnn(layer)
 
 
-def _make_stem(self: ModelConstructorCfg) -> nn.Sequential:
+def _make_stem(self: CfgMC) -> nn.Sequential:
     stem: List[tuple[str, nn.Module]] = [
         (f"conv_{i}", self.conv_layer(
             self.stem_sizes[i],  # type: ignore
@@ -188,7 +188,7 @@ def _make_stem(self: ModelConstructorCfg) -> nn.Sequential:
     return nn.Sequential(OrderedDict(stem))
 
 
-def _make_layer(self: ModelConstructorCfg, layer_num: int) -> nn.Sequential:
+def _make_layer(self: CfgMC, layer_num: int) -> nn.Sequential:
     #  expansion, in_channels, out_channels, blocks, stride, sa):
     # if no pool on stem - stride = 2 for first layer block in body
     stride = 1 if self.stem_pool and layer_num == 0 else 2
@@ -224,7 +224,7 @@ def _make_layer(self: ModelConstructorCfg, layer_num: int) -> nn.Sequential:
     )
 
 
-def _make_body(self: ModelConstructorCfg) -> nn.Sequential:
+def _make_body(self: CfgMC) -> nn.Sequential:
     return nn.Sequential(
         OrderedDict(
             [
@@ -238,7 +238,7 @@ def _make_body(self: ModelConstructorCfg) -> nn.Sequential:
     )
 
 
-def _make_head(self: ModelConstructorCfg) -> nn.Sequential:
+def _make_head(self: CfgMC) -> nn.Sequential:
     head = [
         ("pool", nn.AdaptiveAvgPool2d(1)),
         ("flat", nn.Flatten()),
@@ -248,7 +248,7 @@ def _make_head(self: ModelConstructorCfg) -> nn.Sequential:
 
 
 @dataclass
-class ModelConstructor(ModelConstructorCfg):
+class ModelConstructor(CfgMC):
     """Model constructor. As default - xresnet18"""
 
     def __post_init__(self):
@@ -291,7 +291,7 @@ class ModelConstructor(ModelConstructorCfg):
         return self._make_body(self)  # type: ignore
 
     @classmethod
-    def from_cfg(cls, cfg: ModelConstructorCfg):
+    def from_cfg(cls, cfg: CfgMC):
         return cls(**asdict(cfg))
 
     def __call__(self):
@@ -313,9 +313,11 @@ class ModelConstructor(ModelConstructorCfg):
             f"  layers: {self.layers}"
         )
 
-# xresnet34 = partial(
-#     ModelConstructor, name="xresnet34", expansion=1, layers=[3, 4, 6, 3]
-# )
-# xresnet50 = partial(
-#     ModelConstructor, name="xresnet34", expansion=4, layers=[3, 4, 6, 3]
-# )
+
+xresnet34 = ModelConstructor.from_cfg(
+    CfgMC(name="xresnet34", expansion=1, layers=[3, 4, 6, 3])
+)
+
+xresnet50 = ModelConstructor.from_cfg(
+    CfgMC(name="xresnet34", expansion=4, layers=[3, 4, 6, 3])
+)
