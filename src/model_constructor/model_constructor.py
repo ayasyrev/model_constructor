@@ -167,7 +167,7 @@ def init_cnn(module: nn.Module):
         init_cnn(layer)
 
 
-def _make_stem(self: CfgMC) -> nn.Sequential:
+def make_stem(self: CfgMC) -> nn.Sequential:
     stem: List[tuple[str, nn.Module]] = [
         (f"conv_{i}", self.conv_layer(
             self.stem_sizes[i],  # type: ignore
@@ -188,34 +188,34 @@ def _make_stem(self: CfgMC) -> nn.Sequential:
     return nn.Sequential(OrderedDict(stem))
 
 
-def _make_layer(self: CfgMC, layer_num: int) -> nn.Sequential:
+def make_layer(cfg: CfgMC, layer_num: int) -> nn.Sequential:
     #  expansion, in_channels, out_channels, blocks, stride, sa):
     # if no pool on stem - stride = 2 for first layer block in body
-    stride = 1 if self.stem_pool and layer_num == 0 else 2
-    num_blocks = self.layers[layer_num]
-    block_chs = [self.stem_sizes[-1] // self.expansion] + self.block_sizes
+    stride = 1 if cfg.stem_pool and layer_num == 0 else 2
+    num_blocks = cfg.layers[layer_num]
+    block_chs = [cfg.stem_sizes[-1] // cfg.expansion] + cfg.block_sizes
     return nn.Sequential(
         OrderedDict(
             [
                 (
                     f"bl_{block_num}",
-                    self.block(
-                        self.expansion,  # type: ignore
+                    cfg.block(
+                        cfg.expansion,  # type: ignore
                         block_chs[layer_num] if block_num == 0 else block_chs[layer_num + 1],
                         block_chs[layer_num + 1],
                         stride if block_num == 0 else 1,
-                        sa=self.sa
+                        sa=cfg.sa
                         if (block_num == num_blocks - 1) and layer_num == 0
                         else None,
-                        conv_layer=self.conv_layer,
-                        act_fn=self.act_fn,
-                        pool=self.pool,
-                        zero_bn=self.zero_bn,
-                        bn_1st=self.bn_1st,
-                        groups=self.groups,
-                        div_groups=self.div_groups,
-                        dw=self.dw,
-                        se=self.se,
+                        conv_layer=cfg.conv_layer,
+                        act_fn=cfg.act_fn,
+                        pool=cfg.pool,
+                        zero_bn=cfg.zero_bn,
+                        bn_1st=cfg.bn_1st,
+                        groups=cfg.groups,
+                        div_groups=cfg.div_groups,
+                        dw=cfg.dw,
+                        se=cfg.se,
                     ),
                 )
                 for block_num in range(num_blocks)
@@ -224,25 +224,25 @@ def _make_layer(self: CfgMC, layer_num: int) -> nn.Sequential:
     )
 
 
-def _make_body(self: CfgMC) -> nn.Sequential:
+def make_body(cfg: CfgMC) -> nn.Sequential:
     return nn.Sequential(
         OrderedDict(
             [
                 (
                     f"l_{layer_num}",
-                    self._make_layer(self, layer_num)  # type: ignore
+                    cfg._make_layer(cfg, layer_num)  # type: ignore
                 )
-                for layer_num in range(len(self.layers))
+                for layer_num in range(len(cfg.layers))
             ]
         )
     )
 
 
-def _make_head(self: CfgMC) -> nn.Sequential:
+def make_head(cfg: CfgMC) -> nn.Sequential:
     head = [
         ("pool", nn.AdaptiveAvgPool2d(1)),
         ("flat", nn.Flatten()),
-        ("fc", nn.Linear(self.block_sizes[-1] * self.expansion, self.num_classes)),
+        ("fc", nn.Linear(cfg.block_sizes[-1] * cfg.expansion, cfg.num_classes)),
     ]
     return nn.Sequential(OrderedDict(head))
 
@@ -255,13 +255,13 @@ class ModelConstructor(CfgMC):
         if self._init_cnn is None:
             self._init_cnn = init_cnn
         if self._make_stem is None:
-            self._make_stem = _make_stem
+            self._make_stem = make_stem
         if self._make_layer is None:
-            self._make_layer = _make_layer
+            self._make_layer = make_layer
         if self._make_body is None:
-            self._make_body = _make_body
+            self._make_body = make_body
         if self._make_head is None:
-            self._make_head = _make_head
+            self._make_head = make_head
 
         if self.stem_sizes[0] != self.in_chans:
             self.stem_sizes = [self.in_chans] + self.stem_sizes
@@ -273,10 +273,6 @@ class ModelConstructor(CfgMC):
             print(
                 "Deprecated. Pass se_module as se argument, se_reduction as arg to se."
             )  # add deprecation warning.
-
-    # @property
-    # def block_sizes(self):
-    #     return [self.stem_sizes[-1] // self.expansion] + self._block_sizes
 
     @property
     def stem(self):
