@@ -32,8 +32,7 @@ Check base parameters with `print_cfg` method:
 ```python
 mc.print_cfg()
 ```
-???+ done "output"  
-    <pre>MC constructor
+    MC constructor
       in_chans: 3, num_classes: 1000
       expansion: 1, groups: 1, dw: False, div_groups: None
       sa: False, se: False
@@ -88,8 +87,7 @@ Now we have model constructor, default setting as xresnet18. And we can get mode
 model = mc()
 model
 ```
-??? done "output"  
-    <pre>Sequential(
+    Sequential(
       MC
       (stem): Sequential(
         (conv_0): ConvBnAct(
@@ -277,8 +275,7 @@ Now we can look at model parts - stem, body, head.
 
 mc.body
 ```
-??? done "output"  
-    <pre>Sequential(
+    Sequential(
       (l_0): Sequential(
         (bl_0): ResBlock(
           (convs): Sequential(
@@ -673,8 +670,7 @@ Now we can create constructor from config:
 mc = ModelConstructor.from_cfg(cfg)
 mc.print_cfg()
 ```
-???+ done "output"  
-    <pre>MC constructor
+    MC constructor
       in_chans: 3, num_classes: 1000
       expansion: 1, groups: 1, dw: False, div_groups: None
       sa: False, se: False
@@ -724,8 +720,7 @@ mc.act_fn = Mish()
 ```python
 mc
 ```
-???+ done "output"  
-    <pre>ModelConstructor(name='MxResNet', in_chans=3, num_classes=1000, block=<class 'model_constructor.model_constructor.ResBlock'>, conv_layer=<class 'model_constructor.layers.ConvBnAct'>, block_sizes=[64, 128, 256, 512], layers=[2, 2, 2, 2], norm=<class 'torch.nn.modules.batchnorm.BatchNorm2d'>, act_fn=Mish(), pool=AvgPool2d(kernel_size=2, stride=2, padding=0), expansion=1, groups=1, dw=False, div_groups=None, sa=False, se=False, bn_1st=True, zero_bn=True, stem_stride_on=0, stem_sizes=[3, 32, 64, 64], stem_pool=MaxPool2d(kernel_size=3, stride=2, padding=1, dilation=1, ceil_mode=False), stem_bn_end=False)
+    ModelConstructor(name='MxResNet', in_chans=3, num_classes=1000, block=<class 'model_constructor.model_constructor.ResBlock'>, conv_layer=<class 'model_constructor.layers.ConvBnAct'>, block_sizes=[64, 128, 256, 512], layers=[2, 2, 2, 2], norm=<class 'torch.nn.modules.batchnorm.BatchNorm2d'>, act_fn=Mish(), pool=AvgPool2d(kernel_size=2, stride=2, padding=0), expansion=1, groups=1, dw=False, div_groups=None, sa=False, se=False, bn_1st=True, zero_bn=True, stem_stride_on=0, stem_sizes=[3, 32, 64, 64], stem_pool=MaxPool2d(kernel_size=3, stride=2, padding=1, dilation=1, ceil_mode=False), stem_bn_end=False)
 
 
 
@@ -736,8 +731,7 @@ Here is model:
 
 mc()
 ```
-??? done "output"  
-    <pre>Sequential(
+    Sequential(
       MxResNet
       (stem): Sequential(
         (conv_0): ConvBnAct(
@@ -963,8 +957,7 @@ print(mc)
 
 mc.stem.conv_1
 ```
-??? done "output"  
-    <pre>ConvBnAct(
+    ConvBnAct(
       (conv): Conv2d(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
       (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
       (act_fn): Mish()
@@ -977,8 +970,7 @@ mc.stem.conv_1
 
 mc.body.l_0.bl_0
 ```
-??? done "output"  
-    <pre>ResBlock(
+    ResBlock(
       (convs): Sequential(
         (conv_0): ConvBnAct(
           (conv): Conv2d(64, 64, kernel_size=(1, 1), stride=(1, 1), bias=False)
@@ -1046,8 +1038,7 @@ That all. Now we have YaResNet constructor
 mc.name = 'YaResNet'
 mc.print_cfg()
 ```
-??? done "output"  
-    <pre>YaResNet constructor
+    YaResNet constructor
       in_chans: 3, num_classes: 1000
       expansion: 4, groups: 1, dw: False, div_groups: None
       sa: False, se: False
@@ -1063,8 +1054,7 @@ Let see what we have.
 
 mc.body.l_1.bl_0
 ```
-??? done "output"  
-    <pre>YaResBlock(
+    YaResBlock(
       (reduce): AvgPool2d(kernel_size=2, stride=2, padding=0)
       (convs): Sequential(
         (conv_0): ConvBnAct(
