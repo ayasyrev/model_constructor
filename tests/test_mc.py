@@ -11,9 +11,13 @@ def test_MC():
     """test ModelConstructor"""
     img_size = 16
     mc = ModelConstructor()
-    assert "MC constructor" in str(mc)
+    assert "name='MC'" in str(mc)
     model = mc()
     xb = torch.randn(bs_test, 3, img_size, img_size)
+    pred = model(xb)
+    assert pred.shape == torch.Size([bs_test, 1000])
+    mc.expansion = 2
+    model = mc()
     pred = model(xb)
     assert pred.shape == torch.Size([bs_test, 1000])
     num_classes = 10
