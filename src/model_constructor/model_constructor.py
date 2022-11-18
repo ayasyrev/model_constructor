@@ -310,10 +310,14 @@ class ModelConstructor(CfgMC):
         )
 
 
-xresnet34 = ModelConstructor.from_cfg(
-    CfgMC(name="xresnet34", expansion=1, layers=[3, 4, 6, 3])
-)
+@dataclass
+class XResNet34(ModelConstructor):
+    name: str = "xresnet34"
+    layers: list[int] = field(default_factory=lambda: [3, 4, 6, 3])
 
-xresnet50 = ModelConstructor.from_cfg(
-    CfgMC(name="xresnet34", expansion=4, layers=[3, 4, 6, 3])
-)
+
+@dataclass
+class XResNet50(ModelConstructor):
+    name: str = "xresnet50"
+    expansion: int = 4
+    layers: list[int] = field(default_factory=lambda: [3, 4, 6, 3])
