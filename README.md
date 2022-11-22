@@ -49,6 +49,9 @@ Check all parameters with `pprint` method:
 ```python
 mc.pprint()
 ```
+<details open>
+<summary>Output</summary>
+
     name: MC
     in_chans: 3
     num_classes: 1000
@@ -76,6 +79,7 @@ mc.pprint()
     make_body: <function make_body at 0x7f064c7cd750>
     make_head: <function make_head at 0x7f064c7cd7e0>
     
+</details>
 
 
 Now we have model constructor, default setting as xresnet18. And we can get model after call it.
@@ -86,6 +90,9 @@ Now we have model constructor, default setting as xresnet18. And we can get mode
 model = mc()
 model
 ```
+<details >
+<summary>Output</summary>
+
     Sequential(
       MC
       (stem): Sequential(
@@ -255,7 +262,7 @@ model
         (fc): Linear(in_features=512, out_features=1000, bias=True)
       )
     )
-
+</details>
 
 
 If you want to change model, just change constructor parameters.  
@@ -274,6 +281,9 @@ Now we can look at model parts - stem, body, head.
 
 mc.body
 ```
+<details >
+<summary>Output</summary>
+
     Sequential(
       (l_0): Sequential(
         (bl_0): ResBlock(
@@ -615,7 +625,7 @@ mc.body
         )
       )
     )
-
+</details>
 
 
 ## Create constructor from config.
@@ -632,7 +642,11 @@ from model_constructor import ModelCfg
 cfg = ModelCfg()
 print(cfg)
 ```
+<details open>
+<summary>Output</summary>
+
     name='MC' in_chans=3 num_classes=1000 block=<class 'model_constructor.model_constructor.ResBlock'> conv_layer=<class 'model_constructor.layers.ConvBnAct'> block_sizes=[64, 128, 256, 512] layers=[2, 2, 2, 2] norm=<class 'torch.nn.modules.batchnorm.BatchNorm2d'> act_fn=ReLU(inplace=True) pool=AvgPool2d(kernel_size=2, stride=2, padding=0) expansion=1 groups=1 dw=False div_groups=None sa=False se=False se_module=None se_reduction=None bn_1st=True zero_bn=True stem_stride_on=0 stem_sizes=[32, 32, 64] stem_pool=MaxPool2d(kernel_size=3, stride=2, padding=1, dilation=1, ceil_mode=False) stem_bn_end=False init_cnn=None make_stem=None make_layer=None make_body=None make_head=None
+</details>
 
 
 Now we can create constructor from config:
@@ -711,6 +725,9 @@ Here is model:
 
 mc()
 ```
+<details >
+<summary>Output</summary>
+
     Sequential(
       MxResNet
       (stem): Sequential(
@@ -880,7 +897,7 @@ mc()
         (fc): Linear(in_features=512, out_features=1000, bias=True)
       )
     )
-
+</details>
 
 
 ## MXResNet50
@@ -917,12 +934,17 @@ mc
 
 mc.stem.conv_1
 ```
-    ConvBnAct(
-      (conv): Conv2d(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-      (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-      (act_fn): Mish()
-    )
 
+<details open>
+<summary>Output</summary>
+
+    ConvBnAct(  
+      (conv): Conv2d(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1),   
+      bias=False)  
+      (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True,   track_running_stats=True)  
+      (act_fn): Mish()  
+    )  
+</details>
 
 
 
@@ -930,6 +952,9 @@ mc.stem.conv_1
 
 mc.body.l_0.bl_0
 ```
+<details >
+<summary>Output</summary>
+
     ResBlock(
       (convs): Sequential(
         (conv_0): ConvBnAct(
@@ -955,6 +980,7 @@ mc.body.l_0.bl_0
       )
       (act_fn): Mish()
     )
+</details>
 
 
 
@@ -998,6 +1024,8 @@ That all. Now we have YaResNet constructor
 mc.name = 'YaResNet'
 mc.pprint()
 ```
+<details open>
+<summary>Output</summary>
 
     name: YaResNet
     in_chans: 3
@@ -1026,6 +1054,7 @@ mc.pprint()
     make_body: <function make_body at 0x7f064c7cd750>
     make_head: <function make_head at 0x7f064c7cd7e0>
     
+</details>
 
 
 Let see what we have.
@@ -1035,6 +1064,9 @@ Let see what we have.
 
 mc.body.l_1.bl_0
 ```
+<details >
+<summary>Output</summary>
+
     YaResBlock(
       (reduce): AvgPool2d(kernel_size=2, stride=2, padding=0)
       (convs): Sequential(
@@ -1059,5 +1091,5 @@ mc.body.l_1.bl_0
       )
       (merge): Mish()
     )
-
+</details>
 
