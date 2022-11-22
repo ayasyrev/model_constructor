@@ -155,6 +155,16 @@ class CfgMC(BaseModel):
     class Config:
         arbitrary_types_allowed = True
 
+    def extra_repr(self) -> str:
+        res = ""
+        for k, v in self.dict().items():
+            if v is not None:
+                res += f"{k}: {v}\n"
+        return res
+
+    def pprint(self) -> None:
+        print(self.extra_repr())
+
 
 def init_cnn(module: nn.Module):
     "Init module - kaiming_normal for Conv2d and 0 for biases."

@@ -2,7 +2,7 @@
 # Yet another ResNet.
 
 from collections import OrderedDict
-from typing import Union
+from typing import List, Type, Union
 
 import torch.nn as nn
 from torch.nn import Mish
@@ -12,8 +12,6 @@ from .model_constructor import CfgMC, ModelConstructor
 
 __all__ = [
     'YaResBlock',
-    'yaresnet34',
-    'yaresnet50',
 ]
 
 
@@ -126,21 +124,14 @@ class YaResBlock(nn.Module):
         return self.merge(self.convs(x) + identity)
 
 
-yaresnet34 = ModelConstructor.from_cfg(
-    CfgMC(
-        name='YaResnet34',
-        block=YaResBlock,
-        expansion=1,
-        layers=[3, 4, 6, 3],
-        act_fn=Mish(),
-    )
-)
-yaresnet50 = ModelConstructor.from_cfg(
-    CfgMC(
-        name='YaResnet50',
-        block=YaResBlock,
-        act_fn=Mish(),
-        expansion=4,
-        layers=[3, 4, 6, 3],
-    )
-)
+class YaResNet34(ModelConstructor):
+    name: str = 'YaResnet34'
+    block: Type[nn.Module] = YaResBlock
+    expansion: int = 1
+    layers: List[int] = [3, 4, 6, 3]
+    act_fn: nn.Module = Mish()
+
+
+class YaResNet50(YaResNet34):
+    name: str = 'YaResnet50'
+    expansion: int = 4
