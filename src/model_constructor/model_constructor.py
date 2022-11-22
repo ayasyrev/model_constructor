@@ -1,21 +1,18 @@
-from dataclasses import dataclass, field, asdict
-
 from collections import OrderedDict
-# from functools import partial
 from typing import Callable, List, Optional, Type, Union
 
 import torch.nn as nn
+from pydantic import BaseModel
 
 from .layers import ConvBnAct, SEModule, SimpleSelfAttention
-
 
 __all__ = [
     "init_cnn",
     "act_fn",
     "ResBlock",
     "ModelConstructor",
-    # "xresnet34",
-    # "xresnet50",
+    "XResNet34",
+    "XResNet50",
 ]
 
 
@@ -122,8 +119,7 @@ class ResBlock(nn.Module):
         return self.act_fn(self.convs(x) + identity)
 
 
-@dataclass
-class CfgMC:
+class ModelCfg(BaseModel):
     """Model constructor Config. As default - xresnet18"""
 
     name: str = "MC"
@@ -131,8 +127,8 @@ class CfgMC:
     num_classes: int = 1000
     block: Type[nn.Module] = ResBlock
     conv_layer: Type[nn.Module] = ConvBnAct
-    block_sizes: List[int] = field(default_factory=lambda: [64, 128, 256, 512])
-    layers: List[int] = field(default_factory=lambda: [2, 2, 2, 2])
+    block_sizes: List[int] = [64, 128, 256, 512]
+    layers: List[int] = [2, 2, 2, 2]
     norm: Type[nn.Module] = nn.BatchNorm2d
     act_fn: nn.Module = nn.ReLU(inplace=True)
     pool: nn.Module = nn.AvgPool2d(2, ceil_mode=True)
@@ -142,19 +138,32 @@ class CfgMC:
     div_groups: Union[int, None] = None
     sa: Union[bool, int, Type[nn.Module]] = False
     se: Union[bool, int, Type[nn.Module]] = False
-    se_module = None
-    se_reduction = None
+    se_module: Union[bool, None] = None
+    se_reduction: Union[int, None] = None
     bn_1st: bool = True
     zero_bn: bool = True
     stem_stride_on: int = 0
-    stem_sizes: List[int] = field(default_factory=lambda: [32, 32, 64])
+    stem_sizes: List[int] = [32, 32, 64]
     stem_pool: Union[nn.Module, None] = nn.MaxPool2d(kernel_size=3, stride=2, padding=1)  # type: ignore
     stem_bn_end: bool = False
-    _init_cnn: Optional[Callable[[nn.Module], None]] = field(repr=False, default=None)
-    _make_stem: Optional[Callable] = field(repr=False, default=None)
-    _make_layer: Optional[Callable] = field(repr=False, default=None)
-    _make_body: Optional[Callable] = field(repr=False, default=None)
-    _make_head: Optional[Callable] = field(repr=False, default=None)
+    init_cnn: Optional[Callable[[nn.Module], None]] = None
+    make_stem: Optional[Callable] = None
+    make_layer: Optional[Callable] = None
+    make_body: Optional[Callable] = None
+    make_head: Optional[Callable] = None
+
+    class Config:
+        arbitrary_types_allowed = True
+
+    def extra_repr(self) -> str:
+        res = ""
+        for k, v in self.dict().items():
+            if v is not None:
+                res += f"{k}: {v}\n"
+        return res
+
+    def pprint(self) -> None:
+        print(self.extra_repr())
 
 
 def init_cnn(module: nn.Module):
@@ -167,7 +176,7 @@ def init_cnn(module: nn.Module):
         init_cnn(layer)
 
 
-def make_stem(self: CfgMC) -> nn.Sequential:
+def make_stem(self: ModelCfg) -> nn.Sequential:
     stem: List[tuple[str, nn.Module]] = [
         (f"conv_{i}", self.conv_layer(
             self.stem_sizes[i],  # type: ignore
@@ -188,7 +197,7 @@ def make_stem(self: CfgMC) -> nn.Sequential:
     return nn.Sequential(OrderedDict(stem))
 
 
-def make_layer(cfg: CfgMC, layer_num: int) -> nn.Sequential:
+def make_layer(cfg: ModelCfg, layer_num: int) -> nn.Sequential:
     #  expansion, in_channels, out_channels, blocks, stride, sa):
     # if no pool on stem - stride = 2 for first layer block in body
     stride = 1 if cfg.stem_pool and layer_num == 0 else 2
@@ -224,13 +233,13 @@ def make_layer(cfg: CfgMC, layer_num: int) -> nn.Sequential:
     )
 
 
-def make_body(cfg: CfgMC) -> nn.Sequential:
+def make_body(cfg: ModelCfg) -> nn.Sequential:
     return nn.Sequential(
         OrderedDict(
             [
                 (
                     f"l_{layer_num}",
-                    cfg._make_layer(cfg, layer_num)  # type: ignore
+                    cfg.make_layer(cfg, layer_num)  # type: ignore
                 )
                 for layer_num in range(len(cfg.layers))
             ]
@@ -238,7 +247,7 @@ def make_body(cfg: CfgMC) -> nn.Sequential:
     )
 
 
-def make_head(cfg: CfgMC) -> nn.Sequential:
+def make_head(cfg: ModelCfg) -> nn.Sequential:
     head = [
         ("pool", nn.AdaptiveAvgPool2d(1)),
         ("flat", nn.Flatten()),
@@ -247,21 +256,21 @@ def make_head(cfg: CfgMC) -> nn.Sequential:
     return nn.Sequential(OrderedDict(head))
 
 
-@dataclass
-class ModelConstructor(CfgMC):
+class ModelConstructor(ModelCfg):
     """Model constructor. As default - xresnet18"""
 
-    def __post_init__(self):
-        if self._init_cnn is None:
-            self._init_cnn = init_cnn
-        if self._make_stem is None:
-            self._make_stem = make_stem
-        if self._make_layer is None:
-            self._make_layer = make_layer
-        if self._make_body is None:
-            self._make_body = make_body
-        if self._make_head is None:
-            self._make_head = make_head
+    def __init__(self, **data):
+        super().__init__(**data)
+        if self.init_cnn is None:
+            self.init_cnn = init_cnn
+        if self.make_stem is None:
+            self.make_stem = make_stem
+        if self.make_layer is None:
+            self.make_layer = make_layer
+        if self.make_body is None:
+            self.make_body = make_body
+        if self.make_head is None:
+            self.make_head = make_head
 
         if self.stem_sizes[0] != self.in_chans:
             self.stem_sizes = [self.in_chans] + self.stem_sizes
@@ -276,30 +285,30 @@ class ModelConstructor(CfgMC):
 
     @property
     def stem(self):
-        return self._make_stem(self)  # type: ignore
+        return self.make_stem(self)  # type: ignore
 
     @property
     def head(self):
-        return self._make_head(self)  # type: ignore
+        return self.make_head(self)  # type: ignore
 
     @property
     def body(self):
-        return self._make_body(self)  # type: ignore
+        return self.make_body(self)  # type: ignore
 
     @classmethod
-    def from_cfg(cls, cfg: CfgMC):
-        return cls(**asdict(cfg))
+    def from_cfg(cls, cfg: ModelCfg):
+        return cls(**cfg.dict())
 
     def __call__(self):
         model = nn.Sequential(
             OrderedDict([("stem", self.stem), ("body", self.body), ("head", self.head)])
         )
-        self._init_cnn(model)  # type: ignore
+        self.init_cnn(model)  # type: ignore
         model.extra_repr = lambda: f"{self.name}"
         return model
 
-    def print_cfg(self):
-        print(
+    def __repr__(self):
+        return (
             f"{self.name} constructor\n"
             f"  in_chans: {self.in_chans}, num_classes: {self.num_classes}\n"
             f"  expansion: {self.expansion}, groups: {self.groups}, dw: {self.dw}, div_groups: {self.div_groups}\n"
@@ -310,14 +319,11 @@ class ModelConstructor(CfgMC):
         )
 
 
-@dataclass
 class XResNet34(ModelConstructor):
     name: str = "xresnet34"
-    layers: list[int] = field(default_factory=lambda: [3, 4, 6, 3])
+    layers: list[int] = [3, 4, 6, 3]
 
 
-@dataclass
-class XResNet50(ModelConstructor):
+class XResNet50(XResNet34):
     name: str = "xresnet50"
     expansion: int = 4
-    layers: list[int] = field(default_factory=lambda: [3, 4, 6, 3])

@@ -8,7 +8,11 @@ MXResNet model, [forum discussion](https://forums.fast.ai/t/how-we-beat-the-5-ep
 
 
 ```python
-mxresnet  = Net(stem_sizes = [3, 32, 64, 64], name='MXResNet', act_fn=Mish())
+mxresnet  = ModelConstructor(
+    name='MXResNet',
+    stem_sizes=[3, 32, 64, 64],
+    act_fn=torch.nn.Mish(),
+)
 ```
 
 
@@ -17,7 +21,7 @@ mxresnet
 ```
 ???+ done "output"  
     <pre>MXResNet constructor
-      c_in: 3, c_out: 1000
+      in_chans: 3, num_classes: 1000
       expansion: 1, groups: 1, dw: False, div_groups: None
       sa: False, se: False
       stem sizes: [3, 32, 64, 64], stride on 0
@@ -31,7 +35,7 @@ mxresnet
 mxresnet.block_sizes, mxresnet.layers
 ```
 ???+ done "output"  
-    <pre>([64, 64, 128, 256, 512], [2, 2, 2, 2])
+    <pre>([64, 128, 256, 512], [2, 2, 2, 2])
 
 
 
@@ -42,17 +46,17 @@ mxresnet.stem
 ```
 ??? done "output"  
     <pre>Sequential(
-      (conv_0): ConvLayer(
+      (conv_0): ConvBnAct(
         (conv): Conv2d(3, 32, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
         (bn): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
         (act_fn): Mish()
       )
-      (conv_1): ConvLayer(
+      (conv_1): ConvBnAct(
         (conv): Conv2d(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
         (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
         (act_fn): Mish()
       )
-      (conv_2): ConvLayer(
+      (conv_2): ConvBnAct(
         (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
         (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
         (act_fn): Mish()
@@ -72,12 +76,12 @@ mxresnet.body
       (l_0): Sequential(
         (bl_0): ResBlock(
           (convs): Sequential(
-            (conv_0): ConvLayer(
+            (conv_0): ConvBnAct(
               (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
               (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
               (act_fn): Mish()
             )
-            (conv_1): ConvLayer(
+            (conv_1): ConvBnAct(
               (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
               (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
             )
@@ -86,12 +90,12 @@ mxresnet.body
         )
         (bl_1): ResBlock(
           (convs): Sequential(
-            (conv_0): ConvLayer(
+            (conv_0): ConvBnAct(
               (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
               (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
               (act_fn): Mish()
             )
-            (conv_1): ConvLayer(
+            (conv_1): ConvBnAct(
               (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
               (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
             )
@@ -102,31 +106,33 @@ mxresnet.body
       (l_1): Sequential(
         (bl_0): ResBlock(
           (convs): Sequential(
-            (conv_0): ConvLayer(
+            (conv_0): ConvBnAct(
               (conv): Conv2d(64, 128, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
               (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
               (act_fn): Mish()
             )
-            (conv_1): ConvLayer(
+            (conv_1): ConvBnAct(
               (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
               (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
             )
           )
-          (pool): AvgPool2d(kernel_size=2, stride=2, padding=0)
-          (idconv): ConvLayer(
-            (conv): Conv2d(64, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
-            (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (id_conv): Sequential(
+            (pool): AvgPool2d(kernel_size=2, stride=2, padding=0)
+            (id_conv): ConvBnAct(
+              (conv): Conv2d(64, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
+              (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
           )
           (act_fn): Mish()
         )
         (bl_1): ResBlock(
           (convs): Sequential(
-            (conv_0): ConvLayer(
+            (conv_0): ConvBnAct(
               (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
               (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
               (act_fn): Mish()
             )
-            (conv_1): ConvLayer(
+            (conv_1): ConvBnAct(
               (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
               (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
             )
@@ -137,31 +143,33 @@ mxresnet.body
       (l_2): Sequential(
         (bl_0): ResBlock(
           (convs): Sequential(
-            (conv_0): ConvLayer(
+            (conv_0): ConvBnAct(
               (conv): Conv2d(128, 256, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
               (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
               (act_fn): Mish()
             )
-            (conv_1): ConvLayer(
+            (conv_1): ConvBnAct(
               (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
               (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
             )
           )
-          (pool): AvgPool2d(kernel_size=2, stride=2, padding=0)
-          (idconv): ConvLayer(
-            (conv): Conv2d(128, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
-            (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (id_conv): Sequential(
+            (pool): AvgPool2d(kernel_size=2, stride=2, padding=0)
+            (id_conv): ConvBnAct(
+              (conv): Conv2d(128, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+              (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
           )
           (act_fn): Mish()
         )
         (bl_1): ResBlock(
           (convs): Sequential(
-            (conv_0): ConvLayer(
+            (conv_0): ConvBnAct(
               (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
               (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
               (act_fn): Mish()
             )
-            (conv_1): ConvLayer(
+            (conv_1): ConvBnAct(
               (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
               (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
             )
@@ -172,31 +180,33 @@ mxresnet.body
       (l_3): Sequential(
         (bl_0): ResBlock(
           (convs): Sequential(
-            (conv_0): ConvLayer(
+            (conv_0): ConvBnAct(
               (conv): Conv2d(256, 512, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
               (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
               (act_fn): Mish()
             )
-            (conv_1): ConvLayer(
+            (conv_1): ConvBnAct(
               (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
               (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
             )
           )
-          (pool): AvgPool2d(kernel_size=2, stride=2, padding=0)
-          (idconv): ConvLayer(
-            (conv): Conv2d(256, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
-            (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (id_conv): Sequential(
+            (pool): AvgPool2d(kernel_size=2, stride=2, padding=0)
+            (id_conv): ConvBnAct(
+              (conv): Conv2d(256, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+              (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
           )
           (act_fn): Mish()
         )
         (bl_1): ResBlock(
           (convs): Sequential(
-            (conv_0): ConvLayer(
+            (conv_0): ConvBnAct(
               (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
               (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
               (act_fn): Mish()
             )
-            (conv_1): ConvLayer(
+            (conv_1): ConvBnAct(
               (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
               (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
             )
@@ -218,12 +228,12 @@ mxresnet.body
       (l_0): Sequential(
         (bl_0): ResBlock(
           (convs): Sequential(
-            (conv_0): ConvLayer(
+            (conv_0): ConvBnAct(
               (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
               (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
               (act_fn): Mish()
             )
-            (conv_1): ConvLayer(
+            (conv_1): ConvBnAct(
               (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
               (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
             )
@@ -232,12 +242,12 @@ mxresnet.body
         )
         (bl_1): ResBlock(
           (convs): Sequential(
-            (conv_0): ConvLayer(
+            (conv_0): ConvBnAct(
               (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
               (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
               (act_fn): Mish()
             )
-            (conv_1): ConvLayer(
+            (conv_1): ConvBnAct(
               (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
               (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
             )
@@ -248,31 +258,33 @@ mxresnet.body
       (l_1): Sequential(
         (bl_0): ResBlock(
           (convs): Sequential(
-            (conv_0): ConvLayer(
+            (conv_0): ConvBnAct(
               (conv): Conv2d(64, 128, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
               (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
               (act_fn): Mish()
             )
-            (conv_1): ConvLayer(
+            (conv_1): ConvBnAct(
               (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
               (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
             )
           )
-          (pool): AvgPool2d(kernel_size=2, stride=2, padding=0)
-          (idconv): ConvLayer(
-            (conv): Conv2d(64, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
-            (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (id_conv): Sequential(
+            (pool): AvgPool2d(kernel_size=2, stride=2, padding=0)
+            (id_conv): ConvBnAct(
+              (conv): Conv2d(64, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
+              (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
           )
           (act_fn): Mish()
         )
         (bl_1): ResBlock(
           (convs): Sequential(
-            (conv_0): ConvLayer(
+            (conv_0): ConvBnAct(
               (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
               (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
               (act_fn): Mish()
             )
-            (conv_1): ConvLayer(
+            (conv_1): ConvBnAct(
               (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
               (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
             )
@@ -283,31 +295,33 @@ mxresnet.body
       (l_2): Sequential(
         (bl_0): ResBlock(
           (convs): Sequential(
-            (conv_0): ConvLayer(
+            (conv_0): ConvBnAct(
               (conv): Conv2d(128, 256, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
               (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
               (act_fn): Mish()
             )
-            (conv_1): ConvLayer(
+            (conv_1): ConvBnAct(
               (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
               (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
             )
           )
-          (pool): AvgPool2d(kernel_size=2, stride=2, padding=0)
-          (idconv): ConvLayer(
-            (conv): Conv2d(128, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
-            (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (id_conv): Sequential(
+            (pool): AvgPool2d(kernel_size=2, stride=2, padding=0)
+            (id_conv): ConvBnAct(
+              (conv): Conv2d(128, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+              (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
           )
           (act_fn): Mish()
         )
         (bl_1): ResBlock(
           (convs): Sequential(
-            (conv_0): ConvLayer(
+            (conv_0): ConvBnAct(
               (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
               (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
               (act_fn): Mish()
             )
-            (conv_1): ConvLayer(
+            (conv_1): ConvBnAct(
               (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
               (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
             )
@@ -318,31 +332,33 @@ mxresnet.body
       (l_3): Sequential(
         (bl_0): ResBlock(
           (convs): Sequential(
-            (conv_0): ConvLayer(
+            (conv_0): ConvBnAct(
               (conv): Conv2d(256, 512, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
               (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
               (act_fn): Mish()
             )
-            (conv_1): ConvLayer(
+            (conv_1): ConvBnAct(
               (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
               (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
             )
           )
-          (pool): AvgPool2d(kernel_size=2, stride=2, padding=0)
-          (idconv): ConvLayer(
-            (conv): Conv2d(256, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
-            (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (id_conv): Sequential(
+            (pool): AvgPool2d(kernel_size=2, stride=2, padding=0)
+            (id_conv): ConvBnAct(
+              (conv): Conv2d(256, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+              (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
           )
           (act_fn): Mish()
         )
         (bl_1): ResBlock(
           (convs): Sequential(
-            (conv_0): ConvLayer(
+            (conv_0): ConvBnAct(
               (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
               (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
               (act_fn): Mish()
             )
-            (conv_1): ConvLayer(
+            (conv_1): ConvBnAct(
               (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
               (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
             )
@@ -362,7 +378,7 @@ mxresnet.head
 ??? done "output"  
     <pre>Sequential(
       (pool): AdaptiveAvgPool2d(output_size=1)
-      (flat): Flatten()
+      (flat): Flatten(start_dim=1, end_dim=-1)
       (fc): Linear(in_features=512, out_features=1000, bias=True)
     )
 
@@ -370,26 +386,38 @@ mxresnet.head
 
 ## MxResNet constructors
 
+Lets create constructor class for MxResnet.
+
 
 ```python
-mxresnet_parameters = {'stem_sizes': [3, 32, 64, 64], 'act_fn': Mish()}
-mxresnet34 = partial(Net, name='MXResnet32', expansion=1, layers=[3, 4, 6, 3], **mxresnet_parameters)
-mxresnet50 = partial(Net, name='MXResnet50', expansion=4, layers=[3, 4, 6, 3], **mxresnet_parameters)
+class MXResnet34(ModelConstructor):
+    name: str = "MXResnet34"
+    expansion: int = 1
+    layers: List[int] = [3, 4, 6, 3]
+    stem_sizes: List[int] = [3, 32, 64, 64]
+    act_fn: torch.nn.Module = torch.nn.Mish()
 ```
 
+MXResnet50 inherit from MXResnet34.
+
 
 ```python
-model = mxresnet50(c_out=10)
+class MXResnet50(MXResnet34):
+    name: str = "MXResnet50"
+    expansion: int = 4
 ```
 
+Now we can create constructor from class adn change model parameters during initialization or after.
+
 
 ```python
-model
+mc = MXResnet34(num_classes=10)
+mc
 ```
 ???+ done "output"  
-    <pre>MXResnet50 constructor
-      c_in: 3, c_out: 10
-      expansion: 4, groups: 1, dw: False, div_groups: None
+    <pre>MXResnet34 constructor
+      in_chans: 3, num_classes: 10
+      expansion: 1, groups: 1, dw: False, div_groups: None
       sa: False, se: False
       stem sizes: [3, 32, 64, 64], stride on 0
       body sizes [64, 128, 256, 512]
@@ -399,12 +427,26 @@ model
 
 
 ```python
-model.c_out, model.layers
+mc = MXResnet50()
+mc
 ```
 ???+ done "output"  
-    <pre>(10, [3, 4, 6, 3])
+    <pre>MXResnet50 constructor
+      in_chans: 3, num_classes: 1000
+      expansion: 4, groups: 1, dw: False, div_groups: None
+      sa: False, se: False
+      stem sizes: [3, 32, 64, 64], stride on 0
+      body sizes [64, 128, 256, 512]
+      layers: [3, 4, 6, 3]
 
 
+
+To create model - call model constructor object.
+
+
+```python
+model = mc()
+```
 
 
 
