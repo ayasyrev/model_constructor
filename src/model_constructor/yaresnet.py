@@ -8,7 +8,7 @@ import torch.nn as nn
 from torch.nn import Mish
 
 from .layers import ConvBnAct
-from .model_constructor import CfgMC, ModelConstructor
+from .model_constructor import ModelConstructor
 
 __all__ = [
     'YaResBlock',

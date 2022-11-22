@@ -11,8 +11,8 @@ __all__ = [
     "act_fn",
     "ResBlock",
     "ModelConstructor",
-    # "xresnet34",
-    # "xresnet50",
+    "XResNet34",
+    "XResNet50",
 ]
 
 
@@ -119,7 +119,7 @@ class ResBlock(nn.Module):
         return self.act_fn(self.convs(x) + identity)
 
 
-class CfgMC(BaseModel):
+class ModelCfg(BaseModel):
     """Model constructor Config. As default - xresnet18"""
 
     name: str = "MC"
@@ -176,7 +176,7 @@ def init_cnn(module: nn.Module):
         init_cnn(layer)
 
 
-def make_stem(self: CfgMC) -> nn.Sequential:
+def make_stem(self: ModelCfg) -> nn.Sequential:
     stem: List[tuple[str, nn.Module]] = [
         (f"conv_{i}", self.conv_layer(
             self.stem_sizes[i],  # type: ignore
@@ -197,7 +197,7 @@ def make_stem(self: CfgMC) -> nn.Sequential:
     return nn.Sequential(OrderedDict(stem))
 
 
-def make_layer(cfg: CfgMC, layer_num: int) -> nn.Sequential:
+def make_layer(cfg: ModelCfg, layer_num: int) -> nn.Sequential:
     #  expansion, in_channels, out_channels, blocks, stride, sa):
     # if no pool on stem - stride = 2 for first layer block in body
     stride = 1 if cfg.stem_pool and layer_num == 0 else 2
@@ -233,7 +233,7 @@ def make_layer(cfg: CfgMC, layer_num: int) -> nn.Sequential:
     )
 
 
-def make_body(cfg: CfgMC) -> nn.Sequential:
+def make_body(cfg: ModelCfg) -> nn.Sequential:
     return nn.Sequential(
         OrderedDict(
             [
@@ -247,7 +247,7 @@ def make_body(cfg: CfgMC) -> nn.Sequential:
     )
 
 
-def make_head(cfg: CfgMC) -> nn.Sequential:
+def make_head(cfg: ModelCfg) -> nn.Sequential:
     head = [
         ("pool", nn.AdaptiveAvgPool2d(1)),
         ("flat", nn.Flatten()),
@@ -256,7 +256,7 @@ def make_head(cfg: CfgMC) -> nn.Sequential:
     return nn.Sequential(OrderedDict(head))
 
 
-class ModelConstructor(CfgMC):
+class ModelConstructor(ModelCfg):
     """Model constructor. As default - xresnet18"""
 
     def __init__(self, **data):
@@ -296,7 +296,7 @@ class ModelConstructor(CfgMC):
         return self.make_body(self)  # type: ignore
 
     @classmethod
-    def from_cfg(cls, cfg: CfgMC):
+    def from_cfg(cls, cfg: ModelCfg):
         return cls(**cfg.dict())
 
     def __call__(self):
