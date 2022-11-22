@@ -26,11 +26,11 @@ from model_constructor import ModelConstructor
 mc = ModelConstructor()
 ```
 
-Check base parameters with `print_cfg` method:
+Check base parameters:
 
 
 ```python
-mc.print_cfg()
+mc
 ```
 ???+ done "output"  
     <pre>MC constructor
@@ -42,42 +42,41 @@ mc.print_cfg()
       layers: [2, 2, 2, 2]
 
 
-ModelConstructor based on dataclass. Repr will show all parameters.  
-Better look at it with `rich.print`  
+
+Check all parameters with `pprint` method:
 
 
 ```python
-from rich import print
-print(mc)
+mc.pprint()
 ```
-
-
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">ModelConstructor</span><span style="font-weight: bold">(</span>
-    <span style="color: #808000; text-decoration-color: #808000">name</span>=<span style="color: #008000; text-decoration-color: #008000">'MC'</span>,
-    <span style="color: #808000; text-decoration-color: #808000">in_chans</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3</span>,
-    <span style="color: #808000; text-decoration-color: #808000">num_classes</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1000</span>,
-    <span style="color: #808000; text-decoration-color: #808000">block</span>=<span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">class</span><span style="color: #000000; text-decoration-color: #000000"> </span><span style="color: #008000; text-decoration-color: #008000">'model_constructor.model_constructor.ResBlock'</span><span style="font-weight: bold">&gt;</span>,
-    <span style="color: #808000; text-decoration-color: #808000">conv_layer</span>=<span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">class</span><span style="color: #000000; text-decoration-color: #000000"> </span><span style="color: #008000; text-decoration-color: #008000">'model_constructor.layers.ConvBnAct'</span><span style="font-weight: bold">&gt;</span>,
-    <span style="color: #808000; text-decoration-color: #808000">block_sizes</span>=<span style="font-weight: bold">[</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">64</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">128</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">256</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">512</span><span style="font-weight: bold">]</span>,
-    <span style="color: #808000; text-decoration-color: #808000">layers</span>=<span style="font-weight: bold">[</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2</span><span style="font-weight: bold">]</span>,
-    <span style="color: #808000; text-decoration-color: #808000">norm</span>=<span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">class</span><span style="color: #000000; text-decoration-color: #000000"> </span><span style="color: #008000; text-decoration-color: #008000">'torch.nn.modules.batchnorm.BatchNorm2d'</span><span style="font-weight: bold">&gt;</span>,
-    <span style="color: #808000; text-decoration-color: #808000">act_fn</span>=<span style="color: #800080; text-decoration-color: #800080; font-weight: bold">ReLU</span><span style="font-weight: bold">(</span><span style="color: #808000; text-decoration-color: #808000">inplace</span>=<span style="color: #00ff00; text-decoration-color: #00ff00; font-style: italic">True</span><span style="font-weight: bold">)</span>,
-    <span style="color: #808000; text-decoration-color: #808000">pool</span>=<span style="color: #800080; text-decoration-color: #800080; font-weight: bold">AvgPool2d</span><span style="font-weight: bold">(</span><span style="color: #808000; text-decoration-color: #808000">kernel_size</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2</span>, <span style="color: #808000; text-decoration-color: #808000">stride</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2</span>, <span style="color: #808000; text-decoration-color: #808000">padding</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span><span style="font-weight: bold">)</span>,
-    <span style="color: #808000; text-decoration-color: #808000">expansion</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span>,
-    <span style="color: #808000; text-decoration-color: #808000">groups</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span>,
-    <span style="color: #808000; text-decoration-color: #808000">dw</span>=<span style="color: #ff0000; text-decoration-color: #ff0000; font-style: italic">False</span>,
-    <span style="color: #808000; text-decoration-color: #808000">div_groups</span>=<span style="color: #800080; text-decoration-color: #800080; font-style: italic">None</span>,
-    <span style="color: #808000; text-decoration-color: #808000">sa</span>=<span style="color: #ff0000; text-decoration-color: #ff0000; font-style: italic">False</span>,
-    <span style="color: #808000; text-decoration-color: #808000">se</span>=<span style="color: #ff0000; text-decoration-color: #ff0000; font-style: italic">False</span>,
-    <span style="color: #808000; text-decoration-color: #808000">bn_1st</span>=<span style="color: #00ff00; text-decoration-color: #00ff00; font-style: italic">True</span>,
-    <span style="color: #808000; text-decoration-color: #808000">zero_bn</span>=<span style="color: #00ff00; text-decoration-color: #00ff00; font-style: italic">True</span>,
-    <span style="color: #808000; text-decoration-color: #808000">stem_stride_on</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span>,
-    <span style="color: #808000; text-decoration-color: #808000">stem_sizes</span>=<span style="font-weight: bold">[</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">32</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">32</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">64</span><span style="font-weight: bold">]</span>,
-    <span style="color: #808000; text-decoration-color: #808000">stem_pool</span>=<span style="color: #800080; text-decoration-color: #800080; font-weight: bold">MaxPool2d</span><span style="font-weight: bold">(</span><span style="color: #808000; text-decoration-color: #808000">kernel_size</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3</span>, <span style="color: #808000; text-decoration-color: #808000">stride</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2</span>, <span style="color: #808000; text-decoration-color: #808000">padding</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span>, <span style="color: #808000; text-decoration-color: #808000">dilation</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span>, <span style="color: #808000; text-decoration-color: #808000">ceil_mode</span>=<span style="color: #ff0000; text-decoration-color: #ff0000; font-style: italic">False</span><span style="font-weight: bold">)</span>,
-    <span style="color: #808000; text-decoration-color: #808000">stem_bn_end</span>=<span style="color: #ff0000; text-decoration-color: #ff0000; font-style: italic">False</span>
-<span style="font-weight: bold">)</span>
-</pre>
-
+???+ done "output"  
+    <pre>name: MC
+    in_chans: 3
+    num_classes: 1000
+    block: <class 'model_constructor.model_constructor.ResBlock'>
+    conv_layer: <class 'model_constructor.layers.ConvBnAct'>
+    block_sizes: [64, 128, 256, 512]
+    layers: [2, 2, 2, 2]
+    norm: <class 'torch.nn.modules.batchnorm.BatchNorm2d'>
+    act_fn: ReLU(inplace=True)
+    pool: AvgPool2d(kernel_size=2, stride=2, padding=0)
+    expansion: 1
+    groups: 1
+    dw: False
+    sa: False
+    se: False
+    bn_1st: True
+    zero_bn: True
+    stem_stride_on: 0
+    stem_sizes: [3, 32, 32, 64]
+    stem_pool: MaxPool2d(kernel_size=3, stride=2, padding=1, dilation=1, ceil_mode=False)
+    stem_bn_end: False
+    init_cnn: <function init_cnn at 0x7f064c736440>
+    make_stem: <function make_stem at 0x7f064c7cd630>
+    make_layer: <function make_layer at 0x7f064c7cd6c0>
+    make_body: <function make_body at 0x7f064c7cd750>
+    make_head: <function make_head at 0x7f064c7cd7e0>
+    
 
 
 Now we have model constructor, default setting as xresnet18. And we can get model after call it.
@@ -628,42 +627,16 @@ Alternative we can create config first and than create constructor from it.
 
 
 ```python
-from model_constructor import CfgMC
+from model_constructor import ModelCfg
 ```
 
 
 ```python
-cfg = CfgMC()
+cfg = ModelCfg()
 print(cfg)
 ```
-
-
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">CfgMC</span><span style="font-weight: bold">(</span>
-    <span style="color: #808000; text-decoration-color: #808000">name</span>=<span style="color: #008000; text-decoration-color: #008000">'MC'</span>,
-    <span style="color: #808000; text-decoration-color: #808000">in_chans</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3</span>,
-    <span style="color: #808000; text-decoration-color: #808000">num_classes</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1000</span>,
-    <span style="color: #808000; text-decoration-color: #808000">block</span>=<span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">class</span><span style="color: #000000; text-decoration-color: #000000"> </span><span style="color: #008000; text-decoration-color: #008000">'model_constructor.model_constructor.ResBlock'</span><span style="font-weight: bold">&gt;</span>,
-    <span style="color: #808000; text-decoration-color: #808000">conv_layer</span>=<span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">class</span><span style="color: #000000; text-decoration-color: #000000"> </span><span style="color: #008000; text-decoration-color: #008000">'model_constructor.layers.ConvBnAct'</span><span style="font-weight: bold">&gt;</span>,
-    <span style="color: #808000; text-decoration-color: #808000">block_sizes</span>=<span style="font-weight: bold">[</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">64</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">128</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">256</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">512</span><span style="font-weight: bold">]</span>,
-    <span style="color: #808000; text-decoration-color: #808000">layers</span>=<span style="font-weight: bold">[</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2</span><span style="font-weight: bold">]</span>,
-    <span style="color: #808000; text-decoration-color: #808000">norm</span>=<span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">class</span><span style="color: #000000; text-decoration-color: #000000"> </span><span style="color: #008000; text-decoration-color: #008000">'torch.nn.modules.batchnorm.BatchNorm2d'</span><span style="font-weight: bold">&gt;</span>,
-    <span style="color: #808000; text-decoration-color: #808000">act_fn</span>=<span style="color: #800080; text-decoration-color: #800080; font-weight: bold">ReLU</span><span style="font-weight: bold">(</span><span style="color: #808000; text-decoration-color: #808000">inplace</span>=<span style="color: #00ff00; text-decoration-color: #00ff00; font-style: italic">True</span><span style="font-weight: bold">)</span>,
-    <span style="color: #808000; text-decoration-color: #808000">pool</span>=<span style="color: #800080; text-decoration-color: #800080; font-weight: bold">AvgPool2d</span><span style="font-weight: bold">(</span><span style="color: #808000; text-decoration-color: #808000">kernel_size</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2</span>, <span style="color: #808000; text-decoration-color: #808000">stride</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2</span>, <span style="color: #808000; text-decoration-color: #808000">padding</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span><span style="font-weight: bold">)</span>,
-    <span style="color: #808000; text-decoration-color: #808000">expansion</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span>,
-    <span style="color: #808000; text-decoration-color: #808000">groups</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span>,
-    <span style="color: #808000; text-decoration-color: #808000">dw</span>=<span style="color: #ff0000; text-decoration-color: #ff0000; font-style: italic">False</span>,
-    <span style="color: #808000; text-decoration-color: #808000">div_groups</span>=<span style="color: #800080; text-decoration-color: #800080; font-style: italic">None</span>,
-    <span style="color: #808000; text-decoration-color: #808000">sa</span>=<span style="color: #ff0000; text-decoration-color: #ff0000; font-style: italic">False</span>,
-    <span style="color: #808000; text-decoration-color: #808000">se</span>=<span style="color: #ff0000; text-decoration-color: #ff0000; font-style: italic">False</span>,
-    <span style="color: #808000; text-decoration-color: #808000">bn_1st</span>=<span style="color: #00ff00; text-decoration-color: #00ff00; font-style: italic">True</span>,
-    <span style="color: #808000; text-decoration-color: #808000">zero_bn</span>=<span style="color: #00ff00; text-decoration-color: #00ff00; font-style: italic">True</span>,
-    <span style="color: #808000; text-decoration-color: #808000">stem_stride_on</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span>,
-    <span style="color: #808000; text-decoration-color: #808000">stem_sizes</span>=<span style="font-weight: bold">[</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">32</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">32</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">64</span><span style="font-weight: bold">]</span>,
-    <span style="color: #808000; text-decoration-color: #808000">stem_pool</span>=<span style="color: #800080; text-decoration-color: #800080; font-weight: bold">MaxPool2d</span><span style="font-weight: bold">(</span><span style="color: #808000; text-decoration-color: #808000">kernel_size</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3</span>, <span style="color: #808000; text-decoration-color: #808000">stride</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2</span>, <span style="color: #808000; text-decoration-color: #808000">padding</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span>, <span style="color: #808000; text-decoration-color: #808000">dilation</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span>, <span style="color: #808000; text-decoration-color: #808000">ceil_mode</span>=<span style="color: #ff0000; text-decoration-color: #ff0000; font-style: italic">False</span><span style="font-weight: bold">)</span>,
-    <span style="color: #808000; text-decoration-color: #808000">stem_bn_end</span>=<span style="color: #ff0000; text-decoration-color: #ff0000; font-style: italic">False</span>
-<span style="font-weight: bold">)</span>
-</pre>
-
+???+ done "output"  
+    <pre>name='MC' in_chans=3 num_classes=1000 block=<class 'model_constructor.model_constructor.ResBlock'> conv_layer=<class 'model_constructor.layers.ConvBnAct'> block_sizes=[64, 128, 256, 512] layers=[2, 2, 2, 2] norm=<class 'torch.nn.modules.batchnorm.BatchNorm2d'> act_fn=ReLU(inplace=True) pool=AvgPool2d(kernel_size=2, stride=2, padding=0) expansion=1 groups=1 dw=False div_groups=None sa=False se=False se_module=None se_reduction=None bn_1st=True zero_bn=True stem_stride_on=0 stem_sizes=[32, 32, 64] stem_pool=MaxPool2d(kernel_size=3, stride=2, padding=1, dilation=1, ceil_mode=False) stem_bn_end=False init_cnn=None make_stem=None make_layer=None make_body=None make_head=None
 
 
 Now we can create constructor from config:
@@ -671,7 +644,7 @@ Now we can create constructor from config:
 
 ```python
 mc = ModelConstructor.from_cfg(cfg)
-mc.print_cfg()
+mc
 ```
 ???+ done "output"  
     <pre>MC constructor
@@ -681,6 +654,7 @@ mc.print_cfg()
       stem sizes: [3, 32, 32, 64], stride on 0
       body sizes [64, 128, 256, 512]
       layers: [2, 2, 2, 2]
+
 
 
 ## More modification.
@@ -725,7 +699,13 @@ mc.act_fn = Mish()
 mc
 ```
 ???+ done "output"  
-    <pre>ModelConstructor(name='MxResNet', in_chans=3, num_classes=1000, block=<class 'model_constructor.model_constructor.ResBlock'>, conv_layer=<class 'model_constructor.layers.ConvBnAct'>, block_sizes=[64, 128, 256, 512], layers=[2, 2, 2, 2], norm=<class 'torch.nn.modules.batchnorm.BatchNorm2d'>, act_fn=Mish(), pool=AvgPool2d(kernel_size=2, stride=2, padding=0), expansion=1, groups=1, dw=False, div_groups=None, sa=False, se=False, bn_1st=True, zero_bn=True, stem_stride_on=0, stem_sizes=[3, 32, 64, 64], stem_pool=MaxPool2d(kernel_size=3, stride=2, padding=1, dilation=1, ceil_mode=False), stem_bn_end=False)
+    <pre>MxResNet constructor
+      in_chans: 3, num_classes: 1000
+      expansion: 1, groups: 1, dw: False, div_groups: None
+      sa: False, se: False
+      stem sizes: [3, 32, 64, 64], stride on 0
+      body sizes [64, 128, 256, 512]
+      layers: [2, 2, 2, 2]
 
 
 
@@ -926,35 +906,16 @@ And after call it we got model.
 
 
 ```python
-print(mc)
+mc
 ```
-
-
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">ModelConstructor</span><span style="font-weight: bold">(</span>
-    <span style="color: #808000; text-decoration-color: #808000">name</span>=<span style="color: #008000; text-decoration-color: #008000">'mxresnet50'</span>,
-    <span style="color: #808000; text-decoration-color: #808000">in_chans</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3</span>,
-    <span style="color: #808000; text-decoration-color: #808000">num_classes</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1000</span>,
-    <span style="color: #808000; text-decoration-color: #808000">block</span>=<span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">class</span><span style="color: #000000; text-decoration-color: #000000"> </span><span style="color: #008000; text-decoration-color: #008000">'model_constructor.model_constructor.ResBlock'</span><span style="font-weight: bold">&gt;</span>,
-    <span style="color: #808000; text-decoration-color: #808000">conv_layer</span>=<span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">class</span><span style="color: #000000; text-decoration-color: #000000"> </span><span style="color: #008000; text-decoration-color: #008000">'model_constructor.layers.ConvBnAct'</span><span style="font-weight: bold">&gt;</span>,
-    <span style="color: #808000; text-decoration-color: #808000">block_sizes</span>=<span style="font-weight: bold">[</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">64</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">128</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">256</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">512</span><span style="font-weight: bold">]</span>,
-    <span style="color: #808000; text-decoration-color: #808000">layers</span>=<span style="font-weight: bold">[</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">4</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">6</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3</span><span style="font-weight: bold">]</span>,
-    <span style="color: #808000; text-decoration-color: #808000">norm</span>=<span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">class</span><span style="color: #000000; text-decoration-color: #000000"> </span><span style="color: #008000; text-decoration-color: #008000">'torch.nn.modules.batchnorm.BatchNorm2d'</span><span style="font-weight: bold">&gt;</span>,
-    <span style="color: #808000; text-decoration-color: #808000">act_fn</span>=<span style="color: #800080; text-decoration-color: #800080; font-weight: bold">Mish</span><span style="font-weight: bold">()</span>,
-    <span style="color: #808000; text-decoration-color: #808000">pool</span>=<span style="color: #800080; text-decoration-color: #800080; font-weight: bold">AvgPool2d</span><span style="font-weight: bold">(</span><span style="color: #808000; text-decoration-color: #808000">kernel_size</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2</span>, <span style="color: #808000; text-decoration-color: #808000">stride</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2</span>, <span style="color: #808000; text-decoration-color: #808000">padding</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span><span style="font-weight: bold">)</span>,
-    <span style="color: #808000; text-decoration-color: #808000">expansion</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">4</span>,
-    <span style="color: #808000; text-decoration-color: #808000">groups</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span>,
-    <span style="color: #808000; text-decoration-color: #808000">dw</span>=<span style="color: #ff0000; text-decoration-color: #ff0000; font-style: italic">False</span>,
-    <span style="color: #808000; text-decoration-color: #808000">div_groups</span>=<span style="color: #800080; text-decoration-color: #800080; font-style: italic">None</span>,
-    <span style="color: #808000; text-decoration-color: #808000">sa</span>=<span style="color: #ff0000; text-decoration-color: #ff0000; font-style: italic">False</span>,
-    <span style="color: #808000; text-decoration-color: #808000">se</span>=<span style="color: #ff0000; text-decoration-color: #ff0000; font-style: italic">False</span>,
-    <span style="color: #808000; text-decoration-color: #808000">bn_1st</span>=<span style="color: #00ff00; text-decoration-color: #00ff00; font-style: italic">True</span>,
-    <span style="color: #808000; text-decoration-color: #808000">zero_bn</span>=<span style="color: #00ff00; text-decoration-color: #00ff00; font-style: italic">True</span>,
-    <span style="color: #808000; text-decoration-color: #808000">stem_stride_on</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span>,
-    <span style="color: #808000; text-decoration-color: #808000">stem_sizes</span>=<span style="font-weight: bold">[</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">32</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">64</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">64</span><span style="font-weight: bold">]</span>,
-    <span style="color: #808000; text-decoration-color: #808000">stem_pool</span>=<span style="color: #800080; text-decoration-color: #800080; font-weight: bold">MaxPool2d</span><span style="font-weight: bold">(</span><span style="color: #808000; text-decoration-color: #808000">kernel_size</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3</span>, <span style="color: #808000; text-decoration-color: #808000">stride</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2</span>, <span style="color: #808000; text-decoration-color: #808000">padding</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span>, <span style="color: #808000; text-decoration-color: #808000">dilation</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span>, <span style="color: #808000; text-decoration-color: #808000">ceil_mode</span>=<span style="color: #ff0000; text-decoration-color: #ff0000; font-style: italic">False</span><span style="font-weight: bold">)</span>,
-    <span style="color: #808000; text-decoration-color: #808000">stem_bn_end</span>=<span style="color: #ff0000; text-decoration-color: #ff0000; font-style: italic">False</span>
-<span style="font-weight: bold">)</span>
-</pre>
+???+ done "output"  
+    <pre>mxresnet50 constructor
+      in_chans: 3, num_classes: 1000
+      expansion: 4, groups: 1, dw: False, div_groups: None
+      sa: False, se: False
+      stem sizes: [3, 32, 64, 64], stride on 0
+      body sizes [64, 128, 256, 512]
+      layers: [3, 4, 6, 3]
 
 
 
@@ -1019,7 +980,7 @@ Or create with config:
 
 ```python
 mc = ModelConstructor.from_cfg(
-    CfgMC(name="MxResNet", act_fn=Mish(), layers=[3,4,6,3], expansion=4, stem_sizes=[32,64,64])
+    ModelCfg(name="MxResNet", act_fn=Mish(), layers=[3,4,6,3], expansion=4, stem_sizes=[32,64,64])
 )
 model = mc()
 ```
@@ -1044,16 +1005,36 @@ That all. Now we have YaResNet constructor
 ```python
 
 mc.name = 'YaResNet'
-mc.print_cfg()
+mc.pprint()
 ```
 ??? done "output"  
-    <pre>YaResNet constructor
-      in_chans: 3, num_classes: 1000
-      expansion: 4, groups: 1, dw: False, div_groups: None
-      sa: False, se: False
-      stem sizes: [3, 32, 64, 64], stride on 0
-      body sizes [64, 128, 256, 512]
-      layers: [3, 4, 6, 3]
+    <pre>name: YaResNet
+    in_chans: 3
+    num_classes: 1000
+    block: <class 'model_constructor.yaresnet.YaResBlock'>
+    conv_layer: <class 'model_constructor.layers.ConvBnAct'>
+    block_sizes: [64, 128, 256, 512]
+    layers: [3, 4, 6, 3]
+    norm: <class 'torch.nn.modules.batchnorm.BatchNorm2d'>
+    act_fn: Mish()
+    pool: AvgPool2d(kernel_size=2, stride=2, padding=0)
+    expansion: 4
+    groups: 1
+    dw: False
+    sa: False
+    se: False
+    bn_1st: True
+    zero_bn: True
+    stem_stride_on: 0
+    stem_sizes: [3, 32, 64, 64]
+    stem_pool: MaxPool2d(kernel_size=3, stride=2, padding=1, dilation=1, ceil_mode=False)
+    stem_bn_end: False
+    init_cnn: <function init_cnn at 0x7f064c736440>
+    make_stem: <function make_stem at 0x7f064c7cd630>
+    make_layer: <function make_layer at 0x7f064c7cd6c0>
+    make_body: <function make_body at 0x7f064c7cd750>
+    make_head: <function make_head at 0x7f064c7cd7e0>
+    
 
 
 Let see what we have.

@@ -6,6 +6,11 @@
 
 
 ```python
+from model_constructor.yaresnet import YaResBlock
+```
+
+
+```python
 
 bl = YaResBlock(1,64,64)
 bl
@@ -198,9 +203,9 @@ bl
         (se): SEModule(
           (squeeze): AdaptiveAvgPool2d(output_size=1)
           (excitation): Sequential(
-            (fc_reduce): Linear(in_features=512, out_features=32, bias=True)
+            (reduce): Linear(in_features=512, out_features=32, bias=True)
             (se_act): ReLU(inplace=True)
-            (fc_expand): Linear(in_features=32, out_features=512, bias=True)
+            (expand): Linear(in_features=32, out_features=512, bias=True)
             (se_gate): Sigmoid()
           )
         )
@@ -254,8 +259,14 @@ bl
 
 ```python
 
-bl = YaResBlock(4, 64, 128, stride=2, pool=pool, act_fn=nn.LeakyReLU(), dw=True,
-                se=SEModule, sa=SimpleSelfAttention)
+bl = YaResBlock(
+    4, 64, 128,
+    stride=2,
+    pool=pool,
+    act_fn=nn.LeakyReLU(),
+    dw=True,
+    se=SEModule,
+    sa=SimpleSelfAttention)
 bl
 ```
 ??? done "output"  
@@ -279,9 +290,9 @@ bl
         (se): SEModule(
           (squeeze): AdaptiveAvgPool2d(output_size=1)
           (excitation): Sequential(
-            (fc_reduce): Linear(in_features=512, out_features=32, bias=True)
+            (reduce): Linear(in_features=512, out_features=32, bias=True)
             (se_act): ReLU(inplace=True)
-            (fc_expand): Linear(in_features=32, out_features=512, bias=True)
+            (expand): Linear(in_features=32, out_features=512, bias=True)
             (se_gate): Sigmoid()
           )
         )
@@ -330,7 +341,7 @@ yaresnet
 yaresnet.block_sizes, yaresnet.layers
 ```
 ???+ done "output"  
-    <pre>([64, 64, 128, 256, 512], [2, 2, 2, 2])
+    <pre>([64, 128, 256, 512], [2, 2, 2, 2])
 
 
 
@@ -706,6 +717,45 @@ yaresnet.se = SEModule
 
 yaresnet.body.l_0.bl_0
 ```
+
+# YaResnet34, YaResnet50
+
+
+```python
+from model_constructor.yaresnet import YaResNet34, YaResNet50
+```
+
+
+```python
+yaresnet34 = YaResNet34()
+yaresnet34
+```
+???+ done "output"  
+    <pre>YaResnet34 constructor
+      in_chans: 3, num_classes: 1000
+      expansion: 1, groups: 1, dw: False, div_groups: None
+      sa: False, se: False
+      stem sizes: [3, 32, 32, 64], stride on 0
+      body sizes [64, 128, 256, 512]
+      layers: [3, 4, 6, 3]
+
+
+
+
+```python
+yaresnet50 = YaResNet50()
+yaresnet50
+```
+???+ done "output"  
+    <pre>YaResnet50 constructor
+      in_chans: 3, num_classes: 1000
+      expansion: 4, groups: 1, dw: False, div_groups: None
+      sa: False, se: False
+      stem sizes: [3, 32, 32, 64], stride on 0
+      body sizes [64, 128, 256, 512]
+      layers: [3, 4, 6, 3]
+
+
 
 model_constructor
 by ayasyrev
