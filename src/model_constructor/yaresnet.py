@@ -2,20 +2,18 @@
 # Yet another ResNet.
 
 from collections import OrderedDict
-from functools import partial
 from typing import Union
 
 import torch.nn as nn
 from torch.nn import Mish
 
 from .layers import ConvBnAct
-from .net import Net
+from .model_constructor import CfgMC, ModelConstructor
 
 __all__ = [
     'YaResBlock',
-    # 'yaresnet_parameters',
-    # 'yaresnet34',
-    # 'yaresnet50',
+    'yaresnet34',
+    'yaresnet50',
 ]
 
 
@@ -128,6 +126,21 @@ class YaResBlock(nn.Module):
         return self.merge(self.convs(x) + identity)
 
 
-# yaresnet_parameters = {'block': YaResBlock, 'stem_sizes': [3, 32, 64, 64], 'act_fn': Mish(), 'stem_stride_on': 1}
-# yaresnet34 = partial(Net, name='YaResnet34', expansion=1, layers=[3, 4, 6, 3], **yaresnet_parameters)
-# yaresnet50 = partial(Net, name='YaResnet50', expansion=4, layers=[3, 4, 6, 3], **yaresnet_parameters)
+yaresnet34 = ModelConstructor.from_cfg(
+    CfgMC(
+        name='YaResnet34',
+        block=YaResBlock,
+        expansion=1,
+        layers=[3, 4, 6, 3],
+        act_fn=Mish(),
+    )
+)
+yaresnet50 = ModelConstructor.from_cfg(
+    CfgMC(
+        name='YaResnet50',
+        block=YaResBlock,
+        act_fn=Mish(),
+        expansion=4,
+        layers=[3, 4, 6, 3],
+    )
+)
