@@ -31,7 +31,7 @@ convmixer_1024_20 = ConvMixer(dim=1024, depth=20)
 
 convmixer_1024_20
 ```
-??? done "output"  
+<details> <summary>output</summary>  
     <pre>ConvMixer(
       (0): ConvLayer(
         (conv): Conv2d(3, 1024, kernel_size=(7, 7), stride=(7, 7))
@@ -321,7 +321,8 @@ convmixer_1024_20
       (21): AdaptiveAvgPool2d(output_size=(1, 1))
       (22): Flatten(start_dim=1, end_dim=-1)
       (23): Linear(in_features=1024, out_features=1000, bias=True)
-    )
+    )<pre>
+</details>
 
 
 
@@ -339,12 +340,13 @@ convmixer_1024_20 = ConvMixer(dim=1024, depth=20, act_fn=Mish())
 
 convmixer_1024_20[0]
 ```
-??? done "output"  
+<details> <summary>output</summary>  
     <pre>ConvLayer(
       (conv): Conv2d(3, 1024, kernel_size=(7, 7), stride=(7, 7))
       (act_fn): Mish()
       (bn): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-    )
+    )<pre>
+</details>
 
 
 
@@ -353,7 +355,7 @@ convmixer_1024_20[0]
 
 convmixer_1024_20[1]
 ```
-??? done "output"  
+<details> <summary>output</summary>  
     <pre>Sequential(
       (0): Residual(
         (fn): ConvLayer(
@@ -367,7 +369,8 @@ convmixer_1024_20[1]
         (act_fn): Mish()
         (bn): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
       )
-    )
+    )<pre>
+</details>
 
 
 
@@ -385,12 +388,13 @@ convmixer_1024_20 = ConvMixer(dim=1024, depth=20, act_fn=Mish(), pre_act=True)
 
 convmixer_1024_20[0]
 ```
-??? done "output"  
+<details> <summary>output</summary>  
     <pre>ConvLayer(
       (conv): Conv2d(3, 1024, kernel_size=(7, 7), stride=(7, 7))
       (act_fn): Mish()
       (bn): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-    )
+    )<pre>
+</details>
 
 
 
@@ -399,7 +403,7 @@ convmixer_1024_20[0]
 
 convmixer_1024_20[1]
 ```
-??? done "output"  
+<details> <summary>output</summary>  
     <pre>Sequential(
       (0): Residual(
         (fn): ConvLayer(
@@ -413,7 +417,8 @@ convmixer_1024_20[1]
         (conv): Conv2d(1024, 1024, kernel_size=(1, 1), stride=(1, 1))
         (bn): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
       )
-    )
+    )<pre>
+</details>
 
 
 
@@ -429,12 +434,13 @@ convmixer_1024_20 = ConvMixer(dim=1024, depth=20, act_fn=Mish(), bn_1st=True)
 
 convmixer_1024_20[0]
 ```
-??? done "output"  
+<details> <summary>output</summary>  
     <pre>ConvLayer(
       (conv): Conv2d(3, 1024, kernel_size=(7, 7), stride=(7, 7))
       (bn): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
       (act_fn): Mish()
-    )
+    )<pre>
+</details>
 
 
 
@@ -443,7 +449,7 @@ convmixer_1024_20[0]
 
 convmixer_1024_20[1]
 ```
-??? done "output"  
+<details> <summary>output</summary>  
     <pre>Sequential(
       (0): Residual(
         (fn): ConvLayer(
@@ -457,6 +463,7 @@ convmixer_1024_20[1]
         (bn): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
         (act_fn): Mish()
       )
-    )
+    )<pre>
+</details>
 
 

@@ -9,7 +9,7 @@
 block = ResBlock(1, 64, 64)
 block
 ```
-???+ done "output"  
+<details open> <summary>output</summary>  
     <pre>ResBlock(
       (convs): Sequential(
         (conv_0): ConvBnAct(
@@ -23,7 +23,8 @@ block
         )
       )
       (act_fn): ReLU(inplace=True)
-    )
+    )<pre>
+</details>
 
 
 
@@ -32,7 +33,7 @@ block
 block = ResBlock(4, 64, 64, dw=True)
 block
 ```
-???+ done "output"  
+<details open> <summary>output</summary>  
     <pre>ResBlock(
       (convs): Sequential(
         (conv_0): ConvBnAct(
@@ -51,7 +52,8 @@ block
         )
       )
       (act_fn): ReLU(inplace=True)
-    )
+    )<pre>
+</details>
 
 
 
@@ -60,7 +62,7 @@ block
 block = ResBlock(4, 64, 64,groups=4)
 block
 ```
-???+ done "output"  
+<details open> <summary>output</summary>  
     <pre>ResBlock(
       (convs): Sequential(
         (conv_0): ConvBnAct(
@@ -79,7 +81,8 @@ block
         )
       )
       (act_fn): ReLU(inplace=True)
-    )
+    )<pre>
+</details>
 
 
 
@@ -89,7 +92,7 @@ block
 block = ResBlock(2, 64, 64,act_fn=nn.LeakyReLU(), bn_1st=False)
 block
 ```
-??? done "output"  
+<details> <summary>output</summary>  
     <pre>ResBlock(
       (convs): Sequential(
         (conv_0): ConvBnAct(
@@ -108,7 +111,8 @@ block
         )
       )
       (act_fn): LeakyReLU(negative_slope=0.01)
-    )
+    )<pre>
+</details>
 
 
 
@@ -118,7 +122,7 @@ block
 lock = ResBlock(2, 32, 64, dw=True)
 block
 ```
-??? done "output"  
+<details> <summary>output</summary>  
     <pre>ResBlock(
       (convs): Sequential(
         (conv_0): ConvBnAct(
@@ -137,7 +141,8 @@ block
         )
       )
       (act_fn): LeakyReLU(negative_slope=0.01)
-    )
+    )<pre>
+</details>
 
 
 
@@ -152,7 +157,7 @@ pool = nn.AvgPool2d(2, ceil_mode=True)
 block = ResBlock(2, 32, 64, stride=2, dw=True, pool=pool)
 block
 ```
-??? done "output"  
+<details> <summary>output</summary>  
     <pre>ResBlock(
       (convs): Sequential(
         (conv_0): ConvBnAct(
@@ -178,7 +183,8 @@ block
         )
       )
       (act_fn): ReLU(inplace=True)
-    )
+    )<pre>
+</details>
 
 
 
@@ -193,7 +199,7 @@ from model_constructor.layers import SEModule, SimpleSelfAttention
 block = ResBlock(2, 32, 64, stride=2, dw=True, pool=pool, se=SEModule)
 block
 ```
-??? done "output"  
+<details> <summary>output</summary>  
     <pre>ResBlock(
       (convs): Sequential(
         (conv_0): ConvBnAct(
@@ -228,7 +234,8 @@ block
         )
       )
       (act_fn): ReLU(inplace=True)
-    )
+    )<pre>
+</details>
 
 
 
@@ -238,7 +245,7 @@ block
 block = ResBlock(2, 32, 64, stride=2, dw=True, pool=pool, se=SEModule, sa=SimpleSelfAttention)
 block
 ```
-??? done "output"  
+<details> <summary>output</summary>  
     <pre>ResBlock(
       (convs): Sequential(
         (conv_0): ConvBnAct(
@@ -276,7 +283,8 @@ block
         )
       )
       (act_fn): ReLU(inplace=True)
-    )
+    )<pre>
+</details>
 
 
 
@@ -332,7 +340,7 @@ stem_bn_end: <span style="color: #ff0000; text-decoration-color: #ff0000; font-s
 stem = make_stem(cfg)
 stem
 ```
-??? done "output"  
+<details> <summary>output</summary>  
     <pre>Sequential(
       (conv_0): ConvBnAct(
         (conv): Conv2d(32, 32, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
@@ -345,7 +353,8 @@ stem
         (act_fn): ReLU(inplace=True)
       )
       (stem_pool): MaxPool2d(kernel_size=3, stride=2, padding=1, dilation=1, ceil_mode=False)
-    )
+    )<pre>
+</details>
 
 
 
@@ -359,7 +368,7 @@ stem
 layer = make_layer(cfg, layer_num=0)
 layer
 ```
-??? done "output"  
+<details> <summary>output</summary>  
     <pre>Sequential(
       (bl_0): ResBlock(
         (convs): Sequential(
@@ -389,7 +398,8 @@ layer
         )
         (act_fn): ReLU(inplace=True)
       )
-    )
+    )<pre>
+</details>
 
 
 
@@ -404,7 +414,7 @@ cfg.make_layer = make_layer
 body = make_body(cfg)
 body
 ```
-??? done "output"  
+<details> <summary>output</summary>  
     <pre>Sequential(
       (l_0): Sequential(
         (bl_0): ResBlock(
@@ -547,7 +557,8 @@ body
           (act_fn): ReLU(inplace=True)
         )
       )
-    )
+    )<pre>
+</details>
 
 
 
@@ -559,12 +570,13 @@ body
 head = make_head(cfg)
 head
 ```
-??? done "output"  
+<details> <summary>output</summary>  
     <pre>Sequential(
       (pool): AdaptiveAvgPool2d(output_size=1)
       (flat): Flatten(start_dim=1, end_dim=-1)
       (fc): Linear(in_features=512, out_features=1000, bias=True)
-    )
+    )<pre>
+</details>
 
 
 
@@ -575,14 +587,15 @@ head
 mc  = ModelConstructor()
 mc
 ```
-???+ done "output"  
+<details open> <summary>output</summary>  
     <pre>MC constructor
       in_chans: 3, num_classes: 1000
       expansion: 1, groups: 1, dw: False, div_groups: None
       sa: False, se: False
       stem sizes: [3, 32, 32, 64], stride on 0
       body sizes [64, 128, 256, 512]
-      layers: [2, 2, 2, 2]
+      layers: [2, 2, 2, 2]<pre>
+</details>
 
 
 
@@ -591,7 +604,7 @@ mc
 
 mc.stem
 ```
-??? done "output"  
+<details> <summary>output</summary>  
     <pre>Sequential(
       (conv_0): ConvBnAct(
         (conv): Conv2d(3, 32, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
@@ -609,7 +622,8 @@ mc.stem
         (act_fn): ReLU(inplace=True)
       )
       (stem_pool): MaxPool2d(kernel_size=3, stride=2, padding=1, dilation=1, ceil_mode=False)
-    )
+    )<pre>
+</details>
 
 
 
@@ -619,7 +633,7 @@ mc.stem
 mc.stem_stride_on = 1
 mc.stem
 ```
-??? done "output"  
+<details> <summary>output</summary>  
     <pre>Sequential(
       (conv_0): ConvBnAct(
         (conv): Conv2d(3, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
@@ -637,7 +651,8 @@ mc.stem
         (act_fn): ReLU(inplace=True)
       )
       (stem_pool): MaxPool2d(kernel_size=3, stride=2, padding=1, dilation=1, ceil_mode=False)
-    )
+    )<pre>
+</details>
 
 
 
@@ -662,7 +677,7 @@ mc.se = SEModule
 
 mc.body.l_0
 ```
-??? done "output"  
+<details> <summary>output</summary>  
     <pre>Sequential(
       (bl_0): ResBlock(
         (convs): Sequential(
@@ -713,7 +728,8 @@ mc.body.l_0
         )
         (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
       )
-    )
+    )<pre>
+</details>
 
 
 

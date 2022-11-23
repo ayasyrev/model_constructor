@@ -15,7 +15,7 @@ from model_constructor.yaresnet import YaResBlock
 bl = YaResBlock(1,64,64)
 bl
 ```
-??? done "output"  
+<details> <summary>output</summary>  
     <pre>YaResBlock(
       (convs): Sequential(
         (conv_0): ConvBnAct(
@@ -29,7 +29,8 @@ bl
         )
       )
       (merge): ReLU(inplace=True)
-    )
+    )<pre>
+</details>
 
 
 
@@ -44,7 +45,7 @@ pool = nn.AvgPool2d(2, ceil_mode=True)
 bl = YaResBlock(4, 64, 128, stride=2, pool=pool, act_fn=nn.LeakyReLU(), bn_1st=False)
 bl
 ```
-??? done "output"  
+<details> <summary>output</summary>  
     <pre>YaResBlock(
       (reduce): AvgPool2d(kernel_size=2, stride=2, padding=0)
       (convs): Sequential(
@@ -68,7 +69,8 @@ bl
         (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
       )
       (merge): LeakyReLU(negative_slope=0.01)
-    )
+    )<pre>
+</details>
 
 
 
@@ -78,7 +80,7 @@ bl
 bl = YaResBlock(4, 64, 128, stride=2, pool=pool, act_fn=nn.LeakyReLU(), bn_1st=False, groups=4)
 bl
 ```
-??? done "output"  
+<details> <summary>output</summary>  
     <pre>YaResBlock(
       (reduce): AvgPool2d(kernel_size=2, stride=2, padding=0)
       (convs): Sequential(
@@ -102,7 +104,8 @@ bl
         (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
       )
       (merge): LeakyReLU(negative_slope=0.01)
-    )
+    )<pre>
+</details>
 
 
 
@@ -112,7 +115,7 @@ bl
 bl = YaResBlock(4, 64, 128, stride=2, pool=pool, act_fn=nn.LeakyReLU(), bn_1st=False, div_groups=4)
 bl
 ```
-??? done "output"  
+<details> <summary>output</summary>  
     <pre>YaResBlock(
       (reduce): AvgPool2d(kernel_size=2, stride=2, padding=0)
       (convs): Sequential(
@@ -136,7 +139,8 @@ bl
         (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
       )
       (merge): LeakyReLU(negative_slope=0.01)
-    )
+    )<pre>
+</details>
 
 
 
@@ -146,7 +150,7 @@ bl
 bl = YaResBlock(1, 64, 128, stride=2, pool=pool, act_fn=nn.LeakyReLU(), bn_1st=False, dw=True)
 bl
 ```
-??? done "output"  
+<details> <summary>output</summary>  
     <pre>YaResBlock(
       (reduce): AvgPool2d(kernel_size=2, stride=2, padding=0)
       (convs): Sequential(
@@ -165,7 +169,8 @@ bl
         (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
       )
       (merge): LeakyReLU(negative_slope=0.01)
-    )
+    )<pre>
+</details>
 
 
 
@@ -182,7 +187,7 @@ from model_constructor.layers import SimpleSelfAttention, SEModule
 bl = YaResBlock(4, 64, 128, stride=2, pool=pool, act_fn=nn.LeakyReLU(), dw=True, se=SEModule)
 bl
 ```
-??? done "output"  
+<details> <summary>output</summary>  
     <pre>YaResBlock(
       (reduce): AvgPool2d(kernel_size=2, stride=2, padding=0)
       (convs): Sequential(
@@ -215,7 +220,8 @@ bl
         (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
       )
       (merge): LeakyReLU(negative_slope=0.01)
-    )
+    )<pre>
+</details>
 
 
 
@@ -225,7 +231,7 @@ bl
 bl = YaResBlock(4, 64, 128, stride=2, pool=pool, act_fn=nn.LeakyReLU(), dw=True, sa=SimpleSelfAttention)
 bl
 ```
-??? done "output"  
+<details> <summary>output</summary>  
     <pre>YaResBlock(
       (reduce): AvgPool2d(kernel_size=2, stride=2, padding=0)
       (convs): Sequential(
@@ -252,7 +258,8 @@ bl
         (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
       )
       (merge): LeakyReLU(negative_slope=0.01)
-    )
+    )<pre>
+</details>
 
 
 
@@ -269,7 +276,7 @@ bl = YaResBlock(
     sa=SimpleSelfAttention)
 bl
 ```
-??? done "output"  
+<details> <summary>output</summary>  
     <pre>YaResBlock(
       (reduce): AvgPool2d(kernel_size=2, stride=2, padding=0)
       (convs): Sequential(
@@ -305,7 +312,8 @@ bl
         (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
       )
       (merge): LeakyReLU(negative_slope=0.01)
-    )
+    )<pre>
+</details>
 
 
 
@@ -325,14 +333,15 @@ yaresnet  = ModelConstructor(
 ```python
 yaresnet
 ```
-???+ done "output"  
+<details open> <summary>output</summary>  
     <pre>YaResNet constructor
       in_chans: 3, num_classes: 1000
       expansion: 1, groups: 1, dw: False, div_groups: None
       sa: False, se: False
       stem sizes: [3, 32, 64, 64], stride on 0
       body sizes [64, 128, 256, 512]
-      layers: [2, 2, 2, 2]
+      layers: [2, 2, 2, 2]<pre>
+</details>
 
 
 
@@ -340,8 +349,9 @@ yaresnet
 ```python
 yaresnet.block_sizes, yaresnet.layers
 ```
-???+ done "output"  
-    <pre>([64, 128, 256, 512], [2, 2, 2, 2])
+<details open> <summary>output</summary>  
+    <pre>([64, 128, 256, 512], [2, 2, 2, 2])<pre>
+</details>
 
 
 
@@ -350,7 +360,7 @@ yaresnet.block_sizes, yaresnet.layers
 
 yaresnet.stem
 ```
-??? done "output"  
+<details> <summary>output</summary>  
     <pre>Sequential(
       (conv_0): ConvBnAct(
         (conv): Conv2d(3, 32, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
@@ -368,7 +378,8 @@ yaresnet.stem
         (act_fn): ReLU(inplace=True)
       )
       (stem_pool): MaxPool2d(kernel_size=3, stride=2, padding=1, dilation=1, ceil_mode=False)
-    )
+    )<pre>
+</details>
 
 
 
@@ -377,7 +388,7 @@ yaresnet.stem
 
 yaresnet.body
 ```
-??? done "output"  
+<details> <summary>output</summary>  
     <pre>Sequential(
       (l_0): Sequential(
         (bl_0): YaResBlock(
@@ -514,7 +525,8 @@ yaresnet.body
           (merge): ReLU(inplace=True)
         )
       )
-    )
+    )<pre>
+</details>
 
 
 
@@ -523,12 +535,13 @@ yaresnet.body
 
 yaresnet.head
 ```
-??? done "output"  
+<details> <summary>output</summary>  
     <pre>Sequential(
       (pool): AdaptiveAvgPool2d(output_size=1)
       (flat): Flatten(start_dim=1, end_dim=-1)
       (fc): Linear(in_features=512, out_features=1000, bias=True)
-    )
+    )<pre>
+</details>
 
 
 
@@ -540,7 +553,7 @@ Lots of experiments showed that it worth trying Mish activation function.
 yaresnet.act_fn = torch.nn.Mish()
 yaresnet()
 ```
-??? done "output"  
+<details> <summary>output</summary>  
     <pre>Sequential(
       YaResNet
       (stem): Sequential(
@@ -703,7 +716,8 @@ yaresnet()
         (flat): Flatten(start_dim=1, end_dim=-1)
         (fc): Linear(in_features=512, out_features=1000, bias=True)
       )
-    )
+    )<pre>
+</details>
 
 
 
@@ -730,14 +744,15 @@ from model_constructor.yaresnet import YaResNet34, YaResNet50
 yaresnet34 = YaResNet34()
 yaresnet34
 ```
-???+ done "output"  
+<details open> <summary>output</summary>  
     <pre>YaResnet34 constructor
       in_chans: 3, num_classes: 1000
       expansion: 1, groups: 1, dw: False, div_groups: None
       sa: False, se: False
       stem sizes: [3, 32, 32, 64], stride on 0
       body sizes [64, 128, 256, 512]
-      layers: [3, 4, 6, 3]
+      layers: [3, 4, 6, 3]<pre>
+</details>
 
 
 
@@ -746,14 +761,15 @@ yaresnet34
 yaresnet50 = YaResNet50()
 yaresnet50
 ```
-???+ done "output"  
+<details open> <summary>output</summary>  
     <pre>YaResnet50 constructor
       in_chans: 3, num_classes: 1000
       expansion: 4, groups: 1, dw: False, div_groups: None
       sa: False, se: False
       stem sizes: [3, 32, 32, 64], stride on 0
       body sizes [64, 128, 256, 512]
-      layers: [3, 4, 6, 3]
+      layers: [3, 4, 6, 3]<pre>
+</details>
 
 
 

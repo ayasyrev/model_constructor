@@ -19,14 +19,15 @@ mxresnet  = ModelConstructor(
 ```python
 mxresnet
 ```
-???+ done "output"  
+<details open> <summary>output</summary>  
     <pre>MXResNet constructor
       in_chans: 3, num_classes: 1000
       expansion: 1, groups: 1, dw: False, div_groups: None
       sa: False, se: False
       stem sizes: [3, 32, 64, 64], stride on 0
       body sizes [64, 128, 256, 512]
-      layers: [2, 2, 2, 2]
+      layers: [2, 2, 2, 2]<pre>
+</details>
 
 
 
@@ -34,8 +35,9 @@ mxresnet
 ```python
 mxresnet.block_sizes, mxresnet.layers
 ```
-???+ done "output"  
-    <pre>([64, 128, 256, 512], [2, 2, 2, 2])
+<details open> <summary>output</summary>  
+    <pre>([64, 128, 256, 512], [2, 2, 2, 2])<pre>
+</details>
 
 
 
@@ -44,7 +46,7 @@ mxresnet.block_sizes, mxresnet.layers
 
 mxresnet.stem
 ```
-??? done "output"  
+<details> <summary>output</summary>  
     <pre>Sequential(
       (conv_0): ConvBnAct(
         (conv): Conv2d(3, 32, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
@@ -62,7 +64,8 @@ mxresnet.stem
         (act_fn): Mish()
       )
       (stem_pool): MaxPool2d(kernel_size=3, stride=2, padding=1, dilation=1, ceil_mode=False)
-    )
+    )<pre>
+</details>
 
 
 
@@ -71,7 +74,7 @@ mxresnet.stem
 
 mxresnet.body
 ```
-??? done "output"  
+<details> <summary>output</summary>  
     <pre>Sequential(
       (l_0): Sequential(
         (bl_0): ResBlock(
@@ -214,7 +217,8 @@ mxresnet.body
           (act_fn): Mish()
         )
       )
-    )
+    )<pre>
+</details>
 
 
 
@@ -223,7 +227,7 @@ mxresnet.body
 
 mxresnet.body
 ```
-??? done "output"  
+<details> <summary>output</summary>  
     <pre>Sequential(
       (l_0): Sequential(
         (bl_0): ResBlock(
@@ -366,7 +370,8 @@ mxresnet.body
           (act_fn): Mish()
         )
       )
-    )
+    )<pre>
+</details>
 
 
 
@@ -375,12 +380,13 @@ mxresnet.body
 
 mxresnet.head
 ```
-??? done "output"  
+<details> <summary>output</summary>  
     <pre>Sequential(
       (pool): AdaptiveAvgPool2d(output_size=1)
       (flat): Flatten(start_dim=1, end_dim=-1)
       (fc): Linear(in_features=512, out_features=1000, bias=True)
-    )
+    )<pre>
+</details>
 
 
 
@@ -414,14 +420,15 @@ Now we can create constructor from class adn change model parameters during init
 mc = MXResnet34(num_classes=10)
 mc
 ```
-???+ done "output"  
+<details open> <summary>output</summary>  
     <pre>MXResnet34 constructor
       in_chans: 3, num_classes: 10
       expansion: 1, groups: 1, dw: False, div_groups: None
       sa: False, se: False
       stem sizes: [3, 32, 64, 64], stride on 0
       body sizes [64, 128, 256, 512]
-      layers: [3, 4, 6, 3]
+      layers: [3, 4, 6, 3]<pre>
+</details>
 
 
 
@@ -430,14 +437,15 @@ mc
 mc = MXResnet50()
 mc
 ```
-???+ done "output"  
+<details open> <summary>output</summary>  
     <pre>MXResnet50 constructor
       in_chans: 3, num_classes: 1000
       expansion: 4, groups: 1, dw: False, div_groups: None
       sa: False, se: False
       stem sizes: [3, 32, 64, 64], stride on 0
       body sizes [64, 128, 256, 512]
-      layers: [3, 4, 6, 3]
+      layers: [3, 4, 6, 3]<pre>
+</details>
 
 
 
