@@ -154,6 +154,7 @@ class ModelCfg(BaseModel):
 
     class Config:
         arbitrary_types_allowed = True
+        extra = "forbid"
 
     def extra_repr(self) -> str:
         res = ""
