@@ -13,11 +13,12 @@ from model_constructor.twist import ConvTwist
 ```python
 ConvTwist(64,64)
 ```
-???+ done "output"  
+<details open> <summary>output</summary>  
     <pre>ConvTwist(
       twist: False, permute: True, same: True, groups: 8
       (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=8, bias=False)
-    )
+    )<pre>
+</details>
 
 
 
@@ -25,8 +26,9 @@ ConvTwist(64,64)
 ```python
 ConvTwist.twist, ConvTwist.permute
 ```
-???+ done "output"  
-    <pre>(False, True)
+<details open> <summary>output</summary>  
+    <pre>(False, True)<pre>
+</details>
 
 
 
@@ -34,8 +36,9 @@ ConvTwist.twist, ConvTwist.permute
 ```python
 ConvTwist.use_groups, ConvTwist.groups_ch
 ```
-???+ done "output"  
-    <pre>(True, 8)
+<details open> <summary>output</summary>  
+    <pre>(True, 8)<pre>
+</details>
 
 
 
@@ -43,11 +46,12 @@ ConvTwist.use_groups, ConvTwist.groups_ch
 ```python
 ConvTwist(64,64)
 ```
-???+ done "output"  
+<details open> <summary>output</summary>  
     <pre>ConvTwist(
       twist: False, permute: True, same: True, groups: 8
       (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=8, bias=False)
-    )
+    )<pre>
+</details>
 
 
 
@@ -57,11 +61,12 @@ ConvTwist.twist = True
 ConvTwist.permute = False
 ConvTwist(64,64)
 ```
-???+ done "output"  
+<details open> <summary>output</summary>  
     <pre>ConvTwist(
       twist: True, permute: False, same: True, groups: 8
       (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=8, bias=False)
-    )
+    )<pre>
+</details>
 
 
 
@@ -77,7 +82,7 @@ class ConvLayerTwist(ConvLayer):  # replace Conv2d by Twist
 ```python
 ConvLayerTwist(64,64, stride=1)
 ```
-???+ done "output"  
+<details open> <summary>output</summary>  
     <pre>ConvLayerTwist(
       (conv): ConvTwist(
         twist: True, permute: False, same: True, groups: 8
@@ -85,7 +90,8 @@ ConvLayerTwist(64,64, stride=1)
       )
       (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
       (act_fn): ReLU(inplace=True)
-    )
+    )<pre>
+</details>
 
 
 
@@ -93,8 +99,9 @@ ConvLayerTwist(64,64, stride=1)
 ```python
 ConvLayer.Conv2d
 ```
-???+ done "output"  
-    <pre>torch.nn.modules.conv.Conv2d
+<details open> <summary>output</summary>  
+    <pre>torch.nn.modules.conv.Conv2d<pre>
+</details>
 
 
 
@@ -102,8 +109,9 @@ ConvLayer.Conv2d
 ```python
 ConvLayerTwist.Conv2d
 ```
-???+ done "output"  
-    <pre>model_constructor.twist.ConvTwist
+<details open> <summary>output</summary>  
+    <pre>model_constructor.twist.ConvTwist<pre>
+</details>
 
 
 
@@ -112,7 +120,7 @@ ConvLayerTwist.Conv2d
 conv_layer = ConvLayerTwist(32, 64)
 conv_layer
 ```
-???+ done "output"  
+<details open> <summary>output</summary>  
     <pre>ConvLayerTwist(
       (conv): ConvTwist(
         twist: True, permute: False, same: False, groups: 4
@@ -120,7 +128,8 @@ conv_layer
       )
       (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
       (act_fn): ReLU(inplace=True)
-    )
+    )<pre>
+</details>
 
 
 
@@ -130,7 +139,7 @@ ConvTwist.twist = False
 conv_layer = ConvLayerTwist(32, 64)
 conv_layer
 ```
-???+ done "output"  
+<details open> <summary>output</summary>  
     <pre>ConvLayerTwist(
       (conv): ConvTwist(
         twist: False, permute: False, same: False, groups: 4
@@ -138,7 +147,8 @@ conv_layer
       )
       (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
       (act_fn): ReLU(inplace=True)
-    )
+    )<pre>
+</details>
 
 
 
@@ -147,14 +157,15 @@ conv_layer
 conv_layer = ConvLayerTwist(32, 64, act=False)
 conv_layer
 ```
-???+ done "output"  
+<details open> <summary>output</summary>  
     <pre>ConvLayerTwist(
       (conv): ConvTwist(
         twist: False, permute: False, same: False, groups: 4
         (conv): Conv2d(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=4, bias=False)
       )
       (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-    )
+    )<pre>
+</details>
 
 
 
@@ -163,14 +174,15 @@ conv_layer
 conv_layer = ConvLayerTwist(32, 64, bn_layer=False)
 conv_layer
 ```
-???+ done "output"  
+<details open> <summary>output</summary>  
     <pre>ConvLayerTwist(
       (conv): ConvTwist(
         twist: False, permute: False, same: False, groups: 4
         (conv): Conv2d(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=4, bias=False)
       )
       (act_fn): ReLU(inplace=True)
-    )
+    )<pre>
+</details>
 
 
 
@@ -179,7 +191,7 @@ conv_layer
 conv_layer = ConvLayerTwist(32, 64, bn_1st=True)
 conv_layer
 ```
-???+ done "output"  
+<details open> <summary>output</summary>  
     <pre>ConvLayerTwist(
       (conv): ConvTwist(
         twist: False, permute: False, same: False, groups: 4
@@ -187,7 +199,8 @@ conv_layer
       )
       (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
       (act_fn): ReLU(inplace=True)
-    )
+    )<pre>
+</details>
 
 
 
@@ -196,7 +209,7 @@ conv_layer
 conv_layer = ConvLayerTwist(32, 64, bn_1st=True, act_fn=nn.LeakyReLU())
 conv_layer
 ```
-???+ done "output"  
+<details open> <summary>output</summary>  
     <pre>ConvLayerTwist(
       (conv): ConvTwist(
         twist: False, permute: False, same: False, groups: 4
@@ -204,7 +217,8 @@ conv_layer
       )
       (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
       (act_fn): LeakyReLU(negative_slope=0.01)
-    )
+    )<pre>
+</details>
 
 
 
@@ -213,7 +227,7 @@ conv_layer
 conv_layer = ConvLayerTwist(32, 64, ks=1)
 conv_layer
 ```
-???+ done "output"  
+<details open> <summary>output</summary>  
     <pre>ConvLayerTwist(
       (conv): ConvTwist(
         twist: False, permute: False, same: False, groups: 4
@@ -221,7 +235,8 @@ conv_layer
       )
       (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
       (act_fn): ReLU(inplace=True)
-    )
+    )<pre>
+</details>
 
 
 
@@ -230,7 +245,7 @@ conv_layer
 conv_layer = ConvLayerTwist(32, 64, ks=1, stride=2)
 conv_layer
 ```
-???+ done "output"  
+<details open> <summary>output</summary>  
     <pre>ConvLayerTwist(
       (conv): ConvTwist(
         twist: False, permute: False, same: False, groups: 4
@@ -238,7 +253,8 @@ conv_layer
       )
       (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
       (act_fn): ReLU(inplace=True)
-    )
+    )<pre>
+</details>
 
 
 
@@ -247,7 +263,7 @@ conv_layer
 conv_layer = ConvLayerTwist(32, 64, stride=2)
 conv_layer
 ```
-???+ done "output"  
+<details open> <summary>output</summary>  
     <pre>ConvLayerTwist(
       (conv): ConvTwist(
         twist: False, permute: False, same: False, groups: 4
@@ -255,7 +271,8 @@ conv_layer
       )
       (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
       (act_fn): ReLU(inplace=True)
-    )
+    )<pre>
+</details>
 
 
 
@@ -265,7 +282,7 @@ ConvTwist.groups_ch = 4
 conv_layer = ConvLayerTwist(32, 64, stride=2)
 conv_layer
 ```
-???+ done "output"  
+<details open> <summary>output</summary>  
     <pre>ConvLayerTwist(
       (conv): ConvTwist(
         twist: False, permute: False, same: False, groups: 8
@@ -273,7 +290,8 @@ conv_layer
       )
       (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
       (act_fn): ReLU(inplace=True)
-    )
+    )<pre>
+</details>
 
 
 
@@ -290,7 +308,7 @@ from model_constructor.twist import NewResBlockTwist
 bl = NewResBlockTwist(4,64,64,sa=True)
 bl
 ```
-??? done "output"  
+<details> <summary>output</summary>  
     <pre>NewResBlockTwist(
       (convs): Sequential(
         (conv_0): ConvLayer(
@@ -315,7 +333,8 @@ bl
         )
       )
       (merge): ReLU(inplace=True)
-    )
+    )<pre>
+</details>
 
 
 
@@ -325,7 +344,7 @@ bl
 bl = NewResBlockTwist(4,64,64,stride=2)
 bl
 ```
-??? done "output"  
+<details> <summary>output</summary>  
     <pre>NewResBlockTwist(
       (reduce): AvgPool2d(kernel_size=2, stride=2, padding=0)
       (convs): Sequential(
@@ -348,7 +367,8 @@ bl
         )
       )
       (merge): ReLU(inplace=True)
-    )
+    )<pre>
+</details>
 
 
 
@@ -358,7 +378,7 @@ bl
 bl = NewResBlockTwist(4,64,128,stride=2)
 bl
 ```
-??? done "output"  
+<details> <summary>output</summary>  
     <pre>NewResBlockTwist(
       (reduce): AvgPool2d(kernel_size=2, stride=2, padding=0)
       (convs): Sequential(
@@ -385,7 +405,8 @@ bl
         (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
       )
       (merge): ReLU(inplace=True)
-    )
+    )<pre>
+</details>
 
 
 
@@ -395,7 +416,7 @@ bl
 bl = NewResBlockTwist(4,64,128,stride=2,act_fn=nn.LeakyReLU(), bn_1st=False)
 bl
 ```
-??? done "output"  
+<details> <summary>output</summary>  
     <pre>NewResBlockTwist(
       (reduce): AvgPool2d(kernel_size=2, stride=2, padding=0)
       (convs): Sequential(
@@ -422,7 +443,8 @@ bl
         (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
       )
       (merge): LeakyReLU(negative_slope=0.01)
-    )
+    )<pre>
+</details>
 
 
 
@@ -439,7 +461,7 @@ from model_constructor.twist import ResBlockTwist
 bl = ResBlockTwist(4,64,64,sa=True)
 bl
 ```
-??? done "output"  
+<details> <summary>output</summary>  
     <pre>ResBlockTwist(
       (convs): Sequential(
         (conv_0): ConvLayer(
@@ -464,7 +486,8 @@ bl
         )
       )
       (act_fn): ReLU(inplace=True)
-    )
+    )<pre>
+</details>
 
 
 
@@ -474,7 +497,7 @@ bl
 bl = ResBlockTwist(4,64,64,stride=2)
 bl
 ```
-??? done "output"  
+<details> <summary>output</summary>  
     <pre>ResBlockTwist(
       (convs): Sequential(
         (conv_0): ConvLayer(
@@ -497,7 +520,8 @@ bl
       )
       (pool): AvgPool2d(kernel_size=2, stride=2, padding=0)
       (act_fn): ReLU(inplace=True)
-    )
+    )<pre>
+</details>
 
 
 
@@ -507,7 +531,7 @@ bl
 bl = ResBlockTwist(4,64,128,stride=2)
 bl
 ```
-??? done "output"  
+<details> <summary>output</summary>  
     <pre>ResBlockTwist(
       (convs): Sequential(
         (conv_0): ConvLayer(
@@ -534,7 +558,8 @@ bl
         (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
       )
       (act_fn): ReLU(inplace=True)
-    )
+    )<pre>
+</details>
 
 
 
@@ -555,7 +580,7 @@ model.block = NewResBlockTwist
 
 model.body
 ```
-??? done "output"  
+<details> <summary>output</summary>  
     <pre>Sequential(
       (l_0): Sequential(
         (bl_0): NewResBlockTwist(
@@ -936,7 +961,8 @@ model.body
           (merge): ReLU(inplace=True)
         )
       )
-    )
+    )<pre>
+</details>
 
 
 
@@ -955,7 +981,7 @@ m = model()
 
 m
 ```
-??? done "output"  
+<details> <summary>output</summary>  
     <pre>Sequential(
       model Net
       (stem): Sequential(
@@ -1362,7 +1388,8 @@ m
         (flat): Flatten()
         (fc): Linear(in_features=2048, out_features=1000, bias=True)
       )
-    )
+    )<pre>
+</details>
 
 
 
@@ -1371,7 +1398,7 @@ m
 
 m.stem
 ```
-??? done "output"  
+<details> <summary>output</summary>  
     <pre>Sequential(
       (conv_0): ConvLayer(
         (conv): Conv2d(3, 32, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
@@ -1389,7 +1416,8 @@ m.stem
         (act_fn): ReLU(inplace=True)
       )
       (stem_pool): MaxPool2d(kernel_size=3, stride=2, padding=1, dilation=1, ceil_mode=False)
-    )
+    )<pre>
+</details>
 
 
 
@@ -1398,12 +1426,13 @@ m.stem
 
 m.head
 ```
-??? done "output"  
+<details> <summary>output</summary>  
     <pre>Sequential(
       (pool): AdaptiveAvgPool2d(output_size=1)
       (flat): Flatten()
       (fc): Linear(in_features=2048, out_features=1000, bias=True)
-    )
+    )<pre>
+</details>
 
 
 
@@ -1412,7 +1441,7 @@ m.head
 
 m.body.l_0
 ```
-??? done "output"  
+<details> <summary>output</summary>  
     <pre>Sequential(
       (bl_0): ResBlockTwist(
         (convs): Sequential(
@@ -1484,7 +1513,8 @@ m.body.l_0
         )
         (act_fn): ReLU(inplace=True)
       )
-    )
+    )<pre>
+</details>
 
 
 
@@ -1493,7 +1523,7 @@ m.body.l_0
 
 m.body.l_1
 ```
-??? done "output"  
+<details> <summary>output</summary>  
     <pre>Sequential(
       (bl_0): ResBlockTwist(
         (convs): Sequential(
@@ -1588,7 +1618,8 @@ m.body.l_1
         )
         (act_fn): ReLU(inplace=True)
       )
-    )
+    )<pre>
+</details>
 
 
 
@@ -1597,7 +1628,7 @@ m.body.l_1
 
 m.body.l_2
 ```
-??? done "output"  
+<details> <summary>output</summary>  
     <pre>Sequential(
       (bl_0): ResBlockTwist(
         (convs): Sequential(
@@ -1736,7 +1767,8 @@ m.body.l_2
         )
         (act_fn): ReLU(inplace=True)
       )
-    )
+    )<pre>
+</details>
 
 
 
@@ -1745,7 +1777,7 @@ m.body.l_2
 
 m.body.l_3
 ```
-??? done "output"  
+<details> <summary>output</summary>  
     <pre>Sequential(
       (bl_0): ResBlockTwist(
         (convs): Sequential(
@@ -1818,7 +1850,8 @@ m.body.l_3
         )
         (act_fn): ReLU(inplace=True)
       )
-    )
+    )<pre>
+</details>
 
 
 
