@@ -1,5 +1,5 @@
 from collections import OrderedDict
-from typing import List, Optional, Union
+from typing import List, Optional, Type, Union
 
 import torch
 import torch.nn as nn
@@ -61,7 +61,7 @@ class ConvBnAct(nn.Sequential):
         padding: Optional[int] = None,
         bias: bool = False,
         groups: int = 1,
-        act_fn: Union[nn.Module, bool] = act_fn,
+        act_fn: Union[Type[nn.Module], bool] = nn.ReLU,
         pre_act: bool = False,
         bn_layer: bool = True,
         bn_1st: bool = True,
@@ -88,14 +88,14 @@ class ConvBnAct(nn.Sequential):
             bn = self.batchnorm_module(out_channels)
             nn.init.constant_(bn.weight, 0.0 if zero_bn else 1.0)
             layers.append(("bn", bn))
-        if isinstance(act_fn, nn.Module):  # act_fn either nn.Module or False
+        if act_fn:  # act_fn either nn.Module subclass or False
             if pre_act:
                 act_position = 0
             elif not bn_1st:
                 act_position = 1
             else:
                 act_position = len(layers)
-            layers.insert(act_position, ("act_fn", act_fn))
+            layers.insert(act_position, ("act_fn", act_fn(inplace=True)))  # type: ignore
         super().__init__(OrderedDict(layers))
 
 

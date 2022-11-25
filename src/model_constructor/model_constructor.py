@@ -1,5 +1,6 @@
 from collections import OrderedDict
-from typing import Callable, List, Optional, Type, Union
+from functools import partial
+from typing import Any, Callable, List, Optional, Type, Union
 
 import torch.nn as nn
 from pydantic import BaseModel
@@ -8,7 +9,7 @@ from .layers import ConvBnAct, SEModule, SimpleSelfAttention
 
 __all__ = [
     "init_cnn",
-    "act_fn",
+    # "act_fn",
     "ResBlock",
     "ModelConstructor",
     "XResNet34",
@@ -16,7 +17,7 @@ __all__ = [
 ]
 
 
-act_fn = nn.ReLU(inplace=True)
+# act_fn = nn.ReLU
 
 
 class ResBlock(nn.Module):
@@ -29,13 +30,13 @@ class ResBlock(nn.Module):
         mid_channels: int,
         stride: int = 1,
         conv_layer=ConvBnAct,
-        act_fn: nn.Module = act_fn,
+        act_fn: Type[nn.Module] = nn.ReLU,
         zero_bn: bool = True,
         bn_1st: bool = True,
         groups: int = 1,
         dw: bool = False,
         div_groups: Union[None, int] = None,
-        pool: Union[nn.Module, None] = None,
+        pool: Union[Callable[[Any], nn.Module], None] = None,
         se: Union[nn.Module, None] = None,
         sa: Union[nn.Module, None] = None,
     ):
@@ -100,7 +101,7 @@ class ResBlock(nn.Module):
         if stride != 1 or in_channels != out_channels:
             id_layers = []
             if stride != 1 and pool is not None:  # if pool - reduce by pool else stride 2 art id_conv
-                id_layers.append(("pool", pool))
+                id_layers.append(("pool", pool()))
             if in_channels != out_channels or (stride != 1 and pool is None):
                 id_layers += [("id_conv", conv_layer(
                     in_channels,
@@ -112,7 +113,7 @@ class ResBlock(nn.Module):
             self.id_conv = nn.Sequential(OrderedDict(id_layers))
         else:
             self.id_conv = None
-        self.act_fn = act_fn
+        self.act_fn = act_fn(inplace=True)  # type: ignore
 
     def forward(self, x):
         identity = self.id_conv(x) if self.id_conv is not None else x
@@ -130,8 +131,8 @@ class ModelCfg(BaseModel):
     block_sizes: List[int] = [64, 128, 256, 512]
     layers: List[int] = [2, 2, 2, 2]
     norm: Type[nn.Module] = nn.BatchNorm2d
-    act_fn: nn.Module = nn.ReLU(inplace=True)
-    pool: nn.Module = nn.AvgPool2d(2, ceil_mode=True)
+    act_fn: Type[nn.Module] = nn.ReLU
+    pool: Callable[[Any], nn.Module] = partial(nn.AvgPool2d, kernel_size=2, ceil_mode=True)
     expansion: int = 1
     groups: int = 1
     dw: bool = False
@@ -144,7 +145,7 @@ class ModelCfg(BaseModel):
     zero_bn: bool = True
     stem_stride_on: int = 0
     stem_sizes: List[int] = [32, 32, 64]
-    stem_pool: Union[nn.Module, None] = nn.MaxPool2d(kernel_size=3, stride=2, padding=1)  # type: ignore
+    stem_pool: Union[Callable[[Any], nn.Module], None] = partial(nn.MaxPool2d, kernel_size=3, stride=2, padding=1)
     stem_bn_end: bool = False
     init_cnn: Optional[Callable[[nn.Module], None]] = None
     make_stem: Optional[Callable] = None
@@ -192,7 +193,7 @@ def make_stem(self: ModelCfg) -> nn.Sequential:
         for i in range(len(self.stem_sizes) - 1)
     ]
     if self.stem_pool:
-        stem.append(("stem_pool", self.stem_pool))
+        stem.append(("stem_pool", self.stem_pool()))
     if self.stem_bn_end:
         stem.append(("norm", self.norm(self.stem_sizes[-1])))  # type: ignore
     return nn.Sequential(OrderedDict(stem))
@@ -313,7 +314,7 @@ class ModelConstructor(ModelCfg):
             f"{self.name} constructor\n"
             f"  in_chans: {self.in_chans}, num_classes: {self.num_classes}\n"
             f"  expansion: {self.expansion}, groups: {self.groups}, dw: {self.dw}, div_groups: {self.div_groups}\n"
-            f"  sa: {self.sa}, se: {self.se}\n"
+            f"  act_fn: {self.act_fn.__name__}, sa: {self.sa}, se: {self.se}\n"
             f"  stem sizes: {self.stem_sizes}, stride on {self.stem_stride_on}\n"
             f"  body sizes {self.block_sizes}\n"
             f"  layers: {self.layers}"
