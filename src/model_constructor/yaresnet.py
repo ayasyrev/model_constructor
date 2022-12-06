@@ -2,7 +2,7 @@
 # Yet another ResNet.
 
 from collections import OrderedDict
-from typing import List, Type, Union
+from typing import Any, Callable, List, Type, Union
 
 import torch.nn as nn
 from torch.nn import Mish
@@ -15,7 +15,7 @@ __all__ = [
 ]
 
 
-act_fn = nn.ReLU(inplace=True)
+# act_fn = nn.ReLU(inplace=True)
 
 
 class YaResBlock(nn.Module):
@@ -28,13 +28,13 @@ class YaResBlock(nn.Module):
         mid_channels: int,
         stride: int = 1,
         conv_layer=ConvBnAct,
-        act_fn: nn.Module = act_fn,
+        act_fn: Type[nn.Module] = nn.ReLU,
         zero_bn: bool = True,
         bn_1st: bool = True,
         groups: int = 1,
         dw: bool = False,
         div_groups: Union[None, int] = None,
-        pool: Union[nn.Module, None] = None,
+        pool: Union[Callable[[Any], nn.Module], None] = None,
         se: Union[nn.Module, None] = None,
         sa: Union[nn.Module, None] = None,
     ):
@@ -49,7 +49,7 @@ class YaResBlock(nn.Module):
                 self.reduce = conv_layer(in_channels, in_channels, 1, stride=2)
                 # warnings.warn("pool not passed")  # need to warn?
             else:
-                self.reduce = pool
+                self.reduce = pool()
         else:
             self.reduce = None
         if expansion == 1:
@@ -115,7 +115,7 @@ class YaResBlock(nn.Module):
             )
         else:
             self.id_conv = None
-        self.merge = act_fn
+        self.merge = act_fn()
 
     def forward(self, x):
         if self.reduce:
