@@ -3,21 +3,17 @@ from functools import partial
 from typing import Any, Callable, List, Optional, Type, Union
 
 import torch.nn as nn
-from pydantic import BaseModel
+from pydantic import BaseModel, root_validator
 
 from .layers import ConvBnAct, SEModule, SimpleSelfAttention
 
 __all__ = [
     "init_cnn",
-    # "act_fn",
     "ResBlock",
     "ModelConstructor",
     "XResNet34",
     "XResNet50",
 ]
-
-
-# act_fn = nn.ReLU
 
 
 class ResBlock(nn.Module):
@@ -261,29 +257,30 @@ def make_head(cfg: ModelCfg) -> nn.Sequential:
 class ModelConstructor(ModelCfg):
     """Model constructor. As default - xresnet18"""
 
-    def __init__(self, **data):
-        super().__init__(**data)
-        if self.init_cnn is None:
-            self.init_cnn = init_cnn
-        if self.make_stem is None:
-            self.make_stem = make_stem
-        if self.make_layer is None:
-            self.make_layer = make_layer
-        if self.make_body is None:
-            self.make_body = make_body
-        if self.make_head is None:
-            self.make_head = make_head
+    @root_validator
+    def post_init(cls, values):
+        if values["init_cnn"] is None:
+            values["init_cnn"] = init_cnn
+        if values["make_stem"] is None:
+            values["make_stem"] = make_stem
+        if values["make_layer"] is None:
+            values["make_layer"] = make_layer
+        if values["make_body"] is None:
+            values["make_body"] = make_body
+        if values["make_head"] is None:
+            values["make_head"] = make_head
 
-        if self.stem_sizes[0] != self.in_chans:
-            self.stem_sizes = [self.in_chans] + self.stem_sizes
-        if self.se and isinstance(self.se, (bool, int)):  # if se=1 or se=True
-            self.se = SEModule
-        if self.sa and isinstance(self.sa, (bool, int)):  # if sa=1 or sa=True
-            self.sa = SimpleSelfAttention  # default: ks=1, sym=sym
-        if self.se_module or self.se_reduction:  # pragma: no cover
+        if values["stem_sizes"][0] != values["in_chans"]:
+            values["stem_sizes"] = [values["in_chans"]] + values["stem_sizes"]
+        if values["se"] and isinstance(values["se"], (bool, int)):  # if se=1 or se=True
+            values["se"] = SEModule
+        if values["sa"] and isinstance(values["sa"], (bool, int)):  # if sa=1 or sa=True
+            values["sa"] = SimpleSelfAttention  # default: ks=1, sym=sym
+        if values["se_module"] or values["se_reduction"]:  # pragma: no cover
             print(
                 "Deprecated. Pass se_module as se argument, se_reduction as arg to se."
             )  # add deprecation warning.
+        return values
 
     @property
     def stem(self):
@@ -310,11 +307,12 @@ class ModelConstructor(ModelCfg):
         return model
 
     def __repr__(self):
+        se_repr = self.se.__name__ if self.se else "False"
         return (
             f"{self.name} constructor\n"
             f"  in_chans: {self.in_chans}, num_classes: {self.num_classes}\n"
             f"  expansion: {self.expansion}, groups: {self.groups}, dw: {self.dw}, div_groups: {self.div_groups}\n"
-            f"  act_fn: {self.act_fn.__name__}, sa: {self.sa}, se: {self.se}\n"
+            f"  act_fn: {self.act_fn.__name__}, sa: {self.sa}, se: {se_repr}\n"
             f"  stem sizes: {self.stem_sizes}, stride on {self.stem_stride_on}\n"
             f"  body sizes {self.block_sizes}\n"
             f"  layers: {self.layers}"

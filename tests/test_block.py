@@ -1,4 +1,5 @@
 # import pytest
+from functools import partial
 import torch
 import torch.nn as nn
 from model_constructor.layers import SEModule, SimpleSelfAttention
@@ -16,7 +17,7 @@ params = dict(
     mid_channels=[8, 16],
     stride=[1, 2],
     div_groups=[None, 2],
-    pool=[None, nn.AvgPool2d(2, ceil_mode=True)],
+    pool=[None, partial(nn.AvgPool2d, kernel_size=2, ceil_mode=True)],
     se=[None, SEModule],
     sa=[None, SimpleSelfAttention],
 )
