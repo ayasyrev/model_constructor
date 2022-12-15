@@ -21,9 +21,6 @@ __all__ = [
 class Flatten(nn.Module):
     """flat x to vector"""
 
-    def __init__(self):
-        super().__init__()
-
     def forward(self, x):
         return x.view(x.size(0), -1)
 
@@ -35,9 +32,6 @@ def noop(x):
 
 class Noop(nn.Module):
     """Dummy module"""
-
-    def __init__(self):
-        super().__init__()
 
     def forward(self, x):
         return x
