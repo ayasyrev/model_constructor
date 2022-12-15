@@ -1,5 +1,5 @@
 from collections import OrderedDict
-from .layers import ConvLayer, noop, act_fn, SimpleSelfAttention
+from .layers import ConvLayer, noop, act, SimpleSelfAttention
 
 import torch
 import torch.nn as nn
@@ -112,7 +112,7 @@ class NewResBlockTwist(nn.Module):
     Now YaResBlock.'''
 
     def __init__(self, expansion, ni, nh, stride=1,
-                 conv_layer=ConvLayer, act_fn=act_fn, bn_1st=True,
+                 conv_layer=ConvLayer, act_fn=act, bn_1st=True,
                  pool=nn.AvgPool2d(2, ceil_mode=True), sa=False, sym=False, zero_bn=True, **kwargs):
         super().__init__()
         nf, ni = nh * expansion, ni * expansion
@@ -139,7 +139,7 @@ class ResBlockTwist(nn.Module):
     '''Resnet block with ConvTwist'''
 
     def __init__(self, expansion, ni, nh, stride=1,
-                 conv_layer=ConvLayer, act_fn=act_fn, zero_bn=True, bn_1st=True,
+                 conv_layer=ConvLayer, act_fn=act, zero_bn=True, bn_1st=True,
                  pool=nn.AvgPool2d(2, ceil_mode=True), sa=False, sym=False, **kwargs):
         super().__init__()
         nf, ni = nh * expansion, ni * expansion

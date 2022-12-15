@@ -2,7 +2,7 @@ import torch.nn as nn
 from collections import OrderedDict
 
 from .base_constructor import Net
-from .layers import ConvLayer, Noop, act_fn
+from .layers import ConvLayer, Noop, act
 
 
 __all__ = ['DownsampleLayer', 'XResBlock', 'xresnet18', 'xresnet34', 'xresnet50']
@@ -25,7 +25,7 @@ class XResBlock(nn.Module):
     '''XResnet block'''
 
     def __init__(self, ni, nh, expansion=1, stride=1, zero_bn=True,
-                 conv_layer=ConvLayer, act_fn=act_fn, **kwargs):
+                 conv_layer=ConvLayer, act_fn=act, **kwargs):
         super().__init__()
         nf, ni = nh * expansion, ni * expansion
         layers = [('conv_0', conv_layer(ni, nh, 3, stride=stride, act_fn=act_fn, **kwargs)),

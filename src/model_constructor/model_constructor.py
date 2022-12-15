@@ -5,7 +5,7 @@ from typing import Any, Callable, List, Optional, Type, Union
 import torch.nn as nn
 from pydantic import BaseModel, root_validator
 
-from .layers import ConvBnAct, SEModule, SimpleSelfAttention
+from .layers import ConvBnAct, SEModule, SimpleSelfAttention, get_act
 
 __all__ = [
     "init_cnn",
@@ -32,7 +32,7 @@ class ResBlock(nn.Module):
         groups: int = 1,
         dw: bool = False,
         div_groups: Union[None, int] = None,
-        pool: Union[Callable[[Any], nn.Module], None] = None,
+        pool: Union[Callable[[], nn.Module], None] = None,
         se: Union[nn.Module, None] = None,
         sa: Union[nn.Module, None] = None,
     ):
@@ -109,7 +109,7 @@ class ResBlock(nn.Module):
             self.id_conv = nn.Sequential(OrderedDict(id_layers))
         else:
             self.id_conv = None
-        self.act_fn = act_fn(inplace=True)  # type: ignore
+        self.act_fn = get_act(act_fn)  # type: ignore
 
     def forward(self, x):
         identity = self.id_conv(x) if self.id_conv is not None else x
@@ -141,13 +141,13 @@ class ModelCfg(BaseModel):
     zero_bn: bool = True
     stem_stride_on: int = 0
     stem_sizes: List[int] = [32, 32, 64]
-    stem_pool: Union[Callable[[Any], nn.Module], None] = partial(nn.MaxPool2d, kernel_size=3, stride=2, padding=1)
+    stem_pool: Union[Callable[[], nn.Module], None] = partial(nn.MaxPool2d, kernel_size=3, stride=2, padding=1)
     stem_bn_end: bool = False
     init_cnn: Optional[Callable[[nn.Module], None]] = None
-    make_stem: Optional[Callable] = None
-    make_layer: Optional[Callable] = None
-    make_body: Optional[Callable] = None
-    make_head: Optional[Callable] = None
+    make_stem: Optional[Callable[["ModelCfg"], nn.Module]] = None
+    make_layer: Optional[Callable[["ModelCfg"], nn.Module]] = None
+    make_body: Optional[Callable[["ModelCfg"], nn.Module]] = None
+    make_head: Optional[Callable[["ModelCfg"], nn.Module]] = None
 
     class Config:
         arbitrary_types_allowed = True
