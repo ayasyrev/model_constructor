@@ -1,6 +1,6 @@
 from collections import OrderedDict
 from functools import partial
-from typing import Any, Callable, List, Optional, Type, TypeVar, Union
+from typing import Any, Callable, List, Type, TypeVar, Union
 
 import torch.nn as nn
 from pydantic import BaseModel, root_validator
@@ -236,11 +236,11 @@ class ModelCfg(BaseModel):
     stem_sizes: List[int] = [32, 32, 64]
     stem_pool: Union[Callable[[], nn.Module], None] = partial(nn.MaxPool2d, kernel_size=3, stride=2, padding=1)
     stem_bn_end: bool = False
-    init_cnn: Optional[Callable[[nn.Module], None]] = init_cnn
-    make_stem: Optional[Callable[[TModelCfg], Union[nn.Module, nn.Sequential]]] = make_stem
-    make_layer: Optional[Callable[[TModelCfg, int], Union[nn.Module, nn.Sequential]]] = make_layer
-    make_body: Optional[Callable[[TModelCfg], Union[nn.Module, nn.Sequential]]] = make_body
-    make_head: Optional[Callable[[TModelCfg], Union[nn.Module, nn.Sequential]]] = make_head
+    init_cnn: Callable[[nn.Module], None] = init_cnn
+    make_stem: Callable[[TModelCfg], Union[nn.Module, nn.Sequential]] = make_stem
+    make_layer: Callable[[TModelCfg, int], Union[nn.Module, nn.Sequential]] = make_layer
+    make_body: Callable[[TModelCfg], Union[nn.Module, nn.Sequential]] = make_body
+    make_head: Callable[[TModelCfg], Union[nn.Module, nn.Sequential]] = make_head
 
     class Config:
         arbitrary_types_allowed = True
@@ -262,17 +262,6 @@ class ModelConstructor(ModelCfg):
 
     @root_validator
     def post_init(cls, values):  # pylint: disable=E0213
-        # if values["init_cnn"] is None:
-        #     values["init_cnn"] = init_cnn
-        # if values["make_stem"] is None:
-        #     values["make_stem"] = make_stem
-        # if values["make_layer"] is None:
-        #     values["make_layer"] = make_layer
-        # if values["make_body"] is None:
-        #     values["make_body"] = make_body
-        # if values["make_head"] is None:
-        #     values["make_head"] = make_head
-
         if values["stem_sizes"][0] != values["in_chans"]:
             values["stem_sizes"] = [values["in_chans"]] + values["stem_sizes"]
         if values["se"] and isinstance(values["se"], (bool, int)):  # if se=1 or se=True
@@ -287,15 +276,15 @@ class ModelConstructor(ModelCfg):
 
     @property
     def stem(self):
-        return self.make_stem(self)  # type: ignore
+        return self.make_stem(self)  # pylint: disable=too-many-function-args
 
     @property
     def head(self):
-        return self.make_head(self)  # type: ignore
+        return self.make_head(self)  # pylint: disable=too-many-function-args
 
     @property
     def body(self):
-        return self.make_body(self)  # type: ignore
+        return self.make_body(self)  # pylint: disable=too-many-function-args
 
     @classmethod
     def from_cfg(cls, cfg: ModelCfg):
@@ -305,12 +294,12 @@ class ModelConstructor(ModelCfg):
         model = nn.Sequential(
             OrderedDict([("stem", self.stem), ("body", self.body), ("head", self.head)])
         )
-        self.init_cnn(model)  # type: ignore
+        self.init_cnn(model)  # pylint: disable=too-many-function-args
         model.extra_repr = lambda: f"{self.name}"
         return model
 
     def __repr__(self):
-        se_repr = self.se.__name__ if self.se else "False"
+        se_repr = self.se.__name__ if self.se else "False"  # type: ignore
         return (
             f"{self.name} constructor\n"
             f"  in_chans: {self.in_chans}, num_classes: {self.num_classes}\n"

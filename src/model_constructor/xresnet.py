@@ -1,9 +1,9 @@
-import torch.nn as nn
 from collections import OrderedDict
+
+import torch.nn as nn
 
 from .base_constructor import Net
 from .layers import ConvLayer, Noop, act
-
 
 __all__ = ['DownsampleLayer', 'XResBlock', 'xresnet18', 'xresnet34', 'xresnet50']
 
