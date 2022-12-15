@@ -129,7 +129,7 @@ class ResBlock(nn.Module):
         return self.act_fn(self.convs(x) + identity)
 
 
-def make_stem(cfg: TModelCfg) -> nn.Sequential:
+def make_stem(cfg: TModelCfg) -> nn.Sequential:  # type: ignore
     stem: List[tuple[str, nn.Module]] = [
         (f"conv_{i}", cfg.conv_layer(
             cfg.stem_sizes[i],  # type: ignore
@@ -150,7 +150,7 @@ def make_stem(cfg: TModelCfg) -> nn.Sequential:
     return nn.Sequential(OrderedDict(stem))
 
 
-def make_layer(cfg: TModelCfg, layer_num: int) -> nn.Sequential:
+def make_layer(cfg: TModelCfg, layer_num: int) -> nn.Sequential:  # type: ignore
     #  expansion, in_channels, out_channels, blocks, stride, sa):
     # if no pool on stem - stride = 2 for first layer block in body
     stride = 1 if cfg.stem_pool and layer_num == 0 else 2
@@ -186,7 +186,7 @@ def make_layer(cfg: TModelCfg, layer_num: int) -> nn.Sequential:
     )
 
 
-def make_body(cfg: TModelCfg) -> nn.Sequential:
+def make_body(cfg: TModelCfg) -> nn.Sequential:  # type: ignore
     return nn.Sequential(
         OrderedDict(
             [
@@ -200,7 +200,7 @@ def make_body(cfg: TModelCfg) -> nn.Sequential:
     )
 
 
-def make_head(cfg: TModelCfg) -> nn.Sequential:
+def make_head(cfg: TModelCfg) -> nn.Sequential:  # type: ignore
     head = [
         ("pool", nn.AdaptiveAvgPool2d(1)),
         ("flat", nn.Flatten()),
@@ -237,10 +237,10 @@ class ModelCfg(BaseModel):
     stem_pool: Union[Callable[[], nn.Module], None] = partial(nn.MaxPool2d, kernel_size=3, stride=2, padding=1)
     stem_bn_end: bool = False
     init_cnn: Callable[[nn.Module], None] = init_cnn
-    make_stem: Callable[[TModelCfg], Union[nn.Module, nn.Sequential]] = make_stem
-    make_layer: Callable[[TModelCfg, int], Union[nn.Module, nn.Sequential]] = make_layer
-    make_body: Callable[[TModelCfg], Union[nn.Module, nn.Sequential]] = make_body
-    make_head: Callable[[TModelCfg], Union[nn.Module, nn.Sequential]] = make_head
+    make_stem: Callable[[TModelCfg], Union[nn.Module, nn.Sequential]] = make_stem  # type: ignore
+    make_layer: Callable[[TModelCfg, int], Union[nn.Module, nn.Sequential]] = make_layer  # type: ignore
+    make_body: Callable[[TModelCfg], Union[nn.Module, nn.Sequential]] = make_body  # type: ignore
+    make_head: Callable[[TModelCfg], Union[nn.Module, nn.Sequential]] = make_head  # type: ignore
 
     class Config:
         arbitrary_types_allowed = True

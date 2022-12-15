@@ -18,7 +18,6 @@ act_fn_list = [nn.ReLU, nn.Mish, nn.GELU]
 def test_mc(model_constructor, act_fn):
     """test models"""
     mc = model_constructor(act_fn=act_fn)
-    # assert "name='MC'" in str()
     model = mc()
     pred = model(xb)
     assert pred.shape == torch.Size([bs_test, 1000])
