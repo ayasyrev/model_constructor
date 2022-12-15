@@ -10,7 +10,7 @@ __all__ = [
     "noop",
     "Noop",
     "ConvLayer",
-    "act_fn",
+    "act",
     "conv1d",
     "SimpleSelfAttention",
     "SEBlock",
@@ -43,7 +43,16 @@ class Noop(nn.Module):
         return x
 
 
-act_fn = nn.ReLU(inplace=True)
+act = nn.ReLU(inplace=True)
+
+
+def get_act(act_fn: Type[nn.Module], inplace: bool = True) -> nn.Module:
+    """Return obj of act_fn, inplace if possible."""
+    try:
+        res = act_fn(inplace=inplace)  # type: ignore
+    except TypeError:
+        res = act_fn()
+    return res
 
 
 class ConvBnAct(nn.Sequential):
@@ -95,7 +104,7 @@ class ConvBnAct(nn.Sequential):
                 act_position = 1
             else:
                 act_position = len(layers)
-            layers.insert(act_position, ("act_fn", act_fn(inplace=True)))  # type: ignore
+            layers.insert(act_position, ("act_fn", get_act(act_fn)))  # type: ignore
         super().__init__(OrderedDict(layers))
 
 
@@ -112,7 +121,7 @@ class ConvLayer(nn.Sequential):
         ks=3,
         stride=1,
         act=True,
-        act_fn=act_fn,
+        act_fn=act,
         bn_layer=True,
         bn_1st=True,
         zero_bn=False,

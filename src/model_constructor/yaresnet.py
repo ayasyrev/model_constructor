@@ -7,7 +7,7 @@ from typing import Any, Callable, List, Type, Union
 import torch.nn as nn
 from torch.nn import Mish
 
-from .layers import ConvBnAct
+from .layers import ConvBnAct, get_act
 from .model_constructor import ModelConstructor
 
 __all__ = [
@@ -34,7 +34,7 @@ class YaResBlock(nn.Module):
         groups: int = 1,
         dw: bool = False,
         div_groups: Union[None, int] = None,
-        pool: Union[Callable[[Any], nn.Module], None] = None,
+        pool: Union[Callable[[], nn.Module], None] = None,
         se: Union[nn.Module, None] = None,
         sa: Union[nn.Module, None] = None,
     ):
@@ -115,7 +115,7 @@ class YaResBlock(nn.Module):
             )
         else:
             self.id_conv = None
-        self.merge = act_fn()
+        self.merge = get_act(act_fn)
 
     def forward(self, x):
         if self.reduce:
