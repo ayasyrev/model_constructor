@@ -2,7 +2,7 @@
 # Yet another ResNet.
 
 from collections import OrderedDict
-from typing import Any, Callable, List, Type, Union
+from typing import Callable, List, Type, Union
 
 import torch.nn as nn
 from torch.nn import Mish

@@ -1,6 +1,6 @@
 from collections import OrderedDict
 from functools import partial
-from typing import Any, Callable, List, Optional, Type, Union
+from typing import Any, Callable, List, Optional, Type, TypeVar, Union
 
 import torch.nn as nn
 from pydantic import BaseModel, root_validator
@@ -14,6 +14,19 @@ __all__ = [
     "XResNet34",
     "XResNet50",
 ]
+
+
+TModelCfg = TypeVar("TModelCfg", bound="ModelCfg")
+
+
+def init_cnn(module: nn.Module):
+    "Init module - kaiming_normal for Conv2d and 0 for biases."
+    if getattr(module, "bias", None) is not None:
+        nn.init.constant_(module.bias, 0)  # type: ignore
+    if isinstance(module, (nn.Conv2d, nn.Linear)):
+        nn.init.kaiming_normal_(module.weight)
+    for layer in module.children():
+        init_cnn(layer)
 
 
 class ResBlock(nn.Module):
@@ -116,86 +129,28 @@ class ResBlock(nn.Module):
         return self.act_fn(self.convs(x) + identity)
 
 
-class ModelCfg(BaseModel):
-    """Model constructor Config. As default - xresnet18"""
-
-    name: str = "MC"
-    in_chans: int = 3
-    num_classes: int = 1000
-    block: Type[nn.Module] = ResBlock
-    conv_layer: Type[nn.Module] = ConvBnAct
-    block_sizes: List[int] = [64, 128, 256, 512]
-    layers: List[int] = [2, 2, 2, 2]
-    norm: Type[nn.Module] = nn.BatchNorm2d
-    act_fn: Type[nn.Module] = nn.ReLU
-    pool: Callable[[Any], nn.Module] = partial(nn.AvgPool2d, kernel_size=2, ceil_mode=True)
-    expansion: int = 1
-    groups: int = 1
-    dw: bool = False
-    div_groups: Union[int, None] = None
-    sa: Union[bool, int, Type[nn.Module]] = False
-    se: Union[bool, int, Type[nn.Module]] = False
-    se_module: Union[bool, None] = None
-    se_reduction: Union[int, None] = None
-    bn_1st: bool = True
-    zero_bn: bool = True
-    stem_stride_on: int = 0
-    stem_sizes: List[int] = [32, 32, 64]
-    stem_pool: Union[Callable[[], nn.Module], None] = partial(nn.MaxPool2d, kernel_size=3, stride=2, padding=1)
-    stem_bn_end: bool = False
-    init_cnn: Optional[Callable[[nn.Module], None]] = None
-    make_stem: Optional[Callable[["ModelCfg"], nn.Module]] = None
-    make_layer: Optional[Callable[["ModelCfg"], nn.Module]] = None
-    make_body: Optional[Callable[["ModelCfg"], nn.Module]] = None
-    make_head: Optional[Callable[["ModelCfg"], nn.Module]] = None
-
-    class Config:
-        arbitrary_types_allowed = True
-        extra = "forbid"
-
-    def extra_repr(self) -> str:
-        res = ""
-        for k, v in self.dict().items():
-            if v is not None:
-                res += f"{k}: {v}\n"
-        return res
-
-    def pprint(self) -> None:
-        print(self.extra_repr())
-
-
-def init_cnn(module: nn.Module):
-    "Init module - kaiming_normal for Conv2d and 0 for biases."
-    if getattr(module, "bias", None) is not None:
-        nn.init.constant_(module.bias, 0)  # type: ignore
-    if isinstance(module, (nn.Conv2d, nn.Linear)):
-        nn.init.kaiming_normal_(module.weight)
-    for layer in module.children():
-        init_cnn(layer)
-
-
-def make_stem(self: ModelCfg) -> nn.Sequential:
+def make_stem(cfg: TModelCfg) -> nn.Sequential:
     stem: List[tuple[str, nn.Module]] = [
-        (f"conv_{i}", self.conv_layer(
-            self.stem_sizes[i],  # type: ignore
-            self.stem_sizes[i + 1],
-            stride=2 if i == self.stem_stride_on else 1,
-            bn_layer=(not self.stem_bn_end)
-            if i == (len(self.stem_sizes) - 2)
+        (f"conv_{i}", cfg.conv_layer(
+            cfg.stem_sizes[i],  # type: ignore
+            cfg.stem_sizes[i + 1],
+            stride=2 if i == cfg.stem_stride_on else 1,
+            bn_layer=(not cfg.stem_bn_end)
+            if i == (len(cfg.stem_sizes) - 2)
             else True,
-            act_fn=self.act_fn,
-            bn_1st=self.bn_1st,
+            act_fn=cfg.act_fn,
+            bn_1st=cfg.bn_1st,
         ),)
-        for i in range(len(self.stem_sizes) - 1)
+        for i in range(len(cfg.stem_sizes) - 1)
     ]
-    if self.stem_pool:
-        stem.append(("stem_pool", self.stem_pool()))
-    if self.stem_bn_end:
-        stem.append(("norm", self.norm(self.stem_sizes[-1])))  # type: ignore
+    if cfg.stem_pool:
+        stem.append(("stem_pool", cfg.stem_pool()))
+    if cfg.stem_bn_end:
+        stem.append(("norm", cfg.norm(cfg.stem_sizes[-1])))  # type: ignore
     return nn.Sequential(OrderedDict(stem))
 
 
-def make_layer(cfg: ModelCfg, layer_num: int) -> nn.Sequential:
+def make_layer(cfg: TModelCfg, layer_num: int) -> nn.Sequential:
     #  expansion, in_channels, out_channels, blocks, stride, sa):
     # if no pool on stem - stride = 2 for first layer block in body
     stride = 1 if cfg.stem_pool and layer_num == 0 else 2
@@ -231,7 +186,7 @@ def make_layer(cfg: ModelCfg, layer_num: int) -> nn.Sequential:
     )
 
 
-def make_body(cfg: ModelCfg) -> nn.Sequential:
+def make_body(cfg: TModelCfg) -> nn.Sequential:
     return nn.Sequential(
         OrderedDict(
             [
@@ -245,7 +200,7 @@ def make_body(cfg: ModelCfg) -> nn.Sequential:
     )
 
 
-def make_head(cfg: ModelCfg) -> nn.Sequential:
+def make_head(cfg: TModelCfg) -> nn.Sequential:
     head = [
         ("pool", nn.AdaptiveAvgPool2d(1)),
         ("flat", nn.Flatten()),
@@ -254,21 +209,69 @@ def make_head(cfg: ModelCfg) -> nn.Sequential:
     return nn.Sequential(OrderedDict(head))
 
 
+class ModelCfg(BaseModel):
+    """Model constructor Config. As default - xresnet18"""
+
+    name: str = "MC"
+    in_chans: int = 3
+    num_classes: int = 1000
+    block: Type[nn.Module] = ResBlock
+    conv_layer: Type[nn.Module] = ConvBnAct
+    block_sizes: List[int] = [64, 128, 256, 512]
+    layers: List[int] = [2, 2, 2, 2]
+    norm: Type[nn.Module] = nn.BatchNorm2d
+    act_fn: Type[nn.Module] = nn.ReLU
+    pool: Callable[[Any], nn.Module] = partial(nn.AvgPool2d, kernel_size=2, ceil_mode=True)
+    expansion: int = 1
+    groups: int = 1
+    dw: bool = False
+    div_groups: Union[int, None] = None
+    sa: Union[bool, int, Type[nn.Module]] = False
+    se: Union[bool, int, Type[nn.Module]] = False
+    se_module: Union[bool, None] = None
+    se_reduction: Union[int, None] = None
+    bn_1st: bool = True
+    zero_bn: bool = True
+    stem_stride_on: int = 0
+    stem_sizes: List[int] = [32, 32, 64]
+    stem_pool: Union[Callable[[], nn.Module], None] = partial(nn.MaxPool2d, kernel_size=3, stride=2, padding=1)
+    stem_bn_end: bool = False
+    init_cnn: Optional[Callable[[nn.Module], None]] = init_cnn
+    make_stem: Optional[Callable[[TModelCfg], Union[nn.Module, nn.Sequential]]] = make_stem
+    make_layer: Optional[Callable[[TModelCfg, int], Union[nn.Module, nn.Sequential]]] = make_layer
+    make_body: Optional[Callable[[TModelCfg], Union[nn.Module, nn.Sequential]]] = make_body
+    make_head: Optional[Callable[[TModelCfg], Union[nn.Module, nn.Sequential]]] = make_head
+
+    class Config:
+        arbitrary_types_allowed = True
+        extra = "forbid"
+
+    def extra_repr(self) -> str:
+        res = ""
+        for k, v in self.dict().items():
+            if v is not None:
+                res += f"{k}: {v}\n"
+        return res
+
+    def pprint(self) -> None:
+        print(self.extra_repr())
+
+
 class ModelConstructor(ModelCfg):
     """Model constructor. As default - xresnet18"""
 
     @root_validator
-    def post_init(cls, values):
-        if values["init_cnn"] is None:
-            values["init_cnn"] = init_cnn
-        if values["make_stem"] is None:
-            values["make_stem"] = make_stem
-        if values["make_layer"] is None:
-            values["make_layer"] = make_layer
-        if values["make_body"] is None:
-            values["make_body"] = make_body
-        if values["make_head"] is None:
-            values["make_head"] = make_head
+    def post_init(cls, values):  # pylint: disable=E0213
+        # if values["init_cnn"] is None:
+        #     values["init_cnn"] = init_cnn
+        # if values["make_stem"] is None:
+        #     values["make_stem"] = make_stem
+        # if values["make_layer"] is None:
+        #     values["make_layer"] = make_layer
+        # if values["make_body"] is None:
+        #     values["make_body"] = make_body
+        # if values["make_head"] is None:
+        #     values["make_head"] = make_head
 
         if values["stem_sizes"][0] != values["in_chans"]:
             values["stem_sizes"] = [values["in_chans"]] + values["stem_sizes"]
