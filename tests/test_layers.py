@@ -1,8 +1,9 @@
 import torch
-import torch.nn as nn
 
-from model_constructor.layers import ConvBnAct, Flatten, Noop, SEModule, SEModuleConv, SimpleSelfAttention, noop
+from model_constructor.layers import (ConvBnAct, Flatten, Noop, SEModule,
+                                      SEModuleConv, SimpleSelfAttention, noop)
 
+from .parameters import ids_fn
 
 bs_test = 4
 
@@ -27,20 +28,6 @@ params = dict(
     rd_max=[False, True],
     use_bias=[True, False],
 )
-
-
-def value_name(value) -> str:
-    name = getattr(value, "__name__", None)
-    if name is not None:
-        return name
-    if isinstance(value, nn.Module):  # pragma: no cover
-        return value._get_name()
-    else:
-        return value
-
-
-def ids_fn(key, value):
-    return [f"{key[:2]}_{value_name(v)}" for v in value]
 
 
 def pytest_generate_tests(metafunc):
@@ -71,14 +58,25 @@ def test_noop():
     assert all(out.eq(xb_copy))
 
 
-def test_ConvBnAct(kernel_size, stride, bias, groups, pre_act, bn_layer, bn_1st, zero_bn):
+def test_ConvBnAct(
+    kernel_size, stride, bias, groups, pre_act, bn_layer, bn_1st, zero_bn
+):
     """test ConvBnAct"""
     in_channels = out_channels = 4
     channel_size = 4
     block = ConvBnAct(
-        in_channels, out_channels, kernel_size, stride,
-        padding=None, bias=bias, groups=groups,
-        pre_act=pre_act, bn_layer=bn_layer, bn_1st=bn_1st, zero_bn=zero_bn)
+        in_channels,
+        out_channels,
+        kernel_size,
+        stride,
+        padding=None,
+        bias=bias,
+        groups=groups,
+        pre_act=pre_act,
+        bn_layer=bn_layer,
+        bn_1st=bn_1st,
+        zero_bn=zero_bn,
+    )
     xb = torch.randn(bs_test, in_channels, channel_size, channel_size)
     out = block(xb)
     out_size = channel_size

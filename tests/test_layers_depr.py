@@ -1,9 +1,9 @@
 # old (deprecated layers)
 import torch
-import torch.nn as nn
 
 from model_constructor.layers import ConvLayer, SEBlock, SEBlockConv
 
+from .parameters import ids_fn
 
 bs_test = 4
 
@@ -24,22 +24,8 @@ params = dict(
     bn_1st=[True, False],
     zero_bn=[False, True],
     bias=[False, True],
-    groups=[1, 2]
+    groups=[1, 2],
 )
-
-
-def value_name(value) -> str:
-    name = getattr(value, "__name__", None)
-    if name is not None:
-        return name
-    if isinstance(value, nn.Module):
-        return value._get_name()  # pragma: no cover
-    else:
-        return value
-
-
-def ids_fn(key, value):
-    return [f"{key[:2]}_{value_name(v)}" for v in value]
 
 
 def pytest_generate_tests(metafunc):
@@ -64,9 +50,16 @@ def test_ConvLayer(nf, ks, stride, bn_layer, bn_1st, zero_bn, bias, groups):
     ni = 8
     channel_size = 4
     block = ConvLayer(
-        ni, nf, ks, stride,
-        bn_layer=bn_layer, bn_1st=bn_1st, zero_bn=zero_bn,
-        bias=bias, groups=groups)
+        ni,
+        nf,
+        ks,
+        stride,
+        bn_layer=bn_layer,
+        bn_1st=bn_1st,
+        zero_bn=zero_bn,
+        bias=bias,
+        groups=groups,
+    )
     xb = torch.randn(bs_test, ni, channel_size, channel_size)
     out = block(xb)
     # out_ch = nf

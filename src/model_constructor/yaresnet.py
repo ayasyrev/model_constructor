@@ -2,7 +2,7 @@
 # Yet another ResNet.
 
 from collections import OrderedDict
-from typing import Any, Callable, List, Type, Union
+from typing import Callable, List, Type, Union
 
 import torch.nn as nn
 from torch.nn import Mish
@@ -11,11 +11,10 @@ from .layers import ConvBnAct, get_act
 from .model_constructor import ModelConstructor
 
 __all__ = [
-    'YaResBlock',
+    "YaResBlock",
+    "YaResNet34",
+    "YaResNet50",
 ]
-
-
-# act_fn = nn.ReLU(inplace=True)
 
 
 class YaResBlock(nn.Module):
@@ -129,7 +128,7 @@ class YaResNet34(ModelConstructor):
     block: Type[nn.Module] = YaResBlock
     expansion: int = 1
     layers: List[int] = [3, 4, 6, 3]
-    act_fn: nn.Module = Mish()
+    act_fn: Type[nn.Module] = Mish
 
 
 class YaResNet50(YaResNet34):
