@@ -1,7 +1,8 @@
 import torch
-import torch.nn as nn
 
 from model_constructor.convmixer import ConvMixer, ConvMixerOriginal
+
+from .parameters import ids_fn
 
 bs_test = 4
 img_size = 16
@@ -11,19 +12,6 @@ params = dict(
     bn_1st=[True, False],
     pre_act=[True, False],
 )
-
-
-def value_name(value) -> str:  # pragma: no cover
-    name = getattr(value, "__name__", None)
-    if name is not None:
-        return name
-    if isinstance(value, nn.Module):
-        return value._get_name()  # pylint: disable=W0212
-    return value
-
-
-def ids_fn(key, value):
-    return [f"{key[:2]}_{value_name(v)}" for v in value]
 
 
 def pytest_generate_tests(metafunc):

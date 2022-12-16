@@ -1,6 +1,6 @@
 import pytest
 import torch
-import torch.nn as nn
+from torch import nn
 
 from model_constructor.mxresnet import mxresnet34, mxresnet50
 from model_constructor.xresnet import xresnet18, xresnet34, xresnet50

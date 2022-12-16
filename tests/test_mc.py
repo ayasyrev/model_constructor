@@ -1,8 +1,8 @@
 import torch
 
 from model_constructor import ModelConstructor
-from model_constructor.layers import SEModule, SEModuleConv, SimpleSelfAttention
-
+from model_constructor.layers import (SEModule, SEModuleConv,
+                                      SimpleSelfAttention)
 
 bs_test = 4
 

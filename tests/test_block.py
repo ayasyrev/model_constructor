@@ -1,11 +1,14 @@
 # import pytest
 from functools import partial
-import torch
-import torch.nn as nn
-from model_constructor.layers import SEModule, SimpleSelfAttention
 
+import torch
+from torch import nn
+
+from model_constructor.layers import SEModule, SimpleSelfAttention
 from model_constructor.model_constructor import ResBlock
 from model_constructor.yaresnet import YaResBlock
+
+from .parameters import ids_fn
 
 bs_test = 4
 img_size = 16
@@ -21,19 +24,6 @@ params = dict(
     se=[None, SEModule],
     sa=[None, SimpleSelfAttention],
 )
-
-
-def value_name(value) -> str:
-    name = getattr(value, "__name__", None)
-    if name is not None:
-        return name
-    if isinstance(value, nn.Module):
-        return value._get_name()  # pylint: disable=W0212
-    return value
-
-
-def ids_fn(key, value):
-    return [f"{key[:2]}_{value_name(v)}" for v in value]
 
 
 def pytest_generate_tests(metafunc):
