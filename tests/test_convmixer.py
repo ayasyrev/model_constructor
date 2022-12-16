@@ -4,6 +4,7 @@ import torch.nn as nn
 from model_constructor.convmixer import ConvMixer, ConvMixerOriginal
 
 bs_test = 4
+img_size = 16
 
 
 params = dict(
@@ -17,9 +18,8 @@ def value_name(value) -> str:  # pragma: no cover
     if name is not None:
         return name
     if isinstance(value, nn.Module):
-        return value._get_name()
-    else:
-        return value
+        return value._get_name()  # pylint: disable=W0212
+    return value
 
 
 def ids_fn(key, value):
@@ -34,8 +34,6 @@ def pytest_generate_tests(metafunc):
 
 def test_ConvMixer(bn_1st, pre_act):
     """test ConvMixer"""
-    bs_test = 4
-    img_size = 16
     model = ConvMixer(dim=64, depth=4, bn_1st=bn_1st, pre_act=pre_act)
     xb = torch.randn(bs_test, 3, img_size, img_size)
     pred = model(xb)
@@ -44,8 +42,6 @@ def test_ConvMixer(bn_1st, pre_act):
 
 def test_ConvMixerOriginal():
     """test ConvMixerOriginal"""
-    bs_test = 4
-    img_size = 16
     model = ConvMixerOriginal(dim=64, depth=4)
     xb = torch.randn(bs_test, 3, img_size, img_size)
     pred = model(xb)

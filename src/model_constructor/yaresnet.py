@@ -11,11 +11,10 @@ from .layers import ConvBnAct, get_act
 from .model_constructor import ModelConstructor
 
 __all__ = [
-    'YaResBlock',
+    "YaResBlock",
+    "YaResNet34",
+    "YaResNet50",
 ]
-
-
-# act_fn = nn.ReLU(inplace=True)
 
 
 class YaResBlock(nn.Module):

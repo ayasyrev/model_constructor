@@ -29,8 +29,7 @@ def value_name(value) -> str:
         return name
     if isinstance(value, nn.Module):
         return value._get_name()  # pylint: disable=W0212
-    else:
-        return value
+    return value
 
 
 def ids_fn(key, value):
@@ -48,9 +47,15 @@ def test_block(Block, expansion, mid_channels, stride, div_groups, pool, se, sa)
     in_channels = 8
     out_channels = mid_channels * expansion
     block = Block(
-        expansion, in_channels, mid_channels,
-        stride, div_groups=div_groups,
-        pool=pool, se=se, sa=sa)
+        expansion,
+        in_channels,
+        mid_channels,
+        stride,
+        div_groups=div_groups,
+        pool=pool,
+        se=se,
+        sa=sa,
+    )
     xb = torch.randn(bs_test, in_channels * expansion, img_size, img_size)
     y = block(xb)
     out_size = img_size if stride == 1 else img_size // stride

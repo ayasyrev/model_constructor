@@ -24,18 +24,17 @@ params = dict(
     bn_1st=[True, False],
     zero_bn=[False, True],
     bias=[False, True],
-    groups=[1, 2]
+    groups=[1, 2],
 )
 
 
-def value_name(value) -> str:
+def value_name(value) -> str:  # pragma: no cover
     name = getattr(value, "__name__", None)
     if name is not None:
         return name
     if isinstance(value, nn.Module):
-        return value._get_name()  # pragma: no cover
-    else:
-        return value
+        return value._get_name()  # pylint: disable=W0212
+    return value
 
 
 def ids_fn(key, value):
@@ -64,9 +63,16 @@ def test_ConvLayer(nf, ks, stride, bn_layer, bn_1st, zero_bn, bias, groups):
     ni = 8
     channel_size = 4
     block = ConvLayer(
-        ni, nf, ks, stride,
-        bn_layer=bn_layer, bn_1st=bn_1st, zero_bn=zero_bn,
-        bias=bias, groups=groups)
+        ni,
+        nf,
+        ks,
+        stride,
+        bn_layer=bn_layer,
+        bn_1st=bn_1st,
+        zero_bn=zero_bn,
+        bias=bias,
+        groups=groups,
+    )
     xb = torch.randn(bs_test, ni, channel_size, channel_size)
     out = block(xb)
     # out_ch = nf

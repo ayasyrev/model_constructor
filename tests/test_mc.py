@@ -34,7 +34,9 @@ def test_MC():
     model = mc()
     pred = model(xb)
     assert pred.shape == torch.Size([bs_test, num_classes])
-    mc = ModelConstructor(sa=SimpleSelfAttention, se=SEModuleConv, num_classes=num_classes)
+    mc = ModelConstructor(
+        sa=SimpleSelfAttention, se=SEModuleConv, num_classes=num_classes
+    )
     assert mc.se is SEModuleConv
     assert mc.sa is SimpleSelfAttention
     model = mc()

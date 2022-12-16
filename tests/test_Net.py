@@ -2,6 +2,7 @@ import torch
 import torch.nn as nn
 
 from model_constructor.net import Net, NewResBlock, ResBlock
+
 # from model_constructor.layers import SEModule, SimpleSelfAttention
 
 
@@ -19,7 +20,7 @@ params = dict(
     bn_1st=[True, False],
     zero_bn=[True, False],
     stem_bn_end=[True, False],
-    stem_stride_on=[0, 1]
+    stem_stride_on=[0, 1],
 )
 
 
@@ -28,9 +29,8 @@ def value_name(value) -> str:  # pragma: no cover
     if name is not None:
         return name
     if isinstance(value, nn.Module):
-        return value._get_name()
-    else:
-        return value
+        return value._get_name()  # pylint: disable=W0212
+    return value
 
 
 def ids_fn(key, value):
@@ -44,7 +44,8 @@ def pytest_generate_tests(metafunc):
 
 
 def test_Net(
-    block, expansion,
+    block,
+    expansion,
     groups,
 ):
     """test Net"""
@@ -54,15 +55,14 @@ def test_Net(
     name = "Test name"
 
     mc = Net(
-        name, c_in, c_out, block,
+        name,
+        c_in,
+        c_out,
+        block,
         expansion=expansion,
         stem_sizes=[8, 16],
         block_sizes=[16, 32, 64, 128],
         groups=groups,
-        # dw=dw,
-        # div_groups=div_groups,
-        # bn_1st=bn_1st, zero_bn=zero_bn,
-        # stem_bn_end=stem_bn_end,
     )
     assert f"{name} constructor" in str(mc)
     model = mc()
@@ -71,10 +71,7 @@ def test_Net(
     assert pred.shape == torch.Size([bs_test, c_out])
 
 
-def test_Net_SE_SA(
-    block, expansion,
-    se, sa
-):
+def test_Net_SE_SA(block, expansion, se, sa):
     """test Net"""
     c_in = 3
     img_size = 16
@@ -82,11 +79,15 @@ def test_Net_SE_SA(
     name = "Test name"
 
     mc = Net(
-        name, c_in, c_out, block,
+        name,
+        c_in,
+        c_out,
+        block,
         expansion=expansion,
         stem_sizes=[8, 16],
         block_sizes=[16, 32, 64, 128],
-        se=se, sa=sa
+        se=se,
+        sa=sa,
     )
     assert f"{name} constructor" in str(mc)
     model = mc()
@@ -96,7 +97,8 @@ def test_Net_SE_SA(
 
 
 def test_Net_div_gr(
-    block, expansion,
+    block,
+    expansion,
     div_groups,
 ):
     """test Net"""
@@ -106,7 +108,10 @@ def test_Net_div_gr(
     name = "Test name"
 
     mc = Net(
-        name, c_in, c_out, block,
+        name,
+        c_in,
+        c_out,
+        block,
         expansion=expansion,
         stem_sizes=[8, 16],
         block_sizes=[16, 32, 64, 128],
@@ -119,10 +124,7 @@ def test_Net_div_gr(
     assert pred.shape == torch.Size([bs_test, c_out])
 
 
-def test_Net_dw(
-    block, expansion,
-    dw
-):
+def test_Net_dw(block, expansion, dw):
     """test Net"""
     c_in = 3
     img_size = 16
@@ -130,11 +132,14 @@ def test_Net_dw(
     name = "Test name"
 
     mc = Net(
-        name, c_in, c_out, block,
+        name,
+        c_in,
+        c_out,
+        block,
         expansion=expansion,
         stem_sizes=[8, 16],
         block_sizes=[16, 32, 64, 128],
-        dw=dw
+        dw=dw,
     )
     assert f"{name} constructor" in str(mc)
     model = mc()
@@ -144,8 +149,10 @@ def test_Net_dw(
 
 
 def test_Net_2(
-    block, expansion,
-    bn_1st, zero_bn,
+    block,
+    expansion,
+    bn_1st,
+    zero_bn,
 ):
     """test Net"""
     c_in = 3
@@ -154,11 +161,15 @@ def test_Net_2(
     name = "Test name"
 
     mc = Net(
-        name, c_in, c_out, block,
+        name,
+        c_in,
+        c_out,
+        block,
         expansion=expansion,
         stem_sizes=[8, 16],
         block_sizes=[16, 32, 64, 128],
-        bn_1st=bn_1st, zero_bn=zero_bn,
+        bn_1st=bn_1st,
+        zero_bn=zero_bn,
     )
     assert f"{name} constructor" in str(mc)
     model = mc()
@@ -167,10 +178,7 @@ def test_Net_2(
     assert pred.shape == torch.Size([bs_test, c_out])
 
 
-def test_Net_stem(
-    stem_bn_end,
-    stem_stride_on
-):
+def test_Net_stem(stem_bn_end, stem_stride_on):
     """test Net"""
     c_in = 3
     img_size = 16
@@ -178,11 +186,13 @@ def test_Net_stem(
     name = "Test name"
 
     mc = Net(
-        name, c_in, c_out,
+        name,
+        c_in,
+        c_out,
         stem_sizes=[8, 16],
         block_sizes=[16, 32, 64, 128],
         stem_bn_end=stem_bn_end,
-        stem_stride_on=stem_stride_on
+        stem_stride_on=stem_stride_on,
     )
     assert f"{name} constructor" in str(mc)
     model = mc()
