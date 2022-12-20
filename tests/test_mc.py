@@ -11,6 +11,8 @@ def test_MC():
     """test ModelConstructor"""
     img_size = 16
     mc = ModelConstructor()
+    assert "name=None" in str(mc)
+    mc.name = "MC"
     assert "name='MC'" in str(mc)
     model = mc()
     xb = torch.randn(bs_test, 3, img_size, img_size)
