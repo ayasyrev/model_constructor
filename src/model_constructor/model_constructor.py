@@ -130,18 +130,19 @@ class ResBlock(nn.Module):
 
 
 def make_stem(cfg: TModelCfg) -> nn.Sequential:  # type: ignore
+    len_stem = len(cfg.stem_sizes)
     stem: List[tuple[str, nn.Module]] = [
         (f"conv_{i}", cfg.conv_layer(
-            cfg.stem_sizes[i],  # type: ignore
-            cfg.stem_sizes[i + 1],
+            cfg.stem_sizes[i - 1] if i else cfg.in_chans,  # type: ignore
+            cfg.stem_sizes[i],
             stride=2 if i == cfg.stem_stride_on else 1,
             bn_layer=(not cfg.stem_bn_end)
-            if i == (len(cfg.stem_sizes) - 2)
+            if i == (len_stem - 1)
             else True,
             act_fn=cfg.act_fn,
             bn_1st=cfg.bn_1st,
         ),)
-        for i in range(len(cfg.stem_sizes) - 1)
+        for i in range(len_stem)
     ]
     if cfg.stem_pool:
         stem.append(("stem_pool", cfg.stem_pool()))
@@ -262,8 +263,6 @@ class ModelConstructor(ModelCfg):
 
     @root_validator
     def post_init(cls, values):  # pylint: disable=E0213
-        if values["stem_sizes"][0] != values["in_chans"]:
-            values["stem_sizes"] = [values["in_chans"]] + values["stem_sizes"]
         if values["se"] and isinstance(values["se"], (bool, int)):  # if se=1 or se=True
             values["se"] = SEModule
         if values["sa"] and isinstance(values["sa"], (bool, int)):  # if sa=1 or sa=True
