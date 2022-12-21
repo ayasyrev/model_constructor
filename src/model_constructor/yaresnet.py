@@ -34,8 +34,8 @@ class YaResBlock(nn.Module):
         dw: bool = False,
         div_groups: Union[None, int] = None,
         pool: Union[Callable[[], nn.Module], None] = None,
-        se: Union[nn.Module, None] = None,
-        sa: Union[nn.Module, None] = None,
+        se: Union[Type[nn.Module], None] = None,
+        sa: Union[Type[nn.Module], None] = None,
     ):
         super().__init__()
         # pool defined at ModelConstructor.
