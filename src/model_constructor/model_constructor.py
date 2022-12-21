@@ -56,51 +56,66 @@ class ResBlock(nn.Module):
             groups = int(mid_channels / div_groups)
         if expansion == 1:
             layers = [
-                ("conv_0", conv_layer(
-                    in_channels,
-                    mid_channels,
-                    3,
-                    stride=stride,  # type: ignore
-                    act_fn=act_fn,
-                    bn_1st=bn_1st,
-                    groups=in_channels if dw else groups,
-                ),),
-                ("conv_1", conv_layer(
-                    mid_channels,
-                    out_channels,
-                    3,
-                    zero_bn=zero_bn,
-                    act_fn=False,
-                    bn_1st=bn_1st,
-                    groups=mid_channels if dw else groups,
-                ),),
+                (
+                    "conv_0",
+                    conv_layer(
+                        in_channels,
+                        mid_channels,
+                        3,
+                        stride=stride,  # type: ignore
+                        act_fn=act_fn,
+                        bn_1st=bn_1st,
+                        groups=in_channels if dw else groups,
+                    ),
+                ),
+                (
+                    "conv_1",
+                    conv_layer(
+                        mid_channels,
+                        out_channels,
+                        3,
+                        zero_bn=zero_bn,
+                        act_fn=False,
+                        bn_1st=bn_1st,
+                        groups=mid_channels if dw else groups,
+                    ),
+                ),
             ]
         else:
             layers = [
-                ("conv_0", conv_layer(
-                    in_channels,
-                    mid_channels,
-                    1,
-                    act_fn=act_fn,
-                    bn_1st=bn_1st,
-                ),),
-                ("conv_1", conv_layer(
-                    mid_channels,
-                    mid_channels,
-                    3,
-                    stride=stride,
-                    act_fn=act_fn,
-                    bn_1st=bn_1st,
-                    groups=mid_channels if dw else groups,
-                ),),
-                ("conv_2", conv_layer(
-                    mid_channels,
-                    out_channels,
-                    1,
-                    zero_bn=zero_bn,
-                    act_fn=False,
-                    bn_1st=bn_1st,
-                ),),  # noqa E501
+                (
+                    "conv_0",
+                    conv_layer(
+                        in_channels,
+                        mid_channels,
+                        1,
+                        act_fn=act_fn,
+                        bn_1st=bn_1st,
+                    ),
+                ),
+                (
+                    "conv_1",
+                    conv_layer(
+                        mid_channels,
+                        mid_channels,
+                        3,
+                        stride=stride,
+                        act_fn=act_fn,
+                        bn_1st=bn_1st,
+                        groups=mid_channels if dw else groups,
+                    ),
+                ),
+                (
+                    "conv_2",
+                    conv_layer(
+                        mid_channels,
+                        out_channels,
+                        1,
+                        zero_bn=zero_bn,
+                        act_fn=False,
+                        bn_1st=bn_1st,
+                    ),
+                ),  # noqa E501
             ]
         if se:
             layers.append(("se", se(out_channels)))
@@ -109,16 +124,23 @@ class ResBlock(nn.Module):
         self.convs = nn.Sequential(OrderedDict(layers))
         if stride != 1 or in_channels != out_channels:
             id_layers = []
-            if stride != 1 and pool is not None:  # if pool - reduce by pool else stride 2 art id_conv
+            if (
+                stride != 1 and pool is not None
+            ):  # if pool - reduce by pool else stride 2 art id_conv
                 id_layers.append(("pool", pool()))
             if in_channels != out_channels or (stride != 1 and pool is None):
-                id_layers += [("id_conv", conv_layer(
-                    in_channels,
-                    out_channels,
-                    1,
-                    stride=1 if pool else stride,
-                    act_fn=False,
-                ),)]
+                id_layers += [
+                    (
+                        "id_conv",
+                        conv_layer(
+                            in_channels,
+                            out_channels,
+                            1,
+                            stride=1 if pool else stride,
+                            act_fn=False,
+                        ),
+                    )
+                ]
             self.id_conv = nn.Sequential(OrderedDict(id_layers))
         else:
             self.id_conv = None
@@ -132,16 +154,17 @@ class ResBlock(nn.Module):
 def make_stem(cfg: TModelCfg) -> nn.Sequential:  # type: ignore
     len_stem = len(cfg.stem_sizes)
     stem: List[tuple[str, nn.Module]] = [
-        (f"conv_{i}", cfg.conv_layer(
-            cfg.stem_sizes[i - 1] if i else cfg.in_chans,  # type: ignore
-            cfg.stem_sizes[i],
-            stride=2 if i == cfg.stem_stride_on else 1,
-            bn_layer=(not cfg.stem_bn_end)
-            if i == (len_stem - 1)
-            else True,
-            act_fn=cfg.act_fn,
-            bn_1st=cfg.bn_1st,
-        ),)
+        (
+            f"conv_{i}",
+            cfg.conv_layer(
+                cfg.stem_sizes[i - 1] if i else cfg.in_chans,  # type: ignore
+                cfg.stem_sizes[i],
+                stride=2 if i == cfg.stem_stride_on else 1,
+                bn_layer=(not cfg.stem_bn_end) if i == (len_stem - 1) else True,
+                act_fn=cfg.act_fn,
+                bn_1st=cfg.bn_1st,
+            ),
+        )
         for i in range(len_stem)
     ]
     if cfg.stem_pool:
@@ -164,7 +187,9 @@ def make_layer(cfg: TModelCfg, layer_num: int) -> nn.Sequential:  # type: ignore
                     f"bl_{block_num}",
                     cfg.block(
                         cfg.expansion,  # type: ignore
-                        block_chs[layer_num] if block_num == 0 else block_chs[layer_num + 1],
+                        block_chs[layer_num]
+                        if block_num == 0
+                        else block_chs[layer_num + 1],
                         block_chs[layer_num + 1],
                         stride if block_num == 0 else 1,
                         sa=cfg.sa
@@ -191,10 +216,7 @@ def make_body(cfg: TModelCfg) -> nn.Sequential:  # type: ignore
     return nn.Sequential(
         OrderedDict(
             [
-                (
-                    f"l_{layer_num}",
-                    cfg.make_layer(cfg, layer_num)  # type: ignore
-                )
+                (f"l_{layer_num}", cfg.make_layer(cfg, layer_num))  # type: ignore
                 for layer_num in range(len(cfg.layers))
             ]
         )
@@ -222,7 +244,9 @@ class ModelCfg(BaseModel):
     layers: List[int] = [2, 2, 2, 2]
     norm: Type[nn.Module] = nn.BatchNorm2d
     act_fn: Type[nn.Module] = nn.ReLU
-    pool: Callable[[Any], nn.Module] = partial(nn.AvgPool2d, kernel_size=2, ceil_mode=True)
+    pool: Callable[[Any], nn.Module] = partial(
+        nn.AvgPool2d, kernel_size=2, ceil_mode=True
+    )
     expansion: int = 1
     groups: int = 1
     dw: bool = False
@@ -235,7 +259,9 @@ class ModelCfg(BaseModel):
     zero_bn: bool = True
     stem_stride_on: int = 0
     stem_sizes: List[int] = [32, 32, 64]
-    stem_pool: Union[Callable[[], nn.Module], None] = partial(nn.MaxPool2d, kernel_size=3, stride=2, padding=1)
+    stem_pool: Union[Callable[[], nn.Module], None] = partial(
+        nn.MaxPool2d, kernel_size=3, stride=2, padding=1
+    )
     stem_bn_end: bool = False
     init_cnn: Callable[[nn.Module], None] = init_cnn
     make_stem: Callable[[TModelCfg], Union[nn.Module, nn.Sequential]] = make_stem  # type: ignore
@@ -301,7 +327,7 @@ class ModelConstructor(ModelCfg):
 
     def __call__(self):
         model_name = self.name or self.__class__.__name__
-        named_sequential = type(model_name, (nn.Sequential, ), {})
+        named_sequential = type(model_name, (nn.Sequential,), {})
         model = named_sequential(
             OrderedDict([("stem", self.stem), ("body", self.body), ("head", self.head)])
         )
@@ -314,7 +340,8 @@ class ModelConstructor(ModelCfg):
     def _get_extra_repr(self) -> str:
         return " ".join(
             f"{field}: {self._get_str_value(field)},"
-            for field in self.__fields_set__ if field != "name"
+            for field in self.__fields_set__
+            if field != "name"
         )[:-1]
 
     def __repr__(self):
