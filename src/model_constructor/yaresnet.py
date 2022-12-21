@@ -124,7 +124,6 @@ class YaResBlock(nn.Module):
 
 
 class YaResNet34(ModelConstructor):
-    name: str = 'YaResnet34'
     block: Type[nn.Module] = YaResBlock
     expansion: int = 1
     layers: List[int] = [3, 4, 6, 3]
@@ -132,5 +131,4 @@ class YaResNet34(ModelConstructor):
 
 
 class YaResNet50(YaResNet34):
-    name: str = 'YaResnet50'
     expansion: int = 4

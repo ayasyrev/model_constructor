@@ -1,6 +1,6 @@
 from collections import OrderedDict
 from functools import partial
-from typing import Any, Callable, List, Type, TypeVar, Union
+from typing import Any, Callable, List, Optional, Type, TypeVar, Union
 
 import torch.nn as nn
 from pydantic import BaseModel, root_validator
@@ -212,7 +212,7 @@ def make_head(cfg: TModelCfg) -> nn.Sequential:  # type: ignore
 class ModelCfg(BaseModel):
     """Model constructor Config. As default - xresnet18"""
 
-    name: str = "MC"
+    name: Optional[str] = None
     in_chans: int = 3
     num_classes: int = 1000
     block: Type[nn.Module] = ResBlock
@@ -291,17 +291,36 @@ class ModelConstructor(ModelCfg):
         return cls(**cfg.dict())
 
     def __call__(self):
-        model = nn.Sequential(
+        model_name = self.name or self.__class__.__name__
+        named_sequential = type(model_name, (nn.Sequential, ), {})
+        model = named_sequential(
             OrderedDict([("stem", self.stem), ("body", self.body), ("head", self.head)])
         )
         self.init_cnn(model)  # pylint: disable=too-many-function-args
-        model.extra_repr = lambda: f"{self.name}"
+        extra_repr = self.get_extra_repr()
+        if extra_repr:
+            model.extra_repr = lambda: extra_repr
         return model
+
+    def get_extra_repr(self) -> str:
+        return " ".join(
+            f"{field}: {self.get_str_value(field)},"
+            for field in self.__fields_set__ if field != "name"
+        )[:-1]
+
+    def get_str_value(self, field: str) -> str:
+        value = getattr(self, field)
+        if isinstance(value, type):
+            value = value.__name__
+        if isinstance(value, partial):
+            value = f"{value.func.__name__} {value.keywords}"
+        return value
 
     def __repr__(self):
         se_repr = self.se.__name__ if self.se else "False"  # type: ignore
+        model_name = self.name or self.__class__.__name__
         return (
-            f"{self.name} constructor\n"
+            f"{model_name}\n"
             f"  in_chans: {self.in_chans}, num_classes: {self.num_classes}\n"
             f"  expansion: {self.expansion}, groups: {self.groups}, dw: {self.dw}, div_groups: {self.div_groups}\n"
             f"  act_fn: {self.act_fn.__name__}, sa: {self.sa}, se: {se_repr}\n"
@@ -312,10 +331,8 @@ class ModelConstructor(ModelCfg):
 
 
 class XResNet34(ModelConstructor):
-    name: str = "xresnet34"
     layers: list[int] = [3, 4, 6, 3]
 
 
 class XResNet50(XResNet34):
-    name: str = "xresnet50"
     expansion: int = 4
