@@ -247,15 +247,25 @@ class ModelCfg(BaseModel):
         arbitrary_types_allowed = True
         extra = "forbid"
 
-    def extra_repr(self) -> str:
-        res = ""
-        for k, v in self.dict().items():
-            if v is not None:
-                res += f"{k}: {v}\n"
-        return res
+    def _get_str_value(self, field: str) -> str:
+        value = getattr(self, field)
+        if isinstance(value, type):
+            value = value.__name__
+        elif isinstance(value, partial):
+            value = f"{value.func.__name__} {value.keywords}"
+        elif callable(value):
+            value = value.__name__
+        return value
 
-    def pprint(self) -> None:
-        print(self.extra_repr())
+    def __repr__(self) -> str:
+        return f"{self.__repr_name__()}(\n  {self.__repr_str__(chr(10) + '  ')})"
+
+    def __repr_args__(self):
+        return [
+            (field, str_value)
+            for field in self.__fields__
+            if (str_value := self._get_str_value(field))
+        ]
 
 
 class ModelConstructor(ModelCfg):
@@ -296,24 +306,16 @@ class ModelConstructor(ModelCfg):
             OrderedDict([("stem", self.stem), ("body", self.body), ("head", self.head)])
         )
         self.init_cnn(model)  # pylint: disable=too-many-function-args
-        extra_repr = self.get_extra_repr()
+        extra_repr = self._get_extra_repr()
         if extra_repr:
             model.extra_repr = lambda: extra_repr
         return model
 
-    def get_extra_repr(self) -> str:
+    def _get_extra_repr(self) -> str:
         return " ".join(
-            f"{field}: {self.get_str_value(field)},"
+            f"{field}: {self._get_str_value(field)},"
             for field in self.__fields_set__ if field != "name"
         )[:-1]
-
-    def get_str_value(self, field: str) -> str:
-        value = getattr(self, field)
-        if isinstance(value, type):
-            value = value.__name__
-        if isinstance(value, partial):
-            value = f"{value.func.__name__} {value.keywords}"
-        return value
 
     def __repr__(self):
         se_repr = self.se.__name__ if self.se else "False"  # type: ignore
@@ -327,6 +329,10 @@ class ModelConstructor(ModelCfg):
             f"  body sizes {self.block_sizes}\n"
             f"  layers: {self.layers}"
         )
+
+    def print_cfg(self) -> None:
+        """Print full config"""
+        print(f"{self.__repr_name__()}(\n  {self.__repr_str__(chr(10) + '  ')})")
 
 
 class XResNet34(ModelConstructor):
