@@ -18,7 +18,7 @@ __all__ = [
 
 
 class YaResBlock(nn.Module):
-    '''YaResBlock. Reduce by pool instead of stride 2'''
+    """YaResBlock. Reduce by pool instead of stride 2"""
 
     def __init__(
         self,
@@ -34,8 +34,8 @@ class YaResBlock(nn.Module):
         dw: bool = False,
         div_groups: Union[None, int] = None,
         pool: Union[Callable[[], nn.Module], None] = None,
-        se: Union[nn.Module, None] = None,
-        sa: Union[nn.Module, None] = None,
+        se: Union[Type[nn.Module], None] = None,
+        sa: Union[Type[nn.Module], None] = None,
     ):
         super().__init__()
         # pool defined at ModelConstructor.
@@ -53,51 +53,66 @@ class YaResBlock(nn.Module):
             self.reduce = None
         if expansion == 1:
             layers = [
-                ("conv_0", conv_layer(
-                    in_channels,
-                    mid_channels,
-                    3,
-                    stride=1,
-                    act_fn=act_fn,
-                    bn_1st=bn_1st,
-                    groups=in_channels if dw else groups,
-                ),),
-                ("conv_1", conv_layer(
-                    mid_channels,
-                    out_channels,
-                    3,
-                    zero_bn=zero_bn,
-                    act_fn=False,
-                    bn_1st=bn_1st,
-                    groups=mid_channels if dw else groups,
-                ),),
+                (
+                    "conv_0",
+                    conv_layer(
+                        in_channels,
+                        mid_channels,
+                        3,
+                        stride=1,
+                        act_fn=act_fn,
+                        bn_1st=bn_1st,
+                        groups=in_channels if dw else groups,
+                    ),
+                ),
+                (
+                    "conv_1",
+                    conv_layer(
+                        mid_channels,
+                        out_channels,
+                        3,
+                        zero_bn=zero_bn,
+                        act_fn=False,
+                        bn_1st=bn_1st,
+                        groups=mid_channels if dw else groups,
+                    ),
+                ),
             ]
         else:
             layers = [
-                ("conv_0", conv_layer(
-                    in_channels,
-                    mid_channels,
-                    1,
-                    act_fn=act_fn,
-                    bn_1st=bn_1st,
-                ),),
-                ("conv_1", conv_layer(
-                    mid_channels,
-                    mid_channels,
-                    3,
-                    stride=1,
-                    act_fn=act_fn,
-                    bn_1st=bn_1st,
-                    groups=mid_channels if dw else groups,
-                ),),
-                ("conv_2", conv_layer(
-                    mid_channels,
-                    out_channels,
-                    1,
-                    zero_bn=zero_bn,
-                    act_fn=False,
-                    bn_1st=bn_1st,
-                ),),  # noqa E501
+                (
+                    "conv_0",
+                    conv_layer(
+                        in_channels,
+                        mid_channels,
+                        1,
+                        act_fn=act_fn,
+                        bn_1st=bn_1st,
+                    ),
+                ),
+                (
+                    "conv_1",
+                    conv_layer(
+                        mid_channels,
+                        mid_channels,
+                        3,
+                        stride=1,
+                        act_fn=act_fn,
+                        bn_1st=bn_1st,
+                        groups=mid_channels if dw else groups,
+                    ),
+                ),
+                (
+                    "conv_2",
+                    conv_layer(
+                        mid_channels,
+                        out_channels,
+                        1,
+                        zero_bn=zero_bn,
+                        act_fn=False,
+                        bn_1st=bn_1st,
+                    ),
+                ),  # noqa E501
             ]
         if se:
             layers.append(("se", se(out_channels)))

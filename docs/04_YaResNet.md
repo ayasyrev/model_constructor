@@ -36,13 +36,13 @@ bl
 
 
 ```python
-pool = nn.AvgPool2d(2, ceil_mode=True)
+pool = partial(nn.AvgPool2d, kernel_size=2, ceil_mode=True)
 ```
 
 
 ```python
 
-bl = YaResBlock(4, 64, 128, stride=2, pool=pool, act_fn=nn.LeakyReLU(), bn_1st=False)
+bl = YaResBlock(4, 64, 128, stride=2, pool=pool, act_fn=nn.LeakyReLU, bn_1st=False)
 bl
 ```
 <details> <summary>output</summary>  
@@ -51,12 +51,12 @@ bl
       (convs): Sequential(
         (conv_0): ConvBnAct(
           (conv): Conv2d(256, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
-          (act_fn): LeakyReLU(negative_slope=0.01)
+          (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
           (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
         )
         (conv_1): ConvBnAct(
           (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-          (act_fn): LeakyReLU(negative_slope=0.01)
+          (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
           (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
         )
         (conv_2): ConvBnAct(
@@ -68,7 +68,7 @@ bl
         (conv): Conv2d(256, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
         (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
       )
-      (merge): LeakyReLU(negative_slope=0.01)
+      (merge): LeakyReLU(negative_slope=0.01, inplace=True)
     )<pre>
 </details>
 
@@ -77,7 +77,7 @@ bl
 
 ```python
 
-bl = YaResBlock(4, 64, 128, stride=2, pool=pool, act_fn=nn.LeakyReLU(), bn_1st=False, groups=4)
+bl = YaResBlock(4, 64, 128, stride=2, pool=pool, act_fn=nn.LeakyReLU, bn_1st=False, groups=4)
 bl
 ```
 <details> <summary>output</summary>  
@@ -86,12 +86,12 @@ bl
       (convs): Sequential(
         (conv_0): ConvBnAct(
           (conv): Conv2d(256, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
-          (act_fn): LeakyReLU(negative_slope=0.01)
+          (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
           (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
         )
         (conv_1): ConvBnAct(
           (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=4, bias=False)
-          (act_fn): LeakyReLU(negative_slope=0.01)
+          (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
           (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
         )
         (conv_2): ConvBnAct(
@@ -103,7 +103,7 @@ bl
         (conv): Conv2d(256, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
         (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
       )
-      (merge): LeakyReLU(negative_slope=0.01)
+      (merge): LeakyReLU(negative_slope=0.01, inplace=True)
     )<pre>
 </details>
 
@@ -112,7 +112,7 @@ bl
 
 ```python
 
-bl = YaResBlock(4, 64, 128, stride=2, pool=pool, act_fn=nn.LeakyReLU(), bn_1st=False, div_groups=4)
+bl = YaResBlock(4, 64, 128, stride=2, pool=pool, act_fn=nn.LeakyReLU, bn_1st=False, div_groups=4)
 bl
 ```
 <details> <summary>output</summary>  
@@ -121,12 +121,12 @@ bl
       (convs): Sequential(
         (conv_0): ConvBnAct(
           (conv): Conv2d(256, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
-          (act_fn): LeakyReLU(negative_slope=0.01)
+          (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
           (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
         )
         (conv_1): ConvBnAct(
           (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=32, bias=False)
-          (act_fn): LeakyReLU(negative_slope=0.01)
+          (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
           (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
         )
         (conv_2): ConvBnAct(
@@ -138,7 +138,7 @@ bl
         (conv): Conv2d(256, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
         (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
       )
-      (merge): LeakyReLU(negative_slope=0.01)
+      (merge): LeakyReLU(negative_slope=0.01, inplace=True)
     )<pre>
 </details>
 
@@ -147,7 +147,7 @@ bl
 
 ```python
 
-bl = YaResBlock(1, 64, 128, stride=2, pool=pool, act_fn=nn.LeakyReLU(), bn_1st=False, dw=True)
+bl = YaResBlock(1, 64, 128, stride=2, pool=pool, act_fn=nn.Mish, bn_1st=False, dw=True)
 bl
 ```
 <details> <summary>output</summary>  
@@ -156,7 +156,7 @@ bl
       (convs): Sequential(
         (conv_0): ConvBnAct(
           (conv): Conv2d(64, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=64, bias=False)
-          (act_fn): LeakyReLU(negative_slope=0.01)
+          (act_fn): Mish(inplace=True)
           (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
         )
         (conv_1): ConvBnAct(
@@ -168,7 +168,7 @@ bl
         (conv): Conv2d(64, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
         (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
       )
-      (merge): LeakyReLU(negative_slope=0.01)
+      (merge): Mish(inplace=True)
     )<pre>
 </details>
 
@@ -184,7 +184,7 @@ from model_constructor.layers import SimpleSelfAttention, SEModule
 
 ```python
 
-bl = YaResBlock(4, 64, 128, stride=2, pool=pool, act_fn=nn.LeakyReLU(), dw=True, se=SEModule)
+bl = YaResBlock(4, 64, 128, stride=2, pool=pool, act_fn=nn.GELU, dw=True, se=SEModule)
 bl
 ```
 <details> <summary>output</summary>  
@@ -194,12 +194,12 @@ bl
         (conv_0): ConvBnAct(
           (conv): Conv2d(256, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
           (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-          (act_fn): LeakyReLU(negative_slope=0.01)
+          (act_fn): GELU(approximate='none')
         )
         (conv_1): ConvBnAct(
           (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=128, bias=False)
           (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-          (act_fn): LeakyReLU(negative_slope=0.01)
+          (act_fn): GELU(approximate='none')
         )
         (conv_2): ConvBnAct(
           (conv): Conv2d(128, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
@@ -219,7 +219,7 @@ bl
         (conv): Conv2d(256, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
         (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
       )
-      (merge): LeakyReLU(negative_slope=0.01)
+      (merge): GELU(approximate='none')
     )<pre>
 </details>
 
@@ -228,7 +228,7 @@ bl
 
 ```python
 
-bl = YaResBlock(4, 64, 128, stride=2, pool=pool, act_fn=nn.LeakyReLU(), dw=True, sa=SimpleSelfAttention)
+bl = YaResBlock(4, 64, 128, stride=2, pool=pool, act_fn=nn.LeakyReLU, dw=True, sa=SimpleSelfAttention)
 bl
 ```
 <details> <summary>output</summary>  
@@ -238,12 +238,12 @@ bl
         (conv_0): ConvBnAct(
           (conv): Conv2d(256, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
           (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-          (act_fn): LeakyReLU(negative_slope=0.01)
+          (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
         )
         (conv_1): ConvBnAct(
           (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=128, bias=False)
           (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-          (act_fn): LeakyReLU(negative_slope=0.01)
+          (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
         )
         (conv_2): ConvBnAct(
           (conv): Conv2d(128, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
@@ -257,7 +257,7 @@ bl
         (conv): Conv2d(256, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
         (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
       )
-      (merge): LeakyReLU(negative_slope=0.01)
+      (merge): LeakyReLU(negative_slope=0.01, inplace=True)
     )<pre>
 </details>
 
@@ -270,7 +270,7 @@ bl = YaResBlock(
     4, 64, 128,
     stride=2,
     pool=pool,
-    act_fn=nn.LeakyReLU(),
+    act_fn=nn.LeakyReLU,
     dw=True,
     se=SEModule,
     sa=SimpleSelfAttention)
@@ -283,12 +283,12 @@ bl
         (conv_0): ConvBnAct(
           (conv): Conv2d(256, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
           (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-          (act_fn): LeakyReLU(negative_slope=0.01)
+          (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
         )
         (conv_1): ConvBnAct(
           (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=128, bias=False)
           (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-          (act_fn): LeakyReLU(negative_slope=0.01)
+          (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
         )
         (conv_2): ConvBnAct(
           (conv): Conv2d(128, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
@@ -311,7 +311,7 @@ bl
         (conv): Conv2d(256, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
         (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
       )
-      (merge): LeakyReLU(negative_slope=0.01)
+      (merge): LeakyReLU(negative_slope=0.01, inplace=True)
     )<pre>
 </details>
 
@@ -334,10 +334,10 @@ yaresnet  = ModelConstructor(
 yaresnet
 ```
 <details open> <summary>output</summary>  
-    <pre>YaResNet constructor
+    <pre>YaResNet
       in_chans: 3, num_classes: 1000
       expansion: 1, groups: 1, dw: False, div_groups: None
-      sa: False, se: False
+      act_fn: ReLU, sa: False, se: False
       stem sizes: [3, 32, 64, 64], stride on 0
       body sizes [64, 128, 256, 512]
       layers: [2, 2, 2, 2]<pre>
@@ -363,16 +363,21 @@ yaresnet.stem
 <details> <summary>output</summary>  
     <pre>Sequential(
       (conv_0): ConvBnAct(
-        (conv): Conv2d(3, 32, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
-        (bn): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (conv): Conv2d(3, 3, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
+        (bn): BatchNorm2d(3, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
         (act_fn): ReLU(inplace=True)
       )
       (conv_1): ConvBnAct(
+        (conv): Conv2d(3, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act_fn): ReLU(inplace=True)
+      )
+      (conv_2): ConvBnAct(
         (conv): Conv2d(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
         (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
         (act_fn): ReLU(inplace=True)
       )
-      (conv_2): ConvBnAct(
+      (conv_3): ConvBnAct(
         (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
         (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
         (act_fn): ReLU(inplace=True)
@@ -550,27 +555,32 @@ Lots of experiments showed that it worth trying Mish activation function.
 
 ```python
 
-yaresnet.act_fn = torch.nn.Mish()
+yaresnet.act_fn = torch.nn.Mish
 yaresnet()
 ```
 <details> <summary>output</summary>  
-    <pre>Sequential(
-      YaResNet
+    <pre>YaResNet(
+      act_fn: Mish, block: YaResBlock, stem_sizes: [3, 32, 64, 64]
       (stem): Sequential(
         (conv_0): ConvBnAct(
-          (conv): Conv2d(3, 32, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
-          (bn): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-          (act_fn): Mish()
+          (conv): Conv2d(3, 3, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
+          (bn): BatchNorm2d(3, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (act_fn): Mish(inplace=True)
         )
         (conv_1): ConvBnAct(
-          (conv): Conv2d(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-          (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-          (act_fn): Mish()
+          (conv): Conv2d(3, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+          (bn): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (act_fn): Mish(inplace=True)
         )
         (conv_2): ConvBnAct(
+          (conv): Conv2d(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+          (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (act_fn): Mish(inplace=True)
+        )
+        (conv_3): ConvBnAct(
           (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
           (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-          (act_fn): Mish()
+          (act_fn): Mish(inplace=True)
         )
         (stem_pool): MaxPool2d(kernel_size=3, stride=2, padding=1, dilation=1, ceil_mode=False)
       )
@@ -581,28 +591,28 @@ yaresnet()
               (conv_0): ConvBnAct(
                 (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
                 (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-                (act_fn): Mish()
+                (act_fn): Mish(inplace=True)
               )
               (conv_1): ConvBnAct(
                 (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
                 (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
               )
             )
-            (merge): Mish()
+            (merge): Mish(inplace=True)
           )
           (bl_1): YaResBlock(
             (convs): Sequential(
               (conv_0): ConvBnAct(
                 (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
                 (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-                (act_fn): Mish()
+                (act_fn): Mish(inplace=True)
               )
               (conv_1): ConvBnAct(
                 (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
                 (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
               )
             )
-            (merge): Mish()
+            (merge): Mish(inplace=True)
           )
         )
         (l_1): Sequential(
@@ -612,7 +622,7 @@ yaresnet()
               (conv_0): ConvBnAct(
                 (conv): Conv2d(64, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
                 (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-                (act_fn): Mish()
+                (act_fn): Mish(inplace=True)
               )
               (conv_1): ConvBnAct(
                 (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
@@ -623,21 +633,21 @@ yaresnet()
               (conv): Conv2d(64, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
               (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
             )
-            (merge): Mish()
+            (merge): Mish(inplace=True)
           )
           (bl_1): YaResBlock(
             (convs): Sequential(
               (conv_0): ConvBnAct(
                 (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
                 (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-                (act_fn): Mish()
+                (act_fn): Mish(inplace=True)
               )
               (conv_1): ConvBnAct(
                 (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
                 (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
               )
             )
-            (merge): Mish()
+            (merge): Mish(inplace=True)
           )
         )
         (l_2): Sequential(
@@ -647,7 +657,7 @@ yaresnet()
               (conv_0): ConvBnAct(
                 (conv): Conv2d(128, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
                 (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-                (act_fn): Mish()
+                (act_fn): Mish(inplace=True)
               )
               (conv_1): ConvBnAct(
                 (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
@@ -658,21 +668,21 @@ yaresnet()
               (conv): Conv2d(128, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
               (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
             )
-            (merge): Mish()
+            (merge): Mish(inplace=True)
           )
           (bl_1): YaResBlock(
             (convs): Sequential(
               (conv_0): ConvBnAct(
                 (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
                 (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-                (act_fn): Mish()
+                (act_fn): Mish(inplace=True)
               )
               (conv_1): ConvBnAct(
                 (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
                 (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
               )
             )
-            (merge): Mish()
+            (merge): Mish(inplace=True)
           )
         )
         (l_3): Sequential(
@@ -682,7 +692,7 @@ yaresnet()
               (conv_0): ConvBnAct(
                 (conv): Conv2d(256, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
                 (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-                (act_fn): Mish()
+                (act_fn): Mish(inplace=True)
               )
               (conv_1): ConvBnAct(
                 (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
@@ -693,21 +703,21 @@ yaresnet()
               (conv): Conv2d(256, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
               (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
             )
-            (merge): Mish()
+            (merge): Mish(inplace=True)
           )
           (bl_1): YaResBlock(
             (convs): Sequential(
               (conv_0): ConvBnAct(
                 (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
                 (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-                (act_fn): Mish()
+                (act_fn): Mish(inplace=True)
               )
               (conv_1): ConvBnAct(
                 (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
                 (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
               )
             )
-            (merge): Mish()
+            (merge): Mish(inplace=True)
           )
         )
       )
@@ -745,11 +755,11 @@ yaresnet34 = YaResNet34()
 yaresnet34
 ```
 <details open> <summary>output</summary>  
-    <pre>YaResnet34 constructor
+    <pre>YaResNet34
       in_chans: 3, num_classes: 1000
       expansion: 1, groups: 1, dw: False, div_groups: None
-      sa: False, se: False
-      stem sizes: [3, 32, 32, 64], stride on 0
+      act_fn: Mish, sa: False, se: False
+      stem sizes: [32, 32, 64], stride on 0
       body sizes [64, 128, 256, 512]
       layers: [3, 4, 6, 3]<pre>
 </details>
@@ -762,11 +772,11 @@ yaresnet50 = YaResNet50()
 yaresnet50
 ```
 <details open> <summary>output</summary>  
-    <pre>YaResnet50 constructor
+    <pre>YaResNet50
       in_chans: 3, num_classes: 1000
       expansion: 4, groups: 1, dw: False, div_groups: None
-      sa: False, se: False
-      stem sizes: [3, 32, 32, 64], stride on 0
+      act_fn: Mish, sa: False, se: False
+      stem sizes: [32, 32, 64], stride on 0
       body sizes [64, 128, 256, 512]
       layers: [3, 4, 6, 3]<pre>
 </details>

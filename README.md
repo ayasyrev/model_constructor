@@ -32,55 +32,48 @@ Check base parameters:
 ```python
 mc
 ```
-
-    MC constructor
+<details open> <summary>output</summary>  
+    <pre>ModelConstructor
       in_chans: 3, num_classes: 1000
       expansion: 1, groups: 1, dw: False, div_groups: None
-      sa: False, se: False
-      stem sizes: [3, 32, 32, 64], stride on 0
+      act_fn: ReLU, sa: False, se: False
+      stem sizes: [32, 32, 64], stride on 0
       body sizes [64, 128, 256, 512]
-      layers: [2, 2, 2, 2]
+      layers: [2, 2, 2, 2]<pre>
+</details>
 
 
 
-Check all parameters with `pprint` method:
+Check all parameters with `print_cfg` method:
 
 
 ```python
-mc.pprint()
+mc.print_cfg()
 ```
-<details open>
-<summary>Output</summary>
-
-    name: MC
-    in_chans: 3
-    num_classes: 1000
-    block: <class 'model_constructor.model_constructor.ResBlock'>
-    conv_layer: <class 'model_constructor.layers.ConvBnAct'>
-    block_sizes: [64, 128, 256, 512]
-    layers: [2, 2, 2, 2]
-    norm: <class 'torch.nn.modules.batchnorm.BatchNorm2d'>
-    act_fn: ReLU(inplace=True)
-    pool: AvgPool2d(kernel_size=2, stride=2, padding=0)
-    expansion: 1
-    groups: 1
-    dw: False
-    sa: False
-    se: False
-    bn_1st: True
-    zero_bn: True
-    stem_stride_on: 0
-    stem_sizes: [3, 32, 32, 64]
-    stem_pool: MaxPool2d(kernel_size=3, stride=2, padding=1, dilation=1, ceil_mode=False)
-    stem_bn_end: False
-    init_cnn: <function init_cnn at 0x7f064c736440>
-    make_stem: <function make_stem at 0x7f064c7cd630>
-    make_layer: <function make_layer at 0x7f064c7cd6c0>
-    make_body: <function make_body at 0x7f064c7cd750>
-    make_head: <function make_head at 0x7f064c7cd7e0>
-    
+<details open> <summary>output</summary>  
+    <pre>ModelConstructor(
+      in_chans=3
+      num_classes=1000
+      block='ResBlock'
+      conv_layer='ConvBnAct'
+      block_sizes=[64, 128, 256, 512]
+      layers=[2, 2, 2, 2]
+      norm='BatchNorm2d'
+      act_fn='ReLU'
+      pool="AvgPool2d {'kernel_size': 2, 'ceil_mode': True}"
+      expansion=1
+      groups=1
+      bn_1st=True
+      zero_bn=True
+      stem_sizes=[32, 32, 64]
+      stem_pool="MaxPool2d {'kernel_size': 3, 'stride': 2, 'padding': 1}"
+      init_cnn='init_cnn'
+      make_stem='make_stem'
+      make_layer='make_layer'
+      make_body='make_body'
+      make_head='make_head')
+    <pre>
 </details>
-
 
 Now we have model constructor, default setting as xresnet18. And we can get model after call it.
 
@@ -90,11 +83,8 @@ Now we have model constructor, default setting as xresnet18. And we can get mode
 model = mc()
 model
 ```
-<details >
-<summary>Output</summary>
-
-    Sequential(
-      MC
+<details> <summary>output</summary>  
+    <pre>ModelConstructor(
       (stem): Sequential(
         (conv_0): ConvBnAct(
           (conv): Conv2d(3, 32, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
@@ -261,8 +251,9 @@ model
         (flat): Flatten(start_dim=1, end_dim=-1)
         (fc): Linear(in_features=512, out_features=1000, bias=True)
       )
-    )
+    )<pre>
 </details>
+
 
 
 If you want to change model, just change constructor parameters.  
@@ -281,10 +272,8 @@ Now we can look at model parts - stem, body, head.
 
 mc.body
 ```
-<details >
-<summary>Output</summary>
-
-    Sequential(
+<details> <summary>output</summary>  
+    <pre>Sequential(
       (l_0): Sequential(
         (bl_0): ResBlock(
           (convs): Sequential(
@@ -624,8 +613,9 @@ mc.body
           (act_fn): ReLU(inplace=True)
         )
       )
-    )
+    )<pre>
 </details>
+
 
 
 ## Create constructor from config.
@@ -642,12 +632,10 @@ from model_constructor import ModelCfg
 cfg = ModelCfg()
 print(cfg)
 ```
-<details open>
-<summary>Output</summary>
-
-    name='MC' in_chans=3 num_classes=1000 block=<class 'model_constructor.model_constructor.ResBlock'> conv_layer=<class 'model_constructor.layers.ConvBnAct'> block_sizes=[64, 128, 256, 512] layers=[2, 2, 2, 2] norm=<class 'torch.nn.modules.batchnorm.BatchNorm2d'> act_fn=ReLU(inplace=True) pool=AvgPool2d(kernel_size=2, stride=2, padding=0) expansion=1 groups=1 dw=False div_groups=None sa=False se=False se_module=None se_reduction=None bn_1st=True zero_bn=True stem_stride_on=0 stem_sizes=[32, 32, 64] stem_pool=MaxPool2d(kernel_size=3, stride=2, padding=1, dilation=1, ceil_mode=False) stem_bn_end=False init_cnn=None make_stem=None make_layer=None make_body=None make_head=None
+<details open> <summary>output</summary>  
+    <pre>in_chans=3 num_classes=1000 block='ResBlock' conv_layer='ConvBnAct' block_sizes=[64, 128, 256, 512] layers=[2, 2, 2, 2] norm='BatchNorm2d' act_fn='ReLU' pool="AvgPool2d {'kernel_size': 2, 'ceil_mode': True}" expansion=1 groups=1 bn_1st=True zero_bn=True stem_sizes=[32, 32, 64] stem_pool="MaxPool2d {'kernel_size': 3, 'stride': 2, 'padding': 1}" init_cnn='init_cnn' make_stem='make_stem' make_layer='make_layer' make_body='make_body' make_head='make_head'
+    <pre>
 </details>
-
 
 Now we can create constructor from config:
 
@@ -656,13 +644,15 @@ Now we can create constructor from config:
 mc = ModelConstructor.from_cfg(cfg)
 mc
 ```
-    MC constructor
+<details open> <summary>output</summary>  
+    <pre>ModelConstructor
       in_chans: 3, num_classes: 1000
       expansion: 1, groups: 1, dw: False, div_groups: None
-      sa: False, se: False
-      stem sizes: [3, 32, 32, 64], stride on 0
+      act_fn: ReLU, sa: False, se: False
+      stem sizes: [32, 32, 64], stride on 0
       body sizes [64, 128, 256, 512]
-      layers: [2, 2, 2, 2]
+      layers: [2, 2, 2, 2]<pre>
+</details>
 
 
 
@@ -700,21 +690,22 @@ from torch.nn import Mish
 
 
 ```python
-mc.act_fn = Mish()
+mc.act_fn = Mish
 ```
 
 
 ```python
 mc
 ```
-
-    MxResNet constructor
+<details open> <summary>output</summary>  
+    <pre>MxResNet
       in_chans: 3, num_classes: 1000
       expansion: 1, groups: 1, dw: False, div_groups: None
-      sa: False, se: False
+      act_fn: Mish, sa: False, se: False
       stem sizes: [3, 32, 64, 64], stride on 0
       body sizes [64, 128, 256, 512]
-      layers: [2, 2, 2, 2]
+      layers: [2, 2, 2, 2]<pre>
+</details>
 
 
 
@@ -725,26 +716,29 @@ Here is model:
 
 mc()
 ```
-<details >
-<summary>Output</summary>
-
-    Sequential(
-      MxResNet
+<details> <summary>output</summary>  
+    <pre>MxResNet(
+      stem_sizes: [3, 32, 64, 64], act_fn: Mish
       (stem): Sequential(
         (conv_0): ConvBnAct(
-          (conv): Conv2d(3, 32, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
-          (bn): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-          (act_fn): Mish()
+          (conv): Conv2d(3, 3, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
+          (bn): BatchNorm2d(3, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (act_fn): Mish(inplace=True)
         )
         (conv_1): ConvBnAct(
-          (conv): Conv2d(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-          (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-          (act_fn): Mish()
+          (conv): Conv2d(3, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+          (bn): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (act_fn): Mish(inplace=True)
         )
         (conv_2): ConvBnAct(
+          (conv): Conv2d(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+          (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (act_fn): Mish(inplace=True)
+        )
+        (conv_3): ConvBnAct(
           (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
           (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-          (act_fn): Mish()
+          (act_fn): Mish(inplace=True)
         )
         (stem_pool): MaxPool2d(kernel_size=3, stride=2, padding=1, dilation=1, ceil_mode=False)
       )
@@ -755,28 +749,28 @@ mc()
               (conv_0): ConvBnAct(
                 (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
                 (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-                (act_fn): Mish()
+                (act_fn): Mish(inplace=True)
               )
               (conv_1): ConvBnAct(
                 (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
                 (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
               )
             )
-            (act_fn): Mish()
+            (act_fn): Mish(inplace=True)
           )
           (bl_1): ResBlock(
             (convs): Sequential(
               (conv_0): ConvBnAct(
                 (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
                 (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-                (act_fn): Mish()
+                (act_fn): Mish(inplace=True)
               )
               (conv_1): ConvBnAct(
                 (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
                 (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
               )
             )
-            (act_fn): Mish()
+            (act_fn): Mish(inplace=True)
           )
         )
         (l_1): Sequential(
@@ -785,7 +779,7 @@ mc()
               (conv_0): ConvBnAct(
                 (conv): Conv2d(64, 128, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
                 (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-                (act_fn): Mish()
+                (act_fn): Mish(inplace=True)
               )
               (conv_1): ConvBnAct(
                 (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
@@ -799,21 +793,21 @@ mc()
                 (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
               )
             )
-            (act_fn): Mish()
+            (act_fn): Mish(inplace=True)
           )
           (bl_1): ResBlock(
             (convs): Sequential(
               (conv_0): ConvBnAct(
                 (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
                 (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-                (act_fn): Mish()
+                (act_fn): Mish(inplace=True)
               )
               (conv_1): ConvBnAct(
                 (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
                 (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
               )
             )
-            (act_fn): Mish()
+            (act_fn): Mish(inplace=True)
           )
         )
         (l_2): Sequential(
@@ -822,7 +816,7 @@ mc()
               (conv_0): ConvBnAct(
                 (conv): Conv2d(128, 256, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
                 (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-                (act_fn): Mish()
+                (act_fn): Mish(inplace=True)
               )
               (conv_1): ConvBnAct(
                 (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
@@ -836,21 +830,21 @@ mc()
                 (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
               )
             )
-            (act_fn): Mish()
+            (act_fn): Mish(inplace=True)
           )
           (bl_1): ResBlock(
             (convs): Sequential(
               (conv_0): ConvBnAct(
                 (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
                 (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-                (act_fn): Mish()
+                (act_fn): Mish(inplace=True)
               )
               (conv_1): ConvBnAct(
                 (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
                 (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
               )
             )
-            (act_fn): Mish()
+            (act_fn): Mish(inplace=True)
           )
         )
         (l_3): Sequential(
@@ -859,7 +853,7 @@ mc()
               (conv_0): ConvBnAct(
                 (conv): Conv2d(256, 512, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
                 (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-                (act_fn): Mish()
+                (act_fn): Mish(inplace=True)
               )
               (conv_1): ConvBnAct(
                 (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
@@ -873,21 +867,21 @@ mc()
                 (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
               )
             )
-            (act_fn): Mish()
+            (act_fn): Mish(inplace=True)
           )
           (bl_1): ResBlock(
             (convs): Sequential(
               (conv_0): ConvBnAct(
                 (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
                 (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-                (act_fn): Mish()
+                (act_fn): Mish(inplace=True)
               )
               (conv_1): ConvBnAct(
                 (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
                 (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
               )
             )
-            (act_fn): Mish()
+            (act_fn): Mish(inplace=True)
           )
         )
       )
@@ -896,8 +890,9 @@ mc()
         (flat): Flatten(start_dim=1, end_dim=-1)
         (fc): Linear(in_features=512, out_features=1000, bias=True)
       )
-    )
+    )<pre>
 </details>
+
 
 
 ## MXResNet50
@@ -919,13 +914,15 @@ And after call it we got model.
 ```python
 mc
 ```
-    mxresnet50 constructor
+<details open> <summary>output</summary>  
+    <pre>mxresnet50
       in_chans: 3, num_classes: 1000
       expansion: 4, groups: 1, dw: False, div_groups: None
-      sa: False, se: False
+      act_fn: Mish, sa: False, se: False
       stem sizes: [3, 32, 64, 64], stride on 0
       body sizes [64, 128, 256, 512]
-      layers: [3, 4, 6, 3]
+      layers: [3, 4, 6, 3]<pre>
+</details>
 
 
 
@@ -934,17 +931,14 @@ mc
 
 mc.stem.conv_1
 ```
-
-<details open>
-<summary>Output</summary>
-
-    ConvBnAct(  
-      (conv): Conv2d(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1),   
-      bias=False)  
-      (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True,   track_running_stats=True)  
-      (act_fn): Mish()  
-    )  
+<details> <summary>output</summary>  
+    <pre>ConvBnAct(
+      (conv): Conv2d(3, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (act_fn): Mish(inplace=True)
+    )<pre>
 </details>
+
 
 
 
@@ -952,20 +946,18 @@ mc.stem.conv_1
 
 mc.body.l_0.bl_0
 ```
-<details >
-<summary>Output</summary>
-
-    ResBlock(
+<details> <summary>output</summary>  
+    <pre>ResBlock(
       (convs): Sequential(
         (conv_0): ConvBnAct(
           (conv): Conv2d(64, 64, kernel_size=(1, 1), stride=(1, 1), bias=False)
           (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-          (act_fn): Mish()
+          (act_fn): Mish(inplace=True)
         )
         (conv_1): ConvBnAct(
           (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
           (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-          (act_fn): Mish()
+          (act_fn): Mish(inplace=True)
         )
         (conv_2): ConvBnAct(
           (conv): Conv2d(64, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
@@ -978,8 +970,8 @@ mc.body.l_0.bl_0
           (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
         )
       )
-      (act_fn): Mish()
-    )
+      (act_fn): Mish(inplace=True)
+    )<pre>
 </details>
 
 
@@ -988,7 +980,7 @@ We can get model direct way:
 
 
 ```python
-mc = ModelConstructor(name="MxResNet", act_fn=Mish(), layers=[3,4,6,3], expansion=4, stem_sizes=[32,64,64])
+mc = ModelConstructor(name="MxResNet", act_fn=Mish, layers=[3,4,6,3], expansion=4, stem_sizes=[32,64,64])
 model = mc()
 ```
 
@@ -997,7 +989,7 @@ Or create with config:
 
 ```python
 mc = ModelConstructor.from_cfg(
-    ModelCfg(name="MxResNet", act_fn=Mish(), layers=[3,4,6,3], expansion=4, stem_sizes=[32,64,64])
+    ModelCfg(name="MxResNet", act_fn=Mish, layers=[3,4,6,3], expansion=4, stem_sizes=[32,64,64])
 )
 model = mc()
 ```
@@ -1022,40 +1014,33 @@ That all. Now we have YaResNet constructor
 ```python
 
 mc.name = 'YaResNet'
-mc.pprint()
+mc.print_cfg()
 ```
-<details open>
-<summary>Output</summary>
-
-    name: YaResNet
-    in_chans: 3
-    num_classes: 1000
-    block: <class 'model_constructor.yaresnet.YaResBlock'>
-    conv_layer: <class 'model_constructor.layers.ConvBnAct'>
-    block_sizes: [64, 128, 256, 512]
-    layers: [3, 4, 6, 3]
-    norm: <class 'torch.nn.modules.batchnorm.BatchNorm2d'>
-    act_fn: Mish()
-    pool: AvgPool2d(kernel_size=2, stride=2, padding=0)
-    expansion: 4
-    groups: 1
-    dw: False
-    sa: False
-    se: False
-    bn_1st: True
-    zero_bn: True
-    stem_stride_on: 0
-    stem_sizes: [3, 32, 64, 64]
-    stem_pool: MaxPool2d(kernel_size=3, stride=2, padding=1, dilation=1, ceil_mode=False)
-    stem_bn_end: False
-    init_cnn: <function init_cnn at 0x7f064c736440>
-    make_stem: <function make_stem at 0x7f064c7cd630>
-    make_layer: <function make_layer at 0x7f064c7cd6c0>
-    make_body: <function make_body at 0x7f064c7cd750>
-    make_head: <function make_head at 0x7f064c7cd7e0>
-    
+<details> <summary>output</summary>  
+    <pre>ModelConstructor(
+      name='YaResNet'
+      in_chans=3
+      num_classes=1000
+      block='YaResBlock'
+      conv_layer='ConvBnAct'
+      block_sizes=[64, 128, 256, 512]
+      layers=[3, 4, 6, 3]
+      norm='BatchNorm2d'
+      act_fn='Mish'
+      pool="AvgPool2d {'kernel_size': 2, 'ceil_mode': True}"
+      expansion=4
+      groups=1
+      bn_1st=True
+      zero_bn=True
+      stem_sizes=[32, 64, 64]
+      stem_pool="MaxPool2d {'kernel_size': 3, 'stride': 2, 'padding': 1}"
+      init_cnn='init_cnn'
+      make_stem='make_stem'
+      make_layer='make_layer'
+      make_body='make_body'
+      make_head='make_head')
+    <pre>
 </details>
-
 
 Let see what we have.
 
@@ -1064,21 +1049,19 @@ Let see what we have.
 
 mc.body.l_1.bl_0
 ```
-<details >
-<summary>Output</summary>
-
-    YaResBlock(
+<details> <summary>output</summary>  
+    <pre>YaResBlock(
       (reduce): AvgPool2d(kernel_size=2, stride=2, padding=0)
       (convs): Sequential(
         (conv_0): ConvBnAct(
           (conv): Conv2d(256, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
           (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-          (act_fn): Mish()
+          (act_fn): Mish(inplace=True)
         )
         (conv_1): ConvBnAct(
           (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
           (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-          (act_fn): Mish()
+          (act_fn): Mish(inplace=True)
         )
         (conv_2): ConvBnAct(
           (conv): Conv2d(128, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
@@ -1089,7 +1072,8 @@ mc.body.l_1.bl_0
         (conv): Conv2d(256, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
         (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
       )
-      (merge): Mish()
-    )
+      (merge): Mish(inplace=True)
+    )<pre>
 </details>
+
 
