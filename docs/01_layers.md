@@ -159,14 +159,14 @@ conv_layer
 
 ```python
 
-conv_layer = ConvBnAct(32, 64, bn_1st=True, act_fn=nn.LeakyReLU())
+conv_layer = ConvBnAct(32, 64, bn_1st=True, act_fn=nn.LeakyReLU)
 conv_layer
 ```
 <details> <summary>output</summary>  
     <pre>ConvBnAct(
       (conv): Conv2d(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
       (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-      (act_fn): LeakyReLU(negative_slope=0.01)
+      (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
     )<pre>
 </details>
 

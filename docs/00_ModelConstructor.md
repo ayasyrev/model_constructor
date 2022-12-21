@@ -89,7 +89,7 @@ block
 
 ```python
 
-block = ResBlock(2, 64, 64,act_fn=nn.LeakyReLU(), bn_1st=False)
+block = ResBlock(2, 64, 64,act_fn=nn.LeakyReLU, bn_1st=False)
 block
 ```
 <details> <summary>output</summary>  
@@ -97,12 +97,12 @@ block
       (convs): Sequential(
         (conv_0): ConvBnAct(
           (conv): Conv2d(128, 64, kernel_size=(1, 1), stride=(1, 1), bias=False)
-          (act_fn): LeakyReLU(negative_slope=0.01)
+          (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
           (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
         )
         (conv_1): ConvBnAct(
           (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-          (act_fn): LeakyReLU(negative_slope=0.01)
+          (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
           (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
         )
         (conv_2): ConvBnAct(
@@ -110,7 +110,7 @@ block
           (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
         )
       )
-      (act_fn): LeakyReLU(negative_slope=0.01)
+      (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
     )<pre>
 </details>
 
@@ -127,12 +127,12 @@ block
       (convs): Sequential(
         (conv_0): ConvBnAct(
           (conv): Conv2d(128, 64, kernel_size=(1, 1), stride=(1, 1), bias=False)
-          (act_fn): LeakyReLU(negative_slope=0.01)
+          (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
           (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
         )
         (conv_1): ConvBnAct(
           (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-          (act_fn): LeakyReLU(negative_slope=0.01)
+          (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
           (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
         )
         (conv_2): ConvBnAct(
@@ -140,7 +140,7 @@ block
           (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
         )
       )
-      (act_fn): LeakyReLU(negative_slope=0.01)
+      (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
     )<pre>
 </details>
 
@@ -148,7 +148,7 @@ block
 
 
 ```python
-pool = nn.AvgPool2d(2, ceil_mode=True)
+pool = partial(nn.AvgPool2d, kernel_size=2, ceil_mode=True)
 ```
 
 
@@ -302,32 +302,32 @@ from rich import print
 
 ```python
 cfg = ModelCfg()
-print(cfg.extra_repr())
+print(cfg)
 ```
 
 
-<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">name: MC
-in_chans: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3</span>
-num_classes: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1000</span>
-block: <span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">class</span><span style="color: #000000; text-decoration-color: #000000"> </span><span style="color: #008000; text-decoration-color: #008000">'model_constructor.model_constructor.ResBlock'</span><span style="font-weight: bold">&gt;</span>
-conv_layer: <span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">class</span><span style="color: #000000; text-decoration-color: #000000"> </span><span style="color: #008000; text-decoration-color: #008000">'model_constructor.layers.ConvBnAct'</span><span style="font-weight: bold">&gt;</span>
-block_sizes: <span style="font-weight: bold">[</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">64</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">128</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">256</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">512</span><span style="font-weight: bold">]</span>
-layers: <span style="font-weight: bold">[</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2</span><span style="font-weight: bold">]</span>
-norm: <span style="font-weight: bold">&lt;</span><span style="color: #ff00ff; text-decoration-color: #ff00ff; font-weight: bold">class</span><span style="color: #000000; text-decoration-color: #000000"> </span><span style="color: #008000; text-decoration-color: #008000">'torch.nn.modules.batchnorm.BatchNorm2d'</span><span style="font-weight: bold">&gt;</span>
-act_fn: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">ReLU</span><span style="font-weight: bold">(</span><span style="color: #808000; text-decoration-color: #808000">inplace</span>=<span style="color: #00ff00; text-decoration-color: #00ff00; font-style: italic">True</span><span style="font-weight: bold">)</span>
-pool: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">AvgPool2d</span><span style="font-weight: bold">(</span><span style="color: #808000; text-decoration-color: #808000">kernel_size</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2</span>, <span style="color: #808000; text-decoration-color: #808000">stride</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2</span>, <span style="color: #808000; text-decoration-color: #808000">padding</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span><span style="font-weight: bold">)</span>
-expansion: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span>
-groups: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span>
-dw: <span style="color: #ff0000; text-decoration-color: #ff0000; font-style: italic">False</span>
-sa: <span style="color: #ff0000; text-decoration-color: #ff0000; font-style: italic">False</span>
-se: <span style="color: #ff0000; text-decoration-color: #ff0000; font-style: italic">False</span>
-bn_1st: <span style="color: #00ff00; text-decoration-color: #00ff00; font-style: italic">True</span>
-zero_bn: <span style="color: #00ff00; text-decoration-color: #00ff00; font-style: italic">True</span>
-stem_stride_on: <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">0</span>
-stem_sizes: <span style="font-weight: bold">[</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">32</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">32</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">64</span><span style="font-weight: bold">]</span>
-stem_pool: <span style="color: #800080; text-decoration-color: #800080; font-weight: bold">MaxPool2d</span><span style="font-weight: bold">(</span><span style="color: #808000; text-decoration-color: #808000">kernel_size</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3</span>, <span style="color: #808000; text-decoration-color: #808000">stride</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2</span>, <span style="color: #808000; text-decoration-color: #808000">padding</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span>, <span style="color: #808000; text-decoration-color: #808000">dilation</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span>, <span style="color: #808000; text-decoration-color: #808000">ceil_mode</span>=<span style="color: #ff0000; text-decoration-color: #ff0000; font-style: italic">False</span><span style="font-weight: bold">)</span>
-stem_bn_end: <span style="color: #ff0000; text-decoration-color: #ff0000; font-style: italic">False</span>
-
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="color: #800080; text-decoration-color: #800080; font-weight: bold">ModelCfg</span><span style="font-weight: bold">(</span>
+    <span style="color: #808000; text-decoration-color: #808000">in_chans</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">3</span>,
+    <span style="color: #808000; text-decoration-color: #808000">num_classes</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1000</span>,
+    <span style="color: #808000; text-decoration-color: #808000">block</span>=<span style="color: #008000; text-decoration-color: #008000">'ResBlock'</span>,
+    <span style="color: #808000; text-decoration-color: #808000">conv_layer</span>=<span style="color: #008000; text-decoration-color: #008000">'ConvBnAct'</span>,
+    <span style="color: #808000; text-decoration-color: #808000">block_sizes</span>=<span style="font-weight: bold">[</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">64</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">128</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">256</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">512</span><span style="font-weight: bold">]</span>,
+    <span style="color: #808000; text-decoration-color: #808000">layers</span>=<span style="font-weight: bold">[</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">2</span><span style="font-weight: bold">]</span>,
+    <span style="color: #808000; text-decoration-color: #808000">norm</span>=<span style="color: #008000; text-decoration-color: #008000">'BatchNorm2d'</span>,
+    <span style="color: #808000; text-decoration-color: #808000">act_fn</span>=<span style="color: #008000; text-decoration-color: #008000">'ReLU'</span>,
+    <span style="color: #808000; text-decoration-color: #808000">pool</span>=<span style="color: #008000; text-decoration-color: #008000">"AvgPool2d {'kernel_size': 2, 'ceil_mode': True}"</span>,
+    <span style="color: #808000; text-decoration-color: #808000">expansion</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span>,
+    <span style="color: #808000; text-decoration-color: #808000">groups</span>=<span style="color: #008080; text-decoration-color: #008080; font-weight: bold">1</span>,
+    <span style="color: #808000; text-decoration-color: #808000">bn_1st</span>=<span style="color: #00ff00; text-decoration-color: #00ff00; font-style: italic">True</span>,
+    <span style="color: #808000; text-decoration-color: #808000">zero_bn</span>=<span style="color: #00ff00; text-decoration-color: #00ff00; font-style: italic">True</span>,
+    <span style="color: #808000; text-decoration-color: #808000">stem_sizes</span>=<span style="font-weight: bold">[</span><span style="color: #008080; text-decoration-color: #008080; font-weight: bold">32</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">32</span>, <span style="color: #008080; text-decoration-color: #008080; font-weight: bold">64</span><span style="font-weight: bold">]</span>,
+    <span style="color: #808000; text-decoration-color: #808000">stem_pool</span>=<span style="color: #008000; text-decoration-color: #008000">"MaxPool2d {'kernel_size': 3, 'stride': 2, 'padding': 1}"</span>,
+    <span style="color: #808000; text-decoration-color: #808000">init_cnn</span>=<span style="color: #008000; text-decoration-color: #008000">'init_cnn'</span>,
+    <span style="color: #808000; text-decoration-color: #808000">make_stem</span>=<span style="color: #008000; text-decoration-color: #008000">'make_stem'</span>,
+    <span style="color: #808000; text-decoration-color: #808000">make_layer</span>=<span style="color: #008000; text-decoration-color: #008000">'make_layer'</span>,
+    <span style="color: #808000; text-decoration-color: #808000">make_body</span>=<span style="color: #008000; text-decoration-color: #008000">'make_body'</span>,
+    <span style="color: #808000; text-decoration-color: #808000">make_head</span>=<span style="color: #008000; text-decoration-color: #008000">'make_head'</span>
+<span style="font-weight: bold">)</span>
 </pre>
 
 
@@ -343,11 +343,16 @@ stem
 <details> <summary>output</summary>  
     <pre>Sequential(
       (conv_0): ConvBnAct(
-        (conv): Conv2d(32, 32, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
+        (conv): Conv2d(3, 32, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
         (bn): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
         (act_fn): ReLU(inplace=True)
       )
       (conv_1): ConvBnAct(
+        (conv): Conv2d(32, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (bn): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act_fn): ReLU(inplace=True)
+      )
+      (conv_2): ConvBnAct(
         (conv): Conv2d(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
         (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
         (act_fn): ReLU(inplace=True)
@@ -405,7 +410,7 @@ layer
 
 ### Body
 
-`make_body` needs `cfg._make_layer` initialized. As default - `make_layer`.
+`make_body` needs `cfg.make_layer` initialized. As default - `make_layer`.  It can be changed.
 
 
 ```python
@@ -588,11 +593,11 @@ mc  = ModelConstructor()
 mc
 ```
 <details open> <summary>output</summary>  
-    <pre>MC constructor
+    <pre>ModelConstructor
       in_chans: 3, num_classes: 1000
       expansion: 1, groups: 1, dw: False, div_groups: None
-      sa: False, se: False
-      stem sizes: [3, 32, 32, 64], stride on 0
+      act_fn: ReLU, sa: False, se: False
+      stem sizes: [32, 32, 64], stride on 0
       body sizes [64, 128, 256, 512]
       layers: [2, 2, 2, 2]<pre>
 </details>
@@ -663,7 +668,7 @@ mc.bn_1st = False
 
 
 ```python
-mc.act_fn = nn.LeakyReLU(inplace=True)
+mc.act_fn = nn.LeakyReLU
 ```
 
 
