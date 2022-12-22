@@ -1005,7 +1005,15 @@ from model_constructor.yaresnet import YaResBlock
 
 
 ```python
+mc = ModelConstructor(name="YaResNet")
 mc.block = YaResBlock
+```
+
+Or in one line:
+
+
+```python
+mc = ModelConstructor(name="YaResNet", block=YaResBlock)
 ```
 
 That all. Now we have YaResNet constructor
@@ -1013,7 +1021,6 @@ That all. Now we have YaResNet constructor
 
 ```python
 
-mc.name = 'YaResNet'
 mc.print_cfg()
 ```
 <details> <summary>output</summary>  
@@ -1024,15 +1031,15 @@ mc.print_cfg()
       block='YaResBlock'
       conv_layer='ConvBnAct'
       block_sizes=[64, 128, 256, 512]
-      layers=[3, 4, 6, 3]
+      layers=[2, 2, 2, 2]
       norm='BatchNorm2d'
-      act_fn='Mish'
+      act_fn='ReLU'
       pool="AvgPool2d {'kernel_size': 2, 'ceil_mode': True}"
-      expansion=4
+      expansion=1
       groups=1
       bn_1st=True
       zero_bn=True
-      stem_sizes=[32, 64, 64]
+      stem_sizes=[32, 32, 64]
       stem_pool="MaxPool2d {'kernel_size': 3, 'stride': 2, 'padding': 1}"
       init_cnn='init_cnn'
       make_stem='make_stem'
@@ -1054,26 +1061,85 @@ mc.body.l_1.bl_0
       (reduce): AvgPool2d(kernel_size=2, stride=2, padding=0)
       (convs): Sequential(
         (conv_0): ConvBnAct(
-          (conv): Conv2d(256, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
+          (conv): Conv2d(64, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
           (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-          (act_fn): Mish(inplace=True)
+          (act_fn): ReLU(inplace=True)
         )
         (conv_1): ConvBnAct(
           (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
           (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-          (act_fn): Mish(inplace=True)
-        )
-        (conv_2): ConvBnAct(
-          (conv): Conv2d(128, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
-          (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
         )
       )
       (id_conv): ConvBnAct(
-        (conv): Conv2d(256, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
-        (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (conv): Conv2d(64, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
       )
-      (merge): Mish(inplace=True)
+      (merge): ReLU(inplace=True)
     )<pre>
+</details>
+
+
+
+Lets create `Resnet34` like model constructor:
+
+
+```python
+class YaResnet34(ModelConstructor):
+    block: type[nn.Module] = YaResBlock
+    layers: list[int] = [3, 4, 6, 3]
+```
+
+
+```python
+mc = YaResnet34()
+mc.print_cfg()
+```
+<details open> <summary>output</summary>  
+    <pre>YaResnet34(
+      in_chans=3
+      num_classes=1000
+      block='YaResBlock'
+      conv_layer='ConvBnAct'
+      block_sizes=[64, 128, 256, 512]
+      layers=[3, 4, 6, 3]
+      norm='BatchNorm2d'
+      act_fn='ReLU'
+      pool="AvgPool2d {'kernel_size': 2, 'ceil_mode': True}"
+      expansion=1
+      groups=1
+      bn_1st=True
+      zero_bn=True
+      stem_sizes=[32, 32, 64]
+      stem_pool="MaxPool2d {'kernel_size': 3, 'stride': 2, 'padding': 1}"
+      init_cnn='init_cnn'
+      make_stem='make_stem'
+      make_layer='make_layer'
+      make_body='make_body'
+      make_head='make_head')
+    <pre>
+</details>
+
+And `Resnet50` like model can be inherited from `YaResnet34`:
+
+
+```python
+class YaResnet50(YaResnet34):
+    expansion = 4
+```
+
+
+```python
+mc = YaResnet50()
+mc
+```
+<details open> <summary>output</summary>  
+    <pre>YaResnet50
+      in_chans: 3, num_classes: 1000
+      expansion: 4, groups: 1, dw: False, div_groups: None
+      act_fn: ReLU, sa: False, se: False
+      stem sizes: [32, 32, 64], stride on 0
+      body sizes [64, 128, 256, 512]
+      layers: [3, 4, 6, 3]<pre>
 </details>
 
 

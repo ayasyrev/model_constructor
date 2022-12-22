@@ -139,9 +139,10 @@ class YaResBlock(nn.Module):
 
 
 class YaResNet34(ModelConstructor):
-    block: Type[nn.Module] = YaResBlock
+    block: type[nn.Module] = YaResBlock
     expansion: int = 1
-    layers: List[int] = [3, 4, 6, 3]
+    layers: list[int] = [3, 4, 6, 3]
+    stem_sizes: list[int] = [3, 32, 64, 64]
     act_fn: Type[nn.Module] = Mish
 
 
