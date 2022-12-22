@@ -744,9 +744,17 @@ yaresnet.body.l_0.bl_0
 
 # YaResnet34, YaResnet50
 
+We has `Resnet34` and `Resnet50` like models predefined, we can impoer it as:  
+`from model_constructor.yaresnet import YaResNet34, YaResNet50`  
+But lets create it.
+
 
 ```python
-from model_constructor.yaresnet import YaResNet34, YaResNet50
+class YaResNet34(ModelConstructor):
+    block: type[nn.Module] = YaResBlock
+    expansion: int = 1
+    layers: list[int] = [3, 4, 6, 3]
+    act_fn: type[nn.Module] = nn.Mish
 ```
 
 
@@ -765,6 +773,12 @@ yaresnet34
 </details>
 
 
+
+
+```python
+class YaResNet50(YaResNet34):
+    expansion: int = 4
+```
 
 
 ```python
