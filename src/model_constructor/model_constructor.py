@@ -1,6 +1,6 @@
 from collections import OrderedDict
 from functools import partial
-from typing import Any, Callable, List, Optional, Type, TypeVar, Union
+from typing import Any, Callable, Optional, TypeVar, Union
 
 import torch.nn as nn
 from pydantic import BaseModel, root_validator
@@ -39,7 +39,7 @@ class ResBlock(nn.Module):
         mid_channels: int,
         stride: int = 1,
         conv_layer=ConvBnAct,
-        act_fn: Type[nn.Module] = nn.ReLU,
+        act_fn: type[nn.Module] = nn.ReLU,
         zero_bn: bool = True,
         bn_1st: bool = True,
         groups: int = 1,
@@ -153,7 +153,7 @@ class ResBlock(nn.Module):
 
 def make_stem(cfg: TModelCfg) -> nn.Sequential:  # type: ignore
     len_stem = len(cfg.stem_sizes)
-    stem: List[tuple[str, nn.Module]] = [
+    stem: list[tuple[str, nn.Module]] = [
         (
             f"conv_{i}",
             cfg.conv_layer(
@@ -238,12 +238,12 @@ class ModelCfg(BaseModel):
     name: Optional[str] = None
     in_chans: int = 3
     num_classes: int = 1000
-    block: Type[nn.Module] = ResBlock
-    conv_layer: Type[nn.Module] = ConvBnAct
-    block_sizes: List[int] = [64, 128, 256, 512]
-    layers: List[int] = [2, 2, 2, 2]
-    norm: Type[nn.Module] = nn.BatchNorm2d
-    act_fn: Type[nn.Module] = nn.ReLU
+    block: type[nn.Module] = ResBlock
+    conv_layer: type[nn.Module] = ConvBnAct
+    block_sizes: list[int] = [64, 128, 256, 512]
+    layers: list[int] = [2, 2, 2, 2]
+    norm: type[nn.Module] = nn.BatchNorm2d
+    act_fn: type[nn.Module] = nn.ReLU
     pool: Callable[[Any], nn.Module] = partial(
         nn.AvgPool2d, kernel_size=2, ceil_mode=True
     )
@@ -251,14 +251,14 @@ class ModelCfg(BaseModel):
     groups: int = 1
     dw: bool = False
     div_groups: Union[int, None] = None
-    sa: Union[bool, int, Type[nn.Module]] = False
-    se: Union[bool, int, Type[nn.Module]] = False
+    sa: Union[bool, int, type[nn.Module]] = False
+    se: Union[bool, int, type[nn.Module]] = False
     se_module: Union[bool, None] = None
     se_reduction: Union[int, None] = None
     bn_1st: bool = True
     zero_bn: bool = True
     stem_stride_on: int = 0
-    stem_sizes: List[int] = [32, 32, 64]
+    stem_sizes: list[int] = [32, 32, 64]
     stem_pool: Union[Callable[[], nn.Module], None] = partial(
         nn.MaxPool2d, kernel_size=3, stride=2, padding=1
     )
@@ -286,7 +286,7 @@ class ModelCfg(BaseModel):
     def __repr__(self) -> str:
         return f"{self.__repr_name__()}(\n  {self.__repr_str__(chr(10) + '  ')})"
 
-    def __repr_args__(self):
+    def __repr_args__(self) -> list[tuple[str, str]]:
         return [
             (field, str_value)
             for field in self.__fields__
@@ -325,7 +325,7 @@ class ModelConstructor(ModelCfg):
     def from_cfg(cls, cfg: ModelCfg):
         return cls(**cfg.dict())
 
-    def __call__(self):
+    def __call__(self) -> nn.Sequential:
         model_name = self.name or self.__class__.__name__
         named_sequential = type(model_name, (nn.Sequential,), {})
         model = named_sequential(
@@ -338,13 +338,14 @@ class ModelConstructor(ModelCfg):
         return model
 
     def _get_extra_repr(self) -> str:
+        """Repr for changed fields"""
         return " ".join(
             f"{field}: {self._get_str_value(field)},"
             for field in self.__fields_set__
             if field != "name"
-        )[:-1]
+        )[:-1]  # strip last comma.
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         se_repr = self.se.__name__ if self.se else "False"  # type: ignore
         model_name = self.name or self.__class__.__name__
         return (
