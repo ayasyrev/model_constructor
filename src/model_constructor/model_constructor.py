@@ -19,7 +19,7 @@ __all__ = [
 TModelCfg = TypeVar("TModelCfg", bound="ModelCfg")
 
 
-def init_cnn(module: nn.Module):
+def init_cnn(module: nn.Module) -> None:
     "Init module - kaiming_normal for Conv2d and 0 for biases."
     if getattr(module, "bias", None) is not None:
         nn.init.constant_(module.bias, 0)  # type: ignore
@@ -144,7 +144,7 @@ class ResBlock(nn.Module):
             self.id_conv = nn.Sequential(OrderedDict(id_layers))
         else:
             self.id_conv = None
-        self.act_fn = get_act(act_fn)  # type: ignore
+        self.act_fn = get_act(act_fn)
 
     def forward(self, x):
         identity = self.id_conv(x) if self.id_conv is not None else x
@@ -152,6 +152,7 @@ class ResBlock(nn.Module):
 
 
 def make_stem(cfg: TModelCfg) -> nn.Sequential:  # type: ignore
+    """Create xResnet stem -> 3 conv 3*3 instead 1 conv 7*7"""
     len_stem = len(cfg.stem_sizes)
     stem: list[tuple[str, nn.Module]] = [
         (
@@ -175,7 +176,7 @@ def make_stem(cfg: TModelCfg) -> nn.Sequential:  # type: ignore
 
 
 def make_layer(cfg: TModelCfg, layer_num: int) -> nn.Sequential:  # type: ignore
-    #  expansion, in_channels, out_channels, blocks, stride, sa):
+    """Create layer (stage)"""
     # if no pool on stem - stride = 2 for first layer block in body
     stride = 1 if cfg.stem_pool and layer_num == 0 else 2
     num_blocks = cfg.layers[layer_num]
@@ -213,6 +214,7 @@ def make_layer(cfg: TModelCfg, layer_num: int) -> nn.Sequential:  # type: ignore
 
 
 def make_body(cfg: TModelCfg) -> nn.Sequential:  # type: ignore
+    """Create model body."""
     return nn.Sequential(
         OrderedDict(
             [
@@ -224,6 +226,7 @@ def make_body(cfg: TModelCfg) -> nn.Sequential:  # type: ignore
 
 
 def make_head(cfg: TModelCfg) -> nn.Sequential:  # type: ignore
+    """Create head."""
     head = [
         ("pool", nn.AdaptiveAvgPool2d(1)),
         ("flat", nn.Flatten()),
@@ -326,6 +329,7 @@ class ModelConstructor(ModelCfg):
         return cls(**cfg.dict())
 
     def __call__(self) -> nn.Sequential:
+        """Create model."""
         model_name = self.name or self.__class__.__name__
         named_sequential = type(model_name, (nn.Sequential,), {})
         model = named_sequential(
