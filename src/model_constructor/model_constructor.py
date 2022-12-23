@@ -272,7 +272,7 @@ class ModelCfg(BaseModel):
     make_body: Callable[[TModelCfg], Union[nn.Module, nn.Sequential]] = make_body  # type: ignore
     make_head: Callable[[TModelCfg], Union[nn.Module, nn.Sequential]] = make_head  # type: ignore
 
-    class Config:
+    class Config:  # pylint: disable=too-few-public-methods
         arbitrary_types_allowed = True
         extra = "forbid"
 

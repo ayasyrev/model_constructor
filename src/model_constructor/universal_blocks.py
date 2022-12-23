@@ -1,20 +1,19 @@
-from collections import OrderedDict
 from typing import Callable, Union
 
 from torch import nn
 
+from .helpers import nn_seq
 from .layers import ConvBnAct, get_act
 from .model_constructor import ModelCfg, ModelConstructor
 
 __all__ = [
     "XResBlock",
-    "ModelConstructor",
     "XResNet34",
     "XResNet50",
+    "YaResNet",
+    "YaResNet34",
+    "YaResNet50",
 ]
-
-
-# TModelCfg = TypeVar("TModelCfg", bound="ModelCfg")
 
 
 class XResBlock(nn.Module):
@@ -109,7 +108,7 @@ class XResBlock(nn.Module):
             layers.append(("se", se(out_channels)))
         if sa:
             layers.append(("sa", sa(out_channels)))
-        self.convs = nn.Sequential(OrderedDict(layers))
+        self.convs = nn_seq(layers)
         if stride != 1 or in_channels != out_channels:
             id_layers = []
             if (
@@ -129,7 +128,7 @@ class XResBlock(nn.Module):
                         ),
                     )
                 ]
-            self.id_conv = nn.Sequential(OrderedDict(id_layers))
+            self.id_conv = nn_seq(id_layers)
         else:
             self.id_conv = None
         self.act_fn = get_act(act_fn)
@@ -240,7 +239,7 @@ class YaResBlock(nn.Module):
             layers.append(("se", se(out_channels)))  # type: ignore
         if sa:
             layers.append(("sa", sa(out_channels)))  # type: ignore
-        self.convs = nn.Sequential(OrderedDict(layers))
+        self.convs = nn_seq(layers)
         if in_channels != out_channels:
             self.id_conv = conv_layer(
                 in_channels,
@@ -281,7 +280,7 @@ def make_stem(cfg: ModelCfg) -> nn.Sequential:  # type: ignore
         stem.append(("stem_pool", cfg.stem_pool()))
     if cfg.stem_bn_end:
         stem.append(("norm", cfg.norm(cfg.stem_sizes[-1])))  # type: ignore
-    return nn.Sequential(OrderedDict(stem))
+    return nn_seq(stem)
 
 
 def make_layer(cfg: ModelCfg, layer_num: int) -> nn.Sequential:  # type: ignore
@@ -290,47 +289,39 @@ def make_layer(cfg: ModelCfg, layer_num: int) -> nn.Sequential:  # type: ignore
     stride = 1 if cfg.stem_pool and layer_num == 0 else 2
     num_blocks = cfg.layers[layer_num]
     block_chs = [cfg.stem_sizes[-1] // cfg.expansion] + cfg.block_sizes
-    return nn.Sequential(
-        OrderedDict(
-            [
-                (
-                    f"bl_{block_num}",
-                    cfg.block(
-                        cfg.expansion,  # type: ignore
-                        block_chs[layer_num]
-                        if block_num == 0
-                        else block_chs[layer_num + 1],
-                        block_chs[layer_num + 1],
-                        stride if block_num == 0 else 1,
-                        sa=cfg.sa
-                        if (block_num == num_blocks - 1) and layer_num == 0
-                        else None,
-                        conv_layer=cfg.conv_layer,
-                        act_fn=cfg.act_fn,
-                        pool=cfg.pool,
-                        zero_bn=cfg.zero_bn,
-                        bn_1st=cfg.bn_1st,
-                        groups=cfg.groups,
-                        div_groups=cfg.div_groups,
-                        dw=cfg.dw,
-                        se=cfg.se,
-                    ),
-                )
-                for block_num in range(num_blocks)
-            ]
+    return nn_seq(
+        (
+            f"bl_{block_num}",
+            cfg.block(
+                cfg.expansion,  # type: ignore
+                block_chs[layer_num]
+                if block_num == 0
+                else block_chs[layer_num + 1],
+                block_chs[layer_num + 1],
+                stride if block_num == 0 else 1,
+                sa=cfg.sa
+                if (block_num == num_blocks - 1) and layer_num == 0
+                else None,
+                conv_layer=cfg.conv_layer,
+                act_fn=cfg.act_fn,
+                pool=cfg.pool,
+                zero_bn=cfg.zero_bn,
+                bn_1st=cfg.bn_1st,
+                groups=cfg.groups,
+                div_groups=cfg.div_groups,
+                dw=cfg.dw,
+                se=cfg.se,
+            ),
         )
+        for block_num in range(num_blocks)
     )
 
 
 def make_body(cfg: ModelCfg) -> nn.Sequential:  # type: ignore
     """Create model body."""
-    return nn.Sequential(
-        OrderedDict(
-            [
-                (f"l_{layer_num}", cfg.make_layer(cfg, layer_num))  # type: ignore
-                for layer_num in range(len(cfg.layers))
-            ]
-        )
+    return nn_seq(
+        (f"l_{layer_num}", cfg.make_layer(cfg, layer_num))  # type: ignore
+        for layer_num in range(len(cfg.layers))
     )
 
 

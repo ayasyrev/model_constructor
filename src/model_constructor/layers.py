@@ -195,8 +195,9 @@ class SimpleSelfAttention(nn.Module):
         return o.view(*size).contiguous()
 
 
-class SEBlock(nn.Module):  # todo: deprecation warning.
-    "se block"
+class SEBlock(nn.Module):
+    """se block"""
+    # first version
     se_layer = nn.Linear
     act_fn = nn.ReLU(inplace=True)
     use_bias = True
@@ -223,8 +224,9 @@ class SEBlock(nn.Module):  # todo: deprecation warning.
         return x * y.expand_as(x)
 
 
-class SEBlockConv(nn.Module):  # todo: deprecation warning.
-    "se block with conv on excitation"
+class SEBlockConv(nn.Module):
+    """se block with conv on excitation"""
+    # first version
     se_layer = nn.Conv2d
     act_fn = nn.ReLU(inplace=True)
     use_bias = True
