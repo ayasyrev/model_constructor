@@ -2,7 +2,7 @@
 # Yet another ResNet.
 
 from collections import OrderedDict
-from typing import Callable, List, Type, Union
+from typing import Callable, Union
 
 import torch.nn as nn
 from torch.nn import Mish
@@ -27,15 +27,15 @@ class YaResBlock(nn.Module):
         mid_channels: int,
         stride: int = 1,
         conv_layer=ConvBnAct,
-        act_fn: Type[nn.Module] = nn.ReLU,
+        act_fn: type[nn.Module] = nn.ReLU,
         zero_bn: bool = True,
         bn_1st: bool = True,
         groups: int = 1,
         dw: bool = False,
         div_groups: Union[None, int] = None,
         pool: Union[Callable[[], nn.Module], None] = None,
-        se: Union[Type[nn.Module], None] = None,
-        sa: Union[Type[nn.Module], None] = None,
+        se: Union[type[nn.Module], None] = None,
+        sa: Union[type[nn.Module], None] = None,
     ):
         super().__init__()
         # pool defined at ModelConstructor.
@@ -115,9 +115,9 @@ class YaResBlock(nn.Module):
                 ),  # noqa E501
             ]
         if se:
-            layers.append(("se", se(out_channels)))
+            layers.append(("se", se(out_channels)))  # type: ignore
         if sa:
-            layers.append(("sa", sa(out_channels)))
+            layers.append(("sa", sa(out_channels)))  # type: ignore
         self.convs = nn.Sequential(OrderedDict(layers))
         if in_channels != out_channels:
             self.id_conv = conv_layer(
@@ -143,7 +143,7 @@ class YaResNet34(ModelConstructor):
     expansion: int = 1
     layers: list[int] = [3, 4, 6, 3]
     stem_sizes: list[int] = [3, 32, 64, 64]
-    act_fn: Type[nn.Module] = Mish
+    act_fn: type[nn.Module] = Mish
 
 
 class YaResNet50(YaResNet34):
