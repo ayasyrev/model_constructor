@@ -296,6 +296,28 @@ class ModelCfg(BaseModel):
             if (str_value := self._get_str_value(field))
         ]
 
+    def __repr_changed_args__(self) -> list[str]:
+        """Return list repr for changed fields"""
+        return [
+            f"{field}: {self._get_str_value(field)}"
+            for field in self.__fields_set__
+            if field != "name"
+        ]
+
+    def print_cfg(self) -> None:
+        """Print full config"""
+        print(f"{self.__repr_name__()}(\n  {self.__repr_str__(chr(10) + '  ')})")
+
+    def print_changed(self) -> None:
+        """Print changed fields."""
+        changed_fields = self.__repr_changed_args__()
+        if changed_fields:
+            print("Changed fields:")
+            for i in changed_fields:
+                print("  ", i)
+        else:
+            print("Nothing changed")
+
 
 class ModelConstructor(ModelCfg):
     """Model constructor. As default - xresnet18"""
@@ -331,23 +353,15 @@ class ModelConstructor(ModelCfg):
     def __call__(self) -> nn.Sequential:
         """Create model."""
         model_name = self.name or self.__class__.__name__
-        named_sequential = type(model_name, (nn.Sequential,), {})
+        named_sequential = type(model_name, (nn.Sequential,), {})  # create type named as model
         model = named_sequential(
             OrderedDict([("stem", self.stem), ("body", self.body), ("head", self.head)])
         )
         self.init_cnn(model)  # pylint: disable=too-many-function-args
-        extra_repr = self._get_extra_repr()
+        extra_repr = self.__repr_changed_args__()
         if extra_repr:
-            model.extra_repr = lambda: extra_repr
+            model.extra_repr = lambda: ", ".join(extra_repr)
         return model
-
-    def _get_extra_repr(self) -> str:
-        """Repr for changed fields"""
-        return " ".join(
-            f"{field}: {self._get_str_value(field)},"
-            for field in self.__fields_set__
-            if field != "name"
-        )[:-1]  # strip last comma.
 
     def __repr__(self) -> str:
         se_repr = self.se.__name__ if self.se else "False"  # type: ignore
@@ -361,10 +375,6 @@ class ModelConstructor(ModelCfg):
             f"  body sizes {self.block_sizes}\n"
             f"  layers: {self.layers}"
         )
-
-    def print_cfg(self) -> None:
-        """Print full config"""
-        print(f"{self.__repr_name__()}(\n  {self.__repr_str__(chr(10) + '  ')})")
 
 
 class XResNet34(ModelConstructor):
