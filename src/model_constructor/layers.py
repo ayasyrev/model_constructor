@@ -114,7 +114,7 @@ class ConvLayer(nn.Sequential):
         nf,
         ks=3,
         stride=1,
-        act=True,
+        act=True,  # pylint: disable=redefined-outer-name
         act_fn=act,
         bn_layer=True,
         bn_1st=True,
@@ -122,7 +122,7 @@ class ConvLayer(nn.Sequential):
         padding=None,
         bias=False,
         groups=1,
-        **kwargs
+        **kwargs  # pylint: disable=unused-argument
     ):
 
         if padding is None:
