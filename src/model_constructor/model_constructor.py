@@ -3,7 +3,7 @@ from functools import partial
 from typing import Any, Callable, Optional, TypeVar, Union
 
 import torch.nn as nn
-from pydantic import BaseModel, root_validator
+from pydantic import BaseModel, validator
 
 from .layers import ConvBnAct, SEModule, SimpleSelfAttention, get_act
 
@@ -38,7 +38,7 @@ class ResBlock(nn.Module):
         in_channels: int,
         mid_channels: int,
         stride: int = 1,
-        conv_layer=ConvBnAct,
+        conv_layer: type[nn.Module] = ConvBnAct,
         act_fn: type[nn.Module] = nn.ReLU,
         zero_bn: bool = True,
         bn_1st: bool = True,
@@ -254,8 +254,8 @@ class ModelCfg(BaseModel):
     groups: int = 1
     dw: bool = False
     div_groups: Union[int, None] = None
-    sa: Union[bool, int, type[nn.Module]] = False
-    se: Union[bool, int, type[nn.Module]] = False
+    sa: Union[bool, type[nn.Module]] = False
+    se: Union[bool, type[nn.Module]] = False
     se_module: Union[bool, None] = None
     se_reduction: Union[int, None] = None
     bn_1st: bool = True
@@ -322,17 +322,26 @@ class ModelCfg(BaseModel):
 class ModelConstructor(ModelCfg):
     """Model constructor. As default - xresnet18"""
 
-    @root_validator
-    def post_init(cls, values):  # pylint: disable=E0213
-        if values["se"] and isinstance(values["se"], (bool, int)):  # if se=1 or se=True
-            values["se"] = SEModule
-        if values["sa"] and isinstance(values["sa"], (bool, int)):  # if sa=1 or sa=True
-            values["sa"] = SimpleSelfAttention  # default: ks=1, sym=sym
-        if values["se_module"] or values["se_reduction"]:  # pragma: no cover
-            print(
-                "Deprecated. Pass se_module as se argument, se_reduction as arg to se."
-            )  # add deprecation warning.
-        return values
+    @validator("se")
+    def set_se(cls, value: Union[bool, type[nn.Module]]) -> Union[bool, type[nn.Module]]:
+        if value:
+            if isinstance(value, (int, bool)):
+                return SEModule
+        return value
+
+    @validator("sa")
+    def set_sa(cls, value: Union[bool, type[nn.Module]]) -> Union[bool, type[nn.Module]]:
+        if value:
+            if isinstance(value, (int, bool)):
+                return SimpleSelfAttention  # default: ks=1, sym=sym
+        return value
+
+    @validator("se_module", "se_reduction")
+    def deprecation_warning(cls, value):  # pragma: no cover
+        print(
+            "Deprecated. Pass se_module as se argument, se_reduction as arg to se."
+        )
+        return value 
 
     @property
     def stem(self):

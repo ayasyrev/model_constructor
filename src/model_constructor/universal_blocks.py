@@ -25,7 +25,7 @@ class XResBlock(nn.Module):
         in_channels: int,
         mid_channels: int,
         stride: int = 1,
-        conv_layer=ConvBnAct,
+        conv_layer: type[nn.Module] = ConvBnAct,
         act_fn: type[nn.Module] = nn.ReLU,
         zero_bn: bool = True,
         bn_1st: bool = True,
