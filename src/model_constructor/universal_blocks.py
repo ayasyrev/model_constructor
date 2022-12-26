@@ -1,10 +1,11 @@
 from typing import Callable, Union
 
+import torch
 from torch import nn
 
 from .helpers import nn_seq
 from .layers import ConvBnAct, get_act
-from .model_constructor import ModelCfg, ModelConstructor
+from .model_constructor import ListStrMod, ModelCfg, ModelConstructor
 
 __all__ = [
     "XResBlock",
@@ -25,7 +26,7 @@ class XResBlock(nn.Module):
         in_channels: int,
         mid_channels: int,
         stride: int = 1,
-        conv_layer: type[nn.Module] = ConvBnAct,
+        conv_layer: type[ConvBnAct] = ConvBnAct,
         act_fn: type[nn.Module] = nn.ReLU,
         zero_bn: bool = True,
         bn_1st: bool = True,
@@ -42,7 +43,7 @@ class XResBlock(nn.Module):
         if div_groups is not None:  # check if groups != 1 and div_groups
             groups = int(mid_channels / div_groups)
         if expansion == 1:
-            layers = [
+            layers: ListStrMod = [
                 (
                     "conv_0",
                     conv_layer(
@@ -69,7 +70,7 @@ class XResBlock(nn.Module):
                 ),
             ]
         else:
-            layers = [
+            layers: ListStrMod = [
                 (
                     "conv_0",
                     conv_layer(
@@ -110,13 +111,13 @@ class XResBlock(nn.Module):
             layers.append(("sa", sa(out_channels)))
         self.convs = nn_seq(layers)
         if stride != 1 or in_channels != out_channels:
-            id_layers = []
+            id_layers: ListStrMod = []
             if (
                 stride != 1 and pool is not None
             ):  # if pool - reduce by pool else stride 2 art id_conv
                 id_layers.append(("pool", pool()))
             if in_channels != out_channels or (stride != 1 and pool is None):
-                id_layers += [
+                id_layers.append(
                     (
                         "id_conv",
                         conv_layer(
@@ -127,13 +128,13 @@ class XResBlock(nn.Module):
                             act_fn=False,
                         ),
                     )
-                ]
+                )
             self.id_conv = nn_seq(id_layers)
         else:
             self.id_conv = None
         self.act_fn = get_act(act_fn)
 
-    def forward(self, x):
+    def forward(self, x: torch.Tensor):  # type: ignore
         identity = self.id_conv(x) if self.id_conv is not None else x
         return self.act_fn(self.convs(x) + identity)
 
@@ -147,7 +148,7 @@ class YaResBlock(nn.Module):
         in_channels: int,
         mid_channels: int,
         stride: int = 1,
-        conv_layer=ConvBnAct,
+        conv_layer: type[ConvBnAct] = ConvBnAct,
         act_fn: type[nn.Module] = nn.ReLU,
         zero_bn: bool = True,
         bn_1st: bool = True,
@@ -173,7 +174,7 @@ class YaResBlock(nn.Module):
         else:
             self.reduce = None
         if expansion == 1:
-            layers = [
+            layers: ListStrMod = [
                 (
                     "conv_0",
                     conv_layer(
@@ -200,7 +201,7 @@ class YaResBlock(nn.Module):
                 ),
             ]
         else:
-            layers = [
+            layers: ListStrMod = [
                 (
                     "conv_0",
                     conv_layer(
@@ -252,7 +253,7 @@ class YaResBlock(nn.Module):
             self.id_conv = None
         self.merge = get_act(act_fn)
 
-    def forward(self, x):
+    def forward(self, x: torch.Tensor):  # type: ignore
         if self.reduce:
             x = self.reduce(x)
         identity = self.id_conv(x) if self.id_conv is not None else x
@@ -260,7 +261,7 @@ class YaResBlock(nn.Module):
 
 
 def make_stem(cfg: ModelCfg) -> nn.Sequential:  # type: ignore
-    """Create xResnet stem -> 3 conv 3*3 instead 1 conv 7*7"""
+    """Create xResnet stem -> 3 conv 3*3 instead of 1 conv 7*7"""
     len_stem = len(cfg.stem_sizes)
     stem: list[tuple[str, nn.Module]] = [
         (
