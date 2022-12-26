@@ -1,4 +1,3 @@
-# pylance: disable=overridden method
 from collections import OrderedDict
 from functools import partial
 from typing import Any, Callable, Optional, TypeVar, Union
@@ -39,7 +38,6 @@ class BasicBlock(nn.Module):
 
     def __init__(
         self,
-        # expansion: int,
         in_channels: int,
         out_channels: int,
         stride: int = 1,
@@ -56,7 +54,6 @@ class BasicBlock(nn.Module):
     ):
         super().__init__()
         # pool defined at ModelConstructor.
-        # out_channels, in_channels = mid_channels * expansion, in_channels * expansion
         if div_groups is not None:  # check if groups != 1 and div_groups
             groups = int(out_channels / div_groups)
         layers: ListStrMod = [
@@ -66,7 +63,7 @@ class BasicBlock(nn.Module):
                     in_channels,
                     out_channels,
                     3,
-                    stride=stride,  # type: ignore
+                    stride=stride,
                     act_fn=act_fn,
                     bn_1st=bn_1st,
                     groups=in_channels if dw else groups,
@@ -114,7 +111,7 @@ class BasicBlock(nn.Module):
             self.id_conv = None
         self.act_fn = get_act(act_fn)
 
-    def forward(self, x: torch.Tensor) -> torch.Tensor:
+    def forward(self, x: torch.Tensor) -> torch.Tensor:  # type: ignore
         identity = self.id_conv(x) if self.id_conv is not None else x
         return self.act_fn(self.convs(x) + identity)
 
@@ -177,7 +174,7 @@ class BottleneckBlock(nn.Module):
                     act_fn=False,
                     bn_1st=bn_1st,
                 ),
-            ),  # noqa E501
+            ),
         ]
         if se:
             layers.append(("se", se(out_channels)))
@@ -208,7 +205,7 @@ class BottleneckBlock(nn.Module):
             self.id_conv = None
         self.act_fn = get_act(act_fn)
 
-    def forward(self, x: torch.Tensor) -> torch.Tensor:
+    def forward(self, x: torch.Tensor) -> torch.Tensor:  # type: ignore
         identity = self.id_conv(x) if self.id_conv is not None else x
         return self.act_fn(self.convs(x) + identity)
 
@@ -234,7 +231,7 @@ def make_stem(cfg: TModelCfg) -> nn.Sequential:  # type: ignore
         stem.append(("stem_pool", cfg.stem_pool()))
     if cfg.stem_bn_end:
         stem.append(("norm", cfg.norm(cfg.stem_sizes[-1])))  # type: ignore
-    return nn.Sequential(OrderedDict(stem))
+    return nn_seq(stem)
 
 
 def make_layer(cfg: TModelCfg, layer_num: int) -> nn.Sequential:  # type: ignore
@@ -247,15 +244,12 @@ def make_layer(cfg: TModelCfg, layer_num: int) -> nn.Sequential:  # type: ignore
         (
             f"bl_{block_num}",
             cfg.block(
-                # cfg.expansion,  # type: ignore
-                block_chs[layer_num]
+                block_chs[layer_num]  # type: ignore
                 if block_num == 0
                 else block_chs[layer_num + 1],
                 block_chs[layer_num + 1],
                 stride if block_num == 0 else 1,
-                sa=cfg.sa
-                if (block_num == num_blocks - 1) and layer_num == 0
-                else None,
+                sa=cfg.sa if (block_num == num_blocks - 1) and layer_num == 0 else None,
                 conv_layer=cfg.conv_layer,
                 act_fn=cfg.act_fn,
                 pool=cfg.pool,
@@ -265,7 +259,7 @@ def make_layer(cfg: TModelCfg, layer_num: int) -> nn.Sequential:  # type: ignore
                 div_groups=cfg.div_groups,
                 dw=cfg.dw,
                 se=cfg.se,
-            )
+            ),
         )
         for block_num in range(num_blocks)
     )
@@ -273,13 +267,9 @@ def make_layer(cfg: TModelCfg, layer_num: int) -> nn.Sequential:  # type: ignore
 
 def make_body(cfg: TModelCfg) -> nn.Sequential:  # type: ignore
     """Create model body."""
-    return nn.Sequential(
-        OrderedDict(
-            [
-                (f"l_{layer_num}", cfg.make_layer(cfg, layer_num))  # type: ignore
-                for layer_num in range(len(cfg.layers))
-            ]
-        )
+    return nn_seq(
+        (f"l_{layer_num}", cfg.make_layer(cfg, layer_num))  # type: ignore
+        for layer_num in range(len(cfg.layers))
     )
 
 
@@ -290,7 +280,7 @@ def make_head(cfg: TModelCfg) -> nn.Sequential:  # type: ignore
         ("flat", nn.Flatten()),
         ("fc", nn.Linear(cfg.block_sizes[-1], cfg.num_classes)),
     ]
-    return nn.Sequential(OrderedDict(head))
+    return nn_seq(head)
 
 
 class ModelCfg(BaseModel):
@@ -381,25 +371,29 @@ class ModelConstructor(ModelCfg):
     """Model constructor. As default - xresnet18"""
 
     @validator("se")
-    def set_se(cls, value: Union[bool, type[nn.Module]]) -> Union[bool, type[nn.Module]]:
+    def set_se(  # pylint: disable=no-self-argument
+        cls, value: Union[bool, type[nn.Module]]
+    ) -> Union[bool, type[nn.Module]]:
         if value:
             if isinstance(value, (int, bool)):
                 return SEModule
         return value
 
     @validator("sa")
-    def set_sa(cls, value: Union[bool, type[nn.Module]]) -> Union[bool, type[nn.Module]]:
+    def set_sa(  # pylint: disable=no-self-argument
+        cls, value: Union[bool, type[nn.Module]]
+    ) -> Union[bool, type[nn.Module]]:
         if value:
             if isinstance(value, (int, bool)):
                 return SimpleSelfAttention  # default: ks=1, sym=sym
         return value
 
-    @validator("se_module", "se_reduction")
-    def deprecation_warning(cls, value):  # pragma: no cover
-        print(
-            "Deprecated. Pass se_module as se argument, se_reduction as arg to se."
-        )
-        return value 
+    @validator("se_module", "se_reduction")  # pragma: no cover
+    def deprecation_warning(  # pylint: disable=no-self-argument
+        cls, value: Union[bool, int, None]
+    ) -> Union[bool, int, None]:
+        print("Deprecated. Pass se_module as se argument, se_reduction as arg to se.")
+        return value
 
     @property
     def stem(self):
@@ -420,9 +414,11 @@ class ModelConstructor(ModelCfg):
     def __call__(self) -> nn.Sequential:
         """Create model."""
         model_name = self.name or self.__class__.__name__
-        named_sequential = type(model_name, (nn.Sequential,), {})  # create type named as model
+        named_sequential = type(
+            model_name, (nn.Sequential,), {}
+        )  # create type named as model
         model = named_sequential(
-            OrderedDict([("stem", self.stem), ("body", self.body), ("head", self.head)])
+            OrderedDict([("stem", self.stem), ("body", self.body), ("head", self.head)])  # type: ignore
         )
         self.init_cnn(model)  # pylint: disable=too-many-function-args
         extra_repr = self.__repr_changed_args__()
@@ -449,4 +445,5 @@ class XResNet34(ModelConstructor):
 
 
 class XResNet50(XResNet34):
-    expansion: int = 4
+    block: type[nn.Module] = BottleneckBlock
+    block_sizes: list[int] = [256, 512, 1024, 2048]
