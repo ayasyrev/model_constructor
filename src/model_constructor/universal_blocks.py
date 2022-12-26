@@ -325,11 +325,22 @@ def make_body(cfg: ModelCfg) -> nn.Sequential:  # type: ignore
     )
 
 
+def make_head(cfg: ModelCfg) -> nn.Sequential:  # type: ignore
+    """Create head."""
+    head = [
+        ("pool", nn.AdaptiveAvgPool2d(1)),
+        ("flat", nn.Flatten()),
+        ("fc", nn.Linear(cfg.block_sizes[-1] * cfg.expansion, cfg.num_classes)),
+    ]
+    return nn_seq(head)
+
+
 class XResNet(ModelConstructor):
     """Base Xresnet constructor."""
     make_stem: Callable[[ModelCfg], Union[nn.Module, nn.Sequential]] = make_stem
     make_layer: Callable[[ModelCfg, int], Union[nn.Module, nn.Sequential]] = make_layer
     make_body: Callable[[ModelCfg], Union[nn.Module, nn.Sequential]] = make_body
+    make_head: Callable[[ModelCfg], Union[nn.Module, nn.Sequential]] = make_head
     block: type[nn.Module] = XResBlock
 
 

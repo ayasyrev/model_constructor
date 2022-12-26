@@ -5,8 +5,7 @@ import torch
 from torch import nn
 
 from model_constructor.layers import SEModule, SimpleSelfAttention
-from model_constructor.model_constructor import ResBlock
-from model_constructor.yaresnet import YaResBlock
+from model_constructor.universal_blocks import XResBlock, YaResBlock
 
 from .parameters import ids_fn
 
@@ -15,7 +14,7 @@ img_size = 16
 
 
 params = dict(
-    Block=[ResBlock, YaResBlock],
+    Block=[XResBlock, YaResBlock],
     expansion=[1, 2],
     mid_channels=[8, 16],
     stride=[1, 2],

@@ -3,6 +3,7 @@ import torch
 from torch import nn
 
 from model_constructor.universal_blocks import (
+    ModelConstructor,
     XResNet,
     XResNet34,
     XResNet50,
@@ -28,7 +29,7 @@ act_fn_list = [nn.ReLU, nn.Mish, nn.GELU]
 
 @pytest.mark.parametrize("model_constructor", mc_list)
 @pytest.mark.parametrize("act_fn", act_fn_list)
-def test_mc(model_constructor, act_fn):
+def test_mc(model_constructor: type[ModelConstructor], act_fn: type[nn.Module]):
     """test models"""
     mc = model_constructor(act_fn=act_fn)
     model = mc()

@@ -1,15 +1,18 @@
+# pylance: disable=overridden method
 from collections import OrderedDict
 from functools import partial
 from typing import Any, Callable, Optional, TypeVar, Union
 
-import torch.nn as nn
+import torch
 from pydantic import BaseModel, validator
+from torch import nn
 
+from .helpers import nn_seq
 from .layers import ConvBnAct, SEModule, SimpleSelfAttention, get_act
 
 __all__ = [
     "init_cnn",
-    "ResBlock",
+    # "ResBlock",
     "ModelConstructor",
     "XResNet34",
     "XResNet50",
@@ -17,6 +20,8 @@ __all__ = [
 
 
 TModelCfg = TypeVar("TModelCfg", bound="ModelCfg")
+
+ListStrMod = list[tuple[str, nn.Module]]
 
 
 def init_cnn(module: nn.Module) -> None:
@@ -29,16 +34,16 @@ def init_cnn(module: nn.Module) -> None:
         init_cnn(layer)
 
 
-class ResBlock(nn.Module):
-    """Universal Resnet block. Basic block if expansion is 1, otherwise is Bottleneck."""
+class BasicBlock(nn.Module):
+    """Basic Resnet block."""
 
     def __init__(
         self,
-        expansion: int,
+        # expansion: int,
         in_channels: int,
-        mid_channels: int,
+        out_channels: int,
         stride: int = 1,
-        conv_layer: type[nn.Module] = ConvBnAct,
+        conv_layer: type[ConvBnAct] = ConvBnAct,
         act_fn: type[nn.Module] = nn.ReLU,
         zero_bn: bool = True,
         bn_1st: bool = True,
@@ -51,85 +56,48 @@ class ResBlock(nn.Module):
     ):
         super().__init__()
         # pool defined at ModelConstructor.
-        out_channels, in_channels = mid_channels * expansion, in_channels * expansion
+        # out_channels, in_channels = mid_channels * expansion, in_channels * expansion
         if div_groups is not None:  # check if groups != 1 and div_groups
-            groups = int(mid_channels / div_groups)
-        if expansion == 1:
-            layers = [
-                (
-                    "conv_0",
-                    conv_layer(
-                        in_channels,
-                        mid_channels,
-                        3,
-                        stride=stride,  # type: ignore
-                        act_fn=act_fn,
-                        bn_1st=bn_1st,
-                        groups=in_channels if dw else groups,
-                    ),
+            groups = int(out_channels / div_groups)
+        layers: ListStrMod = [
+            (
+                "conv_0",
+                conv_layer(
+                    in_channels,
+                    out_channels,
+                    3,
+                    stride=stride,  # type: ignore
+                    act_fn=act_fn,
+                    bn_1st=bn_1st,
+                    groups=in_channels if dw else groups,
                 ),
-                (
-                    "conv_1",
-                    conv_layer(
-                        mid_channels,
-                        out_channels,
-                        3,
-                        zero_bn=zero_bn,
-                        act_fn=False,
-                        bn_1st=bn_1st,
-                        groups=mid_channels if dw else groups,
-                    ),
+            ),
+            (
+                "conv_1",
+                conv_layer(
+                    out_channels,
+                    out_channels,
+                    3,
+                    zero_bn=zero_bn,
+                    act_fn=False,
+                    bn_1st=bn_1st,
+                    groups=out_channels if dw else groups,
                 ),
-            ]
-        else:
-            layers = [
-                (
-                    "conv_0",
-                    conv_layer(
-                        in_channels,
-                        mid_channels,
-                        1,
-                        act_fn=act_fn,
-                        bn_1st=bn_1st,
-                    ),
-                ),
-                (
-                    "conv_1",
-                    conv_layer(
-                        mid_channels,
-                        mid_channels,
-                        3,
-                        stride=stride,
-                        act_fn=act_fn,
-                        bn_1st=bn_1st,
-                        groups=mid_channels if dw else groups,
-                    ),
-                ),
-                (
-                    "conv_2",
-                    conv_layer(
-                        mid_channels,
-                        out_channels,
-                        1,
-                        zero_bn=zero_bn,
-                        act_fn=False,
-                        bn_1st=bn_1st,
-                    ),
-                ),  # noqa E501
-            ]
+            ),
+        ]
         if se:
             layers.append(("se", se(out_channels)))
         if sa:
             layers.append(("sa", sa(out_channels)))
-        self.convs = nn.Sequential(OrderedDict(layers))
+        self.convs = nn_seq(layers)
         if stride != 1 or in_channels != out_channels:
-            id_layers = []
+            id_layers: ListStrMod = []
             if (
                 stride != 1 and pool is not None
             ):  # if pool - reduce by pool else stride 2 art id_conv
                 id_layers.append(("pool", pool()))
             if in_channels != out_channels or (stride != 1 and pool is None):
-                id_layers += [
+                id_layers.append(
                     (
                         "id_conv",
                         conv_layer(
@@ -140,13 +108,107 @@ class ResBlock(nn.Module):
                             act_fn=False,
                         ),
                     )
-                ]
-            self.id_conv = nn.Sequential(OrderedDict(id_layers))
+                )
+            self.id_conv = nn_seq(id_layers)
         else:
             self.id_conv = None
         self.act_fn = get_act(act_fn)
 
-    def forward(self, x):
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        identity = self.id_conv(x) if self.id_conv is not None else x
+        return self.act_fn(self.convs(x) + identity)
+
+
+class BottleneckBlock(nn.Module):
+    """Bottleneck Resnet block."""
+
+    def __init__(
+        self,
+        in_channels: int,
+        out_channels: int,
+        stride: int = 1,
+        expansion: int = 4,
+        conv_layer: type[ConvBnAct] = ConvBnAct,
+        act_fn: type[nn.Module] = nn.ReLU,
+        zero_bn: bool = True,
+        bn_1st: bool = True,
+        groups: int = 1,
+        dw: bool = False,
+        div_groups: Union[None, int] = None,
+        pool: Union[Callable[[], nn.Module], None] = None,
+        se: Union[nn.Module, None] = None,
+        sa: Union[nn.Module, None] = None,
+    ):
+        super().__init__()
+        # pool defined at ModelConstructor.
+        mid_channels = out_channels // expansion
+        if div_groups is not None:  # check if groups != 1 and div_groups
+            groups = int(mid_channels / div_groups)
+        layers: ListStrMod = [
+            (
+                "conv_0",
+                conv_layer(
+                    in_channels,
+                    mid_channels,
+                    1,
+                    act_fn=act_fn,
+                    bn_1st=bn_1st,
+                ),
+            ),
+            (
+                "conv_1",
+                conv_layer(
+                    mid_channels,
+                    mid_channels,
+                    3,
+                    stride=stride,
+                    act_fn=act_fn,
+                    bn_1st=bn_1st,
+                    groups=mid_channels if dw else groups,
+                ),
+            ),
+            (
+                "conv_2",
+                conv_layer(
+                    mid_channels,
+                    out_channels,
+                    1,
+                    zero_bn=zero_bn,
+                    act_fn=False,
+                    bn_1st=bn_1st,
+                ),
+            ),  # noqa E501
+        ]
+        if se:
+            layers.append(("se", se(out_channels)))
+        if sa:
+            layers.append(("sa", sa(out_channels)))
+        self.convs = nn_seq(layers)
+        if stride != 1 or in_channels != out_channels:
+            id_layers: ListStrMod = []
+            if (
+                stride != 1 and pool is not None
+            ):  # if pool - reduce by pool else stride 2 art id_conv
+                id_layers.append(("pool", pool()))
+            if in_channels != out_channels or (stride != 1 and pool is None):
+                id_layers.append(
+                    (
+                        "id_conv",
+                        conv_layer(
+                            in_channels,
+                            out_channels,
+                            1,
+                            stride=1 if pool else stride,
+                            act_fn=False,
+                        ),
+                    )
+                )
+            self.id_conv = nn_seq(id_layers)
+        else:
+            self.id_conv = None
+        self.act_fn = get_act(act_fn)
+
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
         identity = self.id_conv(x) if self.id_conv is not None else x
         return self.act_fn(self.convs(x) + identity)
 
@@ -154,7 +216,7 @@ class ResBlock(nn.Module):
 def make_stem(cfg: TModelCfg) -> nn.Sequential:  # type: ignore
     """Create xResnet stem -> 3 conv 3*3 instead 1 conv 7*7"""
     len_stem = len(cfg.stem_sizes)
-    stem: list[tuple[str, nn.Module]] = [
+    stem: ListStrMod = [
         (
             f"conv_{i}",
             cfg.conv_layer(
@@ -180,36 +242,32 @@ def make_layer(cfg: TModelCfg, layer_num: int) -> nn.Sequential:  # type: ignore
     # if no pool on stem - stride = 2 for first layer block in body
     stride = 1 if cfg.stem_pool and layer_num == 0 else 2
     num_blocks = cfg.layers[layer_num]
-    block_chs = [cfg.stem_sizes[-1] // cfg.expansion] + cfg.block_sizes
-    return nn.Sequential(
-        OrderedDict(
-            [
-                (
-                    f"bl_{block_num}",
-                    cfg.block(
-                        cfg.expansion,  # type: ignore
-                        block_chs[layer_num]
-                        if block_num == 0
-                        else block_chs[layer_num + 1],
-                        block_chs[layer_num + 1],
-                        stride if block_num == 0 else 1,
-                        sa=cfg.sa
-                        if (block_num == num_blocks - 1) and layer_num == 0
-                        else None,
-                        conv_layer=cfg.conv_layer,
-                        act_fn=cfg.act_fn,
-                        pool=cfg.pool,
-                        zero_bn=cfg.zero_bn,
-                        bn_1st=cfg.bn_1st,
-                        groups=cfg.groups,
-                        div_groups=cfg.div_groups,
-                        dw=cfg.dw,
-                        se=cfg.se,
-                    ),
-                )
-                for block_num in range(num_blocks)
-            ]
+    block_chs = [cfg.stem_sizes[-1]] + cfg.block_sizes
+    return nn_seq(
+        (
+            f"bl_{block_num}",
+            cfg.block(
+                # cfg.expansion,  # type: ignore
+                block_chs[layer_num]
+                if block_num == 0
+                else block_chs[layer_num + 1],
+                block_chs[layer_num + 1],
+                stride if block_num == 0 else 1,
+                sa=cfg.sa
+                if (block_num == num_blocks - 1) and layer_num == 0
+                else None,
+                conv_layer=cfg.conv_layer,
+                act_fn=cfg.act_fn,
+                pool=cfg.pool,
+                zero_bn=cfg.zero_bn,
+                bn_1st=cfg.bn_1st,
+                groups=cfg.groups,
+                div_groups=cfg.div_groups,
+                dw=cfg.dw,
+                se=cfg.se,
+            )
         )
+        for block_num in range(num_blocks)
     )
 
 
@@ -230,7 +288,7 @@ def make_head(cfg: TModelCfg) -> nn.Sequential:  # type: ignore
     head = [
         ("pool", nn.AdaptiveAvgPool2d(1)),
         ("flat", nn.Flatten()),
-        ("fc", nn.Linear(cfg.block_sizes[-1] * cfg.expansion, cfg.num_classes)),
+        ("fc", nn.Linear(cfg.block_sizes[-1], cfg.num_classes)),
     ]
     return nn.Sequential(OrderedDict(head))
 
@@ -241,7 +299,7 @@ class ModelCfg(BaseModel):
     name: Optional[str] = None
     in_chans: int = 3
     num_classes: int = 1000
-    block: type[nn.Module] = ResBlock
+    block: type[nn.Module] = BasicBlock
     conv_layer: type[nn.Module] = ConvBnAct
     block_sizes: list[int] = [64, 128, 256, 512]
     layers: list[int] = [2, 2, 2, 2]
