@@ -140,7 +140,9 @@ class XResBlock(nn.Module):
 
 
 class YaResBlock(nn.Module):
-    """YaResBlock. Reduce by pool instead of stride 2"""
+    """YaResBlock. Reduce by pool instead of stride 2.
+    Universal model, as XResNet.
+    If `expansion=1` - `Basic` block, else - `Bottleneck`"""
 
     def __init__(
         self,

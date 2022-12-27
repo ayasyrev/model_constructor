@@ -6,6 +6,7 @@ from torch import nn
 
 from model_constructor.layers import SEModule, SimpleSelfAttention
 from model_constructor.model_constructor import BasicBlock, BottleneckBlock
+from model_constructor.yaresnet import YaBasicBlock, YaBottleneckBlock
 
 from .parameters import ids_fn
 
@@ -14,8 +15,12 @@ img_size = 16
 
 
 params = dict(
-    Block=[BasicBlock, BottleneckBlock],
-    # expansion=[1, 2],
+    Block=[
+        BasicBlock,
+        BottleneckBlock,
+        YaBasicBlock,
+        YaBottleneckBlock,
+    ],
     out_channels=[8, 16],
     stride=[1, 2],
     div_groups=[None, 2],
@@ -34,7 +39,6 @@ def pytest_generate_tests(metafunc):
 def test_block(Block, out_channels, stride, div_groups, pool, se, sa):
     """test block"""
     in_channels = 8
-    # out_channels = mid_channels * expansion
     block = Block(
         in_channels,
         out_channels,
@@ -43,6 +47,21 @@ def test_block(Block, out_channels, stride, div_groups, pool, se, sa):
         pool=pool,
         se=se,
         sa=sa,
+    )
+    xb = torch.randn(bs_test, in_channels, img_size, img_size)
+    out = block(xb)
+    out_size = img_size if stride == 1 else img_size // stride
+    assert out.shape == torch.Size([bs_test, out_channels, out_size, out_size])
+
+
+def test_block_dw(Block, out_channels, stride):
+    """test block, dw=1"""
+    in_channels = 8
+    block = Block(
+        in_channels,
+        out_channels,
+        stride,
+        dw=1,
     )
     xb = torch.randn(bs_test, in_channels, img_size, img_size)
     out = block(xb)

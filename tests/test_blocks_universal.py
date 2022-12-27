@@ -49,3 +49,20 @@ def test_block(Block, expansion, mid_channels, stride, div_groups, pool, se, sa)
     out = block(xb)
     out_size = img_size if stride == 1 else img_size // stride
     assert out.shape == torch.Size([bs_test, out_channels, out_size, out_size])
+
+
+def test_block_dw(Block, expansion, mid_channels, stride):
+    """test block, dw=1"""
+    in_channels = 8
+    out_channels = mid_channels * expansion
+    block = Block(
+        expansion,
+        in_channels,
+        mid_channels,
+        stride,
+        dw=1,
+    )
+    xb = torch.randn(bs_test, in_channels * expansion, img_size, img_size)
+    out = block(xb)
+    out_size = img_size if stride == 1 else img_size // stride
+    assert out.shape == torch.Size([bs_test, out_channels, out_size, out_size])
