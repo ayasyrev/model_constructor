@@ -2,7 +2,7 @@ from collections import OrderedDict
 from typing import List, Optional, Type, Union
 
 import torch
-import torch.nn as nn
+from torch import nn
 from torch.nn.utils.spectral_norm import spectral_norm
 
 __all__ = [
@@ -21,11 +21,11 @@ __all__ = [
 class Flatten(nn.Module):
     """flat x to vector"""
 
-    def forward(self, x):
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
         return x.view(x.size(0), -1)
 
 
-def noop(x):
+def noop(x: torch.Tensor) -> torch.Tensor:
     """Dummy func. Return input"""
     return x
 
@@ -33,7 +33,7 @@ def noop(x):
 class Noop(nn.Module):
     """Dummy module"""
 
-    def forward(self, x):
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
         return x
 
 
@@ -176,7 +176,7 @@ class SimpleSelfAttention(nn.Module):
         self.sym = sym
         self.n_in = n_in
 
-    def forward(self, x):
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
         if self.sym:  # check ks=3
             # symmetry hack by https://github.com/mgrankin
             c = self.conv.weight.view(self.n_in, self.n_in)
@@ -202,7 +202,7 @@ class SEBlock(nn.Module):
     act_fn = nn.ReLU(inplace=True)
     use_bias = True
 
-    def __init__(self, c, r=16):
+    def __init__(self, c: int, r: int = 16):
         super().__init__()
         ch = max(c // r, 1)
         self.squeeze = nn.AdaptiveAvgPool2d(1)
@@ -217,7 +217,7 @@ class SEBlock(nn.Module):
             )
         )
 
-    def forward(self, x):
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
         bs, c, _, _ = x.shape
         y = self.squeeze(x).view(bs, c)
         y = self.excitation(y).view(bs, c, 1, 1)
