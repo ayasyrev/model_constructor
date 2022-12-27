@@ -411,6 +411,12 @@ class ModelConstructor(ModelCfg):
     def from_cfg(cls, cfg: ModelCfg):
         return cls(**cfg.dict())
 
+    @classmethod
+    def create_model(cls, cfg: Union[ModelCfg, None] = None) -> nn.Sequential:
+        if cfg:
+            return cls(**cfg.dict())()
+        return cls()()
+
     def __call__(self) -> nn.Sequential:
         """Create model."""
         model_name = self.name or self.__class__.__name__

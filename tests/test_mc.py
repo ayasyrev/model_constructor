@@ -51,6 +51,11 @@ def test_MC():
     model = mc()
     pred = model(xb)
     assert pred.shape == torch.Size([bs_test, num_classes])
+    # create model from class. Default config, num_classes 1000. ??- how to change
+    model = ModelConstructor.create_model()
+    pred = model(xb)
+    assert pred.shape == torch.Size([bs_test, 1000])
+
 
 
 def test_MC_bottleneck():
