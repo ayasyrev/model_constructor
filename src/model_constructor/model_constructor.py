@@ -412,10 +412,10 @@ class ModelConstructor(ModelCfg):
         return cls(**cfg.dict())
 
     @classmethod
-    def create_model(cls, cfg: Union[ModelCfg, None] = None) -> nn.Sequential:
+    def create_model(cls, cfg: Union[ModelCfg, None] = None, **kwargs: dict[str, Any]) -> nn.Sequential:
         if cfg:
             return cls(**cfg.dict())()
-        return cls()()
+        return cls(**kwargs)()
 
     def __call__(self) -> nn.Sequential:
         """Create model."""
