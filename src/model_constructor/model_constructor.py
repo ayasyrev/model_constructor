@@ -13,8 +13,8 @@ __all__ = [
     "init_cnn",
     # "ResBlock",
     "ModelConstructor",
-    "XResNet34",
-    "XResNet50",
+    "ResNet34",
+    "ResNet50",
 ]
 
 
