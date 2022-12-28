@@ -34,7 +34,8 @@ def init_cnn(module: nn.Module) -> None:
 
 
 class BasicBlock(nn.Module):
-    """Basic Resnet block."""
+    """Basic Resnet block.
+    Configurable - can use pool to reduce at identity path, change act etc. """
 
     def __init__(
         self,
@@ -117,7 +118,8 @@ class BasicBlock(nn.Module):
 
 
 class BottleneckBlock(nn.Module):
-    """Bottleneck Resnet block."""
+    """Bottleneck Resnet block.
+    Configurable - can use pool to reduce at identity path, change act etc. """
 
     def __init__(
         self,
@@ -211,21 +213,21 @@ class BottleneckBlock(nn.Module):
 
 
 def make_stem(cfg: TModelCfg) -> nn.Sequential:  # type: ignore
-    """Create xResnet stem -> 3 conv 3*3 instead 1 conv 7*7"""
-    len_stem = len(cfg.stem_sizes)
+    """Create Resnet stem."""
     stem: ListStrMod = [
         (
-            f"conv_{i}",
+            "conv_1",
             cfg.conv_layer(
-                cfg.stem_sizes[i - 1] if i else cfg.in_chans,  # type: ignore
-                cfg.stem_sizes[i],
-                stride=2 if i == cfg.stem_stride_on else 1,
-                bn_layer=(not cfg.stem_bn_end) if i == (len_stem - 1) else True,
+                cfg.in_chans,  # type: ignore
+                cfg.stem_sizes[-1],
+                kernel_size=7,
+                stride=2,
+                padding=3,
+                bn_layer=not cfg.stem_bn_end,
                 act_fn=cfg.act_fn,
                 bn_1st=cfg.bn_1st,
             ),
         )
-        for i in range(len_stem)
     ]
     if cfg.stem_pool:
         stem.append(("stem_pool", cfg.stem_pool()))
@@ -295,9 +297,7 @@ class ModelCfg(BaseModel):
     layers: list[int] = [2, 2, 2, 2]
     norm: type[nn.Module] = nn.BatchNorm2d
     act_fn: type[nn.Module] = nn.ReLU
-    pool: Callable[[Any], nn.Module] = partial(
-        nn.AvgPool2d, kernel_size=2, ceil_mode=True
-    )
+    pool: Optional[Callable[[Any], nn.Module]] = None
     expansion: int = 1
     groups: int = 1
     dw: bool = False
@@ -309,7 +309,7 @@ class ModelCfg(BaseModel):
     bn_1st: bool = True
     zero_bn: bool = True
     stem_stride_on: int = 0
-    stem_sizes: list[int] = [32, 32, 64]
+    stem_sizes: list[int] = [64]
     stem_pool: Union[Callable[[], nn.Module], None] = partial(
         nn.MaxPool2d, kernel_size=3, stride=2, padding=1
     )
@@ -368,7 +368,7 @@ class ModelCfg(BaseModel):
 
 
 class ModelConstructor(ModelCfg):
-    """Model constructor. As default - xresnet18"""
+    """Model constructor. As default - resnet18"""
 
     @validator("se")
     def set_se(  # pylint: disable=no-self-argument
@@ -446,10 +446,10 @@ class ModelConstructor(ModelCfg):
         )
 
 
-class XResNet34(ModelConstructor):
+class ResNet34(ModelConstructor):
     layers: list[int] = [3, 4, 6, 3]
 
 
-class XResNet50(XResNet34):
+class ResNet50(ResNet34):
     block: type[nn.Module] = BottleneckBlock
     block_sizes: list[int] = [256, 512, 1024, 2048]
