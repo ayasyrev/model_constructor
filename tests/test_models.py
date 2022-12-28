@@ -3,8 +3,9 @@ import torch
 from torch import nn
 
 from model_constructor.model_constructor import ModelConstructor, ResNet34, ResNet50
-from model_constructor.yaresnet import YaResNet, YaResNet34, YaResNet50
+from model_constructor.mxresnet import MxResNet, MxResNet34, MxResNet50
 from model_constructor.xresnet import XResNet, XResNet34, XResNet50
+from model_constructor.yaresnet import YaResNet, YaResNet34, YaResNet50
 
 bs_test = 2
 img_size = 16
@@ -20,6 +21,9 @@ mc_list = [
     YaResNet,
     YaResNet34,
     YaResNet50,
+    MxResNet,
+    MxResNet34,
+    MxResNet50,
 ]
 act_fn_list = [
     nn.ReLU,

@@ -6,7 +6,6 @@ from typing import Any, Callable, Optional, Union
 
 import torch
 from torch import nn
-from torch.nn import Mish
 
 from model_constructor.helpers import nn_seq
 
@@ -207,7 +206,7 @@ class YaResNet(ModelConstructor):
     make_stem: Callable[[ModelCfg], Union[nn.Module, nn.Sequential]] = xresnet_stem
     stem_sizes: list[int] = [3, 32, 64, 64]
     block: type[nn.Module] = YaBasicBlock
-    act_fn: type[nn.Module] = Mish
+    act_fn: type[nn.Module] = nn.Mish
     pool: Optional[Callable[[Any], nn.Module]] = partial(
         nn.AvgPool2d, kernel_size=2, ceil_mode=True
     )
