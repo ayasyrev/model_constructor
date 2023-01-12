@@ -204,7 +204,7 @@ class YaBottleneckBlock(nn.Module):
 
 class YaResNet(ModelConstructor):
     make_stem: Callable[[ModelCfg], Union[nn.Module, nn.Sequential]] = xresnet_stem
-    stem_sizes: list[int] = [3, 32, 64, 64]
+    stem_sizes: list[int] = [32, 64, 64]
     block: type[nn.Module] = YaBasicBlock
     act_fn: type[nn.Module] = nn.Mish
     pool: Optional[Callable[[Any], nn.Module]] = partial(
