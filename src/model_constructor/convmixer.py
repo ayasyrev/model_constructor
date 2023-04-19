@@ -75,16 +75,16 @@ class ConvMixer(nn.Sequential):
         Adopted from https://github.com/tmp-iclr/convmixer
 
         Args:
-            dim (int): Dimention of model.
+            dim (int): Dimension of model.
             depth (int): Depth of model.
             kernel_size (int, optional): Kernel size. Defaults to 9.
             patch_size (int, optional): Patch size. Defaults to 7.
             n_classes (int, optional): Number of classes. Defaults to 1000.
             act_fn (nn.Module, optional): Activation function. Defaults to nn.GELU().
             stem (nn.Module, optional): You can path different first layer..
-            stem_ks (int, optional): If stem_ch not 0 - kernel size for adittional layer. Defaults to 1.
-            bn_1st (bool, optional): If True - BatchNorm befor activation function. Defaults to False.
-            pre_act (bool, optional): If True - activatin function befor convolution layer. Defaults to False.
+            stem_ks (int, optional): If stem_ch not 0 - kernel size for additional layer. Defaults to 1.
+            bn_1st (bool, optional): If True - BatchNorm before activation function. Defaults to False.
+            pre_act (bool, optional): If True - activation function before convolution layer. Defaults to False.
             init_func (Callable, optional): External function for init model.
 
         """
