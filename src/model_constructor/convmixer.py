@@ -3,22 +3,29 @@
 # Adopted from https://github.com/tmp-iclr/convmixer
 # Home for convmixer: https://github.com/locuslab/convmixer
 from collections import OrderedDict
-from typing import Callable, Optional, Union
+from typing import Callable, List, Optional, Union
+
 import torch.nn as nn
+from torch import TensorType
 
 
 class Residual(nn.Module):
-    def __init__(self, fn):
+    def __init__(self, fn: Callable[[TensorType], TensorType]):
         super().__init__()
         self.fn = fn
 
-    def forward(self, x):
+    def forward(self, x: TensorType) -> TensorType:
         return self.fn(x) + x
 
 
 # As original version, act_fn as argument.
 def ConvMixerOriginal(
-    dim, depth, kernel_size=9, patch_size=7, n_classes=1000, act_fn=nn.GELU()
+    dim: int,
+    depth: int,
+    kernel_size: int = 9,
+    patch_size: int = 7,
+    n_classes: int = 1000,
+    act_fn: nn.Module = nn.GELU(),
 ):
     return nn.Sequential(
         nn.Conv2d(3, dim, kernel_size=patch_size, stride=patch_size),
@@ -61,7 +68,7 @@ class ConvLayer(nn.Sequential):
         pre_act: bool = False,
     ):
 
-        conv_layer = [
+        conv_layer: List[tuple[str, nn.Module]] = [
             (
                 "conv",
                 nn.Conv2d(
@@ -74,7 +81,10 @@ class ConvLayer(nn.Sequential):
                 ),
             )
         ]
-        act_bn = [("act_fn", act_fn), ("bn", nn.BatchNorm2d(out_channels))]
+        act_bn: List[tuple[str, nn.Module]] = [
+            ("act_fn", act_fn),
+            ("bn", nn.BatchNorm2d(out_channels)),
+        ]
         if bn_1st:
             act_bn.reverse()
         if pre_act:
