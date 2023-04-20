@@ -3,7 +3,7 @@
 # Adopted from https://github.com/tmp-iclr/convmixer
 # Home for convmixer: https://github.com/locuslab/convmixer
 from collections import OrderedDict
-from typing import Callable
+from typing import Callable, Optional
 import torch.nn as nn
 
 
@@ -43,9 +43,18 @@ def ConvMixerOriginal(dim, depth,
 class ConvLayer(nn.Sequential):
     """Basic conv layers block"""
 
-    def __init__(self, in_channels, out_channels, kernel_size, stride=1,
-                 act_fn=nn.GELU(), padding=0, groups=1,
-                 bn_1st=False, pre_act=False):
+    def __init__(
+            self,
+            in_channels,
+            out_channels,
+            kernel_size,
+            stride=1,
+            act_fn=nn.GELU(),
+            padding=0,
+            groups=1,
+            bn_1st=False,
+            pre_act=False
+        ):
 
         conv_layer = [('conv', nn.Conv2d(in_channels, out_channels, kernel_size, stride=stride,
                                          padding=padding, groups=groups))]
@@ -65,12 +74,20 @@ class ConvLayer(nn.Sequential):
 
 class ConvMixer(nn.Sequential):
 
-    def __init__(self, dim: int, depth: int,
-                 kernel_size: int = 9, patch_size: int = 7, n_classes: int = 1000,
-                 act_fn: nn.Module = nn.GELU(),
-                 stem: nn.Module = None,
-                 bn_1st: bool = False, pre_act: bool = False,
-                 init_func: Callable = None):
+    def __init__(
+            self,
+            dim: int,
+            depth: int,
+            kernel_size: int = 9,
+            patch_size: int = 7,
+            n_classes: int = 1000,
+            act_fn: nn.Module = nn.GELU(),
+            stem: Optional[nn.Module] = None,
+            in_chans: int = 3,
+            bn_1st: bool = False,
+            pre_act: bool = False,
+            init_func: Optional[Callable] = None
+        ):
         """ConvMixer constructor.
         Adopted from https://github.com/tmp-iclr/convmixer
 
@@ -91,7 +108,7 @@ class ConvMixer(nn.Sequential):
         if pre_act:
             bn_1st = False
         if stem is None:
-            stem = ConvLayer(3, dim, kernel_size=patch_size, stride=patch_size, act_fn=act_fn, bn_1st=bn_1st)
+            stem = ConvLayer(in_chans, dim, kernel_size=patch_size, stride=patch_size, act_fn=act_fn, bn_1st=bn_1st)
 
         super().__init__(
             stem,
@@ -100,7 +117,7 @@ class ConvMixer(nn.Sequential):
                     ConvLayer(dim, dim, kernel_size, act_fn=act_fn,
                               groups=dim, padding="same", bn_1st=bn_1st, pre_act=pre_act)),
                 ConvLayer(dim, dim, kernel_size=1, act_fn=act_fn, bn_1st=bn_1st, pre_act=pre_act))
-              for i in range(depth)],
+              for _ in range(depth)],
             nn.AdaptiveAvgPool2d((1, 1)),
             nn.Flatten(),
             nn.Linear(dim, n_classes))
