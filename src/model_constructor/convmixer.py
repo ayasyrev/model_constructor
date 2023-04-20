@@ -17,23 +17,28 @@ class Residual(nn.Module):
 
 
 # As original version, act_fn as argument.
-def ConvMixerOriginal(dim, depth,
-                      kernel_size=9, patch_size=7, n_classes=1000,
-                      act_fn=nn.GELU()):
+def ConvMixerOriginal(
+    dim, depth, kernel_size=9, patch_size=7, n_classes=1000, act_fn=nn.GELU()
+):
     return nn.Sequential(
         nn.Conv2d(3, dim, kernel_size=patch_size, stride=patch_size),
         act_fn,
         nn.BatchNorm2d(dim),
-        *[nn.Sequential(
-            Residual(nn.Sequential(
-                nn.Conv2d(dim, dim, kernel_size, groups=dim, padding="same"),
+        *[
+            nn.Sequential(
+                Residual(
+                    nn.Sequential(
+                        nn.Conv2d(dim, dim, kernel_size, groups=dim, padding="same"),
+                        act_fn,
+                        nn.BatchNorm2d(dim),
+                    )
+                ),
+                nn.Conv2d(dim, dim, kernel_size=1),
                 act_fn,
-                nn.BatchNorm2d(dim)
-            )),
-            nn.Conv2d(dim, dim, kernel_size=1),
-            act_fn,
-            nn.BatchNorm2d(dim)
-        ) for _i in range(depth)],
+                nn.BatchNorm2d(dim),
+            )
+            for _i in range(depth)
+        ],
         nn.AdaptiveAvgPool2d((1, 1)),
         nn.Flatten(),
         nn.Linear(dim, n_classes)
@@ -44,24 +49,32 @@ class ConvLayer(nn.Sequential):
     """Basic conv layers block"""
 
     def __init__(
-            self,
-            in_channels: int,
-            out_channels: int,
-            kernel_size: Union[int, tuple[int, int]],
-            stride: int = 1,
-            act_fn: nn.Module = nn.GELU(),
-            padding: Union[int, str] = 0,
-            groups: int = 1,
-            bn_1st: bool = False,
-            pre_act: bool = False,
+        self,
+        in_channels: int,
+        out_channels: int,
+        kernel_size: Union[int, tuple[int, int]],
+        stride: int = 1,
+        act_fn: nn.Module = nn.GELU(),
+        padding: Union[int, str] = 0,
+        groups: int = 1,
+        bn_1st: bool = False,
+        pre_act: bool = False,
     ):
 
-        conv_layer = [('conv', nn.Conv2d(in_channels, out_channels, kernel_size, stride=stride,
-                                         padding=padding, groups=groups))]
-        act_bn = [
-            ('act_fn', act_fn),
-            ('bn', nn.BatchNorm2d(out_channels))
+        conv_layer = [
+            (
+                "conv",
+                nn.Conv2d(
+                    in_channels,
+                    out_channels,
+                    kernel_size,
+                    stride=stride,
+                    padding=padding,
+                    groups=groups,
+                ),
+            )
         ]
+        act_bn = [("act_fn", act_fn), ("bn", nn.BatchNorm2d(out_channels))]
         if bn_1st:
             act_bn.reverse()
         if pre_act:
@@ -73,20 +86,19 @@ class ConvLayer(nn.Sequential):
 
 
 class ConvMixer(nn.Sequential):
-
     def __init__(
-            self,
-            dim: int,
-            depth: int,
-            kernel_size: int = 9,
-            patch_size: int = 7,
-            n_classes: int = 1000,
-            act_fn: nn.Module = nn.GELU(),
-            stem: Optional[nn.Module] = None,
-            in_chans: int = 3,
-            bn_1st: bool = False,
-            pre_act: bool = False,
-            init_func: Optional[Callable[[nn.Module], None]] = None
+        self,
+        dim: int,
+        depth: int,
+        kernel_size: int = 9,
+        patch_size: int = 7,
+        n_classes: int = 1000,
+        act_fn: nn.Module = nn.GELU(),
+        stem: Optional[nn.Module] = None,
+        in_chans: int = 3,
+        bn_1st: bool = False,
+        pre_act: bool = False,
+        init_func: Optional[Callable[[nn.Module], None]] = None,
     ):
         """ConvMixer constructor.
         Adopted from https://github.com/tmp-iclr/convmixer
@@ -108,18 +120,45 @@ class ConvMixer(nn.Sequential):
         if pre_act:
             bn_1st = False
         if stem is None:
-            stem = ConvLayer(in_chans, dim, kernel_size=patch_size, stride=patch_size, act_fn=act_fn, bn_1st=bn_1st)
+            stem = ConvLayer(
+                in_chans,
+                dim,
+                kernel_size=patch_size,
+                stride=patch_size,
+                act_fn=act_fn,
+                bn_1st=bn_1st,
+            )
 
         super().__init__(
             stem,
-            *[nn.Sequential(
-                Residual(
-                    ConvLayer(dim, dim, kernel_size, act_fn=act_fn,
-                              groups=dim, padding="same", bn_1st=bn_1st, pre_act=pre_act)),
-                ConvLayer(dim, dim, kernel_size=1, act_fn=act_fn, bn_1st=bn_1st, pre_act=pre_act))
-              for _ in range(depth)],
+            *[
+                nn.Sequential(
+                    Residual(
+                        ConvLayer(
+                            dim,
+                            dim,
+                            kernel_size,
+                            act_fn=act_fn,
+                            groups=dim,
+                            padding="same",
+                            bn_1st=bn_1st,
+                            pre_act=pre_act,
+                        )
+                    ),
+                    ConvLayer(
+                        dim,
+                        dim,
+                        kernel_size=1,
+                        act_fn=act_fn,
+                        bn_1st=bn_1st,
+                        pre_act=pre_act,
+                    ),
+                )
+                for _ in range(depth)
+            ],
             nn.AdaptiveAvgPool2d((1, 1)),
             nn.Flatten(),
-            nn.Linear(dim, n_classes))
+            nn.Linear(dim, n_classes)
+        )
         if init_func is not None:  # pragma: no cover
             init_func(self)
