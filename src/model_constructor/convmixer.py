@@ -3,7 +3,7 @@
 # Adopted from https://github.com/tmp-iclr/convmixer
 # Home for convmixer: https://github.com/locuslab/convmixer
 from collections import OrderedDict
-from typing import Callable, Optional
+from typing import Callable, Optional, Union
 import torch.nn as nn
 
 
@@ -33,7 +33,7 @@ def ConvMixerOriginal(dim, depth,
             nn.Conv2d(dim, dim, kernel_size=1),
             act_fn,
             nn.BatchNorm2d(dim)
-        ) for i in range(depth)],
+        ) for _i in range(depth)],
         nn.AdaptiveAvgPool2d((1, 1)),
         nn.Flatten(),
         nn.Linear(dim, n_classes)
@@ -45,16 +45,16 @@ class ConvLayer(nn.Sequential):
 
     def __init__(
             self,
-            in_channels,
-            out_channels,
-            kernel_size,
-            stride=1,
-            act_fn=nn.GELU(),
-            padding=0,
-            groups=1,
-            bn_1st=False,
-            pre_act=False
-        ):
+            in_channels: int,
+            out_channels: int,
+            kernel_size: Union[int, tuple[int, int]],
+            stride: int = 1,
+            act_fn: nn.Module = nn.GELU(),
+            padding: Union[int, str] = 0,
+            groups: int = 1,
+            bn_1st: bool = False,
+            pre_act: bool = False,
+    ):
 
         conv_layer = [('conv', nn.Conv2d(in_channels, out_channels, kernel_size, stride=stride,
                                          padding=padding, groups=groups))]
@@ -86,8 +86,8 @@ class ConvMixer(nn.Sequential):
             in_chans: int = 3,
             bn_1st: bool = False,
             pre_act: bool = False,
-            init_func: Optional[Callable] = None
-        ):
+            init_func: Optional[Callable[[nn.Module], None]] = None
+    ):
         """ConvMixer constructor.
         Adopted from https://github.com/tmp-iclr/convmixer
 
