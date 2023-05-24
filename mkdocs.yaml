@@ -24,3 +24,4 @@ extra:
   analytics:
     provider: google
     property: G-0F3FK713C2
+copyright: Copyright &copy; 2020-2023 Andrei Yasyrev.
