@@ -1,7 +1,14 @@
 import torch
 
-from model_constructor.layers import (ConvBnAct, Flatten, Noop, SEModule,
-                                      SEModuleConv, SimpleSelfAttention, noop)
+from model_constructor.layers import (
+    ConvBnAct,
+    Flatten,
+    Noop,
+    SEModule,
+    SEModuleConv,
+    SimpleSelfAttention,
+    noop,
+)
 
 from .parameters import ids_fn
 

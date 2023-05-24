@@ -1,60 +1,55 @@
-from collections import OrderedDict
+from functools import partial
+from typing import Any, Callable, Optional, Union
 
-import torch.nn as nn
+from torch import nn
 
-from .base_constructor import Net
-from .layers import ConvLayer, Noop, act
+from .helpers import nn_seq
+from .model_constructor import (BottleneckBlock, ListStrMod, ModelCfg,
+                                ModelConstructor)
 
-__all__ = ['DownsampleLayer', 'XResBlock', 'xresnet18', 'xresnet34', 'xresnet50']
-
-
-class DownsampleLayer(nn.Sequential):
-    """Downsample layer for Xresnet Resblock"""
-
-    def __init__(self, conv_layer, ni, nf, stride, act,
-                 pool=nn.AvgPool2d(2, ceil_mode=True), pool_1st=True,
-                 **kwargs):
-        layers = [] if stride == 1 else [('pool', pool)]
-        layers += [] if ni == nf else [('idconv', conv_layer(ni, nf, 1, act=act, **kwargs))]
-        if not pool_1st:
-            layers.reverse()
-        super().__init__(OrderedDict(layers))
+__all__ = [
+    "XResNet",
+    "XResNet34",
+    "XResNet50",
+]
 
 
-class XResBlock(nn.Module):
-    '''XResnet block'''
-
-    def __init__(self, ni, nh, expansion=1, stride=1, zero_bn=True,
-                 conv_layer=ConvLayer, act_fn=act, **kwargs):
-        super().__init__()
-        nf, ni = nh * expansion, ni * expansion
-        layers = [('conv_0', conv_layer(ni, nh, 3, stride=stride, act_fn=act_fn, **kwargs)),
-                  ('conv_1', conv_layer(nh, nf, 3, zero_bn=zero_bn, act=False, act_fn=act_fn, **kwargs))
-                  ] if expansion == 1 else [
-                      ('conv_0', conv_layer(ni, nh, 1, act_fn=act_fn, **kwargs)),
-                      ('conv_1', conv_layer(nh, nh, 3, stride=stride, act_fn=act_fn, **kwargs)),
-                      ('conv_2', conv_layer(nh, nf, 1, zero_bn=zero_bn, act=False, act_fn=act_fn, **kwargs))
-        ]
-        self.convs = nn.Sequential(OrderedDict(layers))
-        self.identity = DownsampleLayer(conv_layer, ni, nf, stride,
-                                        act=False, act_fn=act_fn, **kwargs) if ni != nf or stride == 2 else Noop()
-        self.merge = Noop()
-        self.act_fn = act_fn
-
-    def forward(self, x):
-        return self.act_fn(self.merge(self.convs(x) + self.identity(x)))
-
-
-def xresnet18(**kwargs):
-    """Constructs xresnet18 model. """
-    return Net(stem_sizes=[32, 32], block=XResBlock, blocks=[2, 2, 2, 2], expansion=1, **kwargs)
+def xresnet_stem(cfg: ModelCfg) -> nn.Sequential:  # type: ignore
+    """Create xResnet stem -> 3 conv 3*3 instead 1 conv 7*7"""
+    len_stem = len(cfg.stem_sizes)
+    stem: ListStrMod = [
+        (
+            f"conv_{i}",
+            cfg.conv_layer(
+                cfg.stem_sizes[i - 1] if i else cfg.in_chans,  # type: ignore
+                cfg.stem_sizes[i],
+                stride=2 if i == cfg.stem_stride_on else 1,
+                bn_layer=(not cfg.stem_bn_end) if i == (len_stem - 1) else True,
+                act_fn=cfg.act_fn,
+                bn_1st=cfg.bn_1st,
+            ),
+        )
+        for i in range(len_stem)
+    ]
+    if cfg.stem_pool:
+        stem.append(("stem_pool", cfg.stem_pool()))
+    if cfg.stem_bn_end:
+        stem.append(("norm", cfg.norm(cfg.stem_sizes[-1])))  # type: ignore
+    return nn_seq(stem)
 
 
-def xresnet34(**kwargs):
-    """Constructs xresnet34 model. """
-    return Net(stem_sizes=[32, 32], block=XResBlock, blocks=[3, 4, 6, 3], expansion=1, **kwargs)
+class XResNet(ModelConstructor):
+    make_stem: Callable[[ModelCfg], Union[nn.Module, nn.Sequential]] = xresnet_stem
+    stem_sizes: list[int] = [32, 32, 64]
+    pool: Optional[Callable[[Any], nn.Module]] = partial(
+        nn.AvgPool2d, kernel_size=2, ceil_mode=True
+    )
 
 
-def xresnet50(**kwargs):
-    """Constructs xresnet50 model. """
-    return Net(stem_sizes=[32, 32], block=XResBlock, blocks=[3, 4, 6, 3], expansion=4, **kwargs)
+class XResNet34(XResNet):
+    layers: list[int] = [3, 4, 6, 3]
+
+
+class XResNet50(XResNet34):
+    block: type[nn.Module] = BottleneckBlock
+    block_sizes: list[int] = [256, 512, 1024, 2048]

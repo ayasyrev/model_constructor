@@ -6,7 +6,18 @@ import torch.nn as nn
 from .layers import ConvLayer, Flatten, SEBlock, SimpleSelfAttention, noop
 
 
-__all__ = ['init_cnn', 'act_fn', 'ResBlock', 'NewResBlock', 'Net', 'xresnet34', 'xresnet50']
+__all__ = [
+    "init_cnn",
+    "act_fn",
+    "ResBlock",
+    "NewResBlock",
+    "Net",
+    "xresnet34",
+    "xresnet50",
+    "mxresnet_parameters",
+    "mxresnet34",
+    "mxresnet50",
+]
 
 
 act_fn = nn.ReLU(inplace=True)
@@ -209,3 +220,11 @@ class Net():  # todo: deprecation worning.
 
 xresnet34 = partial(Net, name='xresnet34', expansion=1, layers=[3, 4, 6, 3])
 xresnet50 = partial(Net, name='xresnet34', expansion=4, layers=[3, 4, 6, 3])
+
+mxresnet_parameters = {"stem_sizes": [3, 32, 64, 64], "act_fn": nn.Mish()}
+mxresnet34 = partial(
+    Net, name="MXResnet32", expansion=1, layers=[3, 4, 6, 3], **mxresnet_parameters
+)
+mxresnet50 = partial(
+    Net, name="MXResnet50", expansion=4, layers=[3, 4, 6, 3], **mxresnet_parameters
+)

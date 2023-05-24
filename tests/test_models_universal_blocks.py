@@ -2,34 +2,29 @@ import pytest
 import torch
 from torch import nn
 
-from model_constructor.model_constructor import ModelConstructor, ResNet34, ResNet50
-from model_constructor.mxresnet import MxResNet, MxResNet34, MxResNet50
-from model_constructor.xresnet import XResNet, XResNet34, XResNet50
-from model_constructor.yaresnet import YaResNet, YaResNet34, YaResNet50
-
-bs_test = 2
-img_size = 16
-xb = torch.rand(bs_test, 3, img_size, img_size)
-
-mc_list = [
+from model_constructor.universal_blocks import (
     ModelConstructor,
-    ResNet34,
-    ResNet50,
     XResNet,
     XResNet34,
     XResNet50,
     YaResNet,
     YaResNet34,
     YaResNet50,
-    MxResNet,
-    MxResNet34,
-    MxResNet50,
+)
+
+bs_test = 2
+img_size = 16
+xb = torch.rand(bs_test, 3, img_size, img_size)
+
+mc_list = [
+    XResNet,
+    XResNet34,
+    XResNet50,
+    YaResNet,
+    YaResNet34,
+    YaResNet50,
 ]
-act_fn_list = [
-    nn.ReLU,
-    nn.Mish,
-    nn.GELU,
-]
+act_fn_list = [nn.ReLU, nn.Mish, nn.GELU]
 
 
 @pytest.mark.parametrize("model_constructor", mc_list)
