@@ -5,8 +5,7 @@ import torch
 from torch import nn
 
 from model_constructor.layers import SEModule, SimpleSelfAttention
-from model_constructor.model_constructor import ResBlock
-from model_constructor.yaresnet import YaResBlock
+from model_constructor.universal_blocks import XResBlock, YaResBlock
 
 from .parameters import ids_fn
 
@@ -15,7 +14,7 @@ img_size = 16
 
 
 params = dict(
-    Block=[ResBlock, YaResBlock],
+    Block=[XResBlock, YaResBlock],
     expansion=[1, 2],
     mid_channels=[8, 16],
     stride=[1, 2],
@@ -47,6 +46,23 @@ def test_block(Block, expansion, mid_channels, stride, div_groups, pool, se, sa)
         sa=sa,
     )
     xb = torch.randn(bs_test, in_channels * expansion, img_size, img_size)
-    y = block(xb)
+    out = block(xb)
     out_size = img_size if stride == 1 else img_size // stride
-    assert y.shape == torch.Size([bs_test, out_channels, out_size, out_size])
+    assert out.shape == torch.Size([bs_test, out_channels, out_size, out_size])
+
+
+def test_block_dw(Block, expansion, mid_channels, stride):
+    """test block, dw=1"""
+    in_channels = 8
+    out_channels = mid_channels * expansion
+    block = Block(
+        expansion,
+        in_channels,
+        mid_channels,
+        stride,
+        dw=1,
+    )
+    xb = torch.randn(bs_test, in_channels * expansion, img_size, img_size)
+    out = block(xb)
+    out_size = img_size if stride == 1 else img_size // stride
+    assert out.shape == torch.Size([bs_test, out_channels, out_size, out_size])

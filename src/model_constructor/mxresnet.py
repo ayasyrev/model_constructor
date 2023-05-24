@@ -1,16 +1,17 @@
-from functools import partial
+from torch import nn
 
-from .activations import Mish
-from .net import Net
-
-
-__all__ = ["mxresnet_parameters", "mxresnet34", "mxresnet50"]
+from .xresnet import XResNet, XResNet34, XResNet50
 
 
-mxresnet_parameters = {"stem_sizes": [3, 32, 64, 64], "act_fn": Mish()}
-mxresnet34 = partial(
-    Net, name="MXResnet32", expansion=1, layers=[3, 4, 6, 3], **mxresnet_parameters
-)
-mxresnet50 = partial(
-    Net, name="MXResnet50", expansion=4, layers=[3, 4, 6, 3], **mxresnet_parameters
-)
+class MxResNet(XResNet):
+    stem_sizes: list[int] = [3, 32, 64, 64]
+    act_fn: type[nn.Module] = nn.Mish
+
+class MxResNet34(XResNet34):
+    stem_sizes: list[int] = [3, 32, 64, 64]
+    act_fn: type[nn.Module] = nn.Mish
+
+
+class MxResNet50(XResNet50):
+    stem_sizes: list[int] = [3, 32, 64, 64]
+    act_fn: type[nn.Module] = nn.Mish

@@ -2,8 +2,8 @@ import pytest
 import torch
 from torch import nn
 
-from model_constructor.mxresnet import mxresnet34, mxresnet50
-from model_constructor.xresnet import xresnet18, xresnet34, xresnet50
+from model_constructor.base_constructor import xresnet18, xresnet34, xresnet50
+from model_constructor.net import mxresnet34, mxresnet50
 
 bs_test = 2
 img_size = 16
