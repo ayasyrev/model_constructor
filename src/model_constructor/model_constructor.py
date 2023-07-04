@@ -320,7 +320,6 @@ class ModelCfg(BaseModel, arbitrary_types_allowed=True, extra="forbid"):
     make_body: Callable[[TModelCfg], Union[nn.Module, nn.Sequential]] = make_body  # type: ignore
     make_head: Callable[[TModelCfg], Union[nn.Module, nn.Sequential]] = make_head  # type: ignore
 
-
     def _get_str_value(self, field: str) -> str:
         value = getattr(self, field)
         if isinstance(value, type):
