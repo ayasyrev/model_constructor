@@ -3,7 +3,7 @@ from functools import partial
 from typing import Any, Callable, Optional, TypeVar, Union
 
 import torch
-from pydantic import BaseModel, validator
+from pydantic import BaseModel, field_validator
 from torch import nn
 
 from .helpers import nn_seq
@@ -285,7 +285,7 @@ def make_head(cfg: TModelCfg) -> nn.Sequential:  # type: ignore
     return nn_seq(head)
 
 
-class ModelCfg(BaseModel):
+class ModelCfg(BaseModel, arbitrary_types_allowed=True, extra="forbid"):
     """Model constructor Config. As default - xresnet18"""
 
     name: Optional[str] = None
@@ -320,9 +320,6 @@ class ModelCfg(BaseModel):
     make_body: Callable[[TModelCfg], Union[nn.Module, nn.Sequential]] = make_body  # type: ignore
     make_head: Callable[[TModelCfg], Union[nn.Module, nn.Sequential]] = make_head  # type: ignore
 
-    class Config:  # pylint: disable=too-few-public-methods
-        arbitrary_types_allowed = True
-        extra = "forbid"
 
     def _get_str_value(self, field: str) -> str:
         value = getattr(self, field)
@@ -340,7 +337,7 @@ class ModelCfg(BaseModel):
     def __repr_args__(self) -> list[tuple[str, str]]:
         return [
             (field, str_value)
-            for field in self.__fields__
+            for field in self.model_fields
             if (str_value := self._get_str_value(field))
         ]
 
@@ -348,7 +345,7 @@ class ModelCfg(BaseModel):
         """Return list repr for changed fields"""
         return [
             f"{field}: {self._get_str_value(field)}"
-            for field in self.__fields_set__
+            for field in self.model_fields
             if field != "name"
         ]
 
@@ -370,7 +367,7 @@ class ModelCfg(BaseModel):
 class ModelConstructor(ModelCfg):
     """Model constructor. As default - resnet18"""
 
-    @validator("se")
+    @field_validator("se")
     def set_se(  # pylint: disable=no-self-argument
         cls, value: Union[bool, type[nn.Module]]
     ) -> Union[bool, type[nn.Module]]:
@@ -379,7 +376,7 @@ class ModelConstructor(ModelCfg):
                 return SEModule
         return value
 
-    @validator("sa")
+    @field_validator("sa")
     def set_sa(  # pylint: disable=no-self-argument
         cls, value: Union[bool, type[nn.Module]]
     ) -> Union[bool, type[nn.Module]]:
@@ -388,7 +385,7 @@ class ModelConstructor(ModelCfg):
                 return SimpleSelfAttention  # default: ks=1, sym=sym
         return value
 
-    @validator("se_module", "se_reduction")  # pragma: no cover
+    @field_validator("se_module", "se_reduction")  # pragma: no cover
     def deprecation_warning(  # pylint: disable=no-self-argument
         cls, value: Union[bool, int, None]
     ) -> Union[bool, int, None]:
@@ -409,12 +406,12 @@ class ModelConstructor(ModelCfg):
 
     @classmethod
     def from_cfg(cls, cfg: ModelCfg):
-        return cls(**cfg.dict())
+        return cls(**cfg.model_dump())
 
     @classmethod
     def create_model(cls, cfg: Union[ModelCfg, None] = None, **kwargs: dict[str, Any]) -> nn.Sequential:
         if cfg:
-            return cls(**cfg.dict())()
+            return cls(**cfg.model_dump())()
         return cls(**kwargs)()
 
     def __call__(self) -> nn.Sequential:
