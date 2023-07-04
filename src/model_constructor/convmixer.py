@@ -5,16 +5,16 @@
 from collections import OrderedDict
 from typing import Callable, List, Optional, Union
 
+import torch
 import torch.nn as nn
-from torch import TensorType
 
 
 class Residual(nn.Module):
-    def __init__(self, fn: Callable[[TensorType], TensorType]):
+    def __init__(self, fn: Callable[[torch.Tensor], torch.Tensor]):
         super().__init__()
         self.fn = fn
 
-    def forward(self, x: TensorType) -> TensorType:
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
         return self.fn(x) + x
 
 
