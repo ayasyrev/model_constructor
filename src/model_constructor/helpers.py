@@ -11,7 +11,7 @@ ListStrMod = list[tuple[str, nn.Module]]
 
 def nn_seq(list_of_tuples: Iterable[tuple[str, nn.Module]]) -> nn.Sequential:
     """return nn.Sequential from OrderedDict from list of tuples"""
-    return nn.Sequential(OrderedDict(list_of_tuples))  #
+    return nn.Sequential(OrderedDict(list_of_tuples))
 
 
 def init_cnn(module: nn.Module) -> None:
@@ -53,7 +53,7 @@ class Cfg(BaseModel):
         """Return list repr for changed fields"""
         return [
             f"{field}: {self._get_str_value(field)}"
-            for field in self.model_fields_set
+            for field in self.model_fields_set  # pylint: disable=E1133
             if field != "name"
         ]
 

@@ -190,7 +190,7 @@ class ModelConstructor(ModelCfg):
     ) -> nn.Sequential:
         if cfg:
             return cls(**cfg.model_dump())()
-        return cls(**kwargs)()
+        return cls(**kwargs)()  # type: ignore
 
     def __call__(self) -> nn.Sequential:
         """Create model."""
