@@ -5,9 +5,24 @@ from torch.nn import functional as F
 from torch.nn import Mish
 
 
-__all__ = ['mish', 'Mish', 'mish_jit', 'MishJit', 'mish_jit_fwd', 'mish_jit_bwd', 'MishJitAutoFn', 'mish_me', 'MishMe',
-           'hard_mish_jit', 'HardMishJit', 'hard_mish_jit_fwd', 'hard_mish_jit_bwd', 'HardMishJitAutoFn',
-           'hard_mish_me', 'HardMishMe']
+__all__ = [
+    "mish",
+    "Mish",
+    "mish_jit",
+    "MishJit",
+    "mish_jit_fwd",
+    "mish_jit_bwd",
+    "MishJitAutoFn",
+    "mish_me",
+    "MishMe",
+    "hard_mish_jit",
+    "HardMishJit",
+    "hard_mish_jit_fwd",
+    "hard_mish_jit_bwd",
+    "HardMishJitAutoFn",
+    "hard_mish_me",
+    "HardMishMe",
+]
 
 
 def mish(x, inplace: bool = False):
@@ -40,7 +55,8 @@ def mish_jit(x, _inplace: bool = False):
 class MishJit(nn.Module):
     def __init__(self, inplace: bool = False):
         """Jit version of Mish.
-        Mish: A Self Regularized Non-Monotonic Neural Activation Function - https://arxiv.org/abs/1908.08681"""
+        Mish: A Self Regularized Non-Monotonic Neural Activation Function - https://arxiv.org/abs/1908.08681
+        """
         super(MishJit, self).__init__()
 
     def forward(self, x):
@@ -61,8 +77,9 @@ def mish_jit_bwd(x, grad_output):
 
 
 class MishJitAutoFn(torch.autograd.Function):
-    """ Mish: A Self Regularized Non-Monotonic Neural Activation Function - https://arxiv.org/abs/1908.08681
+    """Mish: A Self Regularized Non-Monotonic Neural Activation Function - https://arxiv.org/abs/1908.08681
     A memory efficient, jit scripted variant of Mish"""
+
     @staticmethod
     def forward(ctx, x):
         ctx.save_for_backward(x)
@@ -79,8 +96,9 @@ def mish_me(x, inplace=False):
 
 
 class MishMe(nn.Module):
-    """ Mish: A Self Regularized Non-Monotonic Neural Activation Function - https://arxiv.org/abs/1908.08681
+    """Mish: A Self Regularized Non-Monotonic Neural Activation Function - https://arxiv.org/abs/1908.08681
     A memory efficient, jit scripted variant of Mish"""
+
     def __init__(self, inplace: bool = False):
         super(MishMe, self).__init__()
 
@@ -90,7 +108,7 @@ class MishMe(nn.Module):
 
 @torch.jit.script
 def hard_mish_jit(x, inplace: bool = False):
-    """ Hard Mish
+    """Hard Mish
     Experimental, based on notes by Mish author Diganta Misra at
       https://github.com/digantamisra98/H-Mish/blob/0da20d4bc58e696b6803f2523c58d3c8a82782d0/README.md
     """
@@ -98,10 +116,11 @@ def hard_mish_jit(x, inplace: bool = False):
 
 
 class HardMishJit(nn.Module):
-    """ Hard Mish
+    """Hard Mish
     Experimental, based on notes by Mish author Diganta Misra at
       https://github.com/digantamisra98/H-Mish/blob/0da20d4bc58e696b6803f2523c58d3c8a82782d0/README.md
     """
+
     def __init__(self, inplace: bool = False):
         super(HardMishJit, self).__init__()
 
@@ -116,16 +135,17 @@ def hard_mish_jit_fwd(x):
 
 @torch.jit.script
 def hard_mish_jit_bwd(x, grad_output):
-    m = torch.ones_like(x) * (x >= -2.)
-    m = torch.where((x >= -2.) & (x <= 0.), x + 1., m)
+    m = torch.ones_like(x) * (x >= -2.0)
+    m = torch.where((x >= -2.0) & (x <= 0.0), x + 1.0, m)
     return grad_output * m
 
 
 class HardMishJitAutoFn(torch.autograd.Function):
-    """ A memory efficient, jit scripted variant of Hard Mish
+    """A memory efficient, jit scripted variant of Hard Mish
     Experimental, based on notes by Mish author Diganta Misra at
       https://github.com/digantamisra98/H-Mish/blob/0da20d4bc58e696b6803f2523c58d3c8a82782d0/README.md
     """
+
     @staticmethod
     def forward(ctx, x):
         ctx.save_for_backward(x)
@@ -142,10 +162,11 @@ def hard_mish_me(x, inplace: bool = False):
 
 
 class HardMishMe(nn.Module):
-    """ A memory efficient, jit scripted variant of Hard Mish
+    """A memory efficient, jit scripted variant of Hard Mish
     Experimental, based on notes by Mish author Diganta Misra at
       https://github.com/digantamisra98/H-Mish/blob/0da20d4bc58e696b6803f2523c58d3c8a82782d0/README.md
     """
+
     def __init__(self, inplace: bool = False):
         super(HardMishMe, self).__init__()
 

@@ -3,9 +3,9 @@ from typing import Any, Callable, Optional, Union
 
 from torch import nn
 
-from .helpers import nn_seq
-from .model_constructor import (BottleneckBlock, ListStrMod, ModelCfg,
-                                ModelConstructor)
+from .blocks import BottleneckBlock
+from .helpers import ListStrMod, nn_seq
+from .model_constructor import ModelCfg, ModelConstructor
 
 __all__ = [
     "XResNet",

@@ -3,7 +3,6 @@
 # Used in examples.
 # first implementation of xresnet - inspired by fastai version.
 from collections import OrderedDict
-from functools import partial
 
 import torch.nn as nn
 

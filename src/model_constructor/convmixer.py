@@ -67,7 +67,6 @@ class ConvLayer(nn.Sequential):
         bn_1st: bool = False,
         pre_act: bool = False,
     ):
-
         conv_layer: List[tuple[str, nn.Module]] = [
             (
                 "conv",
