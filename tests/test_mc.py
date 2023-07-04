@@ -2,8 +2,10 @@ from functools import partial
 
 import torch
 
-from model_constructor.layers import SEModule, SEModuleConv, SimpleSelfAttention
-from model_constructor.model_constructor import BottleneckBlock, ModelConstructor
+from model_constructor.blocks import BottleneckBlock
+from model_constructor.layers import (SEModule, SEModuleConv,
+                                      SimpleSelfAttention)
+from model_constructor.model_constructor import ModelConstructor
 
 bs_test = 4
 in_chans = 3
