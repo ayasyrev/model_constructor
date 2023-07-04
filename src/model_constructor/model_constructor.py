@@ -35,7 +35,7 @@ def init_cnn(module: nn.Module) -> None:
 
 class BasicBlock(nn.Module):
     """Basic Resnet block.
-    Configurable - can use pool to reduce at identity path, change act etc. """
+    Configurable - can use pool to reduce at identity path, change act etc."""
 
     def __init__(
         self,
@@ -119,7 +119,7 @@ class BasicBlock(nn.Module):
 
 class BottleneckBlock(nn.Module):
     """Bottleneck Resnet block.
-    Configurable - can use pool to reduce at identity path, change act etc. """
+    Configurable - can use pool to reduce at identity path, change act etc."""
 
     def __init__(
         self,
@@ -408,7 +408,9 @@ class ModelConstructor(ModelCfg):
         return cls(**cfg.model_dump())
 
     @classmethod
-    def create_model(cls, cfg: Union[ModelCfg, None] = None, **kwargs: dict[str, Any]) -> nn.Sequential:
+    def create_model(
+        cls, cfg: Union[ModelCfg, None] = None, **kwargs: dict[str, Any]
+    ) -> nn.Sequential:
         if cfg:
             return cls(**cfg.model_dump())()
         return cls(**kwargs)()
