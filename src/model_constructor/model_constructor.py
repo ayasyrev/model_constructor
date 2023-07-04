@@ -1,6 +1,6 @@
 from collections import OrderedDict
 from functools import partial
-from typing import Any, Callable, Optional, TypeVar, Union
+from typing import Any, Callable, Optional, Union
 
 from pydantic import field_validator
 from torch import nn
@@ -15,9 +15,6 @@ __all__ = [
     "ResNet34",
     "ResNet50",
 ]
-
-
-TModelCfg = TypeVar("TModelCfg", bound="ModelCfg")
 
 
 class ModelCfg(Cfg, arbitrary_types_allowed=True, extra="forbid"):
@@ -64,7 +61,7 @@ class ModelCfg(Cfg, arbitrary_types_allowed=True, extra="forbid"):
         )
 
 
-def make_stem(cfg: TModelCfg) -> nn.Sequential:  # type: ignore
+def make_stem(cfg: ModelCfg) -> nn.Sequential:  # type: ignore
     """Create Resnet stem."""
     stem: ListStrMod = [
         (
@@ -88,7 +85,7 @@ def make_stem(cfg: TModelCfg) -> nn.Sequential:  # type: ignore
     return nn_seq(stem)
 
 
-def make_layer(cfg: TModelCfg, layer_num: int) -> nn.Sequential:  # type: ignore
+def make_layer(cfg: ModelCfg, layer_num: int) -> nn.Sequential:  # type: ignore
     """Create layer (stage)"""
     # if no pool on stem - stride = 2 for first layer block in body
     stride = 1 if cfg.stem_pool and layer_num == 0 else 2
@@ -119,7 +116,7 @@ def make_layer(cfg: TModelCfg, layer_num: int) -> nn.Sequential:  # type: ignore
     )
 
 
-def make_body(cfg: TModelCfg) -> nn.Sequential:  # type: ignore
+def make_body(cfg: ModelCfg) -> nn.Sequential:  # type: ignore
     """Create model body."""
     return nn_seq(
         (f"l_{layer_num}", cfg.make_layer(cfg, layer_num))  # type: ignore
@@ -127,7 +124,7 @@ def make_body(cfg: TModelCfg) -> nn.Sequential:  # type: ignore
     )
 
 
-def make_head(cfg: TModelCfg) -> nn.Sequential:  # type: ignore
+def make_head(cfg: ModelCfg) -> nn.Sequential:  # type: ignore
     """Create head."""
     head = [
         ("pool", nn.AdaptiveAvgPool2d(1)),
@@ -141,10 +138,10 @@ class ModelConstructor(ModelCfg):
     """Model constructor. As default - resnet18"""
 
     init_cnn: Callable[[nn.Module], None] = init_cnn
-    make_stem: Callable[[TModelCfg], Union[nn.Module, nn.Sequential]] = make_stem  # type: ignore
-    make_layer: Callable[[TModelCfg, int], Union[nn.Module, nn.Sequential]] = make_layer  # type: ignore
-    make_body: Callable[[TModelCfg], Union[nn.Module, nn.Sequential]] = make_body  # type: ignore
-    make_head: Callable[[TModelCfg], Union[nn.Module, nn.Sequential]] = make_head  # type: ignore
+    make_stem: Callable[[ModelCfg], Union[nn.Module, nn.Sequential]] = make_stem  # type: ignore
+    make_layer: Callable[[ModelCfg, int], Union[nn.Module, nn.Sequential]] = make_layer  # type: ignore
+    make_body: Callable[[ModelCfg], Union[nn.Module, nn.Sequential]] = make_body  # type: ignore
+    make_head: Callable[[ModelCfg], Union[nn.Module, nn.Sequential]] = make_head  # type: ignore
 
     @field_validator("se")
     def set_se(  # pylint: disable=no-self-argument
