@@ -297,14 +297,10 @@ def make_layer(cfg: ModelCfg, layer_num: int) -> nn.Sequential:  # type: ignore
             f"bl_{block_num}",
             cfg.block(
                 cfg.expansion,  # type: ignore
-                block_chs[layer_num]
-                if block_num == 0
-                else block_chs[layer_num + 1],
+                block_chs[layer_num] if block_num == 0 else block_chs[layer_num + 1],
                 block_chs[layer_num + 1],
                 stride if block_num == 0 else 1,
-                sa=cfg.sa
-                if (block_num == num_blocks - 1) and layer_num == 0
-                else None,
+                sa=cfg.sa if (block_num == num_blocks - 1) and layer_num == 0 else None,
                 conv_layer=cfg.conv_layer,
                 act_fn=cfg.act_fn,
                 pool=cfg.pool,
@@ -340,6 +336,7 @@ def make_head(cfg: ModelCfg) -> nn.Sequential:  # type: ignore
 
 class XResNet(ModelConstructor):
     """Base Xresnet constructor."""
+
     make_stem: Callable[[ModelCfg], Union[nn.Module, nn.Sequential]] = make_stem
     make_layer: Callable[[ModelCfg, int], Union[nn.Module, nn.Sequential]] = make_layer
     make_body: Callable[[ModelCfg], Union[nn.Module, nn.Sequential]] = make_body
@@ -359,6 +356,7 @@ class YaResNet(XResNet):
     """Base Yaresnet constructor.
     YaResBlock, Mish activation, custom stem.
     """
+
     block: type[nn.Module] = YaResBlock
     stem_sizes: list[int] = [3, 32, 64, 64]
     act_fn: type[nn.Module] = nn.Mish

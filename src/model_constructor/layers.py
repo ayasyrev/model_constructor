@@ -70,7 +70,6 @@ class ConvBnAct(nn.Sequential):
         bn_1st: bool = True,
         zero_bn: bool = False,
     ):
-
         if padding is None:
             padding = kernel_size // 2
         layers: List[tuple[str, nn.Module]] = [
@@ -124,7 +123,6 @@ class ConvLayer(nn.Sequential):
         groups=1,
         **kwargs  # pylint: disable=unused-argument
     ):
-
         if padding is None:
             padding = ks // 2
         layers = [
@@ -197,6 +195,7 @@ class SimpleSelfAttention(nn.Module):
 
 class SEBlock(nn.Module):
     """se block"""
+
     # first version
     se_layer = nn.Linear
     act_fn = nn.ReLU(inplace=True)
@@ -226,6 +225,7 @@ class SEBlock(nn.Module):
 
 class SEBlockConv(nn.Module):
     """se block with conv on excitation"""
+
     # first version
     se_layer = nn.Conv2d
     act_fn = nn.ReLU(inplace=True)
