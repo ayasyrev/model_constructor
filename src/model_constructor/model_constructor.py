@@ -3,10 +3,10 @@ from functools import partial
 from typing import Any, Callable, Optional, TypeVar, Union
 
 import torch
-from pydantic import BaseModel, field_validator
+from pydantic import field_validator
 from torch import nn
 
-from .helpers import nn_seq
+from .helpers import nn_seq, Cfg, init_cnn
 from .layers import ConvBnAct, SEModule, SimpleSelfAttention, get_act
 
 __all__ = [
@@ -21,16 +21,6 @@ __all__ = [
 TModelCfg = TypeVar("TModelCfg", bound="ModelCfg")
 
 ListStrMod = list[tuple[str, nn.Module]]
-
-
-def init_cnn(module: nn.Module) -> None:
-    "Init module - kaiming_normal for Conv2d and 0 for biases."
-    if getattr(module, "bias", None) is not None:
-        nn.init.constant_(module.bias, 0)  # type: ignore
-    if isinstance(module, (nn.Conv2d, nn.Linear)):
-        nn.init.kaiming_normal_(module.weight)
-    for layer in module.children():
-        init_cnn(layer)
 
 
 class BasicBlock(nn.Module):
@@ -212,6 +202,50 @@ class BottleneckBlock(nn.Module):
         return self.act_fn(self.convs(x) + identity)
 
 
+class ModelCfg(Cfg, arbitrary_types_allowed=True, extra="forbid"):
+    """Model constructor Config. As default - xresnet18"""
+
+    name: Optional[str] = None
+    in_chans: int = 3
+    num_classes: int = 1000
+    block: type[nn.Module] = BasicBlock
+    conv_layer: type[nn.Module] = ConvBnAct
+    block_sizes: list[int] = [64, 128, 256, 512]
+    layers: list[int] = [2, 2, 2, 2]
+    norm: type[nn.Module] = nn.BatchNorm2d
+    act_fn: type[nn.Module] = nn.ReLU
+    pool: Optional[Callable[[Any], nn.Module]] = None
+    expansion: int = 1
+    groups: int = 1
+    dw: bool = False
+    div_groups: Union[int, None] = None
+    sa: Union[bool, type[nn.Module]] = False
+    se: Union[bool, type[nn.Module]] = False
+    se_module: Union[bool, None] = None
+    se_reduction: Union[int, None] = None
+    bn_1st: bool = True
+    zero_bn: bool = True
+    stem_stride_on: int = 0
+    stem_sizes: list[int] = [64]
+    stem_pool: Union[Callable[[], nn.Module], None] = partial(
+        nn.MaxPool2d, kernel_size=3, stride=2, padding=1
+    )
+    stem_bn_end: bool = False
+
+    def __repr__(self) -> str:
+        se_repr = self.se.__name__ if self.se else "False"  # type: ignore
+        model_name = self.name or self.__class__.__name__
+        return (
+            f"{model_name}\n"
+            f"  in_chans: {self.in_chans}, num_classes: {self.num_classes}\n"
+            f"  expansion: {self.expansion}, groups: {self.groups}, dw: {self.dw}, div_groups: {self.div_groups}\n"
+            f"  act_fn: {self.act_fn.__name__}, sa: {self.sa}, se: {se_repr}\n"
+            f"  stem sizes: {self.stem_sizes}, stride on {self.stem_stride_on}\n"
+            f"  body sizes {self.block_sizes}\n"
+            f"  layers: {self.layers}"
+        )
+
+
 def make_stem(cfg: TModelCfg) -> nn.Sequential:  # type: ignore
     """Create Resnet stem."""
     stem: ListStrMod = [
@@ -285,86 +319,14 @@ def make_head(cfg: TModelCfg) -> nn.Sequential:  # type: ignore
     return nn_seq(head)
 
 
-class ModelCfg(BaseModel, arbitrary_types_allowed=True, extra="forbid"):
-    """Model constructor Config. As default - xresnet18"""
+class ModelConstructor(ModelCfg):
+    """Model constructor. As default - resnet18"""
 
-    name: Optional[str] = None
-    in_chans: int = 3
-    num_classes: int = 1000
-    block: type[nn.Module] = BasicBlock
-    conv_layer: type[nn.Module] = ConvBnAct
-    block_sizes: list[int] = [64, 128, 256, 512]
-    layers: list[int] = [2, 2, 2, 2]
-    norm: type[nn.Module] = nn.BatchNorm2d
-    act_fn: type[nn.Module] = nn.ReLU
-    pool: Optional[Callable[[Any], nn.Module]] = None
-    expansion: int = 1
-    groups: int = 1
-    dw: bool = False
-    div_groups: Union[int, None] = None
-    sa: Union[bool, type[nn.Module]] = False
-    se: Union[bool, type[nn.Module]] = False
-    se_module: Union[bool, None] = None
-    se_reduction: Union[int, None] = None
-    bn_1st: bool = True
-    zero_bn: bool = True
-    stem_stride_on: int = 0
-    stem_sizes: list[int] = [64]
-    stem_pool: Union[Callable[[], nn.Module], None] = partial(
-        nn.MaxPool2d, kernel_size=3, stride=2, padding=1
-    )
-    stem_bn_end: bool = False
     init_cnn: Callable[[nn.Module], None] = init_cnn
     make_stem: Callable[[TModelCfg], Union[nn.Module, nn.Sequential]] = make_stem  # type: ignore
     make_layer: Callable[[TModelCfg, int], Union[nn.Module, nn.Sequential]] = make_layer  # type: ignore
     make_body: Callable[[TModelCfg], Union[nn.Module, nn.Sequential]] = make_body  # type: ignore
     make_head: Callable[[TModelCfg], Union[nn.Module, nn.Sequential]] = make_head  # type: ignore
-
-    def _get_str_value(self, field: str) -> str:
-        value = getattr(self, field)
-        if isinstance(value, type):
-            value = value.__name__
-        elif isinstance(value, partial):
-            value = f"{value.func.__name__} {value.keywords}"
-        elif callable(value):
-            value = value.__name__
-        return value
-
-    def __repr__(self) -> str:
-        return f"{self.__repr_name__()}(\n  {self.__repr_str__(chr(10) + '  ')})"
-
-    def __repr_args__(self) -> list[tuple[str, str]]:
-        return [
-            (field, str_value)
-            for field in self.model_fields
-            if (str_value := self._get_str_value(field))
-        ]
-
-    def __repr_changed_args__(self) -> list[str]:
-        """Return list repr for changed fields"""
-        return [
-            f"{field}: {self._get_str_value(field)}"
-            for field in self.model_fields_set
-            if field != "name"
-        ]
-
-    def print_cfg(self) -> None:
-        """Print full config"""
-        print(f"{self.__repr_name__()}(\n  {self.__repr_str__(chr(10) + '  ')})")
-
-    def print_changed(self) -> None:
-        """Print changed fields."""
-        changed_fields = self.__repr_changed_args__()
-        if changed_fields:
-            print("Changed fields:")
-            for i in changed_fields:
-                print("  ", i)
-        else:
-            print("Nothing changed")
-
-
-class ModelConstructor(ModelCfg):
-    """Model constructor. As default - resnet18"""
 
     @field_validator("se")
     def set_se(  # pylint: disable=no-self-argument
@@ -429,19 +391,6 @@ class ModelConstructor(ModelCfg):
         if extra_repr:
             model.extra_repr = lambda: ", ".join(extra_repr)
         return model
-
-    def __repr__(self) -> str:
-        se_repr = self.se.__name__ if self.se else "False"  # type: ignore
-        model_name = self.name or self.__class__.__name__
-        return (
-            f"{model_name}\n"
-            f"  in_chans: {self.in_chans}, num_classes: {self.num_classes}\n"
-            f"  expansion: {self.expansion}, groups: {self.groups}, dw: {self.dw}, div_groups: {self.div_groups}\n"
-            f"  act_fn: {self.act_fn.__name__}, sa: {self.sa}, se: {se_repr}\n"
-            f"  stem sizes: {self.stem_sizes}, stride on {self.stem_stride_on}\n"
-            f"  body sizes {self.block_sizes}\n"
-            f"  layers: {self.layers}"
-        )
 
 
 class ResNet34(ModelConstructor):
