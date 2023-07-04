@@ -2,12 +2,12 @@
 # Yet another ResNet.
 
 from functools import partial
-from typing import Any, Callable, Optional, Union
+from typing import Any, Callable, Optional
 
 import torch
 from torch import nn
 
-from model_constructor.helpers import nn_seq
+from model_constructor.helpers import ModSeq, nn_seq
 
 from .layers import ConvBnAct, get_act
 from .model_constructor import ListStrMod, ModelConstructor, ModelCfg
@@ -203,7 +203,7 @@ class YaBottleneckBlock(nn.Module):
 
 
 class YaResNet(ModelConstructor):
-    make_stem: Callable[[ModelCfg], Union[nn.Module, nn.Sequential]] = xresnet_stem
+    make_stem: Callable[[ModelCfg], ModSeq] = xresnet_stem
     stem_sizes: list[int] = [32, 64, 64]
     block: type[nn.Module] = YaBasicBlock
     act_fn: type[nn.Module] = nn.Mish

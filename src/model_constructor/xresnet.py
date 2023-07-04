@@ -1,10 +1,10 @@
 from functools import partial
-from typing import Any, Callable, Optional, Union
+from typing import Any, Callable, Optional
 
 from torch import nn
 
 from .blocks import BottleneckBlock
-from .helpers import ListStrMod, nn_seq
+from .helpers import ListStrMod, nn_seq, ModSeq
 from .model_constructor import ModelCfg, ModelConstructor
 
 __all__ = [
@@ -39,7 +39,7 @@ def xresnet_stem(cfg: ModelCfg) -> nn.Sequential:  # type: ignore
 
 
 class XResNet(ModelConstructor):
-    make_stem: Callable[[ModelCfg], Union[nn.Module, nn.Sequential]] = xresnet_stem
+    make_stem: Callable[[ModelCfg], ModSeq] = xresnet_stem
     stem_sizes: list[int] = [32, 32, 64]
     pool: Optional[Callable[[Any], nn.Module]] = partial(
         nn.AvgPool2d, kernel_size=2, ceil_mode=True

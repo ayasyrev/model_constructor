@@ -1,9 +1,9 @@
-from typing import Callable, Optional, Union
+from typing import Callable, Optional
 
 import torch
 from torch import nn
 
-from .helpers import nn_seq
+from .helpers import ModSeq, nn_seq
 from .layers import ConvBnAct, get_act
 from .model_constructor import ListStrMod, ModelCfg, ModelConstructor
 
@@ -337,10 +337,10 @@ def make_head(cfg: ModelCfg) -> nn.Sequential:  # type: ignore
 class XResNet(ModelConstructor):
     """Base Xresnet constructor."""
 
-    make_stem: Callable[[ModelCfg], Union[nn.Module, nn.Sequential]] = make_stem
-    make_layer: Callable[[ModelCfg, int], Union[nn.Module, nn.Sequential]] = make_layer
-    make_body: Callable[[ModelCfg], Union[nn.Module, nn.Sequential]] = make_body
-    make_head: Callable[[ModelCfg], Union[nn.Module, nn.Sequential]] = make_head
+    make_stem: Callable[[ModelCfg], ModSeq] = make_stem
+    make_layer: Callable[[ModelCfg, int], ModSeq] = make_layer
+    make_body: Callable[[ModelCfg], ModSeq] = make_body
+    make_head: Callable[[ModelCfg], ModSeq] = make_head
     block: type[nn.Module] = XResBlock
 
 

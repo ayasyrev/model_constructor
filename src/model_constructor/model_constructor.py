@@ -6,7 +6,7 @@ from pydantic import field_validator
 from torch import nn
 
 from .blocks import BasicBlock, BottleneckBlock
-from .helpers import Cfg, ListStrMod, init_cnn, nn_seq
+from .helpers import Cfg, ListStrMod, ModSeq, init_cnn, nn_seq
 from .layers import ConvBnAct, SEModule, SimpleSelfAttention
 
 __all__ = [
@@ -138,10 +138,10 @@ class ModelConstructor(ModelCfg):
     """Model constructor. As default - resnet18"""
 
     init_cnn: Callable[[nn.Module], None] = init_cnn
-    make_stem: Callable[[ModelCfg], Union[nn.Module, nn.Sequential]] = make_stem  # type: ignore
-    make_layer: Callable[[ModelCfg, int], Union[nn.Module, nn.Sequential]] = make_layer  # type: ignore
-    make_body: Callable[[ModelCfg], Union[nn.Module, nn.Sequential]] = make_body  # type: ignore
-    make_head: Callable[[ModelCfg], Union[nn.Module, nn.Sequential]] = make_head  # type: ignore
+    make_stem: Callable[[ModelCfg], ModSeq] = make_stem  # type: ignore
+    make_layer: Callable[[ModelCfg, int], ModSeq] = make_layer  # type: ignore
+    make_body: Callable[[ModelCfg], ModSeq] = make_body  # type: ignore
+    make_head: Callable[[ModelCfg], ModSeq] = make_head  # type: ignore
 
     @field_validator("se")
     def set_se(  # pylint: disable=no-self-argument
