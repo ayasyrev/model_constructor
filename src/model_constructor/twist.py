@@ -33,7 +33,7 @@ class ConvTwist(nn.Module):
         self.DD = self.derivatives()
 
     def derivatives(self):
-        I = torch.Tensor([[0, 0, 0], [0, 1, 0], [0, 0, 0]]).view(1, 1, 3, 3)   # noqa E741
+        I = torch.Tensor([[0, 0, 0], [0, 1, 0], [0, 0, 0]]).view(1, 1, 3, 3)   # noqa: E741
         D_x = torch.Tensor([[-1, 0, 1], [-2, 0, 2], [-1, 0, 1]]).view(1, 1, 3, 3) / 10
         D_y = torch.Tensor([[1, 2, 1], [0, 0, 0], [-1, -2, -1]]).view(1, 1, 3, 3) / 10
 
@@ -75,8 +75,10 @@ class ConvTwist(nn.Module):
         if self.same:
             n = conv_wt.size()[1]
             for i in range(self.groups):
-                conv_wt.data[n * i:n * (i + 1)] = (conv_wt[n * i:n * (i + 1)]
-                                                   + torch.transpose(conv_wt[n * i:n * (i + 1)], 0, 1)) / 2  # noqa E503
+                conv_wt.data[n * i:n * (i + 1)] = (
+                    conv_wt[n * i:n * (i + 1)] + torch.transpose(
+                        conv_wt[n * i:n * (i + 1)], 0, 1)
+                ) / 2
 
     def forward(self, inpt):
         out = self._conv(inpt)
@@ -92,8 +94,8 @@ class ConvTwist(nn.Module):
         if self.same and self.iters > 1:
             out = inpt + out / self.iters
             for _ in range(self.iters - 1):
-                out = out + (self._conv(out) + XX * self._conv(out, kernel_x)
-                                             + YY * self._conv(out, kernel_y)) / self.iters  # noqa E727
+                out = out + (
+                    self._conv(out) + XX * self._conv(out, kernel_x) + YY * self._conv(out, kernel_y)) / self.iters
             out = out - inpt
         return out
 

@@ -2,7 +2,7 @@
 select = C,E,F,W
 max-complexity = 10
 max-line-length = 120
-disable-noqa = True
+; disable-noqa = True
 application-import-names = model_constructor, tests
 import-order-style = google
 per-file-ignores =
