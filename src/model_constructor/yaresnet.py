@@ -38,10 +38,10 @@ class YaBasicBlock(nn.Module):
         bn_1st: bool = True,
         groups: int = 1,
         dw: bool = False,
-        div_groups: Union[None, int] = None,
-        pool: Union[Callable[[], nn.Module], None] = None,
-        se: Union[nn.Module, None] = None,
-        sa: Union[nn.Module, None] = None,
+        div_groups: Optional[int] = None,
+        pool: Optional[Callable[[], nn.Module]] = None,
+        se: Optional[nn.Module] = None,
+        sa: Optional[nn.Module] = None,
     ):
         super().__init__()
         # pool defined at ModelConstructor.
@@ -123,10 +123,10 @@ class YaBottleneckBlock(nn.Module):
         bn_1st: bool = True,
         groups: int = 1,
         dw: bool = False,
-        div_groups: Union[None, int] = None,
-        pool: Union[Callable[[], nn.Module], None] = None,
-        se: Union[nn.Module, None] = None,
-        sa: Union[nn.Module, None] = None,
+        div_groups: Optional[int] = None,
+        pool: Optional[Callable[[], nn.Module]] = None,
+        se: Optional[nn.Module] = None,
+        sa: Optional[nn.Module] = None,
     ):
         super().__init__()
         # pool defined at ModelConstructor.

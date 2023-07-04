@@ -1,4 +1,4 @@
-from typing import Callable, Union
+from typing import Callable, Optional, Union
 
 import torch
 from torch import nn
@@ -32,10 +32,10 @@ class XResBlock(nn.Module):
         bn_1st: bool = True,
         groups: int = 1,
         dw: bool = False,
-        div_groups: Union[None, int] = None,
-        pool: Union[Callable[[], nn.Module], None] = None,
-        se: Union[nn.Module, None] = None,
-        sa: Union[nn.Module, None] = None,
+        div_groups: Optional[int] = None,
+        pool: Optional[Callable[[], nn.Module]] = None,
+        se: Optional[nn.Module] = None,
+        sa: Optional[nn.Module] = None,
     ):
         super().__init__()
         # pool defined at ModelConstructor.
@@ -156,10 +156,10 @@ class YaResBlock(nn.Module):
         bn_1st: bool = True,
         groups: int = 1,
         dw: bool = False,
-        div_groups: Union[None, int] = None,
-        pool: Union[Callable[[], nn.Module], None] = None,
-        se: Union[type[nn.Module], None] = None,
-        sa: Union[type[nn.Module], None] = None,
+        div_groups: Optional[int] = None,
+        pool: Optional[Callable[[], nn.Module]] = None,
+        se: Optional[type[nn.Module]] = None,
+        sa: Optional[type[nn.Module]] = None,
     ):
         super().__init__()
         # pool defined at ModelConstructor.

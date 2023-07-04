@@ -33,11 +33,11 @@ class ModelCfg(Cfg, arbitrary_types_allowed=True, extra="forbid"):
     expansion: int = 1
     groups: int = 1
     dw: bool = False
-    div_groups: Union[int, None] = None
+    div_groups: Optional[int] = None
     sa: Union[bool, type[nn.Module]] = False
     se: Union[bool, type[nn.Module]] = False
-    se_module: Union[bool, None] = None
-    se_reduction: Union[int, None] = None
+    se_module: Optional[bool] = None
+    se_reduction: Optional[int] = None
     bn_1st: bool = True
     zero_bn: bool = True
     stem_stride_on: int = 0
@@ -186,7 +186,7 @@ class ModelConstructor(ModelCfg):
 
     @classmethod
     def create_model(
-        cls, cfg: Union[ModelCfg, None] = None, **kwargs: dict[str, Any]
+        cls, cfg: Optional[ModelCfg] = None, **kwargs: dict[str, Any]
     ) -> nn.Sequential:
         if cfg:
             return cls(**cfg.model_dump())()
