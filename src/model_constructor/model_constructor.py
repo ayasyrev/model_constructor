@@ -344,7 +344,7 @@ class ModelCfg(BaseModel, arbitrary_types_allowed=True, extra="forbid"):
         """Return list repr for changed fields"""
         return [
             f"{field}: {self._get_str_value(field)}"
-            for field in self.model_fields
+            for field in self.model_fields_set
             if field != "name"
         ]
 
