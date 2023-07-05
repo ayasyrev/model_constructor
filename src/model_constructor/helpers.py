@@ -1,10 +1,10 @@
+import importlib
 from collections import OrderedDict
 from functools import partial
-from typing import Iterable, Optional, Union
+from typing import Any, Iterable, Optional, Union
+
 from pydantic import BaseModel
-
 from torch import nn
-
 
 ListStrMod = list[tuple[str, nn.Module]]
 ModSeq = Union[nn.Module, nn.Sequential]
@@ -23,6 +23,49 @@ def init_cnn(module: nn.Module) -> None:
         nn.init.kaiming_normal_(module.weight)
     for layer in module.children():
         init_cnn(layer)
+
+
+def is_module(val: Any) -> bool:
+    """Check if val is a nn.Module or partial of nn.Module."""
+
+    to_check = val
+    if isinstance(val, partial):
+        to_check = val.func
+    try:
+        return issubclass(to_check, nn.Module)
+    except TypeError:
+        return False
+
+
+def instantiate_module(
+    name: str,
+    default_path: Optional[str] = None,
+) -> nn.Module:
+    """Instantiate model from name."""
+    if default_path is None:
+        path_list = name.rsplit(".", 1)
+        if len(path_list) == 1:
+            default_path = "torch.nn"
+            name = path_list[0]
+        else:
+            if path_list[0] == "nn":
+                default_path = "torch.nn"
+                name = path_list[1]
+            else:
+                default_path = path_list[0]
+                name = path_list[1]
+    try:
+        mod = importlib.import_module(default_path)
+    except ImportError:
+        raise ImportError(f"Module {default_path} not found")
+    if hasattr(mod, name):
+        module = getattr(mod, name)
+        if is_module(module):
+            return module
+        else:
+            raise ImportError(f"Module {name} is not a nn.Module")
+    else:
+        raise ImportError(f"Module {name} not found at {default_path}")
 
 
 class Cfg(BaseModel):

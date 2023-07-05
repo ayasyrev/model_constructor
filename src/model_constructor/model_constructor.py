@@ -3,10 +3,12 @@ from functools import partial
 from typing import Any, Callable, Optional, Union
 
 from pydantic import field_validator
+from pydantic_core.core_schema import FieldValidationInfo
 from torch import nn
 
 from .blocks import BasicBlock, BottleneckBlock
-from .helpers import Cfg, ListStrMod, ModSeq, init_cnn, nn_seq
+from .helpers import (Cfg, ListStrMod, ModSeq, init_cnn, instantiate_module,
+                      is_module, nn_seq)
 from .layers import ConvBnAct, SEModule, SimpleSelfAttention
 
 __all__ = [
@@ -17,53 +19,65 @@ __all__ = [
 ]
 
 
+DEFAULT_SE_SA = {
+    "se": SEModule,
+    "sa": SimpleSelfAttention,
+}
+
+
+nnModule = Union[type[nn.Module], Callable[[], nn.Module], str]
+
+
 class ModelCfg(Cfg, arbitrary_types_allowed=True, extra="forbid"):
     """Model constructor Config. As default - xresnet18"""
 
     name: Optional[str] = None
     in_chans: int = 3
     num_classes: int = 1000
-    block: type[nn.Module] = BasicBlock
-    conv_layer: type[nn.Module] = ConvBnAct
+    block: nnModule = BasicBlock
+    conv_layer: nnModule = ConvBnAct
     block_sizes: list[int] = [64, 128, 256, 512]
     layers: list[int] = [2, 2, 2, 2]
-    norm: type[nn.Module] = nn.BatchNorm2d
-    act_fn: type[nn.Module] = nn.ReLU
-    pool: Optional[Callable[[Any], nn.Module]] = None
+    norm: nnModule = nn.BatchNorm2d
+    act_fn: nnModule = nn.ReLU
+    pool: Optional[nnModule] = None
     expansion: int = 1
     groups: int = 1
     dw: bool = False
     div_groups: Optional[int] = None
-    sa: Union[bool, type[nn.Module]] = False
-    se: Union[bool, type[nn.Module]] = False
+    sa: Union[bool, type[nn.Module], Callable[[], nn.Module]] = False
+    se: Union[bool, type[nn.Module], Callable[[], nn.Module]] = False
     se_module: Optional[bool] = None
     se_reduction: Optional[int] = None
     bn_1st: bool = True
     zero_bn: bool = True
     stem_stride_on: int = 0
     stem_sizes: list[int] = [64]
-    stem_pool: Optional[Callable[[], nn.Module]] = partial(
+    stem_pool: Optional[nnModule] = partial(
         nn.MaxPool2d, kernel_size=3, stride=2, padding=1
     )
     stem_bn_end: bool = False
 
-    @field_validator("se")
-    def set_se(  # pylint: disable=no-self-argument
-        cls, value: Union[bool, type[nn.Module]]
-    ) -> Union[bool, type[nn.Module]]:
-        if value:
-            if isinstance(value, (int, bool)):
-                return SEModule
-        return value
+    @field_validator("act_fn", "block", "conv_layer", "norm", "pool", "stem_pool")
+    def set_modules(  # pylint: disable=no-self-argument
+        cls, value: Union[type[nn.Module], str], info: FieldValidationInfo,
+    ) -> Union[type[nn.Module], Callable[[], nn.Module]]:
+        """Check values, if string, convert to nn.Module."""
+        if is_module(value):
+            return value
+        if isinstance(value, str):
+            return instantiate_module(value)
+        raise ValueError(f"{info.field_name} must be str or nn.Module")
 
-    @field_validator("sa")
-    def set_sa(  # pylint: disable=no-self-argument
-        cls, value: Union[bool, type[nn.Module]]
-    ) -> Union[bool, type[nn.Module]]:
-        if value:
-            if isinstance(value, (int, bool)):
-                return SimpleSelfAttention  # default: ks=1, sym=sym
-        return value
+    @field_validator("se", "sa")
+    def set_se(  # pylint: disable=no-self-argument
+        cls, value: Union[bool, type[nn.Module]], info: FieldValidationInfo,
+    ) -> Union[type[nn.Module], Callable[[], nn.Module]]:
+        if isinstance(value, (int, bool)):
+            return DEFAULT_SE_SA[info.field_name]
+        if is_module(value):
+            return value
+        raise ValueError(f"{info.field_name} must be bool or nn.Module")
 
     @field_validator("se_module", "se_reduction")  # pragma: no cover
     def deprecation_warning(  # pylint: disable=no-self-argument
