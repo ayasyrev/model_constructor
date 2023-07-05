@@ -3,6 +3,7 @@ from functools import partial
 from typing import Any, Callable, Optional, Union
 
 from pydantic import field_validator
+from pydantic_core.core_schema import FieldValidationInfo
 from torch import nn
 
 from .blocks import BasicBlock, BottleneckBlock
@@ -15,6 +16,24 @@ __all__ = [
     "ResNet34",
     "ResNet50",
 ]
+
+
+DEFAULT_SE_SA = {
+    "se": SEModule,
+    "sa": SimpleSelfAttention,
+}
+
+
+def is_module(val: Any) -> bool:
+    """Check if val is a nn.Module or partial of nn.Module."""
+
+    to_check = val
+    if isinstance(val, partial):
+        to_check = val.func
+    try:
+        return issubclass(to_check, nn.Module)
+    except TypeError:
+        return False
 
 
 class ModelCfg(Cfg, arbitrary_types_allowed=True, extra="forbid"):
@@ -35,7 +54,7 @@ class ModelCfg(Cfg, arbitrary_types_allowed=True, extra="forbid"):
     dw: bool = False
     div_groups: Optional[int] = None
     sa: Union[bool, type[nn.Module]] = False
-    se: Union[bool, type[nn.Module]] = False
+    se: Union[bool, type[nn.Module], Callable[[], nn.Module]] = False
     se_module: Optional[bool] = None
     se_reduction: Optional[int] = None
     bn_1st: bool = True
@@ -47,23 +66,24 @@ class ModelCfg(Cfg, arbitrary_types_allowed=True, extra="forbid"):
     )
     stem_bn_end: bool = False
 
-    @field_validator("se")
+    @field_validator("se", "sa")
     def set_se(  # pylint: disable=no-self-argument
-        cls, value: Union[bool, type[nn.Module]]
-    ) -> Union[bool, type[nn.Module]]:
-        if value:
-            if isinstance(value, (int, bool)):
-                return SEModule
-        return value
+        cls, value: Union[bool, type[nn.Module]], info: FieldValidationInfo,
+    ) -> Union[type[nn.Module], Callable[[], nn.Module]]:
+        if isinstance(value, (int, bool)):
+            return DEFAULT_SE_SA[info.field_name]
+        if is_module(value):
+            return value
+        raise ValueError(f"{info.field_name} must be bool or nn.Module")
 
-    @field_validator("sa")
-    def set_sa(  # pylint: disable=no-self-argument
-        cls, value: Union[bool, type[nn.Module]]
-    ) -> Union[bool, type[nn.Module]]:
-        if value:
-            if isinstance(value, (int, bool)):
-                return SimpleSelfAttention  # default: ks=1, sym=sym
-        return value
+    # @field_validator("sa")
+    # def set_sa(  # pylint: disable=no-self-argument
+    #     cls, value: Union[bool, type[nn.Module]]
+    # ) -> Union[bool, type[nn.Module]]:
+    #     if value:
+    #         if isinstance(value, (int, bool)):
+    #             return SimpleSelfAttention  # default: ks=1, sym=sym
+    #     return value
 
     @field_validator("se_module", "se_reduction")  # pragma: no cover
     def deprecation_warning(  # pylint: disable=no-self-argument
