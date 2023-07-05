@@ -53,7 +53,7 @@ class ModelCfg(Cfg, arbitrary_types_allowed=True, extra="forbid"):
     groups: int = 1
     dw: bool = False
     div_groups: Optional[int] = None
-    sa: Union[bool, type[nn.Module]] = False
+    sa: Union[bool, type[nn.Module], Callable[[], nn.Module]] = False
     se: Union[bool, type[nn.Module], Callable[[], nn.Module]] = False
     se_module: Optional[bool] = None
     se_reduction: Optional[int] = None
@@ -75,15 +75,6 @@ class ModelCfg(Cfg, arbitrary_types_allowed=True, extra="forbid"):
         if is_module(value):
             return value
         raise ValueError(f"{info.field_name} must be bool or nn.Module")
-
-    # @field_validator("sa")
-    # def set_sa(  # pylint: disable=no-self-argument
-    #     cls, value: Union[bool, type[nn.Module]]
-    # ) -> Union[bool, type[nn.Module]]:
-    #     if value:
-    #         if isinstance(value, (int, bool)):
-    #             return SimpleSelfAttention  # default: ks=1, sym=sym
-    #     return value
 
     @field_validator("se_module", "se_reduction")  # pragma: no cover
     def deprecation_warning(  # pylint: disable=no-self-argument
