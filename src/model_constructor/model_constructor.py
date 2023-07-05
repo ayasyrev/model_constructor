@@ -47,6 +47,31 @@ class ModelCfg(Cfg, arbitrary_types_allowed=True, extra="forbid"):
     )
     stem_bn_end: bool = False
 
+    @field_validator("se")
+    def set_se(  # pylint: disable=no-self-argument
+        cls, value: Union[bool, type[nn.Module]]
+    ) -> Union[bool, type[nn.Module]]:
+        if value:
+            if isinstance(value, (int, bool)):
+                return SEModule
+        return value
+
+    @field_validator("sa")
+    def set_sa(  # pylint: disable=no-self-argument
+        cls, value: Union[bool, type[nn.Module]]
+    ) -> Union[bool, type[nn.Module]]:
+        if value:
+            if isinstance(value, (int, bool)):
+                return SimpleSelfAttention  # default: ks=1, sym=sym
+        return value
+
+    @field_validator("se_module", "se_reduction")  # pragma: no cover
+    def deprecation_warning(  # pylint: disable=no-self-argument
+        cls, value: Union[bool, int, None]
+    ) -> Union[bool, int, None]:
+        print("Deprecated. Pass se_module as se argument, se_reduction as arg to se.")
+        return value
+
     def __repr__(self) -> str:
         se_repr = self.se.__name__ if self.se else "False"  # type: ignore
         model_name = self.name or self.__class__.__name__
@@ -142,31 +167,6 @@ class ModelConstructor(ModelCfg):
     make_layer: Callable[[ModelCfg, int], ModSeq] = make_layer
     make_body: Callable[[ModelCfg], ModSeq] = make_body
     make_head: Callable[[ModelCfg], ModSeq] = make_head
-
-    @field_validator("se")
-    def set_se(  # pylint: disable=no-self-argument
-        cls, value: Union[bool, type[nn.Module]]
-    ) -> Union[bool, type[nn.Module]]:
-        if value:
-            if isinstance(value, (int, bool)):
-                return SEModule
-        return value
-
-    @field_validator("sa")
-    def set_sa(  # pylint: disable=no-self-argument
-        cls, value: Union[bool, type[nn.Module]]
-    ) -> Union[bool, type[nn.Module]]:
-        if value:
-            if isinstance(value, (int, bool)):
-                return SimpleSelfAttention  # default: ks=1, sym=sym
-        return value
-
-    @field_validator("se_module", "se_reduction")  # pragma: no cover
-    def deprecation_warning(  # pylint: disable=no-self-argument
-        cls, value: Union[bool, int, None]
-    ) -> Union[bool, int, None]:
-        print("Deprecated. Pass se_module as se argument, se_reduction as arg to se.")
-        return value
 
     @property
     def stem(self):
