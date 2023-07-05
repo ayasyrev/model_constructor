@@ -42,7 +42,7 @@ class ModelCfg(Cfg, arbitrary_types_allowed=True, extra="forbid"):
     zero_bn: bool = True
     stem_stride_on: int = 0
     stem_sizes: list[int] = [64]
-    stem_pool: Union[Callable[[], nn.Module], None] = partial(
+    stem_pool: Optional[Callable[[], nn.Module]] = partial(
         nn.MaxPool2d, kernel_size=3, stride=2, padding=1
     )
     stem_bn_end: bool = False
@@ -61,7 +61,7 @@ class ModelCfg(Cfg, arbitrary_types_allowed=True, extra="forbid"):
         )
 
 
-def make_stem(cfg: ModelCfg) -> nn.Sequential:  # type: ignore
+def make_stem(cfg: ModelCfg) -> nn.Sequential:
     """Create Resnet stem."""
     stem: ListStrMod = [
         (
@@ -116,7 +116,7 @@ def make_layer(cfg: ModelCfg, layer_num: int) -> nn.Sequential:  # type: ignore
     )
 
 
-def make_body(cfg: ModelCfg) -> nn.Sequential:  # type: ignore
+def make_body(cfg: ModelCfg) -> nn.Sequential:
     """Create model body."""
     return nn_seq(
         (f"l_{layer_num}", cfg.make_layer(cfg, layer_num))  # type: ignore
@@ -124,7 +124,7 @@ def make_body(cfg: ModelCfg) -> nn.Sequential:  # type: ignore
     )
 
 
-def make_head(cfg: ModelCfg) -> nn.Sequential:  # type: ignore
+def make_head(cfg: ModelCfg) -> nn.Sequential:
     """Create head."""
     head = [
         ("pool", nn.AdaptiveAvgPool2d(1)),
@@ -138,10 +138,10 @@ class ModelConstructor(ModelCfg):
     """Model constructor. As default - resnet18"""
 
     init_cnn: Callable[[nn.Module], None] = init_cnn
-    make_stem: Callable[[ModelCfg], ModSeq] = make_stem  # type: ignore
-    make_layer: Callable[[ModelCfg, int], ModSeq] = make_layer  # type: ignore
-    make_body: Callable[[ModelCfg], ModSeq] = make_body  # type: ignore
-    make_head: Callable[[ModelCfg], ModSeq] = make_head  # type: ignore
+    make_stem: Callable[[ModelCfg], ModSeq] = make_stem
+    make_layer: Callable[[ModelCfg, int], ModSeq] = make_layer
+    make_body: Callable[[ModelCfg], ModSeq] = make_body
+    make_head: Callable[[ModelCfg], ModSeq] = make_head
 
     @field_validator("se")
     def set_se(  # pylint: disable=no-self-argument

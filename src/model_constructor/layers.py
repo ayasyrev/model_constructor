@@ -258,14 +258,14 @@ class SEModule(nn.Module):
 
     def __init__(
         self,
-        channels,
-        reduction=16,
-        rd_channels=None,
-        rd_max=False,
-        se_layer=nn.Linear,
-        act_fn=nn.ReLU(inplace=True),
-        use_bias=True,
-        gate=nn.Sigmoid,
+        channels: int,
+        reduction: int = 16,
+        rd_channels: Optional[int] = None,
+        rd_max: bool = False,
+        se_layer: type[nn.Module] = nn.Linear,
+        act_fn: nn.Module = nn.ReLU(inplace=True),
+        use_bias: bool = True,
+        gate: type[nn.Module] = nn.Sigmoid,
     ):
         super().__init__()
         reducted = max(channels // reduction, 1)  # preserve zero-element tensors
@@ -286,7 +286,7 @@ class SEModule(nn.Module):
             )
         )
 
-    def forward(self, x):
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
         bs, c, _, _ = x.shape
         y = self.squeeze(x).view(bs, c)
         y = self.excitation(y).view(bs, c, 1, 1)
@@ -298,14 +298,14 @@ class SEModuleConv(nn.Module):
 
     def __init__(
         self,
-        channels,
-        reduction=16,
-        rd_channels=None,
-        rd_max=False,
-        se_layer=nn.Conv2d,
-        act_fn=nn.ReLU(inplace=True),
-        use_bias=True,
-        gate=nn.Sigmoid,
+        channels: int,
+        reduction: int = 16,
+        rd_channels: Optional[int] = None,
+        rd_max: bool = False,
+        se_layer: type[nn.Module] = nn.Conv2d,
+        act_fn: nn.Module = nn.ReLU(inplace=True),
+        use_bias: bool = True,
+        gate: type[nn.Module] = nn.Sigmoid,
     ):
         super().__init__()
         #       rd_channels = math.ceil(channels//reduction/8)*8
@@ -327,7 +327,7 @@ class SEModuleConv(nn.Module):
             )
         )
 
-    def forward(self, x):
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
         y = self.squeeze(x)
         y = self.excitation(y)
         return x * y.expand_as(x)

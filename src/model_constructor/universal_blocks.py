@@ -134,7 +134,7 @@ class XResBlock(nn.Module):
             self.id_conv = None
         self.act_fn = get_act(act_fn)
 
-    def forward(self, x: torch.Tensor):  # type: ignore
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
         identity = self.id_conv(x) if self.id_conv is not None else x
         return self.act_fn(self.convs(x) + identity)
 
@@ -255,14 +255,14 @@ class YaResBlock(nn.Module):
             self.id_conv = None
         self.merge = get_act(act_fn)
 
-    def forward(self, x: torch.Tensor):  # type: ignore
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
         if self.reduce:
             x = self.reduce(x)
         identity = self.id_conv(x) if self.id_conv is not None else x
         return self.merge(self.convs(x) + identity)
 
 
-def make_stem(cfg: ModelCfg) -> nn.Sequential:  # type: ignore
+def make_stem(cfg: ModelCfg) -> nn.Sequential:
     """Create xResnet stem -> 3 conv 3*3 instead of 1 conv 7*7"""
     len_stem = len(cfg.stem_sizes)
     stem: list[tuple[str, nn.Module]] = [
@@ -286,7 +286,7 @@ def make_stem(cfg: ModelCfg) -> nn.Sequential:  # type: ignore
     return nn_seq(stem)
 
 
-def make_layer(cfg: ModelCfg, layer_num: int) -> nn.Sequential:  # type: ignore
+def make_layer(cfg: ModelCfg, layer_num: int) -> nn.Sequential:
     """Create layer (stage)"""
     # if no pool on stem - stride = 2 for first layer block in body
     stride = 1 if cfg.stem_pool and layer_num == 0 else 2
@@ -316,7 +316,7 @@ def make_layer(cfg: ModelCfg, layer_num: int) -> nn.Sequential:  # type: ignore
     )
 
 
-def make_body(cfg: ModelCfg) -> nn.Sequential:  # type: ignore
+def make_body(cfg: ModelCfg) -> nn.Sequential:
     """Create model body."""
     return nn_seq(
         (f"l_{layer_num}", cfg.make_layer(cfg, layer_num))  # type: ignore
@@ -324,7 +324,7 @@ def make_body(cfg: ModelCfg) -> nn.Sequential:  # type: ignore
     )
 
 
-def make_head(cfg: ModelCfg) -> nn.Sequential:  # type: ignore
+def make_head(cfg: ModelCfg) -> nn.Sequential:
     """Create head."""
     head = [
         ("pool", nn.AdaptiveAvgPool2d(1)),

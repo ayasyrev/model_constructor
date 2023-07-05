@@ -100,7 +100,7 @@ class YaBasicBlock(nn.Module):
             self.id_conv = None
         self.merge = get_act(act_fn)
 
-    def forward(self, x: torch.Tensor) -> torch.Tensor:  # type: ignore
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
         if self.reduce:
             x = self.reduce(x)
         identity = self.id_conv(x) if self.id_conv is not None else x
@@ -195,7 +195,7 @@ class YaBottleneckBlock(nn.Module):
             self.id_conv = None
         self.merge = get_act(act_fn)
 
-    def forward(self, x: torch.Tensor) -> torch.Tensor:  # type: ignore
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
         if self.reduce:
             x = self.reduce(x)
         identity = self.id_conv(x) if self.id_conv is not None else x

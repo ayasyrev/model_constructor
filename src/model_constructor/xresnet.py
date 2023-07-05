@@ -14,7 +14,7 @@ __all__ = [
 ]
 
 
-def xresnet_stem(cfg: ModelCfg) -> nn.Sequential:  # type: ignore
+def xresnet_stem(cfg: ModelCfg) -> nn.Sequential:
     """Create xResnet stem -> 3 conv 3*3 instead 1 conv 7*7"""
     len_stem = len(cfg.stem_sizes)
     stem: ListStrMod = [
