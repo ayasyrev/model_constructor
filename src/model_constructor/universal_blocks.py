@@ -1,9 +1,9 @@
-from typing import Callable, Union
+from typing import Callable, Optional
 
 import torch
 from torch import nn
 
-from .helpers import nn_seq
+from .helpers import ModSeq, nn_seq
 from .layers import ConvBnAct, get_act
 from .model_constructor import ListStrMod, ModelCfg, ModelConstructor
 
@@ -32,10 +32,10 @@ class XResBlock(nn.Module):
         bn_1st: bool = True,
         groups: int = 1,
         dw: bool = False,
-        div_groups: Union[None, int] = None,
-        pool: Union[Callable[[], nn.Module], None] = None,
-        se: Union[nn.Module, None] = None,
-        sa: Union[nn.Module, None] = None,
+        div_groups: Optional[int] = None,
+        pool: Optional[Callable[[], nn.Module]] = None,
+        se: Optional[nn.Module] = None,
+        sa: Optional[nn.Module] = None,
     ):
         super().__init__()
         # pool defined at ModelConstructor.
@@ -134,7 +134,7 @@ class XResBlock(nn.Module):
             self.id_conv = None
         self.act_fn = get_act(act_fn)
 
-    def forward(self, x: torch.Tensor):  # type: ignore
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
         identity = self.id_conv(x) if self.id_conv is not None else x
         return self.act_fn(self.convs(x) + identity)
 
@@ -156,10 +156,10 @@ class YaResBlock(nn.Module):
         bn_1st: bool = True,
         groups: int = 1,
         dw: bool = False,
-        div_groups: Union[None, int] = None,
-        pool: Union[Callable[[], nn.Module], None] = None,
-        se: Union[type[nn.Module], None] = None,
-        sa: Union[type[nn.Module], None] = None,
+        div_groups: Optional[int] = None,
+        pool: Optional[Callable[[], nn.Module]] = None,
+        se: Optional[type[nn.Module]] = None,
+        sa: Optional[type[nn.Module]] = None,
     ):
         super().__init__()
         # pool defined at ModelConstructor.
@@ -255,14 +255,14 @@ class YaResBlock(nn.Module):
             self.id_conv = None
         self.merge = get_act(act_fn)
 
-    def forward(self, x: torch.Tensor):  # type: ignore
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
         if self.reduce:
             x = self.reduce(x)
         identity = self.id_conv(x) if self.id_conv is not None else x
         return self.merge(self.convs(x) + identity)
 
 
-def make_stem(cfg: ModelCfg) -> nn.Sequential:  # type: ignore
+def make_stem(cfg: ModelCfg) -> nn.Sequential:
     """Create xResnet stem -> 3 conv 3*3 instead of 1 conv 7*7"""
     len_stem = len(cfg.stem_sizes)
     stem: list[tuple[str, nn.Module]] = [
@@ -286,7 +286,7 @@ def make_stem(cfg: ModelCfg) -> nn.Sequential:  # type: ignore
     return nn_seq(stem)
 
 
-def make_layer(cfg: ModelCfg, layer_num: int) -> nn.Sequential:  # type: ignore
+def make_layer(cfg: ModelCfg, layer_num: int) -> nn.Sequential:
     """Create layer (stage)"""
     # if no pool on stem - stride = 2 for first layer block in body
     stride = 1 if cfg.stem_pool and layer_num == 0 else 2
@@ -316,7 +316,7 @@ def make_layer(cfg: ModelCfg, layer_num: int) -> nn.Sequential:  # type: ignore
     )
 
 
-def make_body(cfg: ModelCfg) -> nn.Sequential:  # type: ignore
+def make_body(cfg: ModelCfg) -> nn.Sequential:
     """Create model body."""
     return nn_seq(
         (f"l_{layer_num}", cfg.make_layer(cfg, layer_num))  # type: ignore
@@ -324,7 +324,7 @@ def make_body(cfg: ModelCfg) -> nn.Sequential:  # type: ignore
     )
 
 
-def make_head(cfg: ModelCfg) -> nn.Sequential:  # type: ignore
+def make_head(cfg: ModelCfg) -> nn.Sequential:
     """Create head."""
     head = [
         ("pool", nn.AdaptiveAvgPool2d(1)),
@@ -337,10 +337,10 @@ def make_head(cfg: ModelCfg) -> nn.Sequential:  # type: ignore
 class XResNet(ModelConstructor):
     """Base Xresnet constructor."""
 
-    make_stem: Callable[[ModelCfg], Union[nn.Module, nn.Sequential]] = make_stem
-    make_layer: Callable[[ModelCfg, int], Union[nn.Module, nn.Sequential]] = make_layer
-    make_body: Callable[[ModelCfg], Union[nn.Module, nn.Sequential]] = make_body
-    make_head: Callable[[ModelCfg], Union[nn.Module, nn.Sequential]] = make_head
+    make_stem: Callable[[ModelCfg], ModSeq] = make_stem
+    make_layer: Callable[[ModelCfg, int], ModSeq] = make_layer
+    make_body: Callable[[ModelCfg], ModSeq] = make_body
+    make_head: Callable[[ModelCfg], ModSeq] = make_head
     block: type[nn.Module] = XResBlock
 
 

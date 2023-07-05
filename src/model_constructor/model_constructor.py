@@ -6,7 +6,7 @@ from pydantic import field_validator
 from torch import nn
 
 from .blocks import BasicBlock, BottleneckBlock
-from .helpers import Cfg, ListStrMod, init_cnn, nn_seq
+from .helpers import Cfg, ListStrMod, ModSeq, init_cnn, nn_seq
 from .layers import ConvBnAct, SEModule, SimpleSelfAttention
 
 __all__ = [
@@ -33,19 +33,44 @@ class ModelCfg(Cfg, arbitrary_types_allowed=True, extra="forbid"):
     expansion: int = 1
     groups: int = 1
     dw: bool = False
-    div_groups: Union[int, None] = None
+    div_groups: Optional[int] = None
     sa: Union[bool, type[nn.Module]] = False
     se: Union[bool, type[nn.Module]] = False
-    se_module: Union[bool, None] = None
-    se_reduction: Union[int, None] = None
+    se_module: Optional[bool] = None
+    se_reduction: Optional[int] = None
     bn_1st: bool = True
     zero_bn: bool = True
     stem_stride_on: int = 0
     stem_sizes: list[int] = [64]
-    stem_pool: Union[Callable[[], nn.Module], None] = partial(
+    stem_pool: Optional[Callable[[], nn.Module]] = partial(
         nn.MaxPool2d, kernel_size=3, stride=2, padding=1
     )
     stem_bn_end: bool = False
+
+    @field_validator("se")
+    def set_se(  # pylint: disable=no-self-argument
+        cls, value: Union[bool, type[nn.Module]]
+    ) -> Union[bool, type[nn.Module]]:
+        if value:
+            if isinstance(value, (int, bool)):
+                return SEModule
+        return value
+
+    @field_validator("sa")
+    def set_sa(  # pylint: disable=no-self-argument
+        cls, value: Union[bool, type[nn.Module]]
+    ) -> Union[bool, type[nn.Module]]:
+        if value:
+            if isinstance(value, (int, bool)):
+                return SimpleSelfAttention  # default: ks=1, sym=sym
+        return value
+
+    @field_validator("se_module", "se_reduction")  # pragma: no cover
+    def deprecation_warning(  # pylint: disable=no-self-argument
+        cls, value: Union[bool, int, None]
+    ) -> Union[bool, int, None]:
+        print("Deprecated. Pass se_module as se argument, se_reduction as arg to se.")
+        return value
 
     def __repr__(self) -> str:
         se_repr = self.se.__name__ if self.se else "False"  # type: ignore
@@ -61,7 +86,7 @@ class ModelCfg(Cfg, arbitrary_types_allowed=True, extra="forbid"):
         )
 
 
-def make_stem(cfg: ModelCfg) -> nn.Sequential:  # type: ignore
+def make_stem(cfg: ModelCfg) -> nn.Sequential:
     """Create Resnet stem."""
     stem: ListStrMod = [
         (
@@ -116,7 +141,7 @@ def make_layer(cfg: ModelCfg, layer_num: int) -> nn.Sequential:  # type: ignore
     )
 
 
-def make_body(cfg: ModelCfg) -> nn.Sequential:  # type: ignore
+def make_body(cfg: ModelCfg) -> nn.Sequential:
     """Create model body."""
     return nn_seq(
         (f"l_{layer_num}", cfg.make_layer(cfg, layer_num))  # type: ignore
@@ -124,7 +149,7 @@ def make_body(cfg: ModelCfg) -> nn.Sequential:  # type: ignore
     )
 
 
-def make_head(cfg: ModelCfg) -> nn.Sequential:  # type: ignore
+def make_head(cfg: ModelCfg) -> nn.Sequential:
     """Create head."""
     head = [
         ("pool", nn.AdaptiveAvgPool2d(1)),
@@ -138,35 +163,10 @@ class ModelConstructor(ModelCfg):
     """Model constructor. As default - resnet18"""
 
     init_cnn: Callable[[nn.Module], None] = init_cnn
-    make_stem: Callable[[ModelCfg], Union[nn.Module, nn.Sequential]] = make_stem  # type: ignore
-    make_layer: Callable[[ModelCfg, int], Union[nn.Module, nn.Sequential]] = make_layer  # type: ignore
-    make_body: Callable[[ModelCfg], Union[nn.Module, nn.Sequential]] = make_body  # type: ignore
-    make_head: Callable[[ModelCfg], Union[nn.Module, nn.Sequential]] = make_head  # type: ignore
-
-    @field_validator("se")
-    def set_se(  # pylint: disable=no-self-argument
-        cls, value: Union[bool, type[nn.Module]]
-    ) -> Union[bool, type[nn.Module]]:
-        if value:
-            if isinstance(value, (int, bool)):
-                return SEModule
-        return value
-
-    @field_validator("sa")
-    def set_sa(  # pylint: disable=no-self-argument
-        cls, value: Union[bool, type[nn.Module]]
-    ) -> Union[bool, type[nn.Module]]:
-        if value:
-            if isinstance(value, (int, bool)):
-                return SimpleSelfAttention  # default: ks=1, sym=sym
-        return value
-
-    @field_validator("se_module", "se_reduction")  # pragma: no cover
-    def deprecation_warning(  # pylint: disable=no-self-argument
-        cls, value: Union[bool, int, None]
-    ) -> Union[bool, int, None]:
-        print("Deprecated. Pass se_module as se argument, se_reduction as arg to se.")
-        return value
+    make_stem: Callable[[ModelCfg], ModSeq] = make_stem
+    make_layer: Callable[[ModelCfg, int], ModSeq] = make_layer
+    make_body: Callable[[ModelCfg], ModSeq] = make_body
+    make_head: Callable[[ModelCfg], ModSeq] = make_head
 
     @property
     def stem(self):
@@ -186,7 +186,7 @@ class ModelConstructor(ModelCfg):
 
     @classmethod
     def create_model(
-        cls, cfg: Union[ModelCfg, None] = None, **kwargs: dict[str, Any]
+        cls, cfg: Optional[ModelCfg] = None, **kwargs: dict[str, Any]
     ) -> nn.Sequential:
         if cfg:
             return cls(**cfg.model_dump())()

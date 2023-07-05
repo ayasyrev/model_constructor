@@ -2,12 +2,12 @@
 # Yet another ResNet.
 
 from functools import partial
-from typing import Any, Callable, Optional, Union
+from typing import Any, Callable, Optional
 
 import torch
 from torch import nn
 
-from model_constructor.helpers import nn_seq
+from model_constructor.helpers import ModSeq, nn_seq
 
 from .layers import ConvBnAct, get_act
 from .model_constructor import ListStrMod, ModelConstructor, ModelCfg
@@ -38,10 +38,10 @@ class YaBasicBlock(nn.Module):
         bn_1st: bool = True,
         groups: int = 1,
         dw: bool = False,
-        div_groups: Union[None, int] = None,
-        pool: Union[Callable[[], nn.Module], None] = None,
-        se: Union[nn.Module, None] = None,
-        sa: Union[nn.Module, None] = None,
+        div_groups: Optional[int] = None,
+        pool: Optional[Callable[[], nn.Module]] = None,
+        se: Optional[nn.Module] = None,
+        sa: Optional[nn.Module] = None,
     ):
         super().__init__()
         # pool defined at ModelConstructor.
@@ -100,7 +100,7 @@ class YaBasicBlock(nn.Module):
             self.id_conv = None
         self.merge = get_act(act_fn)
 
-    def forward(self, x: torch.Tensor) -> torch.Tensor:  # type: ignore
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
         if self.reduce:
             x = self.reduce(x)
         identity = self.id_conv(x) if self.id_conv is not None else x
@@ -123,10 +123,10 @@ class YaBottleneckBlock(nn.Module):
         bn_1st: bool = True,
         groups: int = 1,
         dw: bool = False,
-        div_groups: Union[None, int] = None,
-        pool: Union[Callable[[], nn.Module], None] = None,
-        se: Union[nn.Module, None] = None,
-        sa: Union[nn.Module, None] = None,
+        div_groups: Optional[int] = None,
+        pool: Optional[Callable[[], nn.Module]] = None,
+        se: Optional[nn.Module] = None,
+        sa: Optional[nn.Module] = None,
     ):
         super().__init__()
         # pool defined at ModelConstructor.
@@ -195,7 +195,7 @@ class YaBottleneckBlock(nn.Module):
             self.id_conv = None
         self.merge = get_act(act_fn)
 
-    def forward(self, x: torch.Tensor) -> torch.Tensor:  # type: ignore
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
         if self.reduce:
             x = self.reduce(x)
         identity = self.id_conv(x) if self.id_conv is not None else x
@@ -203,7 +203,7 @@ class YaBottleneckBlock(nn.Module):
 
 
 class YaResNet(ModelConstructor):
-    make_stem: Callable[[ModelCfg], Union[nn.Module, nn.Sequential]] = xresnet_stem
+    make_stem: Callable[[ModelCfg], ModSeq] = xresnet_stem
     stem_sizes: list[int] = [32, 64, 64]
     block: type[nn.Module] = YaBasicBlock
     act_fn: type[nn.Module] = nn.Mish

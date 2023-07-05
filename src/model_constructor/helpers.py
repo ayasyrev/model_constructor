@@ -1,12 +1,13 @@
 from collections import OrderedDict
 from functools import partial
-from typing import Iterable, Optional
+from typing import Iterable, Optional, Union
 from pydantic import BaseModel
 
 from torch import nn
 
 
 ListStrMod = list[tuple[str, nn.Module]]
+ModSeq = Union[nn.Module, nn.Sequential]
 
 
 def nn_seq(list_of_tuples: Iterable[tuple[str, nn.Module]]) -> nn.Sequential:
