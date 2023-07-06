@@ -67,7 +67,7 @@ class ModelCfg(Cfg, arbitrary_types_allowed=True, extra="forbid"):
             return value
         if isinstance(value, str):
             return instantiate_module(value)
-        raise ValueError(f"{info.field_name} must be str or nn.Module")
+        # raise ValueError(f"{info.field_name} must be str or nn.Module")
 
     @field_validator("se", "sa")
     def set_se(  # pylint: disable=no-self-argument
@@ -77,7 +77,7 @@ class ModelCfg(Cfg, arbitrary_types_allowed=True, extra="forbid"):
             return DEFAULT_SE_SA[info.field_name]
         if is_module(value):
             return value
-        raise ValueError(f"{info.field_name} must be bool or nn.Module")
+        # raise ValueError(f"{info.field_name} must be bool or nn.Module")  # no need - check at init
 
     @field_validator("se_module", "se_reduction")  # pragma: no cover
     def deprecation_warning(  # pylint: disable=no-self-argument

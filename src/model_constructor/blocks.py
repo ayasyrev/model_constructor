@@ -66,7 +66,7 @@ class BasicBlock(nn.Module):
             id_layers: ListStrMod = []
             if (
                 stride != 1 and pool is not None
-            ):  # if pool - reduce by pool else stride 2 art id_conv
+            ):  # if pool - reduce by pool else stride 2 at id_conv
                 id_layers.append(("pool", pool()))
             if in_channels != out_channels or (stride != 1 and pool is None):
                 id_layers.append(
