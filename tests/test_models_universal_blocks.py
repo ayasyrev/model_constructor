@@ -37,9 +37,9 @@ def test_mc(model_constructor: type[ModelConstructor], act_fn: type[nn.Module]):
     assert pred.shape == torch.Size([bs_test, 1000])
 
 
-def test_stem_bnend():
+def test_stem_bn_end():
     """test stem"""
-    mc = ModelConstructor()
+    mc = XResNet()
     assert mc.stem_bn_end == False
     mc.stem_bn_end = True
     stem = mc.stem
