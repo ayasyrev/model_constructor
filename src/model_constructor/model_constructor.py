@@ -155,10 +155,15 @@ def make_layer(cfg: ModelCfg, layer_num: int) -> nn.Sequential:  # type: ignore
     )
 
 
-def make_body(cfg: ModelCfg) -> nn.Sequential:
+def make_body(
+        cfg: ModelCfg,
+        layer_constructor: Callable[[ModelCfg, int], nn.Sequential] = make_layer,
+) -> nn.Sequential:
     """Create model body."""
+    if hasattr(cfg, "make_layer"):
+        layer_constructor = cfg.make_layer  # type: ignore
     return nn_seq(
-        (f"l_{layer_num}", cfg.make_layer(cfg, layer_num))  # type: ignore
+        (f"l_{layer_num}", layer_constructor(cfg, layer_num))  # type: ignore
         for layer_num in range(len(cfg.layers))
     )
 
