@@ -25,7 +25,7 @@ DEFAULT_SE_SA = {
 }
 
 
-nnModule = Union[type[nn.Module], Callable[[], nn.Module], str]
+nnModule = Union[type[nn.Module], Callable[[], nn.Module]]
 
 
 class ModelCfg(Cfg, arbitrary_types_allowed=True, extra="forbid"):
@@ -34,50 +34,48 @@ class ModelCfg(Cfg, arbitrary_types_allowed=True, extra="forbid"):
     name: Optional[str] = None
     in_chans: int = 3
     num_classes: int = 1000
-    block: nnModule = BasicBlock
-    conv_layer: nnModule = ConvBnAct
+    block: Union[nnModule, str] = BasicBlock
+    conv_layer: Union[nnModule, str] = ConvBnAct
     block_sizes: list[int] = [64, 128, 256, 512]
     layers: list[int] = [2, 2, 2, 2]
-    norm: nnModule = nn.BatchNorm2d
-    act_fn: nnModule = nn.ReLU
-    pool: Optional[nnModule] = None
+    norm: Union[nnModule, str] = nn.BatchNorm2d
+    act_fn: Union[nnModule, str] = nn.ReLU
+    pool: Union[nnModule, str, None] = None
     expansion: int = 1
     groups: int = 1
     dw: bool = False
     div_groups: Optional[int] = None
-    sa: Union[bool, type[nn.Module], Callable[[], nn.Module]] = False
-    se: Union[bool, type[nn.Module], Callable[[], nn.Module]] = False
+    sa: Union[bool, nnModule, str] = False
+    se: Union[bool, nnModule, str] = False
     se_module: Optional[bool] = None
     se_reduction: Optional[int] = None
     bn_1st: bool = True
     zero_bn: bool = True
     stem_stride_on: int = 0
     stem_sizes: list[int] = [64]
-    stem_pool: Optional[nnModule] = partial(
+    stem_pool: Union[nnModule, str, None] = partial(
         nn.MaxPool2d, kernel_size=3, stride=2, padding=1
     )
     stem_bn_end: bool = False
 
     @field_validator("act_fn", "block", "conv_layer", "norm", "pool", "stem_pool")
     def set_modules(  # pylint: disable=no-self-argument
-        cls, value: Union[type[nn.Module], str], info: FieldValidationInfo,
+        cls, value: Union[nnModule, str],
     ) -> nnModule:
         """Check values, if string, convert to nn.Module."""
         if is_module(value):
             return value
-        if isinstance(value, str):
-            return instantiate_module(value)
-        # raise ValueError(f"{info.field_name} must be str or nn.Module")
+        return instantiate_module(value)
 
     @field_validator("se", "sa")
     def set_se(  # pylint: disable=no-self-argument
-        cls, value: Union[bool, type[nn.Module]], info: FieldValidationInfo,
+        cls, value: Union[bool, nnModule, str], info: FieldValidationInfo,
     ) -> nnModule:
         if isinstance(value, (int, bool)):
             return DEFAULT_SE_SA[info.field_name]
         if is_module(value):
             return value
-        # raise ValueError(f"{info.field_name} must be bool or nn.Module")  # no need - check at init
+        return instantiate_module(value)
 
     @field_validator("se_module", "se_reduction")  # pragma: no cover
     def deprecation_warning(  # pylint: disable=no-self-argument
