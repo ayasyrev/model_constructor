@@ -61,7 +61,7 @@ class ModelCfg(Cfg, arbitrary_types_allowed=True, extra="forbid"):
     @field_validator("act_fn", "block", "conv_layer", "norm", "pool", "stem_pool")
     def set_modules(  # pylint: disable=no-self-argument
         cls, value: Union[type[nn.Module], str], info: FieldValidationInfo,
-    ) -> Union[type[nn.Module], Callable[[], nn.Module]]:
+    ) -> nnModule:
         """Check values, if string, convert to nn.Module."""
         if is_module(value):
             return value
@@ -72,7 +72,7 @@ class ModelCfg(Cfg, arbitrary_types_allowed=True, extra="forbid"):
     @field_validator("se", "sa")
     def set_se(  # pylint: disable=no-self-argument
         cls, value: Union[bool, type[nn.Module]], info: FieldValidationInfo,
-    ) -> Union[type[nn.Module], Callable[[], nn.Module]]:
+    ) -> nnModule:
         if isinstance(value, (int, bool)):
             return DEFAULT_SE_SA[info.field_name]
         if is_module(value):
@@ -196,14 +196,14 @@ class ModelConstructor(ModelCfg):
 
     @classmethod
     def from_cfg(cls, cfg: ModelCfg):
-        return cls(**cfg.model_dump())
+        return cls(**cfg.model_dump(exclude_none=True))
 
     @classmethod
     def create_model(
         cls, cfg: Optional[ModelCfg] = None, **kwargs: dict[str, Any]
     ) -> nn.Sequential:
         if cfg:
-            return cls(**cfg.model_dump())()
+            return cls(**cfg.model_dump(exclude_none=True))()
         return cls(**kwargs)()  # type: ignore
 
     def __call__(self) -> nn.Sequential:

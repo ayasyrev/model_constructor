@@ -1,15 +1,13 @@
-# MXResNet.
+# XResNet.
 
-> MXResNet model.
+> xResNet model.
 
-MXResNet model, [forum discussion](https://forums.fast.ai/t/how-we-beat-the-5-epoch-imagewoof-leaderboard-score-some-new-techniques-to-consider)
-
-## MXResNet constructor.
+## XResNet constructor.
 
 
 ```python
-mxresnet  = ModelConstructor(
-    name='MXResNet',
+xresnet  = ModelConstructor(
+    name='XResNet',
     make_stem=xresnet_stem,
     stem_sizes=[3, 32, 64, 64],
     act_fn=torch.nn.Mish,
@@ -18,10 +16,10 @@ mxresnet  = ModelConstructor(
 
 
 ```python
-mxresnet
+xresnet
 ```
 <details open> <summary>output</summary>  
-    <pre>MXResNet
+    <pre>XResNet
       in_chans: 3, num_classes: 1000
       expansion: 1, groups: 1, dw: False, div_groups: None
       act_fn: Mish, sa: False, se: False
@@ -34,11 +32,11 @@ mxresnet
 
 
 ```python
-mxresnet.print_changed_fields()
+xresnet.print_changed_fields()
 ```
 <details open> <summary>output</summary>  
     <pre>Changed fields:
-    name: MXResNet
+    name: XResNet
     act_fn: Mish
     stem_sizes: [3, 32, 64, 64]
     make_stem: xresnet_stem
@@ -48,7 +46,7 @@ mxresnet.print_changed_fields()
 
 ```python
 
-mxresnet.stem
+xresnet.stem
 ```
 <details> <summary>output</summary>  
     </pre>Sequential(
@@ -81,7 +79,7 @@ mxresnet.stem
 
 ```python
 
-mxresnet.body
+xresnet.body
 ```
 <details> <summary>output</summary>  
     </pre>Sequential(
@@ -231,157 +229,7 @@ mxresnet.body
 
 ```python
 
-mxresnet.body
-```
-<details> <summary>output</summary>  
-    </pre>Sequential(
-      (l_0): Sequential(
-        (bl_0): BasicBlock(
-          (convs): Sequential(
-            (conv_0): ConvBnAct(
-              (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-              (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-              (act_fn): Mish(inplace=True)
-            )
-            (conv_1): ConvBnAct(
-              (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-              (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-            )
-          )
-          (act_fn): Mish(inplace=True)
-        )
-        (bl_1): BasicBlock(
-          (convs): Sequential(
-            (conv_0): ConvBnAct(
-              (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-              (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-              (act_fn): Mish(inplace=True)
-            )
-            (conv_1): ConvBnAct(
-              (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-              (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-            )
-          )
-          (act_fn): Mish(inplace=True)
-        )
-      )
-      (l_1): Sequential(
-        (bl_0): BasicBlock(
-          (convs): Sequential(
-            (conv_0): ConvBnAct(
-              (conv): Conv2d(64, 128, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
-              (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-              (act_fn): Mish(inplace=True)
-            )
-            (conv_1): ConvBnAct(
-              (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-              (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-            )
-          )
-          (id_conv): Sequential(
-            (id_conv): ConvBnAct(
-              (conv): Conv2d(64, 128, kernel_size=(1, 1), stride=(2, 2), bias=False)
-              (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-            )
-          )
-          (act_fn): Mish(inplace=True)
-        )
-        (bl_1): BasicBlock(
-          (convs): Sequential(
-            (conv_0): ConvBnAct(
-              (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-              (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-              (act_fn): Mish(inplace=True)
-            )
-            (conv_1): ConvBnAct(
-              (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-              (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-            )
-          )
-          (act_fn): Mish(inplace=True)
-        )
-      )
-      (l_2): Sequential(
-        (bl_0): BasicBlock(
-          (convs): Sequential(
-            (conv_0): ConvBnAct(
-              (conv): Conv2d(128, 256, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
-              (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-              (act_fn): Mish(inplace=True)
-            )
-            (conv_1): ConvBnAct(
-              (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-              (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-            )
-          )
-          (id_conv): Sequential(
-            (id_conv): ConvBnAct(
-              (conv): Conv2d(128, 256, kernel_size=(1, 1), stride=(2, 2), bias=False)
-              (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-            )
-          )
-          (act_fn): Mish(inplace=True)
-        )
-        (bl_1): BasicBlock(
-          (convs): Sequential(
-            (conv_0): ConvBnAct(
-              (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-              (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-              (act_fn): Mish(inplace=True)
-            )
-            (conv_1): ConvBnAct(
-              (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-              (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-            )
-          )
-          (act_fn): Mish(inplace=True)
-        )
-      )
-      (l_3): Sequential(
-        (bl_0): BasicBlock(
-          (convs): Sequential(
-            (conv_0): ConvBnAct(
-              (conv): Conv2d(256, 512, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
-              (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-              (act_fn): Mish(inplace=True)
-            )
-            (conv_1): ConvBnAct(
-              (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-              (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-            )
-          )
-          (id_conv): Sequential(
-            (id_conv): ConvBnAct(
-              (conv): Conv2d(256, 512, kernel_size=(1, 1), stride=(2, 2), bias=False)
-              (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-            )
-          )
-          (act_fn): Mish(inplace=True)
-        )
-        (bl_1): BasicBlock(
-          (convs): Sequential(
-            (conv_0): ConvBnAct(
-              (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-              (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-              (act_fn): Mish(inplace=True)
-            )
-            (conv_1): ConvBnAct(
-              (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
-              (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
-            )
-          )
-          (act_fn): Mish(inplace=True)
-        )
-      )
-    )</pre>
-</details>
-
-
-
-
-```python
-
-mxresnet.head
+xresnet.head
 ```
 <details> <summary>output</summary>  
     </pre>Sequential(
@@ -393,33 +241,34 @@ mxresnet.head
 
 
 
-## MxResNet constructors
+## xResNet constructors
 
-Lets create constructor class for MxResnet.
-
-Base MxResNet inherit from XResNet.
+Lets create constructor class for xResnet.
 
 
 ```python
-class MxResNet(XResNet):
-    stem_sizes: list[int] = [3, 32, 64, 64]
-    act_fn: type[nn.Module] = nn.Mish
+class XResNet(ModelConstructor):
+    make_stem: Callable[[ModelCfg], ModSeq] = xresnet_stem
+    stem_sizes: list[int] = [32, 32, 64]
+    pool: Optional[Callable[[Any], nn.Module]] = partial(
+        nn.AvgPool2d, kernel_size=2, ceil_mode=True
+    )
 ```
 
-MXResnet34 inherit from MXResnet.
+xResnet34 inherit from xResnet.
 
 
 ```python
-class MxResNet34(MxResNet):
+class XResNet34(XResNet):
     layers: list[int] = [3, 4, 6, 3]
 ```
 
-MXResnet50 inherit from MXResnet34.
+xResnet50 inherit from xResnet34.
 
 
 ```python
-class MxResNet50(MxResNet34):
-    expansion: int = 4
+class XResNet50(XResNet34):
+    block: type[nn.Module] = BottleneckBlock
     block_sizes: list[int] = [256, 512, 1024, 2048]
 ```
 
@@ -427,15 +276,15 @@ Now we can create constructor from class adn change model parameters during init
 
 
 ```python
-mc = MxResNet34(num_classes=10)
+mc = XResNet34(num_classes=10)
 mc
 ```
 <details open> <summary>output</summary>  
-    <pre>MxResNet34
+    <pre>XResNet34
       in_chans: 3, num_classes: 10
       expansion: 1, groups: 1, dw: False, div_groups: None
-      act_fn: Mish, sa: False, se: False
-      stem sizes: [3, 32, 64, 64], stride on 0
+      act_fn: ReLU, sa: False, se: False
+      stem sizes: [32, 32, 64], stride on 0
       body sizes [64, 128, 256, 512]
       layers: [3, 4, 6, 3]</pre>
 </details>
@@ -444,31 +293,26 @@ mc
 
 
 ```python
-mc = MxResNet50()
+mc = XResNet50()
 mc
 ```
 <details open> <summary>output</summary>  
-    <pre>MxResNet50
+    <pre>XResNet50
       in_chans: 3, num_classes: 1000
-      expansion: 4, groups: 1, dw: False, div_groups: None
-      act_fn: Mish, sa: False, se: False
-      stem sizes: [3, 32, 64, 64], stride on 0
+      expansion: 1, groups: 1, dw: False, div_groups: None
+      act_fn: ReLU, sa: False, se: False
+      stem sizes: [32, 32, 64], stride on 0
       body sizes [256, 512, 1024, 2048]
       layers: [3, 4, 6, 3]</pre>
 </details>
 
 
 
-To create model - call model constructor object or create model from constructor.
+To create model - call model constructor object.
 
 
 ```python
 model = mc()
-```
-
-
-```python
-model = MxResNet34.create_model()
 ```
 
 model_constructor
