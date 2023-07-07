@@ -213,7 +213,7 @@ class YaResNet(ModelConstructor):
 
 
 class YaResNet34(YaResNet):
-    stem_sizes: list[int] = [3, 32, 64, 64]
+    layers: list[int] = [3, 4, 6, 3]
 
 
 class YaResNet50(YaResNet34):
