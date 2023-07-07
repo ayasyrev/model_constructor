@@ -216,7 +216,7 @@ class ModelConstructor(ModelCfg):
             OrderedDict([("stem", self.stem), ("body", self.body), ("head", self.head)])  # type: ignore
         )
         self.init_cnn(model)  # pylint: disable=too-many-function-args
-        extra_repr = self.__repr_changed_args__()
+        extra_repr = self.__repr_changed_fields__()
         if extra_repr:
             model.extra_repr = lambda: ", ".join(extra_repr)
         return model
