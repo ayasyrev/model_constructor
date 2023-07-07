@@ -67,7 +67,8 @@ cfg = ModelCfg(act_fn="nn.SELU")
 print(cfg.act_fn)
 ```
 <details open> <summary>output</summary>  
-    <pre>class 'torch.nn.modules.activation.SELU'
+    <pre>
+    class 'torch.nn.modules.activation.SELU'
     </pre>
 </details>
 
@@ -81,15 +82,15 @@ print(cfg.act_fn)
 print(cfg.block)
 ```
 <details open> <summary>output</summary>  
-    <pre>class 'torch.nn.modules.activation.Mish'
-
+    <pre>
+    class 'torch.nn.modules.activation.Mish'
     class 'model_constructor.yaresnet.YaBasicBlock'
     </pre>
 </details>
 
 # Stem, Body, Head.
 
-By default constructor create `nn.Sequential` model with `stem`, `body` and `head`. We can check it at constructor stage.
+By default constructor create `nn.Sequential` model with `stem`, `body` and `head`. We can check it at constructor stage
 
 
 ```python
@@ -145,7 +146,8 @@ stem
 
 ### Layer
 
-`make_layer` need `layer_num` argument - number of layer.
+`make_layer` need `layer_num` argument - number of layer.  
+`make_layer` separated with `make_body` - it can be one piece.
 
 
 ```python
@@ -190,15 +192,165 @@ layer
 
 ### Body
 
-`make_body` needs `cfg.make_layer` initialized. As default - `make_layer`.  It can be changed.
-
 
 ```python
 
-# cfg.make_layer = make_layer
-# body = make_body(cfg)
-# body
+body = make_body(cfg)
+body
 ```
+<details> <summary>output</summary>  
+    </pre>Sequential(
+      (l_0): Sequential(
+        (bl_0): YaBasicBlock(
+          (convs): Sequential(
+            (conv_0): ConvBnAct(
+              (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+              (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              (act_fn): Mish(inplace=True)
+            )
+            (conv_1): ConvBnAct(
+              (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+              (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+          )
+          (merge): Mish(inplace=True)
+        )
+        (bl_1): YaBasicBlock(
+          (convs): Sequential(
+            (conv_0): ConvBnAct(
+              (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+              (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              (act_fn): Mish(inplace=True)
+            )
+            (conv_1): ConvBnAct(
+              (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+              (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+          )
+          (merge): Mish(inplace=True)
+        )
+      )
+      (l_1): Sequential(
+        (bl_0): YaBasicBlock(
+          (reduce): ConvBnAct(
+            (conv): Conv2d(64, 64, kernel_size=(1, 1), stride=(2, 2), bias=False)
+            (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (act_fn): ReLU(inplace=True)
+          )
+          (convs): Sequential(
+            (conv_0): ConvBnAct(
+              (conv): Conv2d(64, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+              (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              (act_fn): Mish(inplace=True)
+            )
+            (conv_1): ConvBnAct(
+              (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+              (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+          )
+          (id_conv): ConvBnAct(
+            (conv): Conv2d(64, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (merge): Mish(inplace=True)
+        )
+        (bl_1): YaBasicBlock(
+          (convs): Sequential(
+            (conv_0): ConvBnAct(
+              (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+              (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              (act_fn): Mish(inplace=True)
+            )
+            (conv_1): ConvBnAct(
+              (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+              (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+          )
+          (merge): Mish(inplace=True)
+        )
+      )
+      (l_2): Sequential(
+        (bl_0): YaBasicBlock(
+          (reduce): ConvBnAct(
+            (conv): Conv2d(128, 128, kernel_size=(1, 1), stride=(2, 2), bias=False)
+            (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (act_fn): ReLU(inplace=True)
+          )
+          (convs): Sequential(
+            (conv_0): ConvBnAct(
+              (conv): Conv2d(128, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+              (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              (act_fn): Mish(inplace=True)
+            )
+            (conv_1): ConvBnAct(
+              (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+              (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+          )
+          (id_conv): ConvBnAct(
+            (conv): Conv2d(128, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (merge): Mish(inplace=True)
+        )
+        (bl_1): YaBasicBlock(
+          (convs): Sequential(
+            (conv_0): ConvBnAct(
+              (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+              (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              (act_fn): Mish(inplace=True)
+            )
+            (conv_1): ConvBnAct(
+              (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+              (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+          )
+          (merge): Mish(inplace=True)
+        )
+      )
+      (l_3): Sequential(
+        (bl_0): YaBasicBlock(
+          (reduce): ConvBnAct(
+            (conv): Conv2d(256, 256, kernel_size=(1, 1), stride=(2, 2), bias=False)
+            (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            (act_fn): ReLU(inplace=True)
+          )
+          (convs): Sequential(
+            (conv_0): ConvBnAct(
+              (conv): Conv2d(256, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+              (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              (act_fn): Mish(inplace=True)
+            )
+            (conv_1): ConvBnAct(
+              (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+              (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+          )
+          (id_conv): ConvBnAct(
+            (conv): Conv2d(256, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+            (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          )
+          (merge): Mish(inplace=True)
+        )
+        (bl_1): YaBasicBlock(
+          (convs): Sequential(
+            (conv_0): ConvBnAct(
+              (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+              (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              (act_fn): Mish(inplace=True)
+            )
+            (conv_1): ConvBnAct(
+              (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+              (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+          )
+          (merge): Mish(inplace=True)
+        )
+      )
+    )</pre>
+</details>
+
+
 
 ## Head
 
@@ -329,6 +481,8 @@ mc.body.l_0
       )
     )</pre>
 </details>
+
+
 
 
 
