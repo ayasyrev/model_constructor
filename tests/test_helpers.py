@@ -50,7 +50,7 @@ def test_cfg_repr_print(capsys: CaptureFixture[str]):
     cfg = Cfg()
     repr_res = cfg.__repr__()
     assert repr_res == "Cfg(\n  )"
-    cfg.print_changed()
+    cfg.print_set_fields()
     out = capsys.readouterr().out
     assert out == "Nothing changed\n"
     cfg.name = "cfg_name"
@@ -59,13 +59,29 @@ def test_cfg_repr_print(capsys: CaptureFixture[str]):
     cfg.print_cfg()
     out = capsys.readouterr().out
     assert out == "Cfg(\n  name='cfg_name')\n"
-    # changed fields. default - name is not in changed
+    # Set fields. default - name is not in changed
     cfg = Cfg2(name="cfg_name")
-    cfg.print_changed()
+    cfg.print_set_fields()
     out = capsys.readouterr().out
     assert out == "Nothing changed\n"
     assert "name" in cfg.model_fields_set
     cfg = Cfg2(int_value=0)
-    cfg.print_changed()
+    cfg.print_set_fields()
     out = capsys.readouterr().out
-    assert out == "Changed fields:\n   int_value: 0\n"
+    assert out == "Set fields:\nint_value: 0\n"
+    # Changed fields
+    cfg = Cfg2(name="cfg_name")
+    assert cfg.changed_fields == {"name": "cfg_name"}
+    cfg.int_value = 1
+    cfg.name = None
+    assert cfg.changed_fields == {"int_value": 1}
+    # print
+    cfg.print_changed_fields()
+    out = capsys.readouterr().out
+    assert out == "Changed fields:\nint_value: 1\n"
+    # return to default
+    cfg.int_value = 10
+    assert not cfg.changed_fields
+    cfg.print_changed_fields()
+    out = capsys.readouterr().out
+    assert out == "Nothing changed\n"

@@ -93,24 +93,50 @@ class Cfg(BaseModel):
             if (str_value := self._get_str_value(field))
         ]
 
-    def __repr_changed_args__(self) -> list[str]:
-        """Return list repr for changed fields"""
+    def __repr_set_fields__(self) -> list[str]:
+        """Return list repr for fields set at init"""
         return [
             f"{field}: {self._get_str_value(field)}"
             for field in self.model_fields_set  # pylint: disable=E1133
             if field != "name"
         ]
 
+    def __repr_changed_fields__(self) -> list[str]:
+        """Return list repr for changed fields"""
+        return [
+            f"{field}: {self._get_str_value(field)}"
+            for field in self.changed_fields
+            if field != "name"
+        ]
+
+    @property
+    def changed_fields(self) -> dict[str, Any]:
+        # return "\n".join(self.__repr_changed_fields__())
+        return {
+            field: self._get_str_value(field)
+            for field in self.model_fields  # pylint: disable=E1133
+            if getattr(self, field) != self.model_fields[field].default
+        }
+
     def print_cfg(self) -> None:
         """Print full config"""
         print(self.__repr__())
 
-    def print_changed(self) -> None:
-        """Print changed fields."""
-        changed_fields = self.__repr_changed_args__()
-        if changed_fields:
+    def print_set_fields(self) -> None:
+        """Print fields changed at init."""
+        set_fields = self.__repr_set_fields__()
+        if set_fields:
+            print("Set fields:")
+            for field in set_fields:
+                print(field)
+        else:
+            print("Nothing changed")
+
+    def print_changed_fields(self) -> None:
+        """Print fields changed at init."""
+        if self.changed_fields:
             print("Changed fields:")
-            for i in changed_fields:
-                print("  ", i)
+            for field in self.changed_fields:
+                print(f"{field}: {self._get_str_value(field)}")
         else:
             print("Nothing changed")
