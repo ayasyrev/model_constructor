@@ -35,3 +35,14 @@ def test_mc(model_constructor: type[ModelConstructor], act_fn: type[nn.Module]):
     model = mc()
     pred = model(xb)
     assert pred.shape == torch.Size([bs_test, 1000])
+
+
+def test_stem_bn_end():
+    """test stem"""
+    mc = XResNet()
+    assert mc.stem_bn_end == False
+    mc.stem_bn_end = True
+    stem = mc.stem
+    assert isinstance(stem[-1], nn.BatchNorm2d)
+    stem_out = stem(xb)
+    assert stem_out.shape == torch.Size([bs_test, 64, 4, 4])

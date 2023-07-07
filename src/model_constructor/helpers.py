@@ -103,7 +103,7 @@ class Cfg(BaseModel):
 
     def print_cfg(self) -> None:
         """Print full config"""
-        print(f"{self.__repr_name__()}(\n  {self.__repr_str__(chr(10) + '  ')})")
+        print(self.__repr__())
 
     def print_changed(self) -> None:
         """Print changed fields."""
