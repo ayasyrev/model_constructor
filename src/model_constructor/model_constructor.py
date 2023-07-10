@@ -7,8 +7,15 @@ from pydantic_core.core_schema import FieldValidationInfo
 from torch import nn
 
 from .blocks import BasicBlock, BottleneckBlock
-from .helpers import (Cfg, ListStrMod, ModSeq, init_cnn, instantiate_module,
-                      is_module, nn_seq)
+from .helpers import (
+    Cfg,
+    ListStrMod,
+    ModSeq,
+    init_cnn,
+    instantiate_module,
+    is_module,
+    nn_seq,
+)
 from .layers import ConvBnAct, SEModule, SimpleSelfAttention
 
 __all__ = [
@@ -60,7 +67,8 @@ class ModelCfg(Cfg, arbitrary_types_allowed=True, extra="forbid"):
 
     @field_validator("act_fn", "block", "conv_layer", "norm", "pool", "stem_pool")
     def set_modules(  # pylint: disable=no-self-argument
-        cls, value: Union[nnModule, str],
+        cls,
+        value: Union[nnModule, str],
     ) -> nnModule:
         """Check values, if string, convert to nn.Module."""
         if is_module(value):
@@ -69,7 +77,9 @@ class ModelCfg(Cfg, arbitrary_types_allowed=True, extra="forbid"):
 
     @field_validator("se", "sa")
     def set_se(  # pylint: disable=no-self-argument
-        cls, value: Union[bool, nnModule, str], info: FieldValidationInfo,
+        cls,
+        value: Union[bool, nnModule, str],
+        info: FieldValidationInfo,
     ) -> nnModule:
         if isinstance(value, (int, bool)):
             return DEFAULT_SE_SA[info.field_name]
@@ -154,8 +164,8 @@ def make_layer(cfg: ModelCfg, layer_num: int) -> nn.Sequential:  # type: ignore
 
 
 def make_body(
-        cfg: ModelCfg,
-        layer_constructor: Callable[[ModelCfg, int], nn.Sequential] = make_layer,
+    cfg: ModelCfg,
+    layer_constructor: Callable[[ModelCfg, int], nn.Sequential] = make_layer,
 ) -> nn.Sequential:
     """Create model body."""
     if hasattr(cfg, "make_layer"):
