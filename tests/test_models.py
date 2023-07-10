@@ -1,3 +1,4 @@
+from typing import Type
 import pytest
 import torch
 from torch import nn
@@ -34,9 +35,20 @@ act_fn_list = [
 
 @pytest.mark.parametrize("model_constructor", mc_list)
 @pytest.mark.parametrize("act_fn", act_fn_list)
-def test_mc(model_constructor: type[ModelConstructor], act_fn: type[nn.Module]):
+def test_mc(model_constructor: Type[ModelConstructor], act_fn: Type[nn.Module]):
     """test models"""
     mc = model_constructor(act_fn=act_fn)
     model = mc()
     pred = model(xb)
     assert pred.shape == torch.Size([bs_test, 1000])
+
+
+def test_xresnet_stem():
+    """test xresnet stem"""
+    mc = XResNet()
+    assert not mc.stem_bn_end
+    mc.stem_bn_end = True
+    stem = mc.stem
+    assert isinstance(stem[-1], nn.BatchNorm2d)
+    stem_out = stem(xb)
+    assert stem_out.shape == torch.Size([bs_test, 64, 4, 4])

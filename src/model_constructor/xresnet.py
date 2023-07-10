@@ -1,11 +1,11 @@
 from functools import partial
-from typing import Any, Callable, Optional, Union
+from typing import Any, Callable, List, Optional, Type
 
 from torch import nn
 
-from .helpers import nn_seq
-from .model_constructor import (BottleneckBlock, ListStrMod, ModelCfg,
-                                ModelConstructor)
+from .blocks import BottleneckBlock
+from .helpers import ListStrMod, nn_seq, ModSeq
+from .model_constructor import ModelCfg, ModelConstructor
 
 __all__ = [
     "XResNet",
@@ -14,7 +14,7 @@ __all__ = [
 ]
 
 
-def xresnet_stem(cfg: ModelCfg) -> nn.Sequential:  # type: ignore
+def xresnet_stem(cfg: ModelCfg) -> nn.Sequential:
     """Create xResnet stem -> 3 conv 3*3 instead 1 conv 7*7"""
     len_stem = len(cfg.stem_sizes)
     stem: ListStrMod = [
@@ -39,17 +39,17 @@ def xresnet_stem(cfg: ModelCfg) -> nn.Sequential:  # type: ignore
 
 
 class XResNet(ModelConstructor):
-    make_stem: Callable[[ModelCfg], Union[nn.Module, nn.Sequential]] = xresnet_stem
-    stem_sizes: list[int] = [32, 32, 64]
+    make_stem: Callable[[ModelCfg], ModSeq] = xresnet_stem
+    stem_sizes: List[int] = [32, 32, 64]
     pool: Optional[Callable[[Any], nn.Module]] = partial(
         nn.AvgPool2d, kernel_size=2, ceil_mode=True
     )
 
 
 class XResNet34(XResNet):
-    layers: list[int] = [3, 4, 6, 3]
+    layers: List[int] = [3, 4, 6, 3]
 
 
 class XResNet50(XResNet34):
-    block: type[nn.Module] = BottleneckBlock
-    block_sizes: list[int] = [256, 512, 1024, 2048]
+    block: Type[nn.Module] = BottleneckBlock
+    block_sizes: List[int] = [256, 512, 1024, 2048]

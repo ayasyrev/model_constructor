@@ -1,9 +1,11 @@
 from collections import OrderedDict
-from typing import List, Optional, Type, Union
+from typing import Optional, Type, Union
 
 import torch
 from torch import nn
 from torch.nn.utils.spectral_norm import spectral_norm
+
+from .helpers import ListStrMod
 
 __all__ = [
     "Flatten",
@@ -70,10 +72,9 @@ class ConvBnAct(nn.Sequential):
         bn_1st: bool = True,
         zero_bn: bool = False,
     ):
-
         if padding is None:
             padding = kernel_size // 2
-        layers: List[tuple[str, nn.Module]] = [
+        layers: ListStrMod = [
             (
                 "conv",
                 self.convolution_module(
@@ -124,7 +125,6 @@ class ConvLayer(nn.Sequential):
         groups=1,
         **kwargs  # pylint: disable=unused-argument
     ):
-
         if padding is None:
             padding = ks // 2
         layers = [
@@ -197,6 +197,7 @@ class SimpleSelfAttention(nn.Module):
 
 class SEBlock(nn.Module):
     """se block"""
+
     # first version
     se_layer = nn.Linear
     act_fn = nn.ReLU(inplace=True)
@@ -226,6 +227,7 @@ class SEBlock(nn.Module):
 
 class SEBlockConv(nn.Module):
     """se block with conv on excitation"""
+
     # first version
     se_layer = nn.Conv2d
     act_fn = nn.ReLU(inplace=True)
@@ -258,14 +260,14 @@ class SEModule(nn.Module):
 
     def __init__(
         self,
-        channels,
-        reduction=16,
-        rd_channels=None,
-        rd_max=False,
-        se_layer=nn.Linear,
-        act_fn=nn.ReLU(inplace=True),
-        use_bias=True,
-        gate=nn.Sigmoid,
+        channels: int,
+        reduction: int = 16,
+        rd_channels: Optional[int] = None,
+        rd_max: bool = False,
+        se_layer: Type[nn.Module] = nn.Linear,
+        act_fn: nn.Module = nn.ReLU(inplace=True),
+        use_bias: bool = True,
+        gate: Type[nn.Module] = nn.Sigmoid,
     ):
         super().__init__()
         reducted = max(channels // reduction, 1)  # preserve zero-element tensors
@@ -286,7 +288,7 @@ class SEModule(nn.Module):
             )
         )
 
-    def forward(self, x):
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
         bs, c, _, _ = x.shape
         y = self.squeeze(x).view(bs, c)
         y = self.excitation(y).view(bs, c, 1, 1)
@@ -298,14 +300,14 @@ class SEModuleConv(nn.Module):
 
     def __init__(
         self,
-        channels,
-        reduction=16,
-        rd_channels=None,
-        rd_max=False,
-        se_layer=nn.Conv2d,
-        act_fn=nn.ReLU(inplace=True),
-        use_bias=True,
-        gate=nn.Sigmoid,
+        channels: int,
+        reduction: int = 16,
+        rd_channels: Optional[int] = None,
+        rd_max: bool = False,
+        se_layer: Type[nn.Module] = nn.Conv2d,
+        act_fn: nn.Module = nn.ReLU(inplace=True),
+        use_bias: bool = True,
+        gate: Type[nn.Module] = nn.Sigmoid,
     ):
         super().__init__()
         #       rd_channels = math.ceil(channels//reduction/8)*8
@@ -327,7 +329,7 @@ class SEModuleConv(nn.Module):
             )
         )
 
-    def forward(self, x):
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
         y = self.squeeze(x)
         y = self.excitation(y)
         return x * y.expand_as(x)

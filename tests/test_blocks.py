@@ -5,7 +5,7 @@ import torch
 from torch import nn
 
 from model_constructor.layers import SEModule, SimpleSelfAttention
-from model_constructor.model_constructor import BasicBlock, BottleneckBlock
+from model_constructor.blocks import BasicBlock, BottleneckBlock
 from model_constructor.yaresnet import YaBasicBlock, YaBottleneckBlock
 
 from .parameters import ids_fn

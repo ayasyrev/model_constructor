@@ -3,18 +3,20 @@
 # Adopted from https://github.com/tmp-iclr/convmixer
 # Home for convmixer: https://github.com/locuslab/convmixer
 from collections import OrderedDict
-from typing import Callable, List, Optional, Union
+from typing import Callable, Optional, Tuple, Union
 
+import torch
 import torch.nn as nn
-from torch import TensorType
+
+from .helpers import ListStrMod
 
 
 class Residual(nn.Module):
-    def __init__(self, fn: Callable[[TensorType], TensorType]):
+    def __init__(self, fn: Callable[[torch.Tensor], torch.Tensor]):
         super().__init__()
         self.fn = fn
 
-    def forward(self, x: TensorType) -> TensorType:
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
         return self.fn(x) + x
 
 
@@ -59,7 +61,7 @@ class ConvLayer(nn.Sequential):
         self,
         in_channels: int,
         out_channels: int,
-        kernel_size: Union[int, tuple[int, int]],
+        kernel_size: Union[int, Tuple[int, int]],
         stride: int = 1,
         act_fn: nn.Module = nn.GELU(),
         padding: Union[int, str] = 0,
@@ -67,8 +69,7 @@ class ConvLayer(nn.Sequential):
         bn_1st: bool = False,
         pre_act: bool = False,
     ):
-
-        conv_layer: List[tuple[str, nn.Module]] = [
+        conv_layer: ListStrMod = [
             (
                 "conv",
                 nn.Conv2d(
@@ -81,7 +82,7 @@ class ConvLayer(nn.Sequential):
                 ),
             )
         ]
-        act_bn: List[tuple[str, nn.Module]] = [
+        act_bn: ListStrMod = [
             ("act_fn", act_fn),
             ("bn", nn.BatchNorm2d(out_channels)),
         ]

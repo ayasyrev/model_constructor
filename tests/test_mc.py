@@ -2,8 +2,9 @@ from functools import partial
 
 import torch
 
+from model_constructor.blocks import BasicBlock, BottleneckBlock
 from model_constructor.layers import SEModule, SEModuleConv, SimpleSelfAttention
-from model_constructor.model_constructor import BottleneckBlock, ModelConstructor
+from model_constructor.model_constructor import ModelCfg, ModelConstructor
 
 bs_test = 4
 in_chans = 3
@@ -93,3 +94,49 @@ def test_MC_bottleneck():
     assert model.body.l_0.bl_0.convs.conv_0.conv.in_channels == 64
     assert model.body.l_0.bl_0.convs.conv_0.conv.out_channels == 128
     assert model.body.l_0.bl_1.convs.conv_0.conv.in_channels == 256
+
+
+def test_ModelCfg():
+    """test ModelCfg"""
+    # default - just create config with custom name
+    cfg = ModelCfg(name="custom_name")
+    repr_str = repr(cfg)
+    assert repr_str.startswith("custom_name")
+    # initiate from string
+    cfg = ModelCfg(act_fn="torch.nn.Mish")
+    assert cfg.act_fn is torch.nn.Mish
+    # wrong name
+    try:
+        cfg = ModelCfg(act_fn="wrong_name")
+    except ImportError as err:
+        assert str(err) == "Module wrong_name not found at torch.nn"
+    cfg = ModelCfg(act_fn="nn.Tanh")
+    assert cfg.act_fn is torch.nn.Tanh
+    cfg = ModelCfg(block="model_constructor.blocks.BottleneckBlock")
+    assert cfg.block is BottleneckBlock
+    # se from string
+    cfg = ModelCfg(se="model_constructor.layers.SEModuleConv")
+    assert cfg.se is SEModuleConv
+
+
+def test_create_model_class_methods():
+    """test class methods ModelConstructor"""
+    # create model
+    model = ModelConstructor.create_model(act_fn="Mish", num_classes=10)
+    assert str(model.body.l_0.bl_0.convs.conv_0.act_fn) == "Mish(inplace=True)"
+    pred = model(xb)
+    assert pred.shape == torch.Size([bs_test, 10])
+    # from cfg
+    cfg = ModelCfg(block=BottleneckBlock, num_classes=10)
+    mc = ModelConstructor.from_cfg(cfg)
+    model = mc()
+    assert isinstance(model.body.l_0.bl_0, BottleneckBlock)
+    pred = model(xb)
+    assert pred.shape == torch.Size([bs_test, 10])
+
+    cfg.block = BasicBlock
+    cfg.num_classes = 2
+    model = ModelConstructor.create_model(cfg)
+    assert isinstance(model.body.l_0.bl_0, BasicBlock)
+    pred = model(xb)
+    assert pred.shape == torch.Size([bs_test, 2])

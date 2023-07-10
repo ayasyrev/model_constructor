@@ -3,7 +3,6 @@
 # Used in examples.
 # first implementation of xresnet - inspired by fastai version.
 from collections import OrderedDict
-from functools import partial
 
 import torch.nn as nn
 
@@ -95,8 +94,8 @@ class Bottleneck(nn.Module):
         ni = ni * expansion
         nf = nh * expansion
         self.conv = nn.Sequential(OrderedDict([
-            ('conv_0', conv_layer(ni, nh, ks=1,            act_fn=act_fn, **kwargs)),   # noqa: E241
-            ('conv_1', conv_layer(nh, nh, stride=stride,   act_fn=act_fn, **kwargs)),   # noqa: E241
+            ('conv_0', conv_layer(ni, nh, ks=1, act_fn=act_fn, **kwargs)),
+            ('conv_1', conv_layer(nh, nh, stride=stride, act_fn=act_fn, **kwargs)),
             ('conv_2', conv_layer(nh, nf, ks=1, zero_bn=zero_bn, act=False, act_fn=act_fn, **kwargs))]))
         if self.downsample:
             self.downsample = downsample_block(conv_layer, ni, nf, ks=1,
