@@ -114,6 +114,9 @@ def test_ModelCfg():
     assert cfg.act_fn is torch.nn.Tanh
     cfg = ModelCfg(block="model_constructor.blocks.BottleneckBlock")
     assert cfg.block is BottleneckBlock
+    # se from string
+    cfg = ModelCfg(se="model_constructor.layers.SEModuleConv")
+    assert cfg.se is SEModuleConv
 
 
 def test_create_model_class_methods():

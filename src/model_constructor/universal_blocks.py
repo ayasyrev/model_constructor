@@ -1,4 +1,4 @@
-from typing import Callable, Optional
+from typing import Callable, List, Optional, Type
 
 import torch
 from torch import nn
@@ -26,8 +26,8 @@ class XResBlock(nn.Module):
         in_channels: int,
         mid_channels: int,
         stride: int = 1,
-        conv_layer: type[ConvBnAct] = ConvBnAct,
-        act_fn: type[nn.Module] = nn.ReLU,
+        conv_layer: Type[ConvBnAct] = ConvBnAct,
+        act_fn: Type[nn.Module] = nn.ReLU,
         zero_bn: bool = True,
         bn_1st: bool = True,
         groups: int = 1,
@@ -150,16 +150,16 @@ class YaResBlock(nn.Module):
         in_channels: int,
         mid_channels: int,
         stride: int = 1,
-        conv_layer: type[ConvBnAct] = ConvBnAct,
-        act_fn: type[nn.Module] = nn.ReLU,
+        conv_layer: Type[ConvBnAct] = ConvBnAct,
+        act_fn: Type[nn.Module] = nn.ReLU,
         zero_bn: bool = True,
         bn_1st: bool = True,
         groups: int = 1,
         dw: bool = False,
         div_groups: Optional[int] = None,
         pool: Optional[Callable[[], nn.Module]] = None,
-        se: Optional[type[nn.Module]] = None,
-        sa: Optional[type[nn.Module]] = None,
+        se: Optional[Type[nn.Module]] = None,
+        sa: Optional[Type[nn.Module]] = None,
     ):
         super().__init__()
         # pool defined at ModelConstructor.
@@ -265,7 +265,7 @@ class YaResBlock(nn.Module):
 def make_stem(cfg: ModelCfg) -> nn.Sequential:
     """Create xResnet stem -> 3 conv 3*3 instead of 1 conv 7*7"""
     len_stem = len(cfg.stem_sizes)
-    stem: list[tuple[str, nn.Module]] = [
+    stem: ListStrMod = [
         (
             f"conv_{i}",
             cfg.conv_layer(
@@ -341,11 +341,11 @@ class XResNet(ModelConstructor):
     make_layer: Callable[[ModelCfg, int], ModSeq] = make_layer
     make_body: Callable[[ModelCfg], ModSeq] = make_body
     make_head: Callable[[ModelCfg], ModSeq] = make_head
-    block: type[nn.Module] = XResBlock
+    block: Type[nn.Module] = XResBlock
 
 
 class XResNet34(XResNet):
-    layers: list[int] = [3, 4, 6, 3]
+    layers: List[int] = [3, 4, 6, 3]
 
 
 class XResNet50(XResNet34):
@@ -357,13 +357,13 @@ class YaResNet(XResNet):
     YaResBlock, Mish activation, custom stem.
     """
 
-    block: type[nn.Module] = YaResBlock
-    stem_sizes: list[int] = [3, 32, 64, 64]
-    act_fn: type[nn.Module] = nn.Mish
+    block: Type[nn.Module] = YaResBlock
+    stem_sizes: List[int] = [3, 32, 64, 64]
+    act_fn: Type[nn.Module] = nn.Mish
 
 
 class YaResNet34(YaResNet):
-    layers: list[int] = [3, 4, 6, 3]
+    layers: List[int] = [3, 4, 6, 3]
 
 
 class YaResNet50(YaResNet34):

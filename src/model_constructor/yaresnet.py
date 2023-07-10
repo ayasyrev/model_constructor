@@ -2,7 +2,7 @@
 # Yet another ResNet.
 
 from functools import partial
-from typing import Any, Callable, Optional
+from typing import Any, Callable, List, Optional, Type
 
 import torch
 from torch import nn
@@ -32,8 +32,8 @@ class YaBasicBlock(nn.Module):
         in_channels: int,
         out_channels: int,
         stride: int = 1,
-        conv_layer: type[ConvBnAct] = ConvBnAct,
-        act_fn: type[nn.Module] = nn.ReLU,
+        conv_layer: Type[ConvBnAct] = ConvBnAct,
+        act_fn: Type[nn.Module] = nn.ReLU,
         zero_bn: bool = True,
         bn_1st: bool = True,
         groups: int = 1,
@@ -117,8 +117,8 @@ class YaBottleneckBlock(nn.Module):
         out_channels: int,
         stride: int = 1,
         expansion: int = 4,
-        conv_layer: type[ConvBnAct] = ConvBnAct,
-        act_fn: type[nn.Module] = nn.ReLU,
+        conv_layer: Type[ConvBnAct] = ConvBnAct,
+        act_fn: Type[nn.Module] = nn.ReLU,
         zero_bn: bool = True,
         bn_1st: bool = True,
         groups: int = 1,
@@ -204,18 +204,18 @@ class YaBottleneckBlock(nn.Module):
 
 class YaResNet(ModelConstructor):
     make_stem: Callable[[ModelCfg], ModSeq] = xresnet_stem
-    stem_sizes: list[int] = [32, 64, 64]
-    block: type[nn.Module] = YaBasicBlock
-    act_fn: type[nn.Module] = nn.Mish
+    stem_sizes: List[int] = [32, 64, 64]
+    block: Type[nn.Module] = YaBasicBlock
+    act_fn: Type[nn.Module] = nn.Mish
     pool: Optional[Callable[[Any], nn.Module]] = partial(
         nn.AvgPool2d, kernel_size=2, ceil_mode=True
     )
 
 
 class YaResNet34(YaResNet):
-    layers: list[int] = [3, 4, 6, 3]
+    layers: List[int] = [3, 4, 6, 3]
 
 
 class YaResNet50(YaResNet34):
-    block: type[nn.Module] = YaBottleneckBlock
-    block_sizes: list[int] = [256, 512, 1024, 2048]
+    block: Type[nn.Module] = YaBottleneckBlock
+    block_sizes: List[int] = [256, 512, 1024, 2048]

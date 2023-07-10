@@ -1,4 +1,4 @@
-from typing import Callable, Optional
+from typing import Callable, Optional, Type
 
 import torch
 from torch import nn
@@ -16,8 +16,8 @@ class BasicBlock(nn.Module):
         in_channels: int,
         out_channels: int,
         stride: int = 1,
-        conv_layer: type[ConvBnAct] = ConvBnAct,
-        act_fn: type[nn.Module] = nn.ReLU,
+        conv_layer: Type[ConvBnAct] = ConvBnAct,
+        act_fn: Type[nn.Module] = nn.ReLU,
         zero_bn: bool = True,
         bn_1st: bool = True,
         groups: int = 1,
@@ -101,8 +101,8 @@ class BottleneckBlock(nn.Module):
         out_channels: int,
         stride: int = 1,
         expansion: int = 4,
-        conv_layer: type[ConvBnAct] = ConvBnAct,
-        act_fn: type[nn.Module] = nn.ReLU,
+        conv_layer: Type[ConvBnAct] = ConvBnAct,
+        act_fn: Type[nn.Module] = nn.ReLU,
         zero_bn: bool = True,
         bn_1st: bool = True,
         groups: int = 1,

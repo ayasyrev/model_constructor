@@ -1,16 +1,16 @@
 import importlib
 from collections import OrderedDict
 from functools import partial
-from typing import Any, Iterable, Optional, Union
+from typing import Any, Dict, Iterable, List, Optional, Tuple, Union
 
 from pydantic import BaseModel
 from torch import nn
 
-ListStrMod = list[tuple[str, nn.Module]]
+ListStrMod = List[Tuple[str, nn.Module]]
 ModSeq = Union[nn.Module, nn.Sequential]
 
 
-def nn_seq(list_of_tuples: Iterable[tuple[str, nn.Module]]) -> nn.Sequential:
+def nn_seq(list_of_tuples: Iterable[Tuple[str, nn.Module]]) -> nn.Sequential:
     """return nn.Sequential from OrderedDict from list of tuples"""
     return nn.Sequential(OrderedDict(list_of_tuples))
 
@@ -86,14 +86,14 @@ class Cfg(BaseModel):
     def __repr__(self) -> str:
         return f"{self.__repr_name__()}(\n  {self.__repr_str__(chr(10) + '  ')})"
 
-    def __repr_args__(self) -> list[tuple[str, str]]:
+    def __repr_args__(self) -> List[Tuple[str, str]]:
         return [
             (field, str_value)
             for field in self.model_fields
             if (str_value := self._get_str_value(field))
         ]
 
-    def __repr_set_fields__(self) -> list[str]:
+    def __repr_set_fields__(self) -> List[str]:
         """Return list repr for fields set at init"""
         return [
             f"{field}: {self._get_str_value(field)}"
@@ -101,7 +101,7 @@ class Cfg(BaseModel):
             if field != "name"
         ]
 
-    def __repr_changed_fields__(self) -> list[str]:
+    def __repr_changed_fields__(self) -> List[str]:
         """Return list repr for changed fields"""
         return [
             f"{field}: {self._get_str_value(field)}"
@@ -110,7 +110,7 @@ class Cfg(BaseModel):
         ]
 
     @property
-    def changed_fields(self) -> dict[str, Any]:
+    def changed_fields(self) -> Dict[str, Any]:
         # return "\n".join(self.__repr_changed_fields__())
         return {
             field: self._get_str_value(field)
