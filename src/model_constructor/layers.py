@@ -1,9 +1,11 @@
 from collections import OrderedDict
-from typing import List, Optional, Type, Union
+from typing import Optional, Type, Union
 
 import torch
 from torch import nn
 from torch.nn.utils.spectral_norm import spectral_norm
+
+from .helpers import ListStrMod
 
 __all__ = [
     "Flatten",
@@ -72,7 +74,7 @@ class ConvBnAct(nn.Sequential):
     ):
         if padding is None:
             padding = kernel_size // 2
-        layers: List[tuple[str, nn.Module]] = [
+        layers: ListStrMod = [
             (
                 "conv",
                 self.convolution_module(
@@ -262,10 +264,10 @@ class SEModule(nn.Module):
         reduction: int = 16,
         rd_channels: Optional[int] = None,
         rd_max: bool = False,
-        se_layer: type[nn.Module] = nn.Linear,
+        se_layer: Type[nn.Module] = nn.Linear,
         act_fn: nn.Module = nn.ReLU(inplace=True),
         use_bias: bool = True,
-        gate: type[nn.Module] = nn.Sigmoid,
+        gate: Type[nn.Module] = nn.Sigmoid,
     ):
         super().__init__()
         reducted = max(channels // reduction, 1)  # preserve zero-element tensors
@@ -302,10 +304,10 @@ class SEModuleConv(nn.Module):
         reduction: int = 16,
         rd_channels: Optional[int] = None,
         rd_max: bool = False,
-        se_layer: type[nn.Module] = nn.Conv2d,
+        se_layer: Type[nn.Module] = nn.Conv2d,
         act_fn: nn.Module = nn.ReLU(inplace=True),
         use_bias: bool = True,
-        gate: type[nn.Module] = nn.Sigmoid,
+        gate: Type[nn.Module] = nn.Sigmoid,
     ):
         super().__init__()
         #       rd_channels = math.ceil(channels//reduction/8)*8
