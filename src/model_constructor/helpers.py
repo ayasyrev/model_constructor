@@ -120,7 +120,7 @@ class Cfg(BaseModel):
 
     def print_cfg(self) -> None:
         """Print full config"""
-        print(self.__repr__())
+        print(repr(self))
 
     def print_set_fields(self) -> None:
         """Print fields changed at init."""

@@ -100,7 +100,7 @@ def test_ModelCfg():
     """test ModelCfg"""
     # default - just create config with custom name
     cfg = ModelCfg(name="custom_name")
-    repr_str = cfg.__repr__()
+    repr_str = repr(cfg)
     assert repr_str.startswith("custom_name")
     # initiate from string
     cfg = ModelCfg(act_fn="torch.nn.Mish")
