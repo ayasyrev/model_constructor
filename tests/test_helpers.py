@@ -75,16 +75,27 @@ def test_cfg_repr_print(capsys: CaptureFixture[str]):
     cfg.print_set_fields()
     out = capsys.readouterr().out
     assert out == "Set fields:\nint_value: 0\n"
+
     # Changed fields
     cfg = Cfg2(name="cfg_name")
     assert cfg.changed_fields == {"name": "cfg_name"}
     cfg.int_value = 1
     cfg.name = None
     assert cfg.changed_fields == {"int_value": 1}
+
     # print
     cfg.print_changed_fields()
     out = capsys.readouterr().out
     assert out == "Changed fields:\nint_value: 1\n"
+
+    cfg.print_changed_fields(show_default=True)
+    out = capsys.readouterr().out
+    assert out == "Changed fields:\nint_value: 1 | 10\n"
+
+    cfg.print_changed_fields(show_default=True, separator=" / ")
+    out = capsys.readouterr().out
+    assert out == "Changed fields:\nint_value: 1 / 10\n"
+
     # return to default
     cfg.int_value = 10
     assert not cfg.changed_fields
