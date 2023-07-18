@@ -85,11 +85,14 @@ class Cfg(BaseModel):
     def _get_str_value(self, field: str) -> str:
         return self._get_str(getattr(self, field))
 
-    def __repr__(self) -> str:
+    def _cfg_str(self) -> str:
         return f"{self.__repr_name__()}(\n  {self.__repr_str__(chr(10) + '  ')})"
 
+    def __repr__(self) -> str:
+        return self._cfg_str()
+
     def __str__(self) -> str:
-        return f"{self.__repr_name__()}(\n  {self.__repr_str__(chr(10) + '  ')})"
+        return self._cfg_str()
 
     def __repr_args__(self) -> List[Tuple[str, str]]:
         return [
@@ -125,7 +128,7 @@ class Cfg(BaseModel):
 
     def print_cfg(self) -> None:
         """Print full config"""
-        print(repr(self))
+        print(self._cfg_str())
 
     def print_set_fields(self) -> None:
         """Print fields changed at init."""

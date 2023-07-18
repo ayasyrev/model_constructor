@@ -11,7 +11,7 @@ conv_layer = ConvBnAct(32, 32)
 conv_layer
 ```
 <details> <summary>output</summary>  
-    </pre>ConvBnAct(
+    <pre>ConvBnAct(
       (conv): Conv2d(32, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
       (bn): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
       (act_fn): ReLU(inplace=True)
@@ -27,7 +27,7 @@ conv_layer = ConvBnAct(32, 32, kernel_size=1)
 conv_layer
 ```
 <details> <summary>output</summary>  
-    </pre>ConvBnAct(
+    <pre>ConvBnAct(
       (conv): Conv2d(32, 32, kernel_size=(1, 1), stride=(1, 1), bias=False)
       (bn): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
       (act_fn): ReLU(inplace=True)
@@ -43,7 +43,7 @@ conv_layer = ConvBnAct(32, 32, stride=2)
 conv_layer
 ```
 <details> <summary>output</summary>  
-    </pre>ConvBnAct(
+    <pre>ConvBnAct(
       (conv): Conv2d(32, 32, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
       (bn): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
       (act_fn): ReLU(inplace=True)
@@ -59,7 +59,7 @@ conv_layer = ConvBnAct(32, 32, groups=32)
 conv_layer
 ```
 <details> <summary>output</summary>  
-    </pre>ConvBnAct(
+    <pre>ConvBnAct(
       (conv): Conv2d(32, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=32, bias=False)
       (bn): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
       (act_fn): ReLU(inplace=True)
@@ -75,7 +75,7 @@ conv_layer = ConvBnAct(32, 64, act_fn=False)
 conv_layer
 ```
 <details> <summary>output</summary>  
-    </pre>ConvBnAct(
+    <pre>ConvBnAct(
       (conv): Conv2d(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
       (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
     )</pre>
@@ -90,7 +90,7 @@ conv_layer = ConvBnAct(32, 64, bn_layer=False)
 conv_layer
 ```
 <details> <summary>output</summary>  
-    </pre>ConvBnAct(
+    <pre>ConvBnAct(
       (conv): Conv2d(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
       (act_fn): ReLU(inplace=True)
     )</pre>
@@ -105,7 +105,7 @@ conv_layer = ConvBnAct(32, 64, pre_act=True)
 conv_layer
 ```
 <details> <summary>output</summary>  
-    </pre>ConvBnAct(
+    <pre>ConvBnAct(
       (act_fn): ReLU(inplace=True)
       (conv): Conv2d(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
       (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
@@ -131,7 +131,7 @@ conv_layer = ConvBnAct(32, 64, bn_1st=True, pre_act=True)
 conv_layer
 ```
 <details> <summary>output</summary>  
-    </pre>ConvBnAct(
+    <pre>ConvBnAct(
       (act_fn): ReLU(inplace=True)
       (conv): Conv2d(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
       (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
@@ -147,7 +147,7 @@ conv_layer = ConvBnAct(32, 64, bn_1st=True)
 conv_layer
 ```
 <details> <summary>output</summary>  
-    </pre>ConvBnAct(
+    <pre>ConvBnAct(
       (conv): Conv2d(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
       (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
       (act_fn): ReLU(inplace=True)
@@ -163,7 +163,7 @@ conv_layer = ConvBnAct(32, 64, bn_1st=True, act_fn=nn.LeakyReLU)
 conv_layer
 ```
 <details> <summary>output</summary>  
-    </pre>ConvBnAct(
+    <pre>ConvBnAct(
       (conv): Conv2d(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
       (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
       (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)

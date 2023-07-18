@@ -95,7 +95,7 @@ block = BottleneckBlock(64, 64, expansion=2, act_fn=nn.LeakyReLU, bn_1st=False)
 block
 ```
 <details> <summary>output</summary>  
-    </pre>BottleneckBlock(
+    <pre>BottleneckBlock(
       (convs): Sequential(
         (conv_0): ConvBnAct(
           (conv): Conv2d(64, 32, kernel_size=(1, 1), stride=(1, 1), bias=False)
@@ -125,7 +125,7 @@ lock = BottleneckBlock(32, 64, expansion=2, dw=True)
 block
 ```
 <details> <summary>output</summary>  
-    </pre>BottleneckBlock(
+    <pre>BottleneckBlock(
       (convs): Sequential(
         (conv_0): ConvBnAct(
           (conv): Conv2d(64, 32, kernel_size=(1, 1), stride=(1, 1), bias=False)
@@ -160,7 +160,7 @@ block = BottleneckBlock(32, 64, stride=2, dw=True, pool=pool)
 block
 ```
 <details> <summary>output</summary>  
-    </pre>BottleneckBlock(
+    <pre>BottleneckBlock(
       (convs): Sequential(
         (conv_0): ConvBnAct(
           (conv): Conv2d(32, 16, kernel_size=(1, 1), stride=(1, 1), bias=False)
@@ -202,7 +202,7 @@ block = BottleneckBlock(32, 64, stride=2, dw=True, pool=pool, se=SEModule)
 block
 ```
 <details> <summary>output</summary>  
-    </pre>BottleneckBlock(
+    <pre>BottleneckBlock(
       (convs): Sequential(
         (conv_0): ConvBnAct(
           (conv): Conv2d(32, 16, kernel_size=(1, 1), stride=(1, 1), bias=False)
@@ -248,7 +248,7 @@ block = BottleneckBlock(32, 64, stride=2, dw=True, pool=pool, se=SEModule, sa=Si
 block
 ```
 <details> <summary>output</summary>  
-    </pre>BottleneckBlock(
+    <pre>BottleneckBlock(
       (convs): Sequential(
         (conv_0): ConvBnAct(
           (conv): Conv2d(32, 16, kernel_size=(1, 1), stride=(1, 1), bias=False)
