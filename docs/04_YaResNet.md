@@ -16,7 +16,7 @@ bl = YaBasicBlock(64, 64)
 bl
 ```
 <details> <summary>output</summary>  
-    </pre>YaBasicBlock(
+    <pre>YaBasicBlock(
       (convs): Sequential(
         (conv_0): ConvBnAct(
           (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
@@ -46,7 +46,7 @@ bl = YaBottleneckBlock(64, 128, stride=2, pool=pool, act_fn=nn.LeakyReLU, bn_1st
 bl
 ```
 <details> <summary>output</summary>  
-    </pre>YaBottleneckBlock(
+    <pre>YaBottleneckBlock(
       (reduce): AvgPool2d(kernel_size=2, stride=2, padding=0)
       (convs): Sequential(
         (conv_0): ConvBnAct(
@@ -90,7 +90,7 @@ bl = YaBottleneckBlock(
 bl
 ```
 <details> <summary>output</summary>  
-    </pre>YaBottleneckBlock(
+    <pre>YaBottleneckBlock(
       (reduce): AvgPool2d(kernel_size=2, stride=2, padding=0)
       (convs): Sequential(
         (conv_0): ConvBnAct(
@@ -133,7 +133,7 @@ bl = YaBottleneckBlock(
 bl
 ```
 <details> <summary>output</summary>  
-    </pre>YaBottleneckBlock(
+    <pre>YaBottleneckBlock(
       (reduce): AvgPool2d(kernel_size=2, stride=2, padding=0)
       (convs): Sequential(
         (conv_0): ConvBnAct(
@@ -176,7 +176,7 @@ bl = YaBasicBlock(
 bl
 ```
 <details> <summary>output</summary>  
-    </pre>YaBasicBlock(
+    <pre>YaBasicBlock(
       (reduce): AvgPool2d(kernel_size=2, stride=2, padding=0)
       (convs): Sequential(
         (conv_0): ConvBnAct(
@@ -221,7 +221,7 @@ bl = YaBottleneckBlock(
 bl
 ```
 <details> <summary>output</summary>  
-    </pre>YaBottleneckBlock(
+    <pre>YaBottleneckBlock(
       (reduce): AvgPool2d(kernel_size=2, stride=2, padding=0)
       (convs): Sequential(
         (conv_0): ConvBnAct(
@@ -273,7 +273,7 @@ bl = YaBottleneckBlock(
 bl
 ```
 <details> <summary>output</summary>  
-    </pre>YaBottleneckBlock(
+    <pre>YaBottleneckBlock(
       (reduce): AvgPool2d(kernel_size=2, stride=2, padding=0)
       (convs): Sequential(
         (conv_0): ConvBnAct(
@@ -307,8 +307,10 @@ bl
 
 ```python
 
-bl = YaResBlock(
-    4, 64, 128,
+bl = YaBottleneckBlock(
+    64,
+    128,
+    expansion=4,
     stride=2,
     pool=pool,
     act_fn=nn.LeakyReLU,
@@ -318,39 +320,39 @@ bl = YaResBlock(
 bl
 ```
 <details> <summary>output</summary>  
-    </pre>YaResBlock(
+    <pre>YaBottleneckBlock(
       (reduce): AvgPool2d(kernel_size=2, stride=2, padding=0)
       (convs): Sequential(
         (conv_0): ConvBnAct(
-          (conv): Conv2d(256, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
-          (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (conv): Conv2d(64, 32, kernel_size=(1, 1), stride=(1, 1), bias=False)
+          (bn): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
           (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
         )
         (conv_1): ConvBnAct(
-          (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=128, bias=False)
-          (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (conv): Conv2d(32, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=32, bias=False)
+          (bn): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
           (act_fn): LeakyReLU(negative_slope=0.01, inplace=True)
         )
         (conv_2): ConvBnAct(
-          (conv): Conv2d(128, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
-          (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (conv): Conv2d(32, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
+          (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
         )
         (se): SEModule(
           (squeeze): AdaptiveAvgPool2d(output_size=1)
           (excitation): Sequential(
-            (reduce): Linear(in_features=512, out_features=32, bias=True)
+            (reduce): Linear(in_features=128, out_features=8, bias=True)
             (se_act): ReLU(inplace=True)
-            (expand): Linear(in_features=32, out_features=512, bias=True)
+            (expand): Linear(in_features=8, out_features=128, bias=True)
             (se_gate): Sigmoid()
           )
         )
         (sa): SimpleSelfAttention(
-          (conv): Conv1d(512, 512, kernel_size=(1,), stride=(1,), bias=False)
+          (conv): Conv1d(128, 128, kernel_size=(1,), stride=(1,), bias=False)
         )
       )
       (id_conv): ConvBnAct(
-        (conv): Conv2d(256, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
-        (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (conv): Conv2d(64, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
       )
       (merge): LeakyReLU(negative_slope=0.01, inplace=True)
     )</pre>
@@ -409,7 +411,7 @@ yaresnet.print_changed_fields()
 yaresnet.stem
 ```
 <details> <summary>output</summary>  
-    </pre>Sequential(
+    <pre>Sequential(
       (conv_0): ConvBnAct(
         (conv): Conv2d(3, 3, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
         (bn): BatchNorm2d(3, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
@@ -442,7 +444,7 @@ yaresnet.stem
 yaresnet.body
 ```
 <details> <summary>output</summary>  
-    </pre>Sequential(
+    <pre>Sequential(
       (l_0): Sequential(
         (bl_0): YaBasicBlock(
           (convs): Sequential(
@@ -601,7 +603,7 @@ yaresnet.body
 yaresnet.head
 ```
 <details> <summary>output</summary>  
-    </pre>Sequential(
+    <pre>Sequential(
       (pool): AdaptiveAvgPool2d(output_size=1)
       (flat): Flatten(start_dim=1, end_dim=-1)
       (fc): Linear(in_features=512, out_features=1000, bias=True)
@@ -619,7 +621,7 @@ yaresnet.act_fn = torch.nn.Mish
 yaresnet()
 ```
 <details> <summary>output</summary>  
-    </pre>YaResNet(
+    <pre>YaResNet(
       block: YaBasicBlock, act_fn: Mish, stem_sizes: [3, 32, 64, 64], make_stem: xresnet_stem
       (stem): Sequential(
         (conv_0): ConvBnAct(

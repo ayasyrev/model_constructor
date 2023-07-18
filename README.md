@@ -51,13 +51,26 @@ Check all parameters with `print_cfg` method:
 mc.print_cfg()
 ```
 <details open> <summary>output</summary>  
-    <pre>ModelConstructor
-      in_chans: 3, num_classes: 1000
-      expansion: 1, groups: 1, dw: False, div_groups: None
-      act_fn: ReLU, sa: False, se: False
-      stem sizes: [64], stride on 0
-      body sizes [64, 128, 256, 512]
-      layers: [2, 2, 2, 2]
+    <pre>ModelConstructor(
+      in_chans=3
+      num_classes=1000
+      block='BasicBlock'
+      conv_layer='ConvBnAct'
+      block_sizes=[64, 128, 256, 512]
+      layers=[2, 2, 2, 2]
+      norm='BatchNorm2d'
+      act_fn='ReLU'
+      expansion=1
+      groups=1
+      bn_1st=True
+      zero_bn=True
+      stem_sizes=[64]
+      stem_pool="MaxPool2d {'kernel_size': 3, 'stride': 2, 'padding': 1}"
+      init_cnn='init_cnn'
+      make_stem='make_stem'
+      make_layer='make_layer'
+      make_body='make_body'
+      make_head='make_head')
     </pre>
 </details>
 
@@ -70,7 +83,7 @@ model = mc()
 model
 ```
 <details> <summary>output</summary>  
-    </pre>ModelConstructor(
+    <pre>ModelConstructor(
       (stem): Sequential(
         (conv_1): ConvBnAct(
           (conv): Conv2d(3, 64, kernel_size=(7, 7), stride=(2, 2), padding=(3, 3), bias=False)
@@ -261,6 +274,19 @@ mc.print_changed_fields()
     </pre>
 </details>
 
+We can compare changed with defaults.
+
+
+```python
+mc.print_changed_fields(show_default=True)
+```
+<details open> <summary>output</summary>  
+    <pre>Changed fields:
+    layers: [3, 4, 6, 3] | [2, 2, 2, 2]
+    expansion: 4 | 1
+    </pre>
+</details>
+
 Now we can look at model parts - stem, body, head.  
 
 
@@ -269,7 +295,7 @@ Now we can look at model parts - stem, body, head.
 mc.body
 ```
 <details> <summary>output</summary>  
-    </pre>Sequential(
+    <pre>Sequential(
       (l_0): Sequential(
         (bl_0): BasicBlock(
           (convs): Sequential(
@@ -543,7 +569,21 @@ cfg = ModelCfg(
 print(cfg)
 ```
 <details open> <summary>output</summary>  
-    <pre>in_chans=3 num_classes=10 block='BasicBlock' conv_layer='ConvBnAct' block_sizes=[64, 128, 256, 512] layers=[2, 2, 2, 2] norm='BatchNorm2d' act_fn='Mish' expansion=1 groups=1 bn_1st=True zero_bn=True stem_sizes=[64] stem_pool="MaxPool2d {'kernel_size': 3, 'stride': 2, 'padding': 1}"
+    <pre>ModelCfg(
+      in_chans=3
+      num_classes=10
+      block='BasicBlock'
+      conv_layer='ConvBnAct'
+      block_sizes=[64, 128, 256, 512]
+      layers=[2, 2, 2, 2]
+      norm='BatchNorm2d'
+      act_fn='Mish'
+      expansion=1
+      groups=1
+      bn_1st=True
+      zero_bn=True
+      stem_sizes=[64]
+      stem_pool="MaxPool2d {'kernel_size': 3, 'stride': 2, 'padding': 1}")
     </pre>
 </details>
 
@@ -558,8 +598,7 @@ cfg = ModelCfg(
 print(cfg.act_fn)
 ```
 <details open> <summary>output</summary>  
-    <pre>class 'torch.nn.modules.activation.SELU'
-    </pre>
+    <pre>class 'torch.nn.modules.activation.SELU'</pre>
 </details>
 
 Now we can create constructor from config:
@@ -570,15 +609,10 @@ mc = ModelConstructor.from_cfg(cfg)
 mc
 ```
 <details open> <summary>output</summary>  
-    <pre>Deprecated. Pass se_module as se argument, se_reduction as arg to se.
-    Deprecated. Pass se_module as se argument, se_reduction as arg to se.
-    </pre>
-</details>
-<details open> <summary>output</summary>  
     <pre>ModelConstructor
       in_chans: 3, num_classes: 10
       expansion: 1, groups: 1, dw: False, div_groups: None
-      act_fn: ReLU, sa: <class 'model_constructor.layers.SimpleSelfAttention'>, se: SEModule
+      act_fn: SELU, sa: <class 'model_constructor.layers.SimpleSelfAttention'>, se: SEModule
       stem sizes: [64], stride on 0
       body sizes [64, 128, 256, 512]
       layers: [2, 2, 2, 2]</pre>
@@ -665,7 +699,7 @@ Here is model:
 mc()
 ```
 <details> <summary>output</summary>  
-    </pre>MxResNet(
+    <pre>MxResNet(
       act_fn: Mish, stem_sizes: [3, 32, 64, 64], make_stem: xresnet_stem
       (stem): Sequential(
         (conv_0): ConvBnAct(
@@ -892,7 +926,7 @@ mc
 mc.stem.conv_1
 ```
 <details> <summary>output</summary>  
-    </pre>ConvBnAct(
+    <pre>ConvBnAct(
       (conv): Conv2d(3, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
       (bn): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
       (act_fn): Mish(inplace=True)
@@ -907,7 +941,7 @@ mc.stem.conv_1
 mc.body.l_0.bl_0
 ```
 <details> <summary>output</summary>  
-    </pre>BasicBlock(
+    <pre>BasicBlock(
       (convs): Sequential(
         (conv_0): ConvBnAct(
           (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
@@ -984,13 +1018,27 @@ That all. Now we have YaResNet constructor
 mc.print_cfg()
 ```
 <details> <summary>output</summary>  
-    </pre>YaResNet
-      in_chans: 3, num_classes: 1000
-      expansion: 1, groups: 1, dw: False, div_groups: None
-      act_fn: ReLU, sa: False, se: False
-      stem sizes: [64], stride on 0
-      body sizes [64, 128, 256, 512]
-      layers: [2, 2, 2, 2]
+    <pre>ModelConstructor(
+      name='YaResNet'
+      in_chans=3
+      num_classes=1000
+      block='YaBasicBlock'
+      conv_layer='ConvBnAct'
+      block_sizes=[64, 128, 256, 512]
+      layers=[2, 2, 2, 2]
+      norm='BatchNorm2d'
+      act_fn='ReLU'
+      expansion=1
+      groups=1
+      bn_1st=True
+      zero_bn=True
+      stem_sizes=[64]
+      stem_pool="MaxPool2d {'kernel_size': 3, 'stride': 2, 'padding': 1}"
+      init_cnn='init_cnn'
+      make_stem='make_stem'
+      make_layer='make_layer'
+      make_body='make_body'
+      make_head='make_head')
     </pre>
 </details>
 
@@ -1002,7 +1050,7 @@ Let see what we have.
 mc.body.l_1.bl_0
 ```
 <details> <summary>output</summary>  
-    </pre>YaBasicBlock(
+    <pre>YaBasicBlock(
       (reduce): ConvBnAct(
         (conv): Conv2d(64, 64, kernel_size=(1, 1), stride=(2, 2), bias=False)
         (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
@@ -1050,13 +1098,26 @@ mc = YaResnet34()
 mc.print_cfg()
 ```
 <details open> <summary>output</summary>  
-    <pre>YaResnet34
-      in_chans: 3, num_classes: 1000
-      expansion: 1, groups: 1, dw: False, div_groups: None
-      act_fn: ReLU, sa: False, se: False
-      stem sizes: [64], stride on 0
-      body sizes [64, 128, 256, 512]
-      layers: [3, 4, 6, 3]
+    <pre>YaResnet34(
+      in_chans=3
+      num_classes=1000
+      block='YaBasicBlock'
+      conv_layer='ConvBnAct'
+      block_sizes=[64, 128, 256, 512]
+      layers=[3, 4, 6, 3]
+      norm='BatchNorm2d'
+      act_fn='ReLU'
+      expansion=1
+      groups=1
+      bn_1st=True
+      zero_bn=True
+      stem_sizes=[64]
+      stem_pool="MaxPool2d {'kernel_size': 3, 'stride': 2, 'padding': 1}"
+      init_cnn='init_cnn'
+      make_stem='xresnet_stem'
+      make_layer='make_layer'
+      make_body='make_body'
+      make_head='make_head')
     </pre>
 </details>
 
