@@ -48,23 +48,29 @@ def test_instantiate_module():
 def test_cfg_repr_print(capsys: CaptureFixture[str]):
     """test repr and print results"""
     cfg = Cfg()
-    repr_res = cfg.__repr__()
+    repr_res = repr(cfg)
     assert repr_res == "Cfg(\n  )"
     cfg.print_set_fields()
     out = capsys.readouterr().out
     assert out == "Nothing changed\n"
     cfg.name = "cfg_name"
-    repr_res = cfg.__repr__()
+    repr_res = repr(cfg)
     assert repr_res == "Cfg(\n  name='cfg_name')"
     cfg.print_cfg()
     out = capsys.readouterr().out
     assert out == "Cfg(\n  name='cfg_name')\n"
+
+    # print
+    print(cfg)
+    out = capsys.readouterr().out
+    assert out == "Cfg(\n  name='cfg_name')\n"
+
     # Set fields. default - name is not in changed
     cfg = Cfg2(name="cfg_name")
     cfg.print_set_fields()
     out = capsys.readouterr().out
     assert out == "Nothing changed\n"
-    assert "name" in cfg.model_fields_set
+    assert "name" in cfg.model_fields_set  # pylint: disable=E1135:unsupported-membership-test
     cfg = Cfg2(int_value=0)
     cfg.print_set_fields()
     out = capsys.readouterr().out
