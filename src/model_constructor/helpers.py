@@ -56,8 +56,8 @@ def instantiate_module(
                 name = path_list[1]
     try:
         mod = importlib.import_module(default_path)
-    except ImportError:
-        raise ImportError(f"Module {default_path} not found")
+    except ImportError as exc:
+        raise ImportError(f"Module {default_path} not found") from exc
     if hasattr(mod, name):
         module = getattr(mod, name)
         if is_module(module):
@@ -86,6 +86,9 @@ class Cfg(BaseModel):
     def __repr__(self) -> str:
         return f"{self.__repr_name__()}(\n  {self.__repr_str__(chr(10) + '  ')})"
 
+    def __str__(self) -> str:
+        return f"{self.__repr_name__()}(\n  {self.__repr_str__(chr(10) + '  ')})"
+
     def __repr_args__(self) -> List[Tuple[str, str]]:
         return [
             (field, str_value)
@@ -97,7 +100,7 @@ class Cfg(BaseModel):
         """Return list repr for fields set at init"""
         return [
             f"{field}: {self._get_str_value(field)}"
-            for field in self.model_fields_set  # pylint: disable=E1133
+            for field in self.model_fields_set  # pylint: disable=E1133:not-an-iterable
             if field != "name"
         ]
 
@@ -114,8 +117,8 @@ class Cfg(BaseModel):
         # return "\n".join(self.__repr_changed_fields__())
         return {
             field: self._get_str_value(field)
-            for field in self.model_fields  # pylint: disable=E1133
-            if getattr(self, field) != self.model_fields[field].default
+            for field, value in self.model_fields.items()
+            if getattr(self, field) != value.default
         }
 
     def print_cfg(self) -> None:
