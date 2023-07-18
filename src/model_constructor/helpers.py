@@ -56,8 +56,8 @@ def instantiate_module(
                 name = path_list[1]
     try:
         mod = importlib.import_module(default_path)
-    except ImportError:
-        raise ImportError(f"Module {default_path} not found")
+    except ImportError as exc:
+        raise ImportError(f"Module {default_path} not found") from exc
     if hasattr(mod, name):
         module = getattr(mod, name)
         if is_module(module):
@@ -73,8 +73,7 @@ class Cfg(BaseModel):
 
     name: Optional[str] = None
 
-    def _get_str_value(self, field: str) -> str:
-        value = getattr(self, field)
+    def _get_str(self, value: Any) -> str:
         if isinstance(value, type):
             value = value.__name__
         elif isinstance(value, partial):
@@ -83,8 +82,17 @@ class Cfg(BaseModel):
             value = value.__name__
         return value
 
-    def __repr__(self) -> str:
+    def _get_str_value(self, field: str) -> str:
+        return self._get_str(getattr(self, field))
+
+    def _cfg_str(self) -> str:
         return f"{self.__repr_name__()}(\n  {self.__repr_str__(chr(10) + '  ')})"
+
+    def __repr__(self) -> str:
+        return self._cfg_str()
+
+    def __str__(self) -> str:
+        return self._cfg_str()
 
     def __repr_args__(self) -> List[Tuple[str, str]]:
         return [
@@ -97,7 +105,7 @@ class Cfg(BaseModel):
         """Return list repr for fields set at init"""
         return [
             f"{field}: {self._get_str_value(field)}"
-            for field in self.model_fields_set  # pylint: disable=E1133
+            for field in self.model_fields_set  # pylint: disable=E1133:not-an-iterable
             if field != "name"
         ]
 
@@ -114,13 +122,13 @@ class Cfg(BaseModel):
         # return "\n".join(self.__repr_changed_fields__())
         return {
             field: self._get_str_value(field)
-            for field in self.model_fields  # pylint: disable=E1133
-            if getattr(self, field) != self.model_fields[field].default
+            for field, value in self.model_fields.items()
+            if getattr(self, field) != value.default
         }
 
     def print_cfg(self) -> None:
         """Print full config"""
-        print(repr(self))
+        print(self._cfg_str())
 
     def print_set_fields(self) -> None:
         """Print fields changed at init."""
@@ -132,11 +140,14 @@ class Cfg(BaseModel):
         else:
             print("Nothing changed")
 
-    def print_changed_fields(self) -> None:
+    def print_changed_fields(self, show_default: bool = False, separator: str = " | ") -> None:
         """Print fields changed at init."""
         if self.changed_fields:
+            default_value = ""
             print("Changed fields:")
             for field in self.changed_fields:
-                print(f"{field}: {self._get_str_value(field)}")
+                if show_default:
+                    default_value = f"{separator}{self._get_str(self.model_fields[field].default)}"
+                print(f"{field}: {self._get_str_value(field)}{default_value}")
         else:
             print("Nothing changed")

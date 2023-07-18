@@ -32,7 +32,7 @@ convmixer_1024_20 = ConvMixer(dim=1024, depth=20)
 convmixer_1024_20
 ```
 <details> <summary>output</summary>  
-    </pre>ConvMixer(
+    <pre>ConvMixer(
       (0): ConvLayer(
         (conv): Conv2d(3, 1024, kernel_size=(7, 7), stride=(7, 7))
         (act_fn): GELU(approximate='none')
@@ -341,7 +341,7 @@ convmixer_1024_20 = ConvMixer(dim=1024, depth=20, act_fn=Mish())
 convmixer_1024_20[0]
 ```
 <details> <summary>output</summary>  
-    </pre>ConvLayer(
+    <pre>ConvLayer(
       (conv): Conv2d(3, 1024, kernel_size=(7, 7), stride=(7, 7))
       (act_fn): Mish()
       (bn): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
@@ -356,7 +356,7 @@ convmixer_1024_20[0]
 convmixer_1024_20[1]
 ```
 <details> <summary>output</summary>  
-    </pre>Sequential(
+    <pre>Sequential(
       (0): Residual(
         (fn): ConvLayer(
           (conv): Conv2d(1024, 1024, kernel_size=(9, 9), stride=(1, 1), padding=same, groups=1024)
@@ -389,7 +389,7 @@ convmixer_1024_20 = ConvMixer(dim=1024, depth=20, act_fn=Mish(), pre_act=True)
 convmixer_1024_20[0]
 ```
 <details> <summary>output</summary>  
-    </pre>ConvLayer(
+    <pre>ConvLayer(
       (conv): Conv2d(3, 1024, kernel_size=(7, 7), stride=(7, 7))
       (act_fn): Mish()
       (bn): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
@@ -404,7 +404,7 @@ convmixer_1024_20[0]
 convmixer_1024_20[1]
 ```
 <details> <summary>output</summary>  
-    </pre>Sequential(
+    <pre>Sequential(
       (0): Residual(
         (fn): ConvLayer(
           (act_fn): Mish()
@@ -435,7 +435,7 @@ convmixer_1024_20 = ConvMixer(dim=1024, depth=20, act_fn=Mish(), bn_1st=True)
 convmixer_1024_20[0]
 ```
 <details> <summary>output</summary>  
-    </pre>ConvLayer(
+    <pre>ConvLayer(
       (conv): Conv2d(3, 1024, kernel_size=(7, 7), stride=(7, 7))
       (bn): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
       (act_fn): Mish()
@@ -450,7 +450,7 @@ convmixer_1024_20[0]
 convmixer_1024_20[1]
 ```
 <details> <summary>output</summary>  
-    </pre>Sequential(
+    <pre>Sequential(
       (0): Residual(
         (fn): ConvLayer(
           (conv): Conv2d(1024, 1024, kernel_size=(9, 9), stride=(1, 1), padding=same, groups=1024)

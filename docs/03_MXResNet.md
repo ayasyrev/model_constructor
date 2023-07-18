@@ -50,8 +50,11 @@ mxresnet.print_changed_fields()
 
 mxresnet.stem
 ```
+
+    /home/aya/mambaforge/envs/mc/lib/python3.10/site-packages/torch/nn/modules/conv.py:137: UserWarning: Failed to initialize NumPy: No module named 'numpy' (Triggered internally at ../torch/csrc/utils/tensor_numpy.cpp:84.)
+      self.weight = Parameter(torch.empty(
 <details> <summary>output</summary>  
-    </pre>Sequential(
+    <pre>Sequential(
       (conv_0): ConvBnAct(
         (conv): Conv2d(3, 3, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
         (bn): BatchNorm2d(3, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
@@ -84,7 +87,7 @@ mxresnet.stem
 mxresnet.body
 ```
 <details> <summary>output</summary>  
-    </pre>Sequential(
+    <pre>Sequential(
       (l_0): Sequential(
         (bl_0): BasicBlock(
           (convs): Sequential(
@@ -234,7 +237,7 @@ mxresnet.body
 mxresnet.body
 ```
 <details> <summary>output</summary>  
-    </pre>Sequential(
+    <pre>Sequential(
       (l_0): Sequential(
         (bl_0): BasicBlock(
           (convs): Sequential(
@@ -384,7 +387,7 @@ mxresnet.body
 mxresnet.head
 ```
 <details> <summary>output</summary>  
-    </pre>Sequential(
+    <pre>Sequential(
       (pool): AdaptiveAvgPool2d(output_size=1)
       (flat): Flatten(start_dim=1, end_dim=-1)
       (fc): Linear(in_features=512, out_features=1000, bias=True)

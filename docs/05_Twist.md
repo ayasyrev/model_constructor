@@ -309,7 +309,7 @@ bl = NewResBlockTwist(4, 64, 64, sa=True)
 bl
 ```
 <details> <summary>output</summary>  
-    </pre>NewResBlockTwist(
+    <pre>NewResBlockTwist(
       (convs): Sequential(
         (conv_0): ConvLayer(
           (conv): Conv2d(256, 64, kernel_size=(1, 1), stride=(1, 1), bias=False)
@@ -345,7 +345,7 @@ bl = NewResBlockTwist(4, 64, 64, stride=2)
 bl
 ```
 <details> <summary>output</summary>  
-    </pre>NewResBlockTwist(
+    <pre>NewResBlockTwist(
       (reduce): AvgPool2d(kernel_size=2, stride=2, padding=0)
       (convs): Sequential(
         (conv_0): ConvLayer(
@@ -379,7 +379,7 @@ bl = NewResBlockTwist(4, 64, 128, stride=2)
 bl
 ```
 <details> <summary>output</summary>  
-    </pre>NewResBlockTwist(
+    <pre>NewResBlockTwist(
       (reduce): AvgPool2d(kernel_size=2, stride=2, padding=0)
       (convs): Sequential(
         (conv_0): ConvLayer(
@@ -424,7 +424,7 @@ bl = NewResBlockTwist(
 bl
 ```
 <details> <summary>output</summary>  
-    </pre>NewResBlockTwist(
+    <pre>NewResBlockTwist(
       (reduce): AvgPool2d(kernel_size=2, stride=2, padding=0)
       (convs): Sequential(
         (conv_0): ConvLayer(
@@ -469,7 +469,7 @@ bl = ResBlockTwist(4, 64, 64, sa=True)
 bl
 ```
 <details> <summary>output</summary>  
-    </pre>ResBlockTwist(
+    <pre>ResBlockTwist(
       (convs): Sequential(
         (conv_0): ConvLayer(
           (conv): Conv2d(256, 64, kernel_size=(1, 1), stride=(1, 1), bias=False)
@@ -505,7 +505,7 @@ bl = ResBlockTwist(4, 64, 64, stride=2)
 bl
 ```
 <details> <summary>output</summary>  
-    </pre>ResBlockTwist(
+    <pre>ResBlockTwist(
       (convs): Sequential(
         (conv_0): ConvLayer(
           (conv): Conv2d(256, 64, kernel_size=(1, 1), stride=(1, 1), bias=False)
@@ -539,7 +539,7 @@ bl = ResBlockTwist(4, 64, 128, stride=2)
 bl
 ```
 <details> <summary>output</summary>  
-    </pre>ResBlockTwist(
+    <pre>ResBlockTwist(
       (convs): Sequential(
         (conv_0): ConvLayer(
           (conv): Conv2d(256, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
@@ -588,7 +588,7 @@ model.block = NewResBlockTwist
 model.body
 ```
 <details> <summary>output</summary>  
-    </pre>Sequential(
+    <pre>Sequential(
       (l_0): Sequential(
         (bl_0): NewResBlockTwist(
           (convs): Sequential(
@@ -989,7 +989,7 @@ m = model()
 m
 ```
 <details> <summary>output</summary>  
-    </pre>Sequential(
+    <pre>Sequential(
       model Net
       (stem): Sequential(
         (conv_0): ConvLayer(
@@ -1406,7 +1406,7 @@ m
 m.stem
 ```
 <details> <summary>output</summary>  
-    </pre>Sequential(
+    <pre>Sequential(
       (conv_0): ConvLayer(
         (conv): Conv2d(3, 32, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
         (bn): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
@@ -1434,7 +1434,7 @@ m.stem
 m.head
 ```
 <details> <summary>output</summary>  
-    </pre>Sequential(
+    <pre>Sequential(
       (pool): AdaptiveAvgPool2d(output_size=1)
       (flat): Flatten()
       (fc): Linear(in_features=2048, out_features=1000, bias=True)
@@ -1449,7 +1449,7 @@ m.head
 m.body.l_0
 ```
 <details> <summary>output</summary>  
-    </pre>Sequential(
+    <pre>Sequential(
       (bl_0): ResBlockTwist(
         (convs): Sequential(
           (conv_0): ConvLayer(
@@ -1531,7 +1531,7 @@ m.body.l_0
 m.body.l_1
 ```
 <details> <summary>output</summary>  
-    </pre>Sequential(
+    <pre>Sequential(
       (bl_0): ResBlockTwist(
         (convs): Sequential(
           (conv_0): ConvLayer(
@@ -1636,7 +1636,7 @@ m.body.l_1
 m.body.l_2
 ```
 <details> <summary>output</summary>  
-    </pre>Sequential(
+    <pre>Sequential(
       (bl_0): ResBlockTwist(
         (convs): Sequential(
           (conv_0): ConvLayer(
@@ -1785,7 +1785,7 @@ m.body.l_2
 m.body.l_3
 ```
 <details> <summary>output</summary>  
-    </pre>Sequential(
+    <pre>Sequential(
       (bl_0): ResBlockTwist(
         (convs): Sequential(
           (conv_0): ConvLayer(
