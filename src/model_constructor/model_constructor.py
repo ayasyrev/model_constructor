@@ -32,7 +32,7 @@ DEFAULT_SE_SA = {
 }
 
 
-nnModule = Union[Type[nn.Module], Callable[[], nn.Module]]
+nnModule = Union[Type[nn.Module], Callable[[Any], nn.Module]]
 
 
 class ModelCfg(Cfg, arbitrary_types_allowed=True, extra="forbid"):

@@ -216,6 +216,11 @@ class YaResNet34(YaResNet):
     layers: List[int] = [3, 4, 6, 3]
 
 
-class YaResNet50(YaResNet34):
+class YaResNet26(YaResNet):
     block: Type[nn.Module] = YaBottleneckBlock
     block_sizes: List[int] = [256, 512, 1024, 2048]
+    expansion: int = 4
+
+
+class YaResNet50(YaResNet26):
+    layers: List[int] = [3, 4, 6, 3]
