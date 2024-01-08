@@ -4,7 +4,7 @@ from typing import Any, Callable, List, Optional, Type
 from torch import nn
 
 from .blocks import BottleneckBlock
-from .helpers import ListStrMod, nn_seq, ModSeq
+from .helpers import ListStrMod, ModSeq, nn_seq
 from .model_constructor import ModelCfg, ModelConstructor
 
 __all__ = [

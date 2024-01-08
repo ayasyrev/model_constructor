@@ -140,14 +140,18 @@ class Cfg(BaseModel):
         else:
             print("Nothing changed")
 
-    def print_changed_fields(self, show_default: bool = False, separator: str = " | ") -> None:
+    def print_changed_fields(
+        self, show_default: bool = False, separator: str = " | "
+    ) -> None:
         """Print fields changed at init."""
         if self.changed_fields:
             default_value = ""
             print("Changed fields:")
             for field in self.changed_fields:
                 if show_default:
-                    default_value = f"{separator}{self._get_str(self.model_fields[field].default)}"
+                    default_value = (
+                        f"{separator}{self._get_str(self.model_fields[field].default)}"
+                    )
                 print(f"{field}: {self._get_str_value(field)}{default_value}")
         else:
             print("Nothing changed")

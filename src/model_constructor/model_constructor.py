@@ -1,6 +1,6 @@
 from collections import OrderedDict
 from functools import partial
-from typing import Any, Callable, Dict, List, Optional, Union, Type
+from typing import Any, Callable, Dict, List, Optional, Type, Union
 
 from pydantic import field_validator
 from pydantic_core.core_schema import FieldValidationInfo

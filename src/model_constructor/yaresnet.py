@@ -10,9 +10,8 @@ from torch import nn
 from model_constructor.helpers import ModSeq, nn_seq
 
 from .layers import ConvBnAct, get_act
-from .model_constructor import ListStrMod, ModelConstructor, ModelCfg
+from .model_constructor import ListStrMod, ModelCfg, ModelConstructor
 from .xresnet import xresnet_stem
-
 
 __all__ = [
     "YaBasicBlock",
