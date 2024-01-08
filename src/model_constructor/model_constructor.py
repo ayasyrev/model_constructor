@@ -15,6 +15,7 @@ from .helpers import (
     instantiate_module,
     is_module,
     nn_seq,
+    nnModule,
 )
 from .layers import ConvBnAct, SEModule, SimpleSelfAttention
 
@@ -30,9 +31,6 @@ DEFAULT_SE_SA = {
     "se": SEModule,
     "sa": SimpleSelfAttention,
 }
-
-
-nnModule = Union[Type[nn.Module], Callable[[Any], nn.Module]]
 
 
 class ModelCfg(Cfg, arbitrary_types_allowed=True, extra="forbid"):
