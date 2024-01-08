@@ -1,4 +1,5 @@
 from typing import List, Type
+
 from torch import nn
 
 from .xresnet import XResNet

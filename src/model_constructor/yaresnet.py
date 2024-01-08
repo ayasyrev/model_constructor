@@ -10,9 +10,8 @@ from torch import nn
 from model_constructor.helpers import ModSeq, nn_seq
 
 from .layers import ConvBnAct, get_act
-from .model_constructor import ListStrMod, ModelConstructor, ModelCfg
+from .model_constructor import ListStrMod, ModelCfg, ModelConstructor
 from .xresnet import xresnet_stem
-
 
 __all__ = [
     "YaBasicBlock",
@@ -216,6 +215,11 @@ class YaResNet34(YaResNet):
     layers: List[int] = [3, 4, 6, 3]
 
 
-class YaResNet50(YaResNet34):
+class YaResNet26(YaResNet):
     block: Type[nn.Module] = YaBottleneckBlock
     block_sizes: List[int] = [256, 512, 1024, 2048]
+    expansion: int = 4
+
+
+class YaResNet50(YaResNet26):
+    layers: List[int] = [3, 4, 6, 3]

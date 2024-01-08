@@ -1,9 +1,8 @@
 # forked from https://github.com/rwightman/pytorch-image-models/timm/models/layers/activations.py
 import torch
 from torch import nn as nn
-from torch.nn import functional as F
 from torch.nn import Mish
-
+from torch.nn import functional as F
 
 __all__ = [
     "mish",
