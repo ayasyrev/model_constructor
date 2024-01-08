@@ -1,0 +1,1699 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+      
+        <link rel="next" href="01_ModelConstructor/">
+      
+      
+      <link rel="icon" href="assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.3">
+    
+    
+      
+        <title>Model Constructor.</title>
+      
+    
+    
+      <link rel="stylesheet" href="assets/stylesheets/main.50c56a3b.min.css">
+      
+        
+        <link rel="stylesheet" href="assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+  
+  
+
+<script id="__analytics">function __md_analytics(){function n(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],n("js",new Date),n("config","G-0F3FK713C2"),document.addEventListener("DOMContentLoaded",function(){document.forms.search&&document.forms.search.query.addEventListener("blur",function(){this.value&&n("event","search",{search_term:this.value})}),document$.subscribe(function(){var a=document.forms.feedback;if(void 0!==a)for(var e of a.querySelectorAll("[type=submit]"))e.addEventListener("click",function(e){e.preventDefault();var t=document.location.pathname,e=this.getAttribute("data-md-value");n("event","feedback",{page:t,data:e}),a.firstElementChild.disabled=!0;e=a.querySelector(".md-feedback__note [data-md-value='"+e+"']");e&&(e.hidden=!1)}),a.hidden=!1}),location$.subscribe(function(e){n("config","G-0F3FK713C2",{page_path:e.pathname})})});var e=document.createElement("script");e.async=!0,e.src="https://www.googletagmanager.com/gtag/js?id=G-0F3FK713C2",document.getElementById("__analytics").insertAdjacentElement("afterEnd",e)}</script>
+  
+    <script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+  
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#model_constructor" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="." title="Model Constructor." class="md-header__button md-logo" aria-label="Model Constructor." data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Model Constructor.
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              model_constructor
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6zm0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4zM7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3Z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/ayasyrev/model_constructor" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    model_constructor
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="." title="Model Constructor." class="md-nav__button md-logo" aria-label="Model Constructor." data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    Model Constructor.
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/ayasyrev/model_constructor" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    model_constructor
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    model_constructor
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="." class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    model_constructor
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#install" class="md-nav__link">
+    <span class="md-ellipsis">
+      Install
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-to-use" class="md-nav__link">
+    <span class="md-ellipsis">
+      How to use
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#create-constructor-from-config" class="md-nav__link">
+    <span class="md-ellipsis">
+      Create constructor from config.
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#more-modification" class="md-nav__link">
+    <span class="md-ellipsis">
+      More modification.
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mxresnet50" class="md-nav__link">
+    <span class="md-ellipsis">
+      MXResNet50
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#yaresnet" class="md-nav__link">
+    <span class="md-ellipsis">
+      YaResNet
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="01_ModelConstructor/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Model constructor.
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="02_1_Blocks/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Blocks.
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="02_2_layers/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Layers
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="02_XResNet/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    XResNet.
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="03_MXResNet/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    MXResNet.
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="04_YaResNet/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    YaResNet.
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="05_Twist/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Twist.
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="06_ConvMixer/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    ConvMixer
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#install" class="md-nav__link">
+    <span class="md-ellipsis">
+      Install
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-to-use" class="md-nav__link">
+    <span class="md-ellipsis">
+      How to use
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#create-constructor-from-config" class="md-nav__link">
+    <span class="md-ellipsis">
+      Create constructor from config.
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#more-modification" class="md-nav__link">
+    <span class="md-ellipsis">
+      More modification.
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mxresnet50" class="md-nav__link">
+    <span class="md-ellipsis">
+      MXResNet50
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#yaresnet" class="md-nav__link">
+    <span class="md-ellipsis">
+      YaResNet
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="model_constructor">model_constructor</h1>
+<blockquote>
+<p>Constructor to create pytorch model. </p>
+</blockquote>
+<h2 id="install">Install</h2>
+<p><code>pip install model-constructor</code></p>
+<p>Or install from repo:</p>
+<p><code>pip install git+https://github.com/ayasyrev/model_constructor.git</code></p>
+<h2 id="how-to-use">How to use</h2>
+<p>First import constructor class, then create model constructor object.</p>
+<p>Now you can change every part of model.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">model_constructor</span> <span class="kn">import</span> <span class="n">ModelConstructor</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="n">mc</span> <span class="o">=</span> <span class="n">ModelConstructor</span><span class="p">()</span>
+</code></pre></div>
+<p>Check base parameters:</p>
+<div class="highlight"><pre><span></span><code><span class="n">mc</span>
+</code></pre></div>
+<details open> <summary>output</summary>  
+    <pre>ModelConstructor
+      in_chans: 3, num_classes: 1000
+      expansion: 1, groups: 1, dw: False, div_groups: None
+      act_fn: ReLU, sa: False, se: False
+      stem sizes: [64], stride on 0
+      body sizes [64, 128, 256, 512]
+      layers: [2, 2, 2, 2]</pre>
+</details>
+
+<p>Check all parameters with <code>print_cfg</code> method:</p>
+<div class="highlight"><pre><span></span><code><span class="n">mc</span><span class="o">.</span><span class="n">print_cfg</span><span class="p">()</span>
+</code></pre></div>
+<details open> <summary>output</summary>  
+    <pre>ModelConstructor(
+      in_chans=3
+      num_classes=1000
+      block='BasicBlock'
+      conv_layer='ConvBnAct'
+      block_sizes=[64, 128, 256, 512]
+      layers=[2, 2, 2, 2]
+      norm='BatchNorm2d'
+      act_fn='ReLU'
+      expansion=1
+      groups=1
+      bn_1st=True
+      zero_bn=True
+      stem_sizes=[64]
+      stem_pool="MaxPool2d {'kernel_size': 3, 'stride': 2, 'padding': 1}"
+      init_cnn='init_cnn'
+      make_stem='make_stem'
+      make_layer='make_layer'
+      make_body='make_body'
+      make_head='make_head')
+    </pre>
+</details>
+
+<p>Now we have model constructor, default setting as resnet18. And we can get model after call it.</p>
+<div class="highlight"><pre><span></span><code><span class="n">model</span> <span class="o">=</span> <span class="n">mc</span><span class="p">()</span>
+<span class="n">model</span>
+</code></pre></div>
+<details> <summary>output</summary>  
+    <pre>ModelConstructor(
+      (stem): Sequential(
+        (conv_1): ConvBnAct(
+          (conv): Conv2d(3, 64, kernel_size=(7, 7), stride=(2, 2), padding=(3, 3), bias=False)
+          (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (act_fn): ReLU(inplace=True)
+        )
+        (stem_pool): MaxPool2d(kernel_size=3, stride=2, padding=1, dilation=1, ceil_mode=False)
+      )
+      (body): Sequential(
+        (l_0): Sequential(
+          (bl_0): BasicBlock(
+            (convs): Sequential(
+              (conv_0): ConvBnAct(
+                (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+                (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                (act_fn): ReLU(inplace=True)
+              )
+              (conv_1): ConvBnAct(
+                (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+                (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+            )
+            (act_fn): ReLU(inplace=True)
+          )
+          (bl_1): BasicBlock(
+            (convs): Sequential(
+              (conv_0): ConvBnAct(
+                (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+                (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                (act_fn): ReLU(inplace=True)
+              )
+              (conv_1): ConvBnAct(
+                (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+                (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+            )
+            (act_fn): ReLU(inplace=True)
+          )
+        )
+        (l_1): Sequential(
+          (bl_0): BasicBlock(
+            (convs): Sequential(
+              (conv_0): ConvBnAct(
+                (conv): Conv2d(64, 128, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
+                (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                (act_fn): ReLU(inplace=True)
+              )
+              (conv_1): ConvBnAct(
+                (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+                (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+            )
+            (id_conv): Sequential(
+              (id_conv): ConvBnAct(
+                (conv): Conv2d(64, 128, kernel_size=(1, 1), stride=(2, 2), bias=False)
+                (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+            )
+            (act_fn): ReLU(inplace=True)
+          )
+          (bl_1): BasicBlock(
+            (convs): Sequential(
+              (conv_0): ConvBnAct(
+                (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+                (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                (act_fn): ReLU(inplace=True)
+              )
+              (conv_1): ConvBnAct(
+                (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+                (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+            )
+            (act_fn): ReLU(inplace=True)
+          )
+        )
+        (l_2): Sequential(
+          (bl_0): BasicBlock(
+            (convs): Sequential(
+              (conv_0): ConvBnAct(
+                (conv): Conv2d(128, 256, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
+                (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                (act_fn): ReLU(inplace=True)
+              )
+              (conv_1): ConvBnAct(
+                (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+                (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+            )
+            (id_conv): Sequential(
+              (id_conv): ConvBnAct(
+                (conv): Conv2d(128, 256, kernel_size=(1, 1), stride=(2, 2), bias=False)
+                (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+            )
+            (act_fn): ReLU(inplace=True)
+          )
+          (bl_1): BasicBlock(
+            (convs): Sequential(
+              (conv_0): ConvBnAct(
+                (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+                (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                (act_fn): ReLU(inplace=True)
+              )
+              (conv_1): ConvBnAct(
+                (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+                (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+            )
+            (act_fn): ReLU(inplace=True)
+          )
+        )
+        (l_3): Sequential(
+          (bl_0): BasicBlock(
+            (convs): Sequential(
+              (conv_0): ConvBnAct(
+                (conv): Conv2d(256, 512, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
+                (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                (act_fn): ReLU(inplace=True)
+              )
+              (conv_1): ConvBnAct(
+                (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+                (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+            )
+            (id_conv): Sequential(
+              (id_conv): ConvBnAct(
+                (conv): Conv2d(256, 512, kernel_size=(1, 1), stride=(2, 2), bias=False)
+                (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+            )
+            (act_fn): ReLU(inplace=True)
+          )
+          (bl_1): BasicBlock(
+            (convs): Sequential(
+              (conv_0): ConvBnAct(
+                (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+                (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                (act_fn): ReLU(inplace=True)
+              )
+              (conv_1): ConvBnAct(
+                (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+                (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+            )
+            (act_fn): ReLU(inplace=True)
+          )
+        )
+      )
+      (head): Sequential(
+        (pool): AdaptiveAvgPool2d(output_size=1)
+        (flat): Flatten(start_dim=1, end_dim=-1)
+        (fc): Linear(in_features=512, out_features=1000, bias=True)
+      )
+    )</pre>
+</details>
+
+<p>If you want to change model, just change constructor parameters.<br />
+Lets create resnet50.</p>
+<div class="highlight"><pre><span></span><code><span class="n">mc</span><span class="o">.</span><span class="n">expansion</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="n">mc</span><span class="o">.</span><span class="n">layers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span>
+</code></pre></div>
+<p>We can check, what we changed (compare to default constructor).</p>
+<div class="highlight"><pre><span></span><code><span class="n">mc</span><span class="o">.</span><span class="n">changed_fields</span>
+</code></pre></div>
+<details open> <summary>output</summary>  
+    <pre>{'layers': [3, 4, 6, 3], 'expansion': 4}</pre>
+</details>
+
+<div class="highlight"><pre><span></span><code><span class="n">mc</span><span class="o">.</span><span class="n">print_changed_fields</span><span class="p">()</span>
+</code></pre></div>
+<details open> <summary>output</summary>  
+    <pre>Changed fields:
+    layers: [3, 4, 6, 3]
+    expansion: 4
+    </pre>
+</details>
+
+<p>We can compare changed with defaults.</p>
+<div class="highlight"><pre><span></span><code><span class="n">mc</span><span class="o">.</span><span class="n">print_changed_fields</span><span class="p">(</span><span class="n">show_default</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</code></pre></div>
+<details open> <summary>output</summary>  
+    <pre>Changed fields:
+    layers: [3, 4, 6, 3] | [2, 2, 2, 2]
+    expansion: 4 | 1
+    </pre>
+</details>
+
+<p>Now we can look at model parts - stem, body, head.  </p>
+<div class="highlight"><pre><span></span><code><span class="n">mc</span><span class="o">.</span><span class="n">body</span>
+</code></pre></div>
+<details> <summary>output</summary>  
+    <pre>Sequential(
+      (l_0): Sequential(
+        (bl_0): BasicBlock(
+          (convs): Sequential(
+            (conv_0): ConvBnAct(
+              (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+              (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              (act_fn): ReLU(inplace=True)
+            )
+            (conv_1): ConvBnAct(
+              (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+              (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+          )
+          (act_fn): ReLU(inplace=True)
+        )
+        (bl_1): BasicBlock(
+          (convs): Sequential(
+            (conv_0): ConvBnAct(
+              (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+              (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              (act_fn): ReLU(inplace=True)
+            )
+            (conv_1): ConvBnAct(
+              (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+              (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+          )
+          (act_fn): ReLU(inplace=True)
+        )
+        (bl_2): BasicBlock(
+          (convs): Sequential(
+            (conv_0): ConvBnAct(
+              (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+              (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              (act_fn): ReLU(inplace=True)
+            )
+            (conv_1): ConvBnAct(
+              (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+              (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+          )
+          (act_fn): ReLU(inplace=True)
+        )
+      )
+      (l_1): Sequential(
+        (bl_0): BasicBlock(
+          (convs): Sequential(
+            (conv_0): ConvBnAct(
+              (conv): Conv2d(64, 128, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
+              (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              (act_fn): ReLU(inplace=True)
+            )
+            (conv_1): ConvBnAct(
+              (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+              (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+          )
+          (id_conv): Sequential(
+            (id_conv): ConvBnAct(
+              (conv): Conv2d(64, 128, kernel_size=(1, 1), stride=(2, 2), bias=False)
+              (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+          )
+          (act_fn): ReLU(inplace=True)
+        )
+        (bl_1): BasicBlock(
+          (convs): Sequential(
+            (conv_0): ConvBnAct(
+              (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+              (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              (act_fn): ReLU(inplace=True)
+            )
+            (conv_1): ConvBnAct(
+              (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+              (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+          )
+          (act_fn): ReLU(inplace=True)
+        )
+        (bl_2): BasicBlock(
+          (convs): Sequential(
+            (conv_0): ConvBnAct(
+              (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+              (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              (act_fn): ReLU(inplace=True)
+            )
+            (conv_1): ConvBnAct(
+              (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+              (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+          )
+          (act_fn): ReLU(inplace=True)
+        )
+        (bl_3): BasicBlock(
+          (convs): Sequential(
+            (conv_0): ConvBnAct(
+              (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+              (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              (act_fn): ReLU(inplace=True)
+            )
+            (conv_1): ConvBnAct(
+              (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+              (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+          )
+          (act_fn): ReLU(inplace=True)
+        )
+      )
+      (l_2): Sequential(
+        (bl_0): BasicBlock(
+          (convs): Sequential(
+            (conv_0): ConvBnAct(
+              (conv): Conv2d(128, 256, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
+              (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              (act_fn): ReLU(inplace=True)
+            )
+            (conv_1): ConvBnAct(
+              (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+              (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+          )
+          (id_conv): Sequential(
+            (id_conv): ConvBnAct(
+              (conv): Conv2d(128, 256, kernel_size=(1, 1), stride=(2, 2), bias=False)
+              (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+          )
+          (act_fn): ReLU(inplace=True)
+        )
+        (bl_1): BasicBlock(
+          (convs): Sequential(
+            (conv_0): ConvBnAct(
+              (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+              (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              (act_fn): ReLU(inplace=True)
+            )
+            (conv_1): ConvBnAct(
+              (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+              (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+          )
+          (act_fn): ReLU(inplace=True)
+        )
+        (bl_2): BasicBlock(
+          (convs): Sequential(
+            (conv_0): ConvBnAct(
+              (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+              (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              (act_fn): ReLU(inplace=True)
+            )
+            (conv_1): ConvBnAct(
+              (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+              (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+          )
+          (act_fn): ReLU(inplace=True)
+        )
+        (bl_3): BasicBlock(
+          (convs): Sequential(
+            (conv_0): ConvBnAct(
+              (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+              (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              (act_fn): ReLU(inplace=True)
+            )
+            (conv_1): ConvBnAct(
+              (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+              (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+          )
+          (act_fn): ReLU(inplace=True)
+        )
+        (bl_4): BasicBlock(
+          (convs): Sequential(
+            (conv_0): ConvBnAct(
+              (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+              (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              (act_fn): ReLU(inplace=True)
+            )
+            (conv_1): ConvBnAct(
+              (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+              (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+          )
+          (act_fn): ReLU(inplace=True)
+        )
+        (bl_5): BasicBlock(
+          (convs): Sequential(
+            (conv_0): ConvBnAct(
+              (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+              (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              (act_fn): ReLU(inplace=True)
+            )
+            (conv_1): ConvBnAct(
+              (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+              (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+          )
+          (act_fn): ReLU(inplace=True)
+        )
+      )
+      (l_3): Sequential(
+        (bl_0): BasicBlock(
+          (convs): Sequential(
+            (conv_0): ConvBnAct(
+              (conv): Conv2d(256, 512, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
+              (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              (act_fn): ReLU(inplace=True)
+            )
+            (conv_1): ConvBnAct(
+              (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+              (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+          )
+          (id_conv): Sequential(
+            (id_conv): ConvBnAct(
+              (conv): Conv2d(256, 512, kernel_size=(1, 1), stride=(2, 2), bias=False)
+              (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+          )
+          (act_fn): ReLU(inplace=True)
+        )
+        (bl_1): BasicBlock(
+          (convs): Sequential(
+            (conv_0): ConvBnAct(
+              (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+              (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              (act_fn): ReLU(inplace=True)
+            )
+            (conv_1): ConvBnAct(
+              (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+              (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+          )
+          (act_fn): ReLU(inplace=True)
+        )
+        (bl_2): BasicBlock(
+          (convs): Sequential(
+            (conv_0): ConvBnAct(
+              (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+              (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              (act_fn): ReLU(inplace=True)
+            )
+            (conv_1): ConvBnAct(
+              (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+              (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+          )
+          (act_fn): ReLU(inplace=True)
+        )
+      )
+    )</pre>
+</details>
+
+<h2 id="create-constructor-from-config">Create constructor from config.</h2>
+<p>Alternative we can create config first and than create constructor from it. </p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">model_constructor</span> <span class="kn">import</span> <span class="n">ModelCfg</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="n">cfg</span> <span class="o">=</span> <span class="n">ModelCfg</span><span class="p">(</span>
+    <span class="n">num_classes</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+    <span class="n">act_fn</span><span class="o">=</span><span class="n">nn</span><span class="o">.</span><span class="n">Mish</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">cfg</span><span class="p">)</span>
+</code></pre></div>
+<details open> <summary>output</summary>  
+    <pre>ModelCfg(
+      in_chans=3
+      num_classes=10
+      block='BasicBlock'
+      conv_layer='ConvBnAct'
+      block_sizes=[64, 128, 256, 512]
+      layers=[2, 2, 2, 2]
+      norm='BatchNorm2d'
+      act_fn='Mish'
+      expansion=1
+      groups=1
+      bn_1st=True
+      zero_bn=True
+      stem_sizes=[64]
+      stem_pool="MaxPool2d {'kernel_size': 3, 'stride': 2, 'padding': 1}")
+    </pre>
+</details>
+
+<p>When creating config or constructor we can use string annotation for nn.Modules - it useful when creating model from config files.</p>
+<div class="highlight"><pre><span></span><code><span class="n">cfg</span> <span class="o">=</span> <span class="n">ModelCfg</span><span class="p">(</span>
+    <span class="n">num_classes</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+    <span class="n">act_fn</span><span class="o">=</span><span class="s2">&quot;nn.SELU&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">cfg</span><span class="o">.</span><span class="n">act_fn</span><span class="p">)</span>
+</code></pre></div>
+<details open> <summary>output</summary>  
+    <pre>class 'torch.nn.modules.activation.SELU'</pre>
+</details>
+
+<p>Now we can create constructor from config:</p>
+<div class="highlight"><pre><span></span><code><span class="n">mc</span> <span class="o">=</span> <span class="n">ModelConstructor</span><span class="o">.</span><span class="n">from_cfg</span><span class="p">(</span><span class="n">cfg</span><span class="p">)</span>
+<span class="n">mc</span>
+</code></pre></div>
+<details open> <summary>output</summary>  
+    <pre>ModelConstructor
+      in_chans: 3, num_classes: 10
+      expansion: 1, groups: 1, dw: False, div_groups: None
+      act_fn: SELU, sa: <class 'model_constructor.layers.SimpleSelfAttention'>, se: SEModule
+      stem sizes: [64], stride on 0
+      body sizes [64, 128, 256, 512]
+      layers: [2, 2, 2, 2]</pre>
+</details>
+
+<h2 id="more-modification">More modification.</h2>
+<p>Main purpose of this module - fast and easy modify model.
+And here is the link to more modification to beat Imagenette leaderboard with add MaxBlurPool and modification to ResBlock <a href="https://github.com/ayasyrev/imagenette_experiments/blob/master/ResnetTrick_create_model_fit.ipynb">notebook</a>  </p>
+<p>But now lets create model as mxresnet50 from <a href="https://forums.fast.ai/t/how-we-beat-the-5-epoch-imagewoof-leaderboard-score-some-new-techniques-to-consider">fastai forums tread</a>  </p>
+<p>Lets create mxresnet constructor.</p>
+<div class="highlight"><pre><span></span><code><span class="n">mc</span> <span class="o">=</span> <span class="n">ModelConstructor</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;MxResNet&#39;</span><span class="p">)</span>
+</code></pre></div>
+<p>Then lets modify stem.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">model_constructor.xresnet</span> <span class="kn">import</span> <span class="n">xresnet_stem</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="n">mc</span><span class="o">.</span><span class="n">make_stem</span> <span class="o">=</span> <span class="n">xresnet_stem</span>
+<span class="n">mc</span><span class="o">.</span><span class="n">stem_sizes</span> <span class="o">=</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">32</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="mi">64</span><span class="p">]</span>
+</code></pre></div>
+<p>Now lets change activation function to Mish.
+Here is link to <a href="https://forums.fast.ai/t/meet-mish-new-activation-function-possible-successor-to-relu">forum discussion</a>  <br />
+We'v got Mish is in model_constructor.activations, but from pytorch 1.9 take it from torch:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">torch.nn</span> <span class="kn">import</span> <span class="n">Mish</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="n">mc</span><span class="o">.</span><span class="n">act_fn</span> <span class="o">=</span> <span class="n">Mish</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="n">mc</span>
+</code></pre></div>
+<details open> <summary>output</summary>  
+    <pre>MxResNet
+      in_chans: 3, num_classes: 1000
+      expansion: 1, groups: 1, dw: False, div_groups: None
+      act_fn: Mish, sa: False, se: False
+      stem sizes: [3, 32, 64, 64], stride on 0
+      body sizes [64, 128, 256, 512]
+      layers: [2, 2, 2, 2]</pre>
+</details>
+
+<div class="highlight"><pre><span></span><code><span class="n">mc</span><span class="o">.</span><span class="n">print_changed_fields</span><span class="p">()</span>
+</code></pre></div>
+<details open> <summary>output</summary>  
+    <pre>Changed fields:
+    name: MxResNet
+    act_fn: Mish
+    stem_sizes: [3, 32, 64, 64]
+    make_stem: xresnet_stem
+    </pre>
+</details>
+
+<p>Here is model:  </p>
+<div class="highlight"><pre><span></span><code><span class="n">mc</span><span class="p">()</span>
+</code></pre></div>
+<details> <summary>output</summary>  
+    <pre>MxResNet(
+      act_fn: Mish, stem_sizes: [3, 32, 64, 64], make_stem: xresnet_stem
+      (stem): Sequential(
+        (conv_0): ConvBnAct(
+          (conv): Conv2d(3, 3, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
+          (bn): BatchNorm2d(3, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (act_fn): Mish(inplace=True)
+        )
+        (conv_1): ConvBnAct(
+          (conv): Conv2d(3, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+          (bn): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (act_fn): Mish(inplace=True)
+        )
+        (conv_2): ConvBnAct(
+          (conv): Conv2d(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+          (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (act_fn): Mish(inplace=True)
+        )
+        (conv_3): ConvBnAct(
+          (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+          (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (act_fn): Mish(inplace=True)
+        )
+        (stem_pool): MaxPool2d(kernel_size=3, stride=2, padding=1, dilation=1, ceil_mode=False)
+      )
+      (body): Sequential(
+        (l_0): Sequential(
+          (bl_0): BasicBlock(
+            (convs): Sequential(
+              (conv_0): ConvBnAct(
+                (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+                (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                (act_fn): Mish(inplace=True)
+              )
+              (conv_1): ConvBnAct(
+                (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+                (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+            )
+            (act_fn): Mish(inplace=True)
+          )
+          (bl_1): BasicBlock(
+            (convs): Sequential(
+              (conv_0): ConvBnAct(
+                (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+                (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                (act_fn): Mish(inplace=True)
+              )
+              (conv_1): ConvBnAct(
+                (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+                (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+            )
+            (act_fn): Mish(inplace=True)
+          )
+        )
+        (l_1): Sequential(
+          (bl_0): BasicBlock(
+            (convs): Sequential(
+              (conv_0): ConvBnAct(
+                (conv): Conv2d(64, 128, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
+                (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                (act_fn): Mish(inplace=True)
+              )
+              (conv_1): ConvBnAct(
+                (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+                (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+            )
+            (id_conv): Sequential(
+              (id_conv): ConvBnAct(
+                (conv): Conv2d(64, 128, kernel_size=(1, 1), stride=(2, 2), bias=False)
+                (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+            )
+            (act_fn): Mish(inplace=True)
+          )
+          (bl_1): BasicBlock(
+            (convs): Sequential(
+              (conv_0): ConvBnAct(
+                (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+                (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                (act_fn): Mish(inplace=True)
+              )
+              (conv_1): ConvBnAct(
+                (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+                (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+            )
+            (act_fn): Mish(inplace=True)
+          )
+        )
+        (l_2): Sequential(
+          (bl_0): BasicBlock(
+            (convs): Sequential(
+              (conv_0): ConvBnAct(
+                (conv): Conv2d(128, 256, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
+                (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                (act_fn): Mish(inplace=True)
+              )
+              (conv_1): ConvBnAct(
+                (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+                (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+            )
+            (id_conv): Sequential(
+              (id_conv): ConvBnAct(
+                (conv): Conv2d(128, 256, kernel_size=(1, 1), stride=(2, 2), bias=False)
+                (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+            )
+            (act_fn): Mish(inplace=True)
+          )
+          (bl_1): BasicBlock(
+            (convs): Sequential(
+              (conv_0): ConvBnAct(
+                (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+                (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                (act_fn): Mish(inplace=True)
+              )
+              (conv_1): ConvBnAct(
+                (conv): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+                (bn): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+            )
+            (act_fn): Mish(inplace=True)
+          )
+        )
+        (l_3): Sequential(
+          (bl_0): BasicBlock(
+            (convs): Sequential(
+              (conv_0): ConvBnAct(
+                (conv): Conv2d(256, 512, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
+                (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                (act_fn): Mish(inplace=True)
+              )
+              (conv_1): ConvBnAct(
+                (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+                (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+            )
+            (id_conv): Sequential(
+              (id_conv): ConvBnAct(
+                (conv): Conv2d(256, 512, kernel_size=(1, 1), stride=(2, 2), bias=False)
+                (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+            )
+            (act_fn): Mish(inplace=True)
+          )
+          (bl_1): BasicBlock(
+            (convs): Sequential(
+              (conv_0): ConvBnAct(
+                (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+                (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                (act_fn): Mish(inplace=True)
+              )
+              (conv_1): ConvBnAct(
+                (conv): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+                (bn): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              )
+            )
+            (act_fn): Mish(inplace=True)
+          )
+        )
+      )
+      (head): Sequential(
+        (pool): AdaptiveAvgPool2d(output_size=1)
+        (flat): Flatten(start_dim=1, end_dim=-1)
+        (fc): Linear(in_features=512, out_features=1000, bias=True)
+      )
+    )</pre>
+</details>
+
+<h2 id="mxresnet50">MXResNet50</h2>
+<p>Now lets make MxResNet50</p>
+<div class="highlight"><pre><span></span><code><span class="n">mc</span><span class="o">.</span><span class="n">expansion</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="n">mc</span><span class="o">.</span><span class="n">layers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span>
+<span class="n">mc</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;mxresnet50&quot;</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="n">mc</span><span class="o">.</span><span class="n">print_changed_fields</span><span class="p">()</span>
+</code></pre></div>
+<details open> <summary>output</summary>  
+    <pre>Changed fields:
+    name: mxresnet50
+    layers: [3, 4, 6, 3]
+    act_fn: Mish
+    expansion: 4
+    stem_sizes: [3, 32, 64, 64]
+    make_stem: xresnet_stem
+    </pre>
+</details>
+
+<p>Now we have mxresnet50 constructor.<br />
+We can inspect every parts of it.<br />
+And after call it we got model.</p>
+<div class="highlight"><pre><span></span><code><span class="n">mc</span>
+</code></pre></div>
+<details open> <summary>output</summary>  
+    <pre>mxresnet50
+      in_chans: 3, num_classes: 1000
+      expansion: 4, groups: 1, dw: False, div_groups: None
+      act_fn: Mish, sa: False, se: False
+      stem sizes: [3, 32, 64, 64], stride on 0
+      body sizes [64, 128, 256, 512]
+      layers: [3, 4, 6, 3]</pre>
+</details>
+
+<div class="highlight"><pre><span></span><code><span class="n">mc</span><span class="o">.</span><span class="n">stem</span><span class="o">.</span><span class="n">conv_1</span>
+</code></pre></div>
+<details> <summary>output</summary>  
+    <pre>ConvBnAct(
+      (conv): Conv2d(3, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (act_fn): Mish(inplace=True)
+    )</pre>
+</details>
+
+<div class="highlight"><pre><span></span><code><span class="n">mc</span><span class="o">.</span><span class="n">body</span><span class="o">.</span><span class="n">l_0</span><span class="o">.</span><span class="n">bl_0</span>
+</code></pre></div>
+<details> <summary>output</summary>  
+    <pre>BasicBlock(
+      (convs): Sequential(
+        (conv_0): ConvBnAct(
+          (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+          (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (act_fn): Mish(inplace=True)
+        )
+        (conv_1): ConvBnAct(
+          (conv): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+          (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+      )
+      (act_fn): Mish(inplace=True)
+    )</pre>
+</details>
+
+<p>We can get model direct way:</p>
+<div class="highlight"><pre><span></span><code><span class="n">mc</span> <span class="o">=</span> <span class="n">ModelConstructor</span><span class="p">(</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;MxResNet&quot;</span><span class="p">,</span>
+    <span class="n">act_fn</span><span class="o">=</span><span class="n">Mish</span><span class="p">,</span>
+    <span class="n">layers</span><span class="o">=</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">3</span><span class="p">],</span>
+    <span class="n">expansion</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+    <span class="n">make_stem</span><span class="o">=</span><span class="n">xresnet_stem</span><span class="p">,</span>
+    <span class="n">stem_sizes</span><span class="o">=</span><span class="p">[</span><span class="mi">32</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="mi">64</span><span class="p">]</span>
+<span class="p">)</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">mc</span><span class="p">()</span>
+</code></pre></div>
+<p>Another way:</p>
+<div class="highlight"><pre><span></span><code><span class="n">model</span> <span class="o">=</span> <span class="n">ModelConstructor</span><span class="o">.</span><span class="n">create_model</span><span class="p">(</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;MxResNet&quot;</span><span class="p">,</span>
+    <span class="n">act_fn</span><span class="o">=</span><span class="n">Mish</span><span class="p">,</span>
+    <span class="n">layers</span><span class="o">=</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">3</span><span class="p">],</span>
+    <span class="n">expansion</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+    <span class="n">make_stem</span><span class="o">=</span><span class="n">xresnet_stem</span><span class="p">,</span>
+    <span class="n">stem_sizes</span><span class="o">=</span><span class="p">[</span><span class="mi">32</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="mi">64</span><span class="p">]</span>
+<span class="p">)</span>
+</code></pre></div>
+<h2 id="yaresnet">YaResNet</h2>
+<p>Now lets change Resblock to YaResBlock (Yet another ResNet, former NewResBlock) is in lib from version 0.1.0</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">model_constructor.yaresnet</span> <span class="kn">import</span> <span class="n">YaBasicBlock</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="n">mc</span> <span class="o">=</span> <span class="n">ModelConstructor</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;YaResNet&quot;</span><span class="p">)</span>
+<span class="n">mc</span><span class="o">.</span><span class="n">block</span> <span class="o">=</span> <span class="n">YaBasicBlock</span>
+</code></pre></div>
+<p>Or in one line:</p>
+<div class="highlight"><pre><span></span><code><span class="n">mc</span> <span class="o">=</span> <span class="n">ModelConstructor</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;YaResNet&quot;</span><span class="p">,</span> <span class="n">block</span><span class="o">=</span><span class="n">YaBasicBlock</span><span class="p">)</span>
+</code></pre></div>
+<p>That all. Now we have YaResNet constructor</p>
+<div class="highlight"><pre><span></span><code><span class="n">mc</span><span class="o">.</span><span class="n">print_cfg</span><span class="p">()</span>
+</code></pre></div>
+<details> <summary>output</summary>  
+    <pre>ModelConstructor(
+      name='YaResNet'
+      in_chans=3
+      num_classes=1000
+      block='YaBasicBlock'
+      conv_layer='ConvBnAct'
+      block_sizes=[64, 128, 256, 512]
+      layers=[2, 2, 2, 2]
+      norm='BatchNorm2d'
+      act_fn='ReLU'
+      expansion=1
+      groups=1
+      bn_1st=True
+      zero_bn=True
+      stem_sizes=[64]
+      stem_pool="MaxPool2d {'kernel_size': 3, 'stride': 2, 'padding': 1}"
+      init_cnn='init_cnn'
+      make_stem='make_stem'
+      make_layer='make_layer'
+      make_body='make_body'
+      make_head='make_head')
+    </pre>
+</details>
+
+<p>Let see what we have.</p>
+<div class="highlight"><pre><span></span><code><span class="n">mc</span><span class="o">.</span><span class="n">body</span><span class="o">.</span><span class="n">l_1</span><span class="o">.</span><span class="n">bl_0</span>
+</code></pre></div>
+<details> <summary>output</summary>  
+    <pre>YaBasicBlock(
+      (reduce): ConvBnAct(
+        (conv): Conv2d(64, 64, kernel_size=(1, 1), stride=(2, 2), bias=False)
+        (bn): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (act_fn): ReLU(inplace=True)
+      )
+      (convs): Sequential(
+        (conv_0): ConvBnAct(
+          (conv): Conv2d(64, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+          (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (act_fn): ReLU(inplace=True)
+        )
+        (conv_1): ConvBnAct(
+          (conv): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+          (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+      )
+      (id_conv): ConvBnAct(
+        (conv): Conv2d(64, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (bn): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+      (merge): ReLU(inplace=True)
+    )</pre>
+</details>
+
+<p>Lets create <code>xResnet34</code> like model constructor:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span>
+
+<span class="kn">from</span> <span class="nn">model_constructor.helpers</span> <span class="kn">import</span> <span class="n">ModSeq</span>
+
+
+<span class="k">class</span> <span class="nc">YaResnet34</span><span class="p">(</span><span class="n">ModelConstructor</span><span class="p">):</span>
+    <span class="n">block</span><span class="p">:</span> <span class="nb">type</span><span class="p">[</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">]</span> <span class="o">=</span> <span class="n">YaBasicBlock</span>
+    <span class="n">layers</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+    <span class="n">make_stem</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">ModelCfg</span><span class="p">],</span> <span class="n">ModSeq</span><span class="p">]</span> <span class="o">=</span> <span class="n">xresnet_stem</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="n">mc</span> <span class="o">=</span> <span class="n">YaResnet34</span><span class="p">()</span>
+<span class="n">mc</span><span class="o">.</span><span class="n">print_cfg</span><span class="p">()</span>
+</code></pre></div>
+<details open> <summary>output</summary>  
+    <pre>YaResnet34(
+      in_chans=3
+      num_classes=1000
+      block='YaBasicBlock'
+      conv_layer='ConvBnAct'
+      block_sizes=[64, 128, 256, 512]
+      layers=[3, 4, 6, 3]
+      norm='BatchNorm2d'
+      act_fn='ReLU'
+      expansion=1
+      groups=1
+      bn_1st=True
+      zero_bn=True
+      stem_sizes=[64]
+      stem_pool="MaxPool2d {'kernel_size': 3, 'stride': 2, 'padding': 1}"
+      init_cnn='init_cnn'
+      make_stem='xresnet_stem'
+      make_layer='make_layer'
+      make_body='make_body'
+      make_head='make_head')
+    </pre>
+</details>
+
+<p>And <code>xResnet50</code> like model can be inherited from <code>YaResnet34</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">YaResnet50</span><span class="p">(</span><span class="n">YaResnet34</span><span class="p">):</span>
+    <span class="n">expansion</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">4</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="n">mc</span> <span class="o">=</span> <span class="n">YaResnet50</span><span class="p">()</span>
+<span class="n">mc</span>
+</code></pre></div>
+<details open> <summary>output</summary>  
+    <pre>YaResnet50
+      in_chans: 3, num_classes: 1000
+      expansion: 4, groups: 1, dw: False, div_groups: None
+      act_fn: ReLU, sa: False, se: False
+      stem sizes: [64], stride on 0
+      body sizes [64, 128, 256, 512]
+      layers: [3, 4, 6, 3]</pre>
+</details>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+        
+          
+          <a href="01_ModelConstructor/" class="md-footer__link md-footer__link--next" aria-label="Next: Model constructor.">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Model constructor.
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2020-2023 Andrei Yasyrev.
+    </div>
+  
+  
+    Made with      
+    <a href="https://github.com/ayasyrev/nbdocs" target="_blank" rel="noopener">
+      NbDocs
+    </a>
+        and     
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": ".", "features": ["navigation.footer"], "search": "assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="assets/javascripts/bundle.d7c377c4.min.js"></script>
+      
+    
+  </body>
+</html>
