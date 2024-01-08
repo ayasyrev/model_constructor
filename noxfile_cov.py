@@ -8,7 +8,7 @@ def cov_tests(session: nox.Session) -> None:
     session.run("pytest", *args)
 
 
-@nox.session(python="3.10")
+@nox.session(python="3.11")
 def coverage(session: nox.Session) -> None:
     """Upload coverage data."""
     session.install("coverage[toml]", "codecov")
