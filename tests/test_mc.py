@@ -4,7 +4,7 @@ import torch
 
 from model_constructor.blocks import BasicBlock, BottleneckBlock
 from model_constructor.layers import SEModule, SEModuleConv, SimpleSelfAttention
-from model_constructor.model_constructor import ModelCfg, ModelConstructor
+from model_constructor.model_constructor import ModelCfg, ModelConstructor, check_fix_name
 
 bs_test = 4
 in_chans = 3
@@ -140,3 +140,11 @@ def test_create_model_class_methods():
     assert isinstance(model.body.l_0.bl_0, BasicBlock)
     pred = model(xb)
     assert pred.shape == torch.Size([bs_test, 2])
+
+
+def test_check_fix_name():
+    """test check_fix_name"""
+    assert check_fix_name("resnet") == "resnet"
+    assert check_fix_name("McResNet34") == "ResNet34"
+    assert check_fix_name("mcResNet34") == "ResNet34"
+    assert check_fix_name("mc_resnet") == "resnet"

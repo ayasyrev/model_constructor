@@ -51,8 +51,8 @@ class ModelCfg(Cfg, arbitrary_types_allowed=True, extra="forbid"):
     groups: int = 1
     dw: bool = False
     div_groups: Optional[int] = None
-    sa: Union[bool, nnModule, str] = False
-    se: Union[bool, nnModule, str] = False
+    sa: Union[bool, nnModule, str, None] = None
+    se: Union[bool, nnModule, str, None] = None
     se_module: Optional[bool] = None
     se_reduction: Optional[int] = None
     bn_1st: bool = True
@@ -81,7 +81,10 @@ class ModelCfg(Cfg, arbitrary_types_allowed=True, extra="forbid"):
         info: FieldValidationInfo,
     ) -> nnModule:
         if isinstance(value, (int, bool)):
-            return DEFAULT_SE_SA[info.field_name]
+            if value:
+                return DEFAULT_SE_SA[info.field_name]
+            else:
+                return None
         if is_module(value):
             return value
         return instantiate_module(value)
@@ -242,9 +245,10 @@ class ModelConstructor(ModelCfg):
 def check_fix_name(name: str) -> str:
     """Check if name start from Mc or mc and remove it if present"""
     if name.startswith("Mc") or name.startswith("mc"):
-        return name[2:]
-    elif name.startswith("mc_"):
-        return name[3:]
+        if name[2] == "_":
+            return name[3:]
+        else:
+            return name[2:]
     else:
         return name
 
