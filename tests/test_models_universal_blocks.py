@@ -1,4 +1,5 @@
 from typing import Type
+
 import pytest
 import torch
 from torch import nn

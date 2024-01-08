@@ -1,7 +1,7 @@
 import nox
 
 
-@nox.session(python=["3.10"])
+@nox.session(python=["3.11"])
 def cov_tests(session: nox.Session) -> None:
     args = session.posargs or ["--cov"]
     session.install(".", "pytest", "pytest-cov", "coverage[toml]")

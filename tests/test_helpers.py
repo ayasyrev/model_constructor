@@ -70,7 +70,9 @@ def test_cfg_repr_print(capsys: CaptureFixture[str]):
     cfg.print_set_fields()
     out = capsys.readouterr().out
     assert out == "Nothing changed\n"
-    assert "name" in cfg.model_fields_set  # pylint: disable=E1135:unsupported-membership-test
+    assert (
+        "name" in cfg.model_fields_set
+    )  # pylint: disable=E1135:unsupported-membership-test
     cfg = Cfg2(int_value=0)
     cfg.print_set_fields()
     out = capsys.readouterr().out
