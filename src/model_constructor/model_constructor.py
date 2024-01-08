@@ -10,6 +10,7 @@ from .blocks import BasicBlock, BottleneckBlock
 from .helpers import (
     Cfg,
     ListStrMod,
+    MakeModule,
     ModSeq,
     init_cnn,
     instantiate_module,
@@ -22,8 +23,8 @@ from .layers import ConvBnAct, SEModule, SimpleSelfAttention
 __all__ = [
     "init_cnn",
     "ModelConstructor",
-    "ResNet34",
-    "ResNet50",
+    "McResNet34",
+    "McResNet50",
 ]
 
 
@@ -188,10 +189,10 @@ class ModelConstructor(ModelCfg):
     """Model constructor. As default - resnet18"""
 
     init_cnn: Callable[[nn.Module], None] = init_cnn
-    make_stem: Callable[[ModelCfg], ModSeq] = make_stem
+    make_stem: MakeModule = make_stem
     make_layer: Callable[[ModelCfg, int], ModSeq] = make_layer
-    make_body: Callable[[ModelCfg], ModSeq] = make_body
-    make_head: Callable[[ModelCfg], ModSeq] = make_head
+    make_body: MakeModule = make_body
+    make_head: MakeModule = make_head
 
     @property
     def stem(self):
@@ -217,9 +218,10 @@ class ModelConstructor(ModelCfg):
             return cls(**cfg.model_dump(exclude_none=True))()
         return cls(**kwargs)()  # type: ignore
 
-    def __call__(self) -> nn.Sequential:
+    def _create_model(self) -> nn.Sequential:
         """Create model."""
         model_name = self.name or self.__class__.__name__
+        model_name = check_fix_name(model_name)
         named_sequential = type(
             model_name, (nn.Sequential,), {}
         )  # create type named as model
@@ -232,11 +234,25 @@ class ModelConstructor(ModelCfg):
             model.extra_repr = lambda: ", ".join(extra_repr)
         return model
 
+    def __call__(self) -> nn.Sequential:
+        """Create model."""
+        return self._create_model()
 
-class ResNet34(ModelConstructor):
+
+def check_fix_name(name: str) -> str:
+    """Check if name start from Mc or mc and remove it if present"""
+    if name.startswith("Mc") or name.startswith("mc"):
+        return name[2:]
+    elif name.startswith("mc_"):
+        return name[3:]
+    else:
+        return name
+
+
+class McResNet34(ModelConstructor):
     layers: List[int] = [3, 4, 6, 3]
 
 
-class ResNet50(ResNet34):
-    block: Type[nn.Module] = BottleneckBlock
+class McResNet50(McResNet34):
+    block: nnModule = BottleneckBlock
     block_sizes: List[int] = [256, 512, 1024, 2048]

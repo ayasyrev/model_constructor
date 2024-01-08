@@ -9,6 +9,7 @@ from torch import nn
 ListStrMod = List[Tuple[str, nn.Module]]
 ModSeq = Union[nn.Module, nn.Sequential]
 nnModule = Union[Type[nn.Module], Callable[[Any], nn.Module]]
+MakeModule = Callable[["Cfg"], nn.Module]
 
 
 def nn_seq(list_of_tuples: Iterable[Tuple[str, nn.Module]]) -> nn.Sequential:

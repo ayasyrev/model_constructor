@@ -4,7 +4,7 @@ import pytest
 import torch
 from torch import nn
 
-from model_constructor.model_constructor import ModelConstructor, ResNet34, ResNet50
+from model_constructor.model_constructor import ModelConstructor, McResNet34, McResNet50
 from model_constructor.mxresnet import MxResNet, MxResNet34, MxResNet50
 from model_constructor.xresnet import XResNet, XResNet34, XResNet50
 from model_constructor.yaresnet import YaResNet, YaResNet34, YaResNet50
@@ -15,8 +15,8 @@ xb = torch.rand(bs_test, 3, img_size, img_size)
 
 mc_list = [
     ModelConstructor,
-    ResNet34,
-    ResNet50,
+    McResNet34,
+    McResNet50,
     XResNet,
     XResNet34,
     XResNet50,
