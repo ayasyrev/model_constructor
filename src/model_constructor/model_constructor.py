@@ -98,12 +98,14 @@ class ModelCfg(Cfg, arbitrary_types_allowed=True, extra="forbid"):
 
     def __repr__(self) -> str:
         se_repr = self.se.__name__ if self.se else "False"  # type: ignore
+        sa_repr = self.sa.__name__ if self.sa else "False"  # type: ignore
         model_name = self.name or self.__class__.__name__
         return (
             f"{model_name}\n"
             f"  in_chans: {self.in_chans}, num_classes: {self.num_classes}\n"
+            f"  block: {self.block.__name__},\n"
             f"  expansion: {self.expansion}, groups: {self.groups}, dw: {self.dw}, div_groups: {self.div_groups}\n"
-            f"  act_fn: {self.act_fn.__name__}, sa: {self.sa}, se: {se_repr}\n"
+            f"  act_fn: {self.act_fn.__name__}, sa: {sa_repr}, se: {se_repr}\n"
             f"  stem sizes: {self.stem_sizes}, stride on {self.stem_stride_on}\n"
             f"  body sizes {self.block_sizes}\n"
             f"  layers: {self.layers}"
