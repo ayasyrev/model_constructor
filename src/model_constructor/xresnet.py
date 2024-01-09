@@ -51,7 +51,6 @@ class McXResNet34(McXResNet):
 class McXResNet26(McXResNet):
     block: nnModule = BottleneckBlock
     block_sizes: List[int] = [256, 512, 1024, 2048]
-    expansion: int = 4
 
 
 class McXResNet50(McXResNet26):

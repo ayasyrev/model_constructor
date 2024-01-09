@@ -216,7 +216,6 @@ class McYaResNet34(McYaResNet):
 class McYaResNet26(McYaResNet):
     block: nnModule = YaBottleneckBlock
     block_sizes: List[int] = [256, 512, 1024, 2048]
-    expansion: int = 4
 
 
 class McYaResNet50(McYaResNet26):
