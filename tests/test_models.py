@@ -5,9 +5,9 @@ import torch
 from torch import nn
 
 from model_constructor.model_constructor import ModelConstructor, McResNet34, McResNet50
-from model_constructor.mxresnet import MxResNet, MxResNet34, MxResNet50
-from model_constructor.xresnet import XResNet, XResNet34, XResNet50
-from model_constructor.yaresnet import YaResNet, YaResNet34, YaResNet50
+from model_constructor.mxresnet import McMxResNet, McMxResNet34, McMxResNet50
+from model_constructor.xresnet import McXResNet, McXResNet34, McXResNet50
+from model_constructor.yaresnet import McYaResNet, McYaResNet34, McYaResNet50
 
 bs_test = 2
 img_size = 16
@@ -17,15 +17,15 @@ mc_list = [
     ModelConstructor,
     McResNet34,
     McResNet50,
-    XResNet,
-    XResNet34,
-    XResNet50,
-    YaResNet,
-    YaResNet34,
-    YaResNet50,
-    MxResNet,
-    MxResNet34,
-    MxResNet50,
+    McXResNet,
+    McXResNet34,
+    McXResNet50,
+    McYaResNet,
+    McYaResNet34,
+    McYaResNet50,
+    McMxResNet,
+    McMxResNet34,
+    McMxResNet50,
 ]
 act_fn_list = [
     nn.ReLU,
@@ -46,7 +46,7 @@ def test_mc(model_constructor: Type[ModelConstructor], act_fn: Type[nn.Module]):
 
 def test_xresnet_stem():
     """test xresnet stem"""
-    mc = XResNet()
+    mc = McXResNet()
     assert not mc.stem_bn_end
     mc.stem_bn_end = True
     stem = mc.stem

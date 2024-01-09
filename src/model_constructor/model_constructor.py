@@ -1,9 +1,9 @@
 from collections import OrderedDict
 from functools import partial
-from typing import Any, Callable, Dict, List, Optional, Type, Union
+from typing import Any, Callable, Dict, List, Optional, Union
 
 from pydantic import field_validator
-from pydantic_core.core_schema import FieldValidationInfo
+from pydantic_core.core_schema import ValidationInfo
 from torch import nn
 
 from .blocks import BasicBlock, BottleneckBlock
@@ -78,7 +78,7 @@ class ModelCfg(Cfg, arbitrary_types_allowed=True, extra="forbid"):
     def set_se(  # pylint: disable=no-self-argument
         cls,
         value: Union[bool, nnModule, str],
-        info: FieldValidationInfo,
+        info: ValidationInfo,
     ) -> nnModule:
         if isinstance(value, (int, bool)):
             if value:

@@ -1,16 +1,16 @@
 from functools import partial
-from typing import Any, Callable, List, Optional, Type
+from typing import List, Optional
 
 from torch import nn
 
 from .blocks import BottleneckBlock
-from .helpers import ListStrMod, ModSeq, nn_seq
+from .helpers import ListStrMod, MakeModule, nn_seq, nnModule
 from .model_constructor import ModelCfg, ModelConstructor
 
 __all__ = [
-    "XResNet",
-    "XResNet34",
-    "XResNet50",
+    "McXResNet",
+    "McXResNet34",
+    "McXResNet50",
 ]
 
 
@@ -38,23 +38,21 @@ def xresnet_stem(cfg: ModelCfg) -> nn.Sequential:
     return nn_seq(stem)
 
 
-class XResNet(ModelConstructor):
-    make_stem: Callable[[ModelCfg], ModSeq] = xresnet_stem
+class McXResNet(ModelConstructor):
+    make_stem: MakeModule = xresnet_stem
     stem_sizes: List[int] = [32, 32, 64]
-    pool: Optional[Callable[[Any], nn.Module]] = partial(
-        nn.AvgPool2d, kernel_size=2, ceil_mode=True
-    )
+    pool: Optional[nnModule] = partial(nn.AvgPool2d, kernel_size=2, ceil_mode=True)
 
 
-class XResNet34(XResNet):
+class McXResNet34(McXResNet):
     layers: List[int] = [3, 4, 6, 3]
 
 
-class XResNet26(XResNet):
-    block: Type[nn.Module] = BottleneckBlock
+class McXResNet26(McXResNet):
+    block: nnModule = BottleneckBlock
     block_sizes: List[int] = [256, 512, 1024, 2048]
     expansion: int = 4
 
 
-class XResNet50(XResNet26):
+class McXResNet50(McXResNet26):
     layers: List[int] = [3, 4, 6, 3]

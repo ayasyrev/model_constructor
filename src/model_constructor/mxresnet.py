@@ -1,19 +1,20 @@
-from typing import List, Type
+from typing import List
 
 from torch import nn
 
-from .xresnet import XResNet
+from .helpers import nnModule
+from .xresnet import McXResNet
 
 
-class MxResNet(XResNet):
+class McMxResNet(McXResNet):
     stem_sizes: List[int] = [3, 32, 64, 64]
-    act_fn: Type[nn.Module] = nn.Mish
+    act_fn: nnModule = nn.Mish
 
 
-class MxResNet34(MxResNet):
+class McMxResNet34(McMxResNet):
     layers: List[int] = [3, 4, 6, 3]
 
 
-class MxResNet50(MxResNet34):
+class McMxResNet50(McMxResNet34):
     expansion: int = 4
     block_sizes: List[int] = [256, 512, 1024, 2048]

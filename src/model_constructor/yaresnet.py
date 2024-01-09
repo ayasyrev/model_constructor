@@ -2,23 +2,23 @@
 # Yet another ResNet.
 
 from functools import partial
-from typing import Any, Callable, List, Optional, Type
+from typing import List, Optional, Type
 
 import torch
 from torch import nn
 
-from model_constructor.helpers import ModSeq, nn_seq
+from model_constructor.helpers import MakeModule, nn_seq, nnModule
 
 from .layers import ConvBnAct, get_act
-from .model_constructor import ListStrMod, ModelCfg, ModelConstructor
+from .model_constructor import ListStrMod, ModelConstructor
 from .xresnet import xresnet_stem
 
 __all__ = [
     "YaBasicBlock",
     "YaBottleneckBlock",
-    "YaResNet",
-    "YaResNet34",
-    "YaResNet50",
+    "McYaResNet",
+    "McYaResNet34",
+    "McYaResNet50",
 ]
 
 
@@ -32,15 +32,15 @@ class YaBasicBlock(nn.Module):
         out_channels: int,
         stride: int = 1,
         conv_layer: Type[ConvBnAct] = ConvBnAct,
-        act_fn: Type[nn.Module] = nn.ReLU,
+        act_fn: nnModule = nn.ReLU,
         zero_bn: bool = True,
         bn_1st: bool = True,
         groups: int = 1,
         dw: bool = False,
         div_groups: Optional[int] = None,
-        pool: Optional[Callable[[], nn.Module]] = None,
-        se: Optional[nn.Module] = None,
-        sa: Optional[nn.Module] = None,
+        pool: Optional[nnModule] = None,
+        se: Optional[nnModule] = None,
+        sa: Optional[nnModule] = None,
     ):
         super().__init__()
         # pool defined at ModelConstructor.
@@ -117,15 +117,15 @@ class YaBottleneckBlock(nn.Module):
         stride: int = 1,
         expansion: int = 4,
         conv_layer: Type[ConvBnAct] = ConvBnAct,
-        act_fn: Type[nn.Module] = nn.ReLU,
+        act_fn: nnModule = nn.ReLU,
         zero_bn: bool = True,
         bn_1st: bool = True,
         groups: int = 1,
         dw: bool = False,
         div_groups: Optional[int] = None,
-        pool: Optional[Callable[[], nn.Module]] = None,
-        se: Optional[nn.Module] = None,
-        sa: Optional[nn.Module] = None,
+        pool: Optional[nnModule] = None,
+        se: Optional[nnModule] = None,
+        sa: Optional[nnModule] = None,
     ):
         super().__init__()
         # pool defined at ModelConstructor.
@@ -201,25 +201,23 @@ class YaBottleneckBlock(nn.Module):
         return self.merge(self.convs(x) + identity)
 
 
-class YaResNet(ModelConstructor):
-    make_stem: Callable[[ModelCfg], ModSeq] = xresnet_stem
+class McYaResNet(ModelConstructor):
+    make_stem: MakeModule = xresnet_stem
     stem_sizes: List[int] = [32, 64, 64]
-    block: Type[nn.Module] = YaBasicBlock
-    act_fn: Type[nn.Module] = nn.Mish
-    pool: Optional[Callable[[Any], nn.Module]] = partial(
-        nn.AvgPool2d, kernel_size=2, ceil_mode=True
-    )
+    block: nnModule = YaBasicBlock
+    act_fn: nnModule = nn.Mish
+    pool: Optional[nnModule] = partial(nn.AvgPool2d, kernel_size=2, ceil_mode=True)
 
 
-class YaResNet34(YaResNet):
+class McYaResNet34(McYaResNet):
     layers: List[int] = [3, 4, 6, 3]
 
 
-class YaResNet26(YaResNet):
-    block: Type[nn.Module] = YaBottleneckBlock
+class McYaResNet26(McYaResNet):
+    block: nnModule = YaBottleneckBlock
     block_sizes: List[int] = [256, 512, 1024, 2048]
     expansion: int = 4
 
 
-class YaResNet50(YaResNet26):
+class McYaResNet50(McYaResNet26):
     layers: List[int] = [3, 4, 6, 3]
