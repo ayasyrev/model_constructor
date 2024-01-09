@@ -14,7 +14,6 @@ class McMxResNet(McXResNet):
     pool: Optional[nnModule] = partial(nn.AvgPool2d, kernel_size=2, ceil_mode=True)
 
 
-
 class McMxResNet34(McMxResNet):
     layers: List[int] = [3, 4, 6, 3]
 
