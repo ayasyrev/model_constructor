@@ -10,7 +10,6 @@ from .blocks import BasicBlock, BottleneckBlock
 from .helpers import (
     Cfg,
     ListStrMod,
-    MakeModule,
     ModSeq,
     init_cnn,
     instantiate_module,
@@ -27,6 +26,8 @@ __all__ = [
     "McResNet50",
 ]
 
+
+MakeModule = Callable[["ModelCfg"], nn.Module]
 
 DEFAULT_SE_SA = {
     "se": SEModule,

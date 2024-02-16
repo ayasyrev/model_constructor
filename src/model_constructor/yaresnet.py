@@ -7,10 +7,9 @@ from typing import List, Optional, Type
 import torch
 from torch import nn
 
-from model_constructor.helpers import MakeModule, nn_seq, nnModule
-
+from .helpers import nn_seq, nnModule
 from .layers import ConvBnAct, get_act
-from .model_constructor import ListStrMod, ModelConstructor
+from .model_constructor import ListStrMod, MakeModule, ModelConstructor
 from .xresnet import xresnet_stem
 
 __all__ = [

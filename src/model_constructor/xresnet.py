@@ -4,8 +4,8 @@ from typing import List, Optional
 from torch import nn
 
 from .blocks import BottleneckBlock
-from .helpers import ListStrMod, MakeModule, nn_seq, nnModule
-from .model_constructor import ModelCfg, ModelConstructor
+from .helpers import ListStrMod, nn_seq, nnModule
+from .model_constructor import ModelCfg, ModelConstructor, MakeModule
 
 __all__ = [
     "McXResNet",
