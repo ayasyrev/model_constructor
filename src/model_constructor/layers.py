@@ -123,7 +123,7 @@ class ConvLayer(nn.Sequential):
         padding=None,
         bias=False,
         groups=1,
-        **kwargs  # pylint: disable=unused-argument
+        **kwargs,  # pylint: disable=unused-argument
     ):
         if padding is None:
             padding = ks // 2
@@ -163,7 +163,7 @@ def conv1d(
 
 
 class SimpleSelfAttention(nn.Module):
-    """SimpleSelfAttention module.  # noqa W291
+    """SimpleSelfAttention module.
     Adapted from SelfAttention layer at
     https://github.com/fastai/fastai/blob/5c51f9eabf76853a89a9bc5741804d2ed4407e49/fastai/layers.py
     Inspired by https://arxiv.org/pdf/1805.08318.pdf

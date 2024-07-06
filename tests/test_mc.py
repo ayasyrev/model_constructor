@@ -4,7 +4,11 @@ import torch
 
 from model_constructor.blocks import BasicBlock, BottleneckBlock
 from model_constructor.layers import SEModule, SEModuleConv, SimpleSelfAttention
-from model_constructor.model_constructor import ModelCfg, ModelConstructor, check_fix_name
+from model_constructor.model_constructor import (
+    ModelCfg,
+    ModelConstructor,
+    check_fix_name,
+)
 
 bs_test = 4
 in_chans = 3
