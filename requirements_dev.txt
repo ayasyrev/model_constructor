@@ -1,5 +1,9 @@
 black
 black[jupyter]
+coverage[toml]
 flake8
 isort
-coverage[toml]
+mypy
+nbmetaclean
+pre-commit
+ruff
