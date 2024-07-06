@@ -270,12 +270,12 @@ class SEModule(nn.Module):
         gate: Type[nn.Module] = nn.Sigmoid,
     ):
         super().__init__()
-        reducted = max(channels // reduction, 1)  # preserve zero-element tensors
+        reduced = max(channels // reduction, 1)  # preserve zero-element tensors
         if rd_channels is None:
-            rd_channels = reducted
+            rd_channels = reduced
         else:
             if rd_max:
-                rd_channels = max(rd_channels, reducted)
+                rd_channels = max(rd_channels, reduced)
         self.squeeze = nn.AdaptiveAvgPool2d(1)
         self.excitation = nn.Sequential(
             OrderedDict(
@@ -311,12 +311,12 @@ class SEModuleConv(nn.Module):
     ):
         super().__init__()
         #       rd_channels = math.ceil(channels//reduction/8)*8
-        reducted = max(channels // reduction, 1)  # preserve zero-element tensors
+        reduced = max(channels // reduction, 1)  # preserve zero-element tensors
         if rd_channels is None:
-            rd_channels = reducted
+            rd_channels = reduced
         else:
             if rd_max:
-                rd_channels = max(rd_channels, reducted)
+                rd_channels = max(rd_channels, reduced)
         self.squeeze = nn.AdaptiveAvgPool2d(1)
         self.excitation = nn.Sequential(
             OrderedDict(

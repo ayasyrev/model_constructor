@@ -1,9 +1,9 @@
 from collections import OrderedDict
 from functools import partial
-from typing import Any, Callable, Dict, List, Optional, Type, Union
+from typing import Any, Callable, Dict, List, Optional, Union
 
 from pydantic import field_validator
-from pydantic_core.core_schema import FieldValidationInfo
+from pydantic_core.core_schema import ValidationInfo
 from torch import nn
 
 from .blocks import BasicBlock, BottleneckBlock
@@ -15,24 +15,24 @@ from .helpers import (
     instantiate_module,
     is_module,
     nn_seq,
+    nnModule,
 )
 from .layers import ConvBnAct, SEModule, SimpleSelfAttention
 
 __all__ = [
     "init_cnn",
     "ModelConstructor",
-    "ResNet34",
-    "ResNet50",
+    "McResNet34",
+    "McResNet50",
 ]
 
+
+MakeModule = Callable[["ModelCfg"], nn.Module]
 
 DEFAULT_SE_SA = {
     "se": SEModule,
     "sa": SimpleSelfAttention,
 }
-
-
-nnModule = Union[Type[nn.Module], Callable[[Any], nn.Module]]
 
 
 class ModelCfg(Cfg, arbitrary_types_allowed=True, extra="forbid"):
@@ -52,8 +52,8 @@ class ModelCfg(Cfg, arbitrary_types_allowed=True, extra="forbid"):
     groups: int = 1
     dw: bool = False
     div_groups: Optional[int] = None
-    sa: Union[bool, nnModule, str] = False
-    se: Union[bool, nnModule, str] = False
+    sa: Union[bool, nnModule, str, None] = None
+    se: Union[bool, nnModule, str, None] = None
     se_module: Optional[bool] = None
     se_reduction: Optional[int] = None
     bn_1st: bool = True
@@ -79,10 +79,13 @@ class ModelCfg(Cfg, arbitrary_types_allowed=True, extra="forbid"):
     def set_se(  # pylint: disable=no-self-argument
         cls,
         value: Union[bool, nnModule, str],
-        info: FieldValidationInfo,
+        info: ValidationInfo,
     ) -> nnModule:
         if isinstance(value, (int, bool)):
-            return DEFAULT_SE_SA[info.field_name]
+            if value:
+                return DEFAULT_SE_SA[info.field_name]
+            else:
+                return None
         if is_module(value):
             return value
         return instantiate_module(value)
@@ -96,12 +99,14 @@ class ModelCfg(Cfg, arbitrary_types_allowed=True, extra="forbid"):
 
     def __repr__(self) -> str:
         se_repr = self.se.__name__ if self.se else "False"  # type: ignore
+        sa_repr = self.sa.__name__ if self.sa else "False"  # type: ignore
         model_name = self.name or self.__class__.__name__
         return (
             f"{model_name}\n"
             f"  in_chans: {self.in_chans}, num_classes: {self.num_classes}\n"
+            f"  block: {self.block.__name__},\n"
             f"  expansion: {self.expansion}, groups: {self.groups}, dw: {self.dw}, div_groups: {self.div_groups}\n"
-            f"  act_fn: {self.act_fn.__name__}, sa: {self.sa}, se: {se_repr}\n"
+            f"  act_fn: {self.act_fn.__name__}, sa: {sa_repr}, se: {se_repr}\n"
             f"  stem sizes: {self.stem_sizes}, stride on {self.stem_stride_on}\n"
             f"  body sizes {self.block_sizes}\n"
             f"  layers: {self.layers}"
@@ -147,16 +152,16 @@ def make_layer(cfg: ModelCfg, layer_num: int) -> nn.Sequential:  # type: ignore
                 else block_chs[layer_num + 1],
                 block_chs[layer_num + 1],
                 stride if block_num == 0 else 1,
-                sa=cfg.sa if (block_num == num_blocks - 1) and layer_num == 0 else None,
                 conv_layer=cfg.conv_layer,
                 act_fn=cfg.act_fn,
-                pool=cfg.pool,
                 zero_bn=cfg.zero_bn,
                 bn_1st=cfg.bn_1st,
                 groups=cfg.groups,
-                div_groups=cfg.div_groups,
                 dw=cfg.dw,
+                div_groups=cfg.div_groups,
+                pool=cfg.pool,
                 se=cfg.se,
+                sa=cfg.sa if (block_num == num_blocks - 1) and layer_num == 0 else None,
             ),
         )
         for block_num in range(num_blocks)
@@ -190,10 +195,10 @@ class ModelConstructor(ModelCfg):
     """Model constructor. As default - resnet18"""
 
     init_cnn: Callable[[nn.Module], None] = init_cnn
-    make_stem: Callable[[ModelCfg], ModSeq] = make_stem
+    make_stem: MakeModule = make_stem
     make_layer: Callable[[ModelCfg, int], ModSeq] = make_layer
-    make_body: Callable[[ModelCfg], ModSeq] = make_body
-    make_head: Callable[[ModelCfg], ModSeq] = make_head
+    make_body: MakeModule = make_body
+    make_head: MakeModule = make_head
 
     @property
     def stem(self):
@@ -219,9 +224,10 @@ class ModelConstructor(ModelCfg):
             return cls(**cfg.model_dump(exclude_none=True))()
         return cls(**kwargs)()  # type: ignore
 
-    def __call__(self) -> nn.Sequential:
+    def _create_model(self) -> nn.Sequential:
         """Create model."""
         model_name = self.name or self.__class__.__name__
+        model_name = check_fix_name(model_name)
         named_sequential = type(
             model_name, (nn.Sequential,), {}
         )  # create type named as model
@@ -234,11 +240,26 @@ class ModelConstructor(ModelCfg):
             model.extra_repr = lambda: ", ".join(extra_repr)
         return model
 
+    def __call__(self) -> nn.Sequential:
+        """Create model."""
+        return self._create_model()
 
-class ResNet34(ModelConstructor):
+
+def check_fix_name(name: str) -> str:
+    """Check if name start from Mc or mc and remove it if present"""
+    if name.startswith("Mc") or name.startswith("mc"):
+        if name[2] == "_":
+            return name[3:]
+        else:
+            return name[2:]
+    else:
+        return name
+
+
+class McResNet34(ModelConstructor):
     layers: List[int] = [3, 4, 6, 3]
 
 
-class ResNet50(ResNet34):
-    block: Type[nn.Module] = BottleneckBlock
+class McResNet50(McResNet34):
+    block: nnModule = BottleneckBlock
     block_sizes: List[int] = [256, 512, 1024, 2048]
