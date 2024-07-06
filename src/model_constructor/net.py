@@ -72,7 +72,7 @@ class ResBlock(nn.Module):
 # NewResBlock now is YaResBlock - Yet Another ResNet Block! It is now at model_constructor.yaresnet.
 
 
-class NewResBlock(nn.Module):  # todo: deprecation worning.
+class NewResBlock(nn.Module):  # todo: deprecation warning.
     '''YaResnet block.
     This is first impl, deprecated, use yaresnet module.
     '''
@@ -137,9 +137,9 @@ def _make_layer(self, expansion, ni, nf, blocks, stride, sa):
 def _make_body(self):
     blocks = [(f"l_{i}", self._make_layer(self, self.expansion,
                                           ni=self.block_sizes[i], nf=self.block_sizes[i + 1],
-                                          blocks=l, stride=1 if i == 0 else 2,
+                                          blocks=num_blocks, stride=1 if i == 0 else 2,
                                           sa=self.sa if i == 0 else False))
-              for i, l in enumerate(self.layers)]
+              for i, num_blocks in enumerate(self.layers)]
     return nn.Sequential(OrderedDict(blocks))
 
 
@@ -150,7 +150,7 @@ def _make_head(self):
     return nn.Sequential(OrderedDict(head))
 
 
-class Net():  # todo: deprecation worning.
+class Net():  # todo: deprecation warning.
     """Model constructor. As default - xresnet18.
     First version, still here for compatibility. Use ModelConstructor instead.
     """
