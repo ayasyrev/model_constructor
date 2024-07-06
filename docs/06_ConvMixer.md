@@ -465,5 +465,3 @@ convmixer_1024_20[1]
       )
     )</pre>
 </details>
-
-

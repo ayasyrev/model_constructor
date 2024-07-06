@@ -1143,5 +1143,3 @@ mc
       body sizes [64, 128, 256, 512]
       layers: [3, 4, 6, 3]</pre>
 </details>
-
-

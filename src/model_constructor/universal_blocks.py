@@ -103,7 +103,7 @@ class XResBlock(nn.Module):
                         act_fn=False,
                         bn_1st=bn_1st,
                     ),
-                ),  # noqa E501
+                ),
             ]
         if se:
             layers.append(("se", se(out_channels)))
@@ -236,7 +236,7 @@ class YaResBlock(nn.Module):
                         act_fn=False,
                         bn_1st=bn_1st,
                     ),
-                ),  # noqa E501
+                ),
             ]
         if se:
             layers.append(("se", se(out_channels)))  # type: ignore
