@@ -5,7 +5,5 @@ import nox
 def conda_tests(session: nox.Session) -> None:
     args = session.posargs or ["--cov"]
     session.conda_install("uv")
-    # session.conda_install("pytorch")
-    # session.conda_install("pydantic")
-    session.run("uv", "pip", "install", ".[test]")
+    session.run("uv", "pip", "install", "-e .[test]")
     session.run("pytest", *args)
